@@ -156,12 +156,12 @@ export const Navbar = () => {
           ) : (
             <>
               <Link href='/auth/login' passHref>
-                <a className='ml-8 whitespace-nowrap inline-flex items-center justify-center px-3 py-1 border rounded-md font-medium text-gray-900 bg-gray-100 hover:border-gray-400'>
+                <a className='ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md font-medium text-gray-900 bg-gray-100 hover:border-gray-400'>
                   Log in
                 </a>
               </Link>
               <Link href='/auth/signup' passHref>
-                <a className='ml-4 whitespace-nowrap inline-flex items-center justify-center px-3 py-1 border rounded-md font-medium text-black bg-gray-200 hover:bg-gray-300'>
+                <a className='ml-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md font-medium text-black bg-gray-200 hover:bg-gray-300'>
                   Sign up
                 </a>
               </Link>

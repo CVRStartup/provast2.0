@@ -8,7 +8,7 @@ const Layout = (props) => (
       <title>Provast</title>
     </Head>
     <Navbar />
-    <main className='mt-[10vh]'>
+    <main>
       <div className='container'>{props.children}</div>
     </main>
   </>

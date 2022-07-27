@@ -3,6 +3,7 @@ import Router from "next/router";
 import { useUser } from "../../src/lib/hooks";
 import Layout from "../../src/components/layout";
 import Form from "../../src/components/form";
+import Image from "next/image";
 
 const Login = () => {
   useUser({ redirectTo: "/", redirectIfFound: true });
@@ -36,22 +37,7 @@ const Login = () => {
     }
   }
 
-  return (
-    <Layout>
-      <div className='login'>
-        <Form isLogin errorMessage={errorMsg} onSubmit={handleSubmit} />
-      </div>
-      <style jsx>{`
-        .login {
-          max-width: 21rem;
-          margin: 0 auto;
-          padding: 1rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-      `}</style>
-    </Layout>
-  );
+  return <Form isLogin errorMessage={errorMsg} onSubmit={handleSubmit} />;
 };
 
 export default Login;

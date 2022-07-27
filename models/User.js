@@ -115,12 +115,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     rollNumber: {
       type: String,
       trim: true,
       uppercase: true,
-      unique: true,
     },
     college: {
       name: {

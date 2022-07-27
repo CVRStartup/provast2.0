@@ -31,7 +31,7 @@ const Signup = () => {
         body: JSON.stringify(body),
       });
       if (res.status === 200) {
-        Router.push("/login");
+        Router.push("/auth/login");
       } else {
         throw new Error(await res.text());
       }
@@ -41,22 +41,7 @@ const Signup = () => {
     }
   }
 
-  return (
-    <Layout>
-      <div className='login'>
-        <Form isLogin={false} errorMessage={errorMsg} onSubmit={handleSubmit} />
-      </div>
-      <style jsx>{`
-        .login {
-          max-width: 21rem;
-          margin: 0 auto;
-          padding: 1rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-      `}</style>
-    </Layout>
-  );
+  return <Form isLogin={false} errorMessage={errorMsg} onSubmit={handleSubmit} />;
 };
 
 export default Signup;
