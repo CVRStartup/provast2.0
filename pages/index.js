@@ -1,9 +1,9 @@
-import { useUser } from '../lib/hooks'
-import Layout from '../components/layout'
+import { useUser } from "../src/lib/hooks";
+import Layout from "../src/components/layout";
 
 const Home = () => {
-  const user = useUser()
-
+  const user = useUser();
+  // console.log(user);
   return (
     <Layout>
       <h1>Passport.js Example</h1>
@@ -13,13 +13,10 @@ const Home = () => {
       <ol>
         <li>Click Login and enter a username and password.</li>
         <li>
-          You'll be redirected to Home. Click on Profile, notice how your
-          session is being used through a token stored in a cookie.
+          You'll be redirected to Home. Click on Profile, notice how your session is being used
+          through a token stored in a cookie.
         </li>
-        <li>
-          Click Logout and try to go to Profile again. You'll get redirected to
-          Login.
-        </li>
+        <li>Click Logout and try to go to Profile again. You'll get redirected to Login.</li>
       </ol>
 
       {user && (
@@ -39,7 +36,7 @@ const Home = () => {
         }
       `}</style>
     </Layout>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

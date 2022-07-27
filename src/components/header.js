@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import { useUser } from '../lib/hooks'
+import Link from "next/link";
+import { useUser } from "../lib/hooks";
 
 const Header = () => {
-  const user = useUser()
+  const user = useUser();
 
   return (
     <header>
@@ -21,7 +21,7 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <a href="/api/logout">Logout</a>
+                <a href="/api/auth/logout">Logout</a>
               </li>
             </>
           ) : (
@@ -61,7 +61,7 @@ const Header = () => {
         }
       `}</style>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
