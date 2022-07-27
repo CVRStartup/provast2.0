@@ -13,7 +13,6 @@ export function setTokenCookie(res, token) {
     path: "/",
     sameSite: "lax",
   });
-  console.log("cookie", cookie);
   res.setHeader("Set-Cookie", cookie);
 }
 

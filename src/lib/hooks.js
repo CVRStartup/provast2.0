@@ -6,7 +6,6 @@ const fetcher = (url) =>
   fetch(url)
     .then((r) => r.json())
     .then((data) => {
-      console.log("fetcher data ", data);
       return { user: data?.user || null };
     });
 

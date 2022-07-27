@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Router from "next/router";
-import { useUser } from "../src/lib/hooks";
-import Layout from "../src/components/layout";
-import Form from "../src/components/form";
+import { useUser } from "../../src/lib/hooks";
+import Layout from "../../src/components/layout";
+import Form from "../../src/components/form";
 
-const Login = () => {
+const Signup = () => {
   useUser({ redirectTo: "/", redirectIfFound: true });
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -19,14 +19,19 @@ const Login = () => {
       password: e.currentTarget.password.value,
     };
 
+    if (body.password !== e.currentTarget.rpassword.value) {
+      setErrorMsg(`The passwords don't match`);
+      return;
+    }
+
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
       if (res.status === 200) {
-        Router.push("/");
+        Router.push("/login");
       } else {
         throw new Error(await res.text());
       }
@@ -38,8 +43,8 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="login">
-        <Form isLogin errorMessage={errorMsg} onSubmit={handleSubmit} />
+      <div className='login'>
+        <Form isLogin={false} errorMessage={errorMsg} onSubmit={handleSubmit} />
       </div>
       <style jsx>{`
         .login {
@@ -54,4 +59,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

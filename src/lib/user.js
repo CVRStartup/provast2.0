@@ -27,9 +27,7 @@ export async function createUser({ username, password }) {
 export async function findUser({ email }) {
   // This is an in memory store for users, there is no data persistence without a proper DB
   await connectDB();
-  console.log("username ", email);
   const data = await User.findOne({ email });
-  console.log("user data " + data);
   return data;
 }
 

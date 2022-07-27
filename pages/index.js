@@ -3,7 +3,6 @@ import Layout from "../src/components/layout";
 
 const Home = () => {
   const user = useUser();
-  // console.log(user);
   return (
     <Layout>
       <h1>Passport.js Example</h1>
