@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const academicSchema = new mongoose.Schema(
   {
-    user: { type: Schema.Types.ObjectId, ref: "Users" },
+    user: { type: String },
     education: [
       {
         insitution: String,
@@ -15,8 +15,8 @@ const academicSchema = new mongoose.Schema(
           grade: Number,
         },
         batch: {
-          from: Date,
-          to: Date,
+          from: Number,
+          to: Number,
         },
         current: Boolean,
         verified: Boolean,
