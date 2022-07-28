@@ -4,11 +4,26 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
 import { getLoginSession } from "../../../src/lib/auth";
-import { branches, genders } from "../../../src/lib/helper";
+import {
+  branches,
+  degrees,
+  genders,
+  typeOfEducation,
+  typeOfEducationGrade,
+} from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 
 const Academics = ({ colleges, user }) => {
   const session = useUser();
+
+  const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
+  const [selectedBranch, setSelectedBranch] = useState(branches[0]);
+  const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
+  const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
+    typeOfEducationGrade[0]
+  );
+
+  const academics = [];
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -28,7 +43,7 @@ const Academics = ({ colleges, user }) => {
       </Head>
       <main className='background'>
         <div className='min-h-screen flex flex-col justify-center items-center pb-4 sm:px-6 lg:px-8'>
-          <div className='mt-4 sm:mx-auto sm:w-full sm:max-w-lg'>
+          <div className='mt-4 sm:mx-auto sm:w-full sm:max-w-3xl'>
             <div className='bg-white pt-1 pb-8 shadow-xl rounded-xl px-10'>
               <div className='my-6 flex justify-between items-center'>
                 <div className=''>
@@ -40,33 +55,134 @@ const Academics = ({ colleges, user }) => {
                 </button>
               </div>
               <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-                <h2 className='mt-2 text-center text-2xl font-extrabold text-gray-900'>
+                <h2 className='mt-2 text-center text-2xl font-bold  text-gray-900'>
                   Current education details
                 </h2>
               </div>
               <form onSubmit={submitHandler}>
                 <React.Fragment>
-                  <div className='grid grid-cols-6 gap-6 mt-4'>
-                    <div className='col-span-6 sm:col-span-6'>
+                  <div className='col-span-6 sm:col-span-6 mt-2'>
+                    <div className='flex'>
+                      <label htmlFor='school' className='block text-sm font-medium text-gray-700'>
+                        School / Institution
+                      </label>
+                      <span className='ml-1 text-red-600 font-semibold'>*</span>
+                    </div>
+                    <input
+                      type='text'
+                      name='school'
+                      id='school'
+                      required
+                      className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                    />
+                  </div>
+
+                  <div className='relative mb-20 grid grid-cols-6 gap-6 mt-4'>
+                    <div className='col-span-6 sm:col-span-3 absolute left-0 w-[48%]'>
+                      <DropDown
+                        title={"Program / Degree"}
+                        isRequired
+                        options={degrees}
+                        selectedOption={selectedDegree}
+                        setSelectedOption={setSelectedDegree}
+                      />
+                    </div>
+                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                      <DropDown
+                        title={"Branch / Specialization"}
+                        isRequired
+                        options={branches}
+                        selectedOption={selectedBranch}
+                        setSelectedOption={setSelectedBranch}
+                      />
+                    </div>
+                  </div>
+
+                  <div className='relative grid grid-cols-6 gap-6'>
+                    <div className='col-span-6 sm:col-span-3 '>
                       <div className='flex'>
-                        <label
-                          htmlFor='firstName'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          First Name
+                        <label htmlFor='board' className='block text-sm font-medium text-gray-700'>
+                          Board / University
                         </label>
                         <span className='ml-1 text-red-600 font-semibold'>*</span>
                       </div>
                       <input
                         type='text'
-                        name='firstName'
-                        id='firstName'
-                        autoComplete='given-name'
+                        name='board'
+                        id='board'
+                        required
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      />
+                    </div>
+                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                      <DropDown
+                        title={"Education Type"}
+                        isRequired
+                        options={typeOfEducation}
+                        selectedOption={selectedTypeOfEducation}
+                        setSelectedOption={setSelectedTypeOfEducation}
+                      />
+                    </div>
+                  </div>
+
+                  <div className='flex mt-4'>
+                    <label htmlFor='board' className='block text-sm font-medium text-gray-700'>
+                      Score
+                    </label>
+                    <span className='ml-1 text-red-600 font-semibold'>*</span>
+                  </div>
+                  <div className='relative grid grid-cols-6 gap-6'>
+                    <div className='col-span-6 sm:col-span-3 '>
+                      <input
+                        type='text'
+                        name='board'
+                        id='board'
+                        required
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      />
+                    </div>
+                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                      <DropDown
+                        options={typeOfEducationGrade}
+                        selectedOption={selectedTypeOfEducationGrade}
+                        setSelectedOption={setSelectedTypeOfEducationGrade}
+                      />
+                    </div>
+                  </div>
+
+                  <div className='flex mt-4'>
+                    <label htmlFor='duration' className='block text-sm font-medium text-gray-700'>
+                      Duration
+                    </label>
+                    <span className='ml-1 text-red-600 font-semibold'>*</span>
+                  </div>
+                  <div className='grid grid-cols-6 gap-6'>
+                    <div className='col-span-6 sm:col-span-3'>
+                      <input
+                        type='number'
+                        name='duration'
+                        placeholder='YYYY'
+                        min='2001'
+                        max='2100'
+                        id='duration'
+                        required
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      />
+                    </div>
+                    <div className='col-span-6 sm:col-span-3'>
+                      <input
+                        type='number'
+                        placeholder='YYYY'
+                        min='2001'
+                        max='2100'
+                        name='duration'
+                        id='duration'
                         required
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
                   </div>
+
                   <div className='mt-4'>
                     <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 '>
                       Submit
