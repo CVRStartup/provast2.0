@@ -64,7 +64,7 @@ const Academics = ({ colleges, user }) => {
                   <span className='text-sm font-bold text-gray-600'>{session?.email}</span>
                 </div>
                 <button className='font-semibold text-blue-600 text-sm underline hover:text-blue-800'>
-                  Logout
+                  <a href='/api/auth/logout'>Logout</a>
                 </button>
               </div>
               <div className='sm:mx-auto sm:w-full sm:max-w-md'>
