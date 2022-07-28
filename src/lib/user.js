@@ -17,6 +17,8 @@ export async function createUser({ username, password }) {
     hash,
     salt,
     category: "individual",
+    detailsAvailable: false,
+    academicsAvailable: false,
   });
   await user.save();
 

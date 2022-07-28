@@ -17,47 +17,47 @@ const typeOfCategory = [
 
 const Details = ({ colleges, user }) => {
   const [rollNumber, setRollNumber] = useState("");
-  const [category, setCategory] = useState("college");
-
   const [collegeSearchValue, setCollegeSearchValue] = useState("");
   const [collegeList, setCollegeList] = useState([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const [dropDownState, setDropDownState] = useState(false);
-
   const [selectedBranch, setSelectedBranch] = useState(branches[0]);
   const [selectedGender, setSelectedGender] = useState(genders[0]);
 
+  const [category, setCategory] = useState("college");
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
-    image: user?.image,
+    image: user?.profile?.image,
     gender: selectedGender.name,
     dob: null,
-  });
-  const [placement, setPlacement] = useState({
-    designation: "",
-    email: "",
-    phone: null,
-  });
-  const [principal, setPrincipal] = useState({
-    email: "",
-    phone: null,
   });
   const [college, setCollege] = useState({
     name: "",
     code: "",
+    passphrase: "",
     website: "",
+    placement: {
+      designation: "",
+      email: "",
+      phone: null,
+    },
+    principal: {
+      email: "",
+      phone: null,
+    },
   });
+  console.log(college);
+  console.log(user);
   const session = useUser();
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    console.log({ profile, category, college, approved: !(category === "college") });
     const { data } = await axios.put(
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session?._id}`,
-      { profile, category, placement, principal, college }
+      { profile, category, college, approved: !(category === "college") }
     );
-
-    console.log(data);
   };
 
   useEffect(() => {
@@ -78,57 +78,6 @@ const Details = ({ colleges, user }) => {
     setCollegeList(colleges);
     if (!dropDownState) setShowDropDown(true);
   };
-
-  //   const submitHandler = async (e) => {
-  //     e.preventDefault();
-  //     setLoading(true);
-  //     try {
-  //       await axios.post(`${process.env.NEXT_PUBLIC_HOST_URL}/api/users`, {
-  //         userId: session.userId,
-  //         image:
-  //           session?.user?.image.indexOf("googleusercontent.com") !== -1
-  //             ? "http://res.cloudinary.com/dj7nomqfd/image/upload/v1647117869/uploads/bphhxvmlcyyu2pntbikm.png"
-  //             : session?.user?.image,
-  //         firstName: rename(firstName),
-  //         lastName: rename(lastName),
-  //         rollNumber: category === "student" ? rollNumber.toUpperCase() : "",
-  //         category,
-  //         email,
-  //         phone,
-  //         college: {
-  //           name: collegeName || selected.name,
-  //           code: collegeCode || selected.code,
-  //         },
-  //         city: category === "student" ? "" : address.city,
-  //         state: category === "student" ? "" : address.state,
-  //         branch: {
-  //           name: category === "student" ? branch.name : "",
-  //           code: category === "student" ? branch.code : "",
-  //         },
-  //         batch: {
-  //           start: category === "student" ? batch.from : 0,
-  //           end: category === "student" ? batch.to : 0,
-  //         },
-  //         principal: {
-  //           email: category === "student" ? "" : principal.email,
-  //           phone: category === "student" ? "" : principal.phone,
-  //         },
-  //         website: category === "student" ? "" : website,
-  //         designation,
-  //         approved: category === "student" ? true : false,
-  //       });
-
-  //       reloadSession();
-  //       router.push("/auth/signin");
-  //     } catch (error) {
-  //       setLoading(false);
-  //       toast.error(error.response.data.message);
-  //     }
-  //   };
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
 
   return (
     <React.Fragment>
@@ -179,36 +128,39 @@ const Details = ({ colleges, user }) => {
                   </div>
                 </fieldset>
                 <React.Fragment>
-                  {category === "student" && (
-                    <div className="col-span-6 sm:col-span-4 mt-4">
-                      <div className="flex">
-                        <label
-                          htmlFor="paraphase"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Paraphase
-                        </label>
-                        <span className="ml-1 text-red-600 font-semibold">*</span>
-                      </div>
-
-                      <input
-                        type="text"
-                        name="rollnumber"
-                        id="rollnumber"
-                        autoComplete="roll-number"
-                        required
-                        value={rollNumber}
-                        onChange={(e) => setRollNumber(e.target.value)}
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                      <p
-                        className="mt-1 text-xs tracking-wide text-gray-500"
-                        id="pharaphase-description"
+                  <div className="col-span-6 sm:col-span-4 mt-4">
+                    <div className="flex">
+                      <label
+                        htmlFor="paraphase"
+                        className="block text-sm font-medium text-gray-700"
                       >
-                        Enter a passphrase that associates with your college placement cell.
-                      </p>
+                        {category === "student" ? "" : "Create"} Paraphase
+                      </label>
+                      <span className="ml-1 text-red-600 font-semibold">*</span>
                     </div>
-                  )}
+
+                    <input
+                      type="text"
+                      name="rollnumber"
+                      id="rollnumber"
+                      autoComplete="roll-number"
+                      required
+                      value={college.passphrase}
+                      onChange={(e) => {
+                        if (category === "college")
+                          setCollege({ ...college, passphrase: e.target.value });
+                      }}
+                      className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                    <p
+                      className="mt-1 text-xs tracking-wide text-gray-500"
+                      id="pharaphase-description"
+                    >
+                      {category === "college"
+                        ? "Create a passphrase through which your students can associate with the college"
+                        : "Enter a passphrase that associates with your college placement cell."}
+                    </p>
+                  </div>
 
                   <div className="grid grid-cols-6 gap-6 mt-4">
                     <div className="col-span-6 sm:col-span-3">
@@ -283,67 +235,17 @@ const Details = ({ colleges, user }) => {
                           name="designation"
                           id="designation"
                           required
-                          value={placement.designation}
+                          value={college.placement.designation}
                           onChange={(e) =>
-                            setPlacement({ ...placement, designation: e.target.value })
+                            setCollege({
+                              ...college,
+                              placement: { ...college.placement, designation: e.target.value },
+                            })
                           }
                           className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                     </>
-                  )}
-
-                  {category === "student" && (
-                    <div>
-                      <div className="grid grid-cols-6 gap-6 mt-5">
-                        <div className="col-span-6 sm:col-span-3">
-                          <div className="flex">
-                            <label
-                              htmlFor="from"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Batch From
-                            </label>
-                            <span className="ml-1 text-red-600 font-semibold">*</span>
-                          </div>
-                          <input
-                            type="number"
-                            min="1900"
-                            max="2099"
-                            step="1"
-                            name="from"
-                            id="from"
-                            required
-                            placeholder="2019"
-                            value={batch.from}
-                            onChange={(e) => setBatch({ ...batch, from: e.target.value })}
-                            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          />
-                        </div>
-
-                        <div className="col-span-6 sm:col-span-3">
-                          <div className="flex">
-                            <label htmlFor="to" className="block text-sm font-medium text-gray-700">
-                              Batch To
-                            </label>
-                            <span className="ml-1 text-red-600 font-semibold">*</span>
-                          </div>
-                          <input
-                            type="number"
-                            min="1900"
-                            max="2099"
-                            step="1"
-                            name="to"
-                            id="to"
-                            placeholder="2023"
-                            required
-                            value={batch.to}
-                            onChange={(e) => setBatch({ ...batch, to: e.target.value })}
-                            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          />
-                        </div>
-                      </div>
-                    </div>
                   )}
 
                   {category === "student" && (
@@ -367,13 +269,6 @@ const Details = ({ colleges, user }) => {
                         value={rollNumber}
                         onChange={(e) => setRollNumber(e.target.value)}
                         className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-
-                      <DropDown
-                        title={"Branch"}
-                        options={branches}
-                        selectedOption={selectedBranch}
-                        setSelectedOption={setSelectedBranch}
                       />
                     </div>
                   )}
@@ -400,19 +295,18 @@ const Details = ({ colleges, user }) => {
                       </div>
                       {showDropDown && collegeList.length > 0 && (
                         <ul className="w-full absolute -bottom-1 left-0 translate-y-full overflow-y-scroll max-h-40 rounded border-1 border-gray-400 bg-white shadow-md">
-                          {collegeList.map((college) => (
+                          {collegeList.map((c) => (
                             <li
-                              key={college._id}
+                              key={c._id}
                               className="px-2 py-3 hover:bg-orange-600 hover:text-white border-b-gray-50 cursor-pointer"
                               onClick={() => {
-                                setCollegeSearchValue(college.collegeName);
+                                setCollegeSearchValue(c.collegeName);
                                 setShowDropDown(false);
                                 setDropDownState(true);
-                                setCollege({ ...college, name: college.collegeName });
-                                setCollege({ ...college, code: college._id });
+                                setCollege({ ...college, name: c.collegeName, code: c._id });
                               }}
                             >
-                              {college.collegeName}
+                              {c.collegeName}
                             </li>
                           ))}
                         </ul>
@@ -436,10 +330,13 @@ const Details = ({ colleges, user }) => {
                       id="email"
                       autoComplete="email"
                       required
-                      value={placement.email}
+                      value={college.placement.email}
                       onChange={(e) => {
                         if (category === "college")
-                          setPlacement({ ...placement, email: e.target.value });
+                          setCollege({
+                            ...college,
+                            placement: { ...college.placement, email: e.target.value },
+                          });
                       }}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
@@ -462,10 +359,13 @@ const Details = ({ colleges, user }) => {
                       autoComplete="tel"
                       required
                       pattern="[6789][0-9]{9}"
-                      value={placement.phone}
+                      value={college.placement.phone}
                       onChange={(e) => {
                         if (category === "college")
-                          setPlacement({ ...placement, phone: e.target.value });
+                          setCollege({
+                            ...college,
+                            placement: { ...college.placement, phone: e.target.value },
+                          });
                       }}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
@@ -489,8 +389,14 @@ const Details = ({ colleges, user }) => {
                           id="email"
                           autoComplete="email"
                           required
-                          value={principal.email}
-                          onChange={(e) => setPrincipal({ ...principal, email: e.target.value })}
+                          value={college.principal.email}
+                          onChange={(e) => {
+                            if (category === "college")
+                              setCollege({
+                                ...college,
+                                principal: { ...college.principal, email: e.target.value },
+                              });
+                          }}
                           className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -512,9 +418,15 @@ const Details = ({ colleges, user }) => {
                           id="phone"
                           autoComplete="tel"
                           required
-                          value={principal.phone}
                           pattern="[6789][0-9]{9}"
-                          onChange={(e) => setPrincipal({ ...principal, phone: e.target.value })}
+                          value={college.principal.phone}
+                          onChange={(e) => {
+                            if (category === "college")
+                              setCollege({
+                                ...college,
+                                principal: { ...college.principal, phone: e.target.value },
+                              });
+                          }}
                           className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -536,7 +448,7 @@ const Details = ({ colleges, user }) => {
                           id="website"
                           required
                           value={college.website}
-                          onChange={(e) => setCollege({ ...college, webiste: e.target.value })}
+                          onChange={(e) => setCollege({ ...college, website: e.target.value })}
                           className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -574,7 +486,8 @@ const Details = ({ colleges, user }) => {
 };
 
 export const getServerSideProps = async function ({ req, res }) {
-  const { _doc: user } = await getLoginSession(req);
+  const session = await getLoginSession(req);
+  const user = session?._doc;
   if (!user) {
     return {
       redirect: {
