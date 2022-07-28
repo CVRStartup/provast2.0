@@ -23,7 +23,25 @@ const Academics = ({ colleges, user }) => {
     typeOfEducationGrade[0]
   );
 
-  const academics = [];
+  const [academics, setAcademics] = useState({
+    user: session?._id,
+    institution: "",
+    board: "",
+    program: selectedDegree[0],
+    branch: selectedBranch[0],
+    educationType: selectedTypeOfEducation[0],
+    score: {
+      typeOfGrade: setSelectedTypeOfEducationGrade[0],
+      grade: 0,
+    },
+    batch: {
+      from: 0,
+      to: 0,
+    },
+    current: true,
+    verified: false,
+    frozen: false,
+  });
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -72,6 +90,8 @@ const Academics = ({ colleges, user }) => {
                       type='text'
                       name='school'
                       id='school'
+                      value={academics.institution}
+                      onChange={(e) => setAcademics({ ...academics, institution: e.target.value })}
                       required
                       className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
@@ -111,6 +131,8 @@ const Academics = ({ colleges, user }) => {
                         name='board'
                         id='board'
                         required
+                        value={academics.board}
+                        onChange={(e) => setAcademics({ ...academics, board: e.target.value })}
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
@@ -138,6 +160,8 @@ const Academics = ({ colleges, user }) => {
                         name='board'
                         id='board'
                         required
+                        value={academics.grade}
+                        onChange={(e) => setAcademics({ ...academics, grade: e.target.value })}
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
@@ -165,6 +189,13 @@ const Academics = ({ colleges, user }) => {
                         min='2001'
                         max='2100'
                         id='duration'
+                        value={academics.batch.from}
+                        onChange={(e) =>
+                          setAcademics({
+                            ...academics,
+                            batch: { ...academics.batch, from: e.target.value },
+                          })
+                        }
                         required
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
@@ -177,6 +208,12 @@ const Academics = ({ colleges, user }) => {
                         max='2100'
                         name='duration'
                         id='duration'
+                        onChange={(e) =>
+                          setAcademics({
+                            ...academics,
+                            batch: { ...academics.batch, to: e.target.value },
+                          })
+                        }
                         required
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
