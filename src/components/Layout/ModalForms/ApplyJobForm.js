@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { useModelContext } from "../../context/ModelContext";
-import { useSession } from "next-auth/react";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { Loading } from "../Layouts/Loading";
+import { useModelContext } from "../../../context/ModalContext";
+import { Loading } from "../../Reusables/Loading";
 
 export const ApplyJobForm = () => {
-  const { closeModal, roles, modalJob, loading, setLoading } = useModelContext();
+  const { closeModal, modalJob, loading, setLoading } = useModelContext();
   const [checkedRoles, setCheckRoles] = useState([]);
   const { data: session } = useSession();
   const router = useRouter();
