@@ -5,6 +5,12 @@ const userSchema = new mongoose.Schema(
     email: { type: String, trim: true, unique: true },
     hash: { type: String },
     salt: { type: String },
+    detailsAvailable: {
+      type: Boolean,
+    },
+    academicsAvailable: {
+      type: Boolean,
+    },
     profile: {
       firstName: {
         type: String,
