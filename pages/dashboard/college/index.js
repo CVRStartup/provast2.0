@@ -129,7 +129,7 @@ const Index = ({ user }) => {
   const getAllCollegeStudents = async (collegeCode) => {
     const {
       data: { details },
-    } = await axios.get(`/api/users/details?collegeCode=${collegeCode}`);
+    } = await axios.get(`/api/auth/user/details?collegeCode=${collegeCode}`);
     setAllUsers(details);
   };
 

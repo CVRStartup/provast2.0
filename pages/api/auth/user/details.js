@@ -3,9 +3,9 @@ import User from "../../../../models/User.js";
 
 export default async function handler(req, res) {
   switch (req.method) {
-    // case "GET":
-    //   await searchUserDetails(req, res);
-    //   break;
+    case "GET":
+      await searchUserDetails(req, res);
+      break;
     // case "POST":
     //   await createUserDetails(req, res);
     //   break;
@@ -18,15 +18,9 @@ export default async function handler(req, res) {
 const searchUserDetails = async (req, res) => {
   try {
     await connectDB();
-    const { userId } = req.query;
+    const collegeCode = req.query.collegeCode;
 
-    if (!userId) {
-      return res.status(400).json({ message: "Invalid Credentials" });
-    }
-
-    const details = await userDetails.findOne({
-      user: userId,
-    });
+    const details = await User.find({ "college.code": collegeCode });
 
     if (details) {
       return res.status(200).json({ message: "Details Found", details });
