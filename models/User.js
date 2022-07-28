@@ -29,59 +29,39 @@ const userSchema = new mongoose.Schema(
         type: String,
         verified: Boolean,
       },
-      profile: {
-        firstName: {
-          type: String,
-          trim: true,
-        },
-        lastName: {
-          type: String,
-          trim: true,
-        },
-        verified: Boolean,
-      },
     },
     contact: {
+      parents: {
+        father: {
+          name: String,
+          email: String,
+          phone: String,
+          occupation: String,
+        },
+        mother: {
+          name: String,
+          email: String,
+          phone: String,
+          occupation: String,
+        },
+      },
       address: {
         city: {
           type: String,
         },
-        parents: {
-          father: {
-            name: String,
-            email: String,
-            phone: String,
-            occupation: String,
-          },
-          mother: {
-            name: String,
-            email: String,
-            phone: String,
-            occupation: String,
-          },
+        country: {
+          type: String,
+        },
+        state: {
+          type: String,
         },
       },
-      contact: {
-        address: {
-          city: {
-            type: String,
-          },
-          country: {
-            type: String,
-          },
-          state: {
-            type: String,
-          },
-        },
-        phone: {
-          type: Number,
-        },
-        website: {
-          type: String,
-        },
-        linkedin: {
-          type: String,
-        },
+      email: {
+        type: String,
+        verified: Boolean,
+      },
+      linkedin: {
+        type: String,
         verified: Boolean,
       },
       phone: {
@@ -89,10 +69,6 @@ const userSchema = new mongoose.Schema(
         verified: Boolean,
       },
       website: {
-        type: String,
-        verified: Boolean,
-      },
-      rollNumber: {
         type: String,
         verified: Boolean,
       },
@@ -141,7 +117,6 @@ const userSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: true,
     },
     rollNumber: {
       type: String,
@@ -149,9 +124,36 @@ const userSchema = new mongoose.Schema(
       uppercase: true,
       verified: Boolean,
     },
+    college: {
+      name: {
+        type: String,
+        uppercase: true,
+      },
+      code: {
+        type: String,
+        uppercase: true,
+      },
+      website: {
+        type: String,
+      },
+    },
     principal: {
       email: {
         type: String,
+      },
+      phone: {
+        type: Number,
+      },
+    },
+    placement: {
+      designation: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
+      phone: {
+        type: Number,
       },
     },
   },

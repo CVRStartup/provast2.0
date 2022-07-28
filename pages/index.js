@@ -40,7 +40,8 @@ const Home = ({ user }) => {
 };
 
 export const getServerSideProps = async function ({ req, res }) {
-  const { _doc: user } = await getLoginSession(req);
+  const session = await getLoginSession(req);
+  const user = session?._doc;
   if (!user) {
     return {
       redirect: {
@@ -52,7 +53,7 @@ export const getServerSideProps = async function ({ req, res }) {
   if (!user.details?.available) {
     return {
       redirect: {
-        destination: "/auth/details",
+        destination: "/auth/user/details",
         permanent: false,
       },
     };
