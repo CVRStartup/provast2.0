@@ -10,7 +10,6 @@ import { branches, genders, rename } from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 
 const typeOfCategory = [
-  { id: "individual", name: "individual" },
   { id: "student", name: "student" },
   { id: "college", name: "college" },
 ];
@@ -47,8 +46,6 @@ const Details = ({ colleges, user }) => {
       phone: null,
     },
   });
-  console.log(college);
-  console.log(user);
   const session = useUser();
 
   const submitHandler = async (e) => {
