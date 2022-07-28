@@ -1,8 +1,9 @@
-import { useUser } from "../src/lib/hooks";
+// import { useUser } from "../src/lib/hooks";
 import Layout from "../src/components/layout";
-
-const Home = () => {
-  const user = useUser();
+import Iron from "@hapi/iron";
+import axios from "axios";
+import { getLoginSession } from "../src/lib/auth";
+const Home = ({ user }) => {
   return (
     <Layout>
       <h1>Passport.js Example</h1>
@@ -36,6 +37,29 @@ const Home = () => {
       `}</style>
     </Layout>
   );
+};
+
+export const getServerSideProps = async function ({ req, res }) {
+  const { _doc: user } = await getLoginSession(req);
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
+  }
+  if (!user.details?.available) {
+    return {
+      redirect: {
+        destination: "/auth/details",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { user },
+  };
 };
 
 export default Home;

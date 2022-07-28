@@ -29,18 +29,14 @@ const userSchema = new mongoose.Schema(
         type: String,
         verified: Boolean,
       },
-      parents: {
-        father: {
-          name: String,
-          email: String,
-          phone: String,
-          occupation: String,
+      profile: {
+        firstName: {
+          type: String,
+          trim: true,
         },
-        mother: {
-          name: String,
-          email: String,
-          phone: String,
-          occupation: String,
+        lastName: {
+          type: String,
+          trim: true,
         },
         verified: Boolean,
       },
@@ -50,10 +46,40 @@ const userSchema = new mongoose.Schema(
         city: {
           type: String,
         },
-        country: {
+        parents: {
+          father: {
+            name: String,
+            email: String,
+            phone: String,
+            occupation: String,
+          },
+          mother: {
+            name: String,
+            email: String,
+            phone: String,
+            occupation: String,
+          },
+        },
+      },
+      contact: {
+        address: {
+          city: {
+            type: String,
+          },
+          country: {
+            type: String,
+          },
+          state: {
+            type: String,
+          },
+        },
+        phone: {
+          type: Number,
+        },
+        website: {
           type: String,
         },
-        state: {
+        linkedin: {
           type: String,
         },
         verified: Boolean,
@@ -66,7 +92,7 @@ const userSchema = new mongoose.Schema(
         type: String,
         verified: Boolean,
       },
-      linkedin: {
+      rollNumber: {
         type: String,
         verified: Boolean,
       },
@@ -127,15 +153,6 @@ const userSchema = new mongoose.Schema(
       email: {
         type: String,
       },
-      phone: {
-        type: Number,
-      },
-    },
-    passPhrase: {
-      type: String,
-    },
-    designation: {
-      type: String,
     },
   },
   { timestamps: true }
