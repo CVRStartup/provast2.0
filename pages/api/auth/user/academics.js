@@ -39,7 +39,7 @@ const createUserAcademics = async (req, res) => {
       await newAcademic.save();
 
       return res.status(200).json({
-        message: "Details Created.",
+        message: "Details Created",
         academics,
       });
     }

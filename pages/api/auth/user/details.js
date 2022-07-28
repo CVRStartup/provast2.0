@@ -51,7 +51,7 @@ const updateUserDetails = async (req, res) => {
     }
 
     const details = await User.findOneAndUpdate({ _id: userId }, req.body, { new: true });
-
+    console.log(details);
     if (details) {
       return res.status(200).json({ message: "Details Updated", details });
     } else {

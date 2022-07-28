@@ -50,7 +50,7 @@ export const getServerSideProps = async function ({ req, res }) {
       },
     };
   }
-  if (!user.details?.available) {
+  if (!user.detailsAvailable) {
     return {
       redirect: {
         destination: "/auth/user/details",

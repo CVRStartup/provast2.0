@@ -3,13 +3,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
+import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
 import { branches, degrees, typeOfEducation, typeOfEducationGrade } from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 
-const Academics = ({ colleges, user }) => {
+const Academics = () => {
   const session = useUser();
-  const userId = session?._id;
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
   const [selectedBranch, setSelectedBranch] = useState(branches[0]);
@@ -39,13 +41,25 @@ const Academics = ({ colleges, user }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(academics);
+    setLoading(true);
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/academics?user=${session._id}`,
       { academics }
     );
 
-    console.log(data);
+    const { data: updatedUserData } = await axios.put(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?user=${session._id}`,
+      { academicsAvailable: true }
+    );
+
+    setLoading(false);
+    if (data.message === "Details Created") {
+      if (updatedUserData) {
+        router.push("/");
+      }
+    } else {
+      alert(data.message);
+    }
   };
 
   return (
@@ -55,6 +69,7 @@ const Academics = ({ colleges, user }) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main className='background'>
+        {loading && <Loading />}
         <div className='min-h-screen flex flex-col justify-center items-center pb-4 sm:px-6 lg:px-8'>
           <div className='mt-4 sm:mx-auto sm:w-full sm:max-w-3xl'>
             <div className='bg-white pt-1 pb-8 shadow-xl rounded-xl px-10'>
@@ -143,7 +158,7 @@ const Academics = ({ colleges, user }) => {
                   </div>
 
                   <div className='flex mt-4'>
-                    <label htmlFor='board' className='block text-sm font-medium text-gray-700'>
+                    <label htmlFor='score' className='block text-sm font-medium text-gray-700'>
                       Score
                     </label>
                     <span className='ml-1 text-red-600 font-semibold'>*</span>
@@ -151,9 +166,9 @@ const Academics = ({ colleges, user }) => {
                   <div className='relative grid grid-cols-6 gap-6'>
                     <div className='col-span-6 sm:col-span-3 '>
                       <input
-                        type='text'
-                        name='board'
-                        id='board'
+                        type='number'
+                        name='score'
+                        id='score'
                         required
                         value={academics.grade}
                         onChange={(e) =>
@@ -189,7 +204,6 @@ const Academics = ({ colleges, user }) => {
                         min='2001'
                         max='2100'
                         id='duration'
-                        value={academics.batch.from}
                         onChange={(e) =>
                           setAcademics({
                             ...academics,
@@ -261,7 +275,17 @@ export const getServerSideProps = async function ({ req, res }) {
       },
     };
   }
-  if (user?.details?.available) {
+
+  if (!user?.detailsAvailable) {
+    return {
+      redirect: {
+        destination: "/auth/user/details",
+        permanent: false,
+      },
+    };
+  }
+
+  if (user?.academicsAvailable) {
     return {
       redirect: {
         destination: "/",

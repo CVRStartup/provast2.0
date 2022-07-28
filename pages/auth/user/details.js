@@ -1,12 +1,11 @@
-import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
+import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
-import { branches, genders, rename } from "../../../src/lib/helper";
+import { genders, rename } from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 
 const typeOfCategory = [
@@ -15,15 +14,16 @@ const typeOfCategory = [
 ];
 
 const Details = ({ colleges, user }) => {
+  const router = useRouter();
   const [rollNumber, setRollNumber] = useState("");
+  const [loading, setLoading] = useState(false);
   const [collegeSearchValue, setCollegeSearchValue] = useState("");
   const [collegeList, setCollegeList] = useState([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const [dropDownState, setDropDownState] = useState(false);
-  const [selectedBranch, setSelectedBranch] = useState(branches[0]);
   const [selectedGender, setSelectedGender] = useState(genders[0]);
 
-  const [category, setCategory] = useState("college");
+  const [category, setCategory] = useState("student");
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -66,6 +66,7 @@ const Details = ({ colleges, user }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log({ profile, category, college, approved: !(category === "college") });
     const { data } = await axios.put(
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session?._id}`,
@@ -79,6 +80,13 @@ const Details = ({ colleges, user }) => {
         detailsAvailable: true,
       }
     );
+    setLoading(false);
+    if (data.message === "Details Updated") {
+      if (category === "student") router.push("/auth/user/academics");
+      else router.push("/");
+    } else {
+      alert(data.message);
+    }
   };
 
   useEffect(() => {
@@ -107,6 +115,7 @@ const Details = ({ colleges, user }) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main className='background'>
+        {loading && <Loading />}
         <div className='min-h-screen flex flex-col justify-center items-center pb-4 sm:px-6 lg:px-8'>
           <div className='mt-4 sm:mx-auto sm:w-full sm:max-w-lg'>
             <div className='bg-white pt-1 pb-8 shadow-xl rounded-xl px-10'>
@@ -134,7 +143,7 @@ const Details = ({ colleges, user }) => {
                           name='notification-method'
                           type='radio'
                           value={option.name}
-                          defaultChecked={option.id === "individual"}
+                          defaultChecked={option.id === "student"}
                           onChange={(e) => setCategory(e.target.value)}
                           className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
                         />
@@ -243,6 +252,16 @@ const Details = ({ colleges, user }) => {
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
+                  </div>
+
+                  <div className='col-span-6 sm:col-span-6 mt-4'>
+                    <DropDown
+                      isRequired
+                      title='Gender'
+                      options={genders}
+                      selectedOption={selectedGender}
+                      setSelectedOption={setSelectedGender}
+                    />
                   </div>
 
                   {category === "college" && (
@@ -525,6 +544,7 @@ const Details = ({ colleges, user }) => {
 export const getServerSideProps = async function ({ req, res }) {
   const session = await getLoginSession(req);
   const user = session?._doc;
+  console.log(user);
   if (!user) {
     return {
       redirect: {
@@ -533,10 +553,10 @@ export const getServerSideProps = async function ({ req, res }) {
       },
     };
   }
-  if (user?.details?.available) {
+  if (user?.detailsAvailable) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/auth/user/academics",
         permanent: false,
       },
     };
