@@ -1,20 +1,15 @@
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
 import { getLoginSession } from "../../../src/lib/auth";
-import {
-  branches,
-  degrees,
-  genders,
-  typeOfEducation,
-  typeOfEducationGrade,
-} from "../../../src/lib/helper";
+import { branches, degrees, typeOfEducation, typeOfEducationGrade } from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 
 const Academics = ({ colleges, user }) => {
   const session = useUser();
+  const userId = session?._id;
 
   const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
   const [selectedBranch, setSelectedBranch] = useState(branches[0]);
@@ -24,14 +19,13 @@ const Academics = ({ colleges, user }) => {
   );
 
   const [academics, setAcademics] = useState({
-    user: session?._id,
     institution: "",
     board: "",
-    program: selectedDegree[0],
-    branch: selectedBranch[0],
-    educationType: selectedTypeOfEducation[0],
+    program: selectedDegree.name,
+    branch: selectedBranch.name,
+    educationType: selectedTypeOfEducation.name,
     score: {
-      typeOfGrade: setSelectedTypeOfEducationGrade[0],
+      typeOfGrade: selectedTypeOfEducationGrade.name,
       grade: 0,
     },
     batch: {
@@ -45,12 +39,13 @@ const Academics = ({ colleges, user }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // const { data } = await axios.put(
-    //   `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session?._id}`,
-    //   { profile, category, placement, principal, college }
-    // );
+    console.log(academics);
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/academics?user=${session._id}`,
+      { academics }
+    );
 
-    // console.log(data);
+    console.log(data);
   };
 
   return (
@@ -161,7 +156,12 @@ const Academics = ({ colleges, user }) => {
                         id='board'
                         required
                         value={academics.grade}
-                        onChange={(e) => setAcademics({ ...academics, grade: e.target.value })}
+                        onChange={(e) =>
+                          setAcademics({
+                            ...academics,
+                            score: { ...academics.score, grade: e.target.value },
+                          })
+                        }
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
