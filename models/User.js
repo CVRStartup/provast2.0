@@ -10,11 +10,13 @@ const userSchema = new mongoose.Schema(
         type: String,
         trim: true,
         verified: Boolean,
+        frozen: Boolean,
       },
       lastName: {
         type: String,
         trim: true,
         verified: Boolean,
+        frozen: Boolean,
       },
       image: {
         type: String,
@@ -24,10 +26,12 @@ const userSchema = new mongoose.Schema(
       dob: {
         type: Date,
         verified: Boolean,
+        frozen: Boolean,
       },
       gender: {
         type: String,
         verified: Boolean,
+        frozen: Boolean,
       },
     },
     contact: {
@@ -59,58 +63,23 @@ const userSchema = new mongoose.Schema(
       email: {
         type: String,
         verified: Boolean,
+        frozen: Boolean,
       },
       linkedin: {
         type: String,
         verified: Boolean,
+        frozen: Boolean,
       },
       phone: {
         type: Number,
         verified: Boolean,
+        frozen: Boolean,
       },
       website: {
         type: String,
         verified: Boolean,
+        frozen: Boolean,
       },
-    },
-    education: {
-      tenth: {
-        name: String,
-        board: String,
-        typeOfGrade: String,
-        grade: Number,
-        from: Date,
-        to: Date,
-        verified: Boolean,
-      },
-      inter: {
-        name: String,
-        board: String,
-        typeOfGrade: String,
-        branch: String,
-        grade: Number,
-        from: Date,
-        to: Date,
-        verified: Boolean,
-      },
-      higherEducation: [
-        {
-          program: String,
-          branch: String,
-          typeOfGrade: String,
-          grade: Number,
-          from: Date,
-          to: Date,
-          college: {
-            name: {
-              type: String,
-              uppercase: true,
-            },
-            code: String,
-          },
-          verified: Boolean,
-        },
-      ],
     },
     approved: {
       type: Boolean,
@@ -123,6 +92,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       uppercase: true,
       verified: Boolean,
+      frozen: Boolean,
     },
     college: {
       name: {
@@ -133,27 +103,30 @@ const userSchema = new mongoose.Schema(
         type: String,
         uppercase: true,
       },
+      passphrase: {
+        type: String,
+      },
       website: {
         type: String,
       },
-    },
-    principal: {
-      email: {
-        type: String,
+      principal: {
+        email: {
+          type: String,
+        },
+        phone: {
+          type: Number,
+        },
       },
-      phone: {
-        type: Number,
-      },
-    },
-    placement: {
-      designation: {
-        type: String,
-      },
-      email: {
-        type: String,
-      },
-      phone: {
-        type: Number,
+      placement: {
+        designation: {
+          type: String,
+        },
+        email: {
+          type: String,
+        },
+        phone: {
+          type: Number,
+        },
       },
     },
   },
