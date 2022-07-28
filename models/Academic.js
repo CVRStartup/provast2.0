@@ -5,7 +5,7 @@ const academicSchema = new mongoose.Schema(
     user: { type: String },
     education: [
       {
-        insitution: String,
+        institution: String,
         program: String,
         board: String,
         branch: String,
