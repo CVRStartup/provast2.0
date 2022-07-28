@@ -1,0 +1,127 @@
+import axios from "axios";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { DropDown } from "../../../src/components/Reusables/Dropdown";
+import { getLoginSession } from "../../../src/lib/auth";
+import { branches, genders } from "../../../src/lib/helper";
+import { useUser } from "../../../src/lib/hooks";
+
+const Academics = ({ colleges, user }) => {
+  const session = useUser();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    // const { data } = await axios.put(
+    //   `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session?._id}`,
+    //   { profile, category, placement, principal, college }
+    // );
+
+    // console.log(data);
+  };
+
+  return (
+    <React.Fragment>
+      <Head>
+        <title>Provast | Academics</title>
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <main className='background'>
+        <div className='min-h-screen flex flex-col justify-center items-center pb-4 sm:px-6 lg:px-8'>
+          <div className='mt-4 sm:mx-auto sm:w-full sm:max-w-lg'>
+            <div className='bg-white pt-1 pb-8 shadow-xl rounded-xl px-10'>
+              <div className='my-6 flex justify-between items-center'>
+                <div className=''>
+                  <span className='text-xs font-semibold'>Signed In As : </span>
+                  <span className='text-sm font-bold text-gray-600'>{session?.email}</span>
+                </div>
+                <button className='font-semibold text-blue-600 text-sm underline hover:text-blue-800'>
+                  Logout
+                </button>
+              </div>
+              <div className='sm:mx-auto sm:w-full sm:max-w-md'>
+                <h2 className='mt-2 text-center text-2xl font-extrabold text-gray-900'>
+                  Current education details
+                </h2>
+              </div>
+              <form onSubmit={submitHandler}>
+                <React.Fragment>
+                  <div className='grid grid-cols-6 gap-6 mt-4'>
+                    <div className='col-span-6 sm:col-span-6'>
+                      <div className='flex'>
+                        <label
+                          htmlFor='firstName'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          First Name
+                        </label>
+                        <span className='ml-1 text-red-600 font-semibold'>*</span>
+                      </div>
+                      <input
+                        type='text'
+                        name='firstName'
+                        id='firstName'
+                        autoComplete='given-name'
+                        required
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      />
+                    </div>
+                  </div>
+                  <div className='mt-4'>
+                    <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 '>
+                      Submit
+                    </button>
+                  </div>
+                </React.Fragment>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <style jsx>{`
+          .background {
+            background-image: url("https://qsf.fs.quoracdn.net/-4-ans_frontend_assets.images.home_page_bg_desktop.png-26-4770753d59b970e1.png");
+            width: 100%;
+            position: absolute;
+            min-height: 100%;
+            box-shadow: rgb(0 0 0 / 5%) 0px 0px 0px 1px inset;
+            transition-property: background-image;
+            transition-duration: 180ms;
+            transition-timing-function: ease-in-out;
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+          }
+        `}</style>
+      </main>
+    </React.Fragment>
+  );
+};
+
+export const getServerSideProps = async function ({ req, res }) {
+  const { _doc: user } = await getLoginSession(req);
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
+  }
+  if (user?.details?.available) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  const {
+    data: { colleges },
+  } = await axios.get(`${process.env.HOST_URL}/api/college`);
+  return {
+    props: { colleges, user },
+  };
+};
+
+export default Academics;
