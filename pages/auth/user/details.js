@@ -4,8 +4,9 @@ import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
+import { DropDown } from "../../../src/components/Reusables/Dropdown";
 import { getLoginSession } from "../../../src/lib/auth";
-import { branches, rename } from "../../../src/lib/helper";
+import { branches, genders, rename } from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 
 const typeOfCategory = [
@@ -15,11 +16,18 @@ const typeOfCategory = [
 ];
 
 const Details = ({ colleges, user }) => {
+  const [collegeSearchValue, setCollegeSearchValue] = useState("");
+  const [rollNumber, setRollNumber] = useState("");
+  const [collegeList, setCollegeList] = useState([]);
+  const [showDropDown, setShowDropDown] = useState(false);
+  const [dropDownState, setDropDownState] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState(branches[0]);
+  const [selectedGender, setSelectedGender] = useState(genders[0]);
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
     image: user?.image,
-    gender: "",
+    gender: selectedGender.name,
     dob: null,
   });
   const [category, setCategory] = useState("college");
@@ -38,17 +46,15 @@ const Details = ({ colleges, user }) => {
     website: "",
   });
   const session = useUser();
-  const [collegeSearchValue, setCollegeSearchValue] = useState("");
-  const [collegeList, setCollegeList] = useState([]);
-  const [showDropDown, setShowDropDown] = useState(false);
-  const [dropDownState, setDropDownState] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(profile);
-    console.log(placement);
-    console.log(principal);
-    console.log(college);
+    const { data } = await axios.put(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session?._id}`,
+      { profile, category, placement, principal, college }
+    );
+
+    console.log(data);
   };
 
   useEffect(() => {
@@ -125,43 +131,43 @@ const Details = ({ colleges, user }) => {
     <React.Fragment>
       <Head>
         <title>Provast | Details</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className="background">
-        <div className="min-h-screen flex flex-col justify-center items-center pb-4 sm:px-6 lg:px-8">
-          <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-lg">
-            <div className="bg-white pt-1 pb-8 shadow-xl rounded-xl px-10">
-              <div className="my-6 flex justify-between items-center">
-                <div className="">
-                  <span className="text-xs font-semibold">Signed In As : </span>
-                  <span className="text-sm font-bold text-gray-600">{session?.email}</span>
+      <main className='background'>
+        <div className='min-h-screen flex flex-col justify-center items-center pb-4 sm:px-6 lg:px-8'>
+          <div className='mt-4 sm:mx-auto sm:w-full sm:max-w-lg'>
+            <div className='bg-white pt-1 pb-8 shadow-xl rounded-xl px-10'>
+              <div className='my-6 flex justify-between items-center'>
+                <div className=''>
+                  <span className='text-xs font-semibold'>Signed In As : </span>
+                  <span className='text-sm font-bold text-gray-600'>{session?.email}</span>
                 </div>
-                <button className="font-semibold text-blue-600 text-sm underline hover:text-blue-800">
+                <button className='font-semibold text-blue-600 text-sm underline hover:text-blue-800'>
                   Logout
                 </button>
               </div>
-              <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+              <div className='sm:mx-auto sm:w-full sm:max-w-md'>
+                <h2 className='mt-2 text-center text-3xl font-extrabold text-gray-900'>
                   Fill in your details
                 </h2>
               </div>
               <form onSubmit={submitHandler}>
-                <fieldset className="mt-4">
-                  <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                <fieldset className='mt-4'>
+                  <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10'>
                     {typeOfCategory.map((option) => (
-                      <div key={option.id} className="flex items-center">
+                      <div key={option.id} className='flex items-center'>
                         <input
                           id={option.id}
-                          name="notification-method"
-                          type="radio"
+                          name='notification-method'
+                          type='radio'
                           value={option.name}
                           defaultChecked={option.id === "individual"}
                           onChange={(e) => setCategory(e.target.value)}
-                          className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
+                          className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
                         />
                         <label
                           htmlFor={option.id}
-                          className="ml-3 block text-sm font-medium capitalize text-gray-700"
+                          className='ml-3 block text-sm font-medium capitalize text-gray-700'
                         >
                           {option.name}
                         </label>
@@ -171,104 +177,114 @@ const Details = ({ colleges, user }) => {
                 </fieldset>
                 <React.Fragment>
                   {category === "student" && (
-                    <div className="col-span-6 sm:col-span-4 mt-4">
-                      <div className="flex">
+                    <div className='col-span-6 sm:col-span-4 mt-4'>
+                      <div className='flex'>
                         <label
-                          htmlFor="paraphase"
-                          className="block text-sm font-medium text-gray-700"
+                          htmlFor='paraphase'
+                          className='block text-sm font-medium text-gray-700'
                         >
                           Paraphase
                         </label>
-                        <span className="ml-1 text-red-600 font-semibold">*</span>
+                        <span className='ml-1 text-red-600 font-semibold'>*</span>
                       </div>
 
                       <input
-                        type="text"
-                        name="rollnumber"
-                        id="rollnumber"
-                        autoComplete="roll-number"
+                        type='text'
+                        name='rollnumber'
+                        id='rollnumber'
+                        autoComplete='roll-number'
                         required
                         value={rollNumber}
                         onChange={(e) => setRollNumber(e.target.value)}
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                       <p
-                        className="mt-1 text-xs tracking-wide text-gray-500"
-                        id="pharaphase-description"
+                        className='mt-1 text-xs tracking-wide text-gray-500'
+                        id='pharaphase-description'
                       >
                         Enter a passphrase that associates with your college placement cell.
                       </p>
                     </div>
                   )}
 
-                  <div className="grid grid-cols-6 gap-6 mt-4">
-                    <div className="col-span-6 sm:col-span-3">
-                      <div className="flex">
+                  <div className='grid grid-cols-6 gap-6 mt-4'>
+                    <div className='col-span-6 sm:col-span-3'>
+                      <div className='flex'>
                         <label
-                          htmlFor="firstName"
-                          className="block text-sm font-medium text-gray-700"
+                          htmlFor='firstName'
+                          className='block text-sm font-medium text-gray-700'
                         >
                           First Name
                         </label>
-                        <span className="ml-1 text-red-600 font-semibold">*</span>
+                        <span className='ml-1 text-red-600 font-semibold'>*</span>
                       </div>
                       <input
-                        type="text"
-                        name="firstName"
-                        id="firstName"
-                        autoComplete="given-name"
+                        type='text'
+                        name='firstName'
+                        id='firstName'
+                        autoComplete='given-name'
                         required
                         value={profile.firstName}
                         onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
 
-                    <div className="col-span-6 sm:col-span-3">
-                      <div className="flex">
+                    <div className='col-span-6 sm:col-span-3'>
+                      <div className='flex'>
                         <label
-                          htmlFor="lastName"
-                          className="block text-sm font-medium text-gray-700"
+                          htmlFor='lastName'
+                          className='block text-sm font-medium text-gray-700'
                         >
                           Last name
                         </label>
-                        <span className="ml-1 text-red-600 font-semibold">*</span>
+                        <span className='ml-1 text-red-600 font-semibold'>*</span>
                       </div>
                       <input
-                        type="text"
-                        name="lastName"
-                        id="lastName"
-                        autoComplete="family-name"
+                        type='text'
+                        name='lastName'
+                        id='lastName'
+                        autoComplete='family-name'
                         required
                         value={profile.lastName}
                         onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
                   </div>
 
+                  <div className='mt-2'>
+                    <DropDown
+                      isRequired
+                      title={"Gender"}
+                      options={genders}
+                      selectedOption={selectedGender}
+                      setSelectedOption={setSelectedGender}
+                    />
+                  </div>
+
                   {category === "college" && (
                     <>
-                      <div className="col-span-6 sm:col-span-4 mt-4">
-                        <div className="flex">
+                      <div className='col-span-6 sm:col-span-4 mt-4'>
+                        <div className='flex'>
                           <label
-                            htmlFor="designation"
-                            className="block text-sm font-medium text-gray-700"
+                            htmlFor='designation'
+                            className='block text-sm font-medium text-gray-700'
                           >
                             Designation
                           </label>
-                          <span className="ml-1 text-red-600 font-semibold">*</span>
+                          <span className='ml-1 text-red-600 font-semibold'>*</span>
                         </div>
                         <input
-                          type="text"
-                          name="designation"
-                          id="designation"
+                          type='text'
+                          name='designation'
+                          id='designation'
                           required
                           value={placement.designation}
                           onChange={(e) =>
                             setPlacement({ ...placement, designation: e.target.value })
                           }
-                          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </>
@@ -276,51 +292,51 @@ const Details = ({ colleges, user }) => {
 
                   {category === "student" && (
                     <div>
-                      <div className="grid grid-cols-6 gap-6 mt-5">
-                        <div className="col-span-6 sm:col-span-3">
-                          <div className="flex">
+                      <div className='grid grid-cols-6 gap-6 mt-5'>
+                        <div className='col-span-6 sm:col-span-3'>
+                          <div className='flex'>
                             <label
-                              htmlFor="from"
-                              className="block text-sm font-medium text-gray-700"
+                              htmlFor='from'
+                              className='block text-sm font-medium text-gray-700'
                             >
                               Batch From
                             </label>
-                            <span className="ml-1 text-red-600 font-semibold">*</span>
+                            <span className='ml-1 text-red-600 font-semibold'>*</span>
                           </div>
                           <input
-                            type="number"
-                            min="1900"
-                            max="2099"
-                            step="1"
-                            name="from"
-                            id="from"
+                            type='number'
+                            min='1900'
+                            max='2099'
+                            step='1'
+                            name='from'
+                            id='from'
                             required
-                            placeholder="2019"
+                            placeholder='2019'
                             value={batch.from}
                             onChange={(e) => setBatch({ ...batch, from: e.target.value })}
-                            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                           />
                         </div>
 
-                        <div className="col-span-6 sm:col-span-3">
-                          <div className="flex">
-                            <label htmlFor="to" className="block text-sm font-medium text-gray-700">
+                        <div className='col-span-6 sm:col-span-3'>
+                          <div className='flex'>
+                            <label htmlFor='to' className='block text-sm font-medium text-gray-700'>
                               Batch To
                             </label>
-                            <span className="ml-1 text-red-600 font-semibold">*</span>
+                            <span className='ml-1 text-red-600 font-semibold'>*</span>
                           </div>
                           <input
-                            type="number"
-                            min="1900"
-                            max="2099"
-                            step="1"
-                            name="to"
-                            id="to"
-                            placeholder="2023"
+                            type='number'
+                            min='1900'
+                            max='2099'
+                            step='1'
+                            name='to'
+                            id='to'
+                            placeholder='2023'
                             required
                             value={batch.to}
                             onChange={(e) => setBatch({ ...batch, to: e.target.value })}
-                            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                           />
                         </div>
                       </div>
@@ -328,124 +344,63 @@ const Details = ({ colleges, user }) => {
                   )}
 
                   {category === "student" && (
-                    <div className="col-span-6 sm:col-span-4 mt-4">
-                      <div className="flex">
+                    <div className='col-span-6 sm:col-span-4 mt-4'>
+                      <div className='flex'>
                         <label
-                          htmlFor="rollnumber"
-                          className="block text-sm font-medium text-gray-700"
+                          htmlFor='rollnumber'
+                          className='block text-sm font-medium text-gray-700'
                         >
                           Roll Number
                         </label>
-                        <span className="ml-1 text-red-600 font-semibold">*</span>
+                        <span className='ml-1 text-red-600 font-semibold'>*</span>
                       </div>
 
                       <input
-                        type="text"
-                        name="rollnumber"
-                        id="rollnumber"
-                        autoComplete="roll-number"
+                        type='text'
+                        name='rollnumber'
+                        id='rollnumber'
+                        autoComplete='roll-number'
                         required
                         value={rollNumber}
                         onChange={(e) => setRollNumber(e.target.value)}
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
 
-                      <Listbox value={branch} onChange={setBranch}>
-                        {({ open }) => (
-                          <>
-                            <div className="flex">
-                              <Listbox.Label className="mt-4 mb-2 block text-sm font-medium text-gray-700">
-                                Branch
-                              </Listbox.Label>
-                              <span className="relative top-4 ml-1 text-red-600 font-semibold">
-                                *
-                              </span>
-                            </div>
-                            <div className="relative">
-                              <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                                <span className="block truncate">{branch.name}</span>
-                                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"></span>
-                              </Listbox.Button>
-
-                              <Transition
-                                show={open}
-                                as={Fragment}
-                                leave="transition ease-in duration-100"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                              >
-                                <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                                  {branches.map((branch) => (
-                                    <Listbox.Option
-                                      key={branch.code}
-                                      className={({ active }) =>
-                                        classNames(
-                                          active ? "text-white bg-orange-600" : "text-gray-900",
-                                          "cursor-default select-none relative py-2 pl-8 pr-4"
-                                        )
-                                      }
-                                      value={branch}
-                                    >
-                                      {({ selected, active }) => (
-                                        <>
-                                          <span
-                                            className={classNames(
-                                              selected ? "font-semibold" : "font-normal",
-                                              "block truncate"
-                                            )}
-                                          >
-                                            {branch.name}
-                                          </span>
-
-                                          {selected ? (
-                                            <span
-                                              className={classNames(
-                                                active ? "text-white" : "text-orange-600",
-                                                "absolute inset-y-0 left-0 flex items-center pl-1.5"
-                                              )}
-                                            >
-                                              <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                            </span>
-                                          ) : null}
-                                        </>
-                                      )}
-                                    </Listbox.Option>
-                                  ))}
-                                </Listbox.Options>
-                              </Transition>
-                            </div>
-                          </>
-                        )}
-                      </Listbox>
+                      <DropDown
+                        title={"Branch"}
+                        options={branches}
+                        selectedOption={selectedBranch}
+                        setSelectedOption={setSelectedBranch}
+                      />
                     </div>
                   )}
 
                   {colleges && (
-                    <div className="relative">
-                      <div className="flex">
-                        <label className="mt-4 mb-2 block text-sm font-medium text-gray-700">
+                    <div className='relative'>
+                      <div className='flex'>
+                        <label className='mt-4 mb-2 block text-sm font-medium text-gray-700'>
                           College
                         </label>
-                        <span className="relative top-4 ml-1 text-red-600 font-semibold">*</span>
+                        <span className='relative top-4 ml-1 text-red-600 font-semibold'>*</span>
                       </div>
-                      <div className="relative">
+                      <div className='relative'>
                         <input
-                          type="text"
+                          type='text'
                           required
                           value={collegeSearchValue}
                           onChange={(e) => {
                             setDropDownState(false);
                             setCollegeSearchValue(e.target.value);
                           }}
-                          className="w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                          className='w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                         />
                       </div>
                       {showDropDown && collegeList.length > 0 && (
-                        <ul className="w-full absolute -bottom-1 left-0 translate-y-full overflow-y-scroll max-h-40 rounded border-1 border-gray-400 bg-white shadow-md">
+                        <ul className='w-full absolute -bottom-1 left-0 translate-y-full overflow-y-scroll max-h-40 rounded border-1 border-gray-400 bg-white shadow-md'>
                           {collegeList.map((college) => (
                             <li
                               key={college._id}
-                              className="px-2 py-3 hover:bg-orange-600 hover:text-white border-b-gray-50 cursor-pointer"
+                              className='px-2 py-3 hover:bg-orange-600 hover:text-white border-b-gray-50 cursor-pointer'
                               onClick={() => {
                                 setCollegeSearchValue(college.collegeName);
                                 setShowDropDown(false);
@@ -462,130 +417,130 @@ const Details = ({ colleges, user }) => {
                     </div>
                   )}
 
-                  <div className="col-span-6 sm:col-span-4 mt-4">
-                    <div className="flex">
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <div className='col-span-6 sm:col-span-4 mt-4'>
+                    <div className='flex'>
+                      <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
                         {category === "student" && category === "individual"
                           ? "Email address"
                           : "Placement Email address"}
                       </label>
-                      <span className="ml-1 text-red-600 font-semibold">*</span>
+                      <span className='ml-1 text-red-600 font-semibold'>*</span>
                     </div>
 
                     <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      autoComplete="email"
+                      type='email'
+                      name='email'
+                      id='email'
+                      autoComplete='email'
                       required
                       value={placement.email}
                       onChange={(e) => {
                         if (category === "college")
                           setPlacement({ ...placement, email: e.target.value });
                       }}
-                      className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
 
-                  <div className="col-span-6 sm:col-span-4 mt-4">
-                    <div className="flex">
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                  <div className='col-span-6 sm:col-span-4 mt-4'>
+                    <div className='flex'>
+                      <label htmlFor='phone' className='block text-sm font-medium text-gray-700'>
                         {category === "student" && category === "individual"
                           ? "Phone Number"
                           : "Placement Phone Number"}
                       </label>
-                      <span className="ml-1 text-red-600 font-semibold">*</span>
+                      <span className='ml-1 text-red-600 font-semibold'>*</span>
                     </div>
 
                     <input
-                      type="tel"
-                      name="phone"
-                      id="phone"
-                      autoComplete="tel"
+                      type='tel'
+                      name='phone'
+                      id='phone'
+                      autoComplete='tel'
                       required
-                      pattern="[6789][0-9]{9}"
+                      pattern='[6789][0-9]{9}'
                       value={placement.phone}
                       onChange={(e) => {
                         if (category === "college")
                           setPlacement({ ...placement, phone: e.target.value });
                       }}
-                      className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
                   {category === "college" && (
                     <>
-                      <div className="col-span-6 sm:col-span-4 mt-4">
-                        <div className="flex">
+                      <div className='col-span-6 sm:col-span-4 mt-4'>
+                        <div className='flex'>
                           <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-700"
+                            htmlFor='email'
+                            className='block text-sm font-medium text-gray-700'
                           >
                             Principal Email address
                           </label>
-                          <span className="ml-1 text-red-600 font-semibold">*</span>
+                          <span className='ml-1 text-red-600 font-semibold'>*</span>
                         </div>
 
                         <input
-                          type="email"
-                          name="email"
-                          id="email"
-                          autoComplete="email"
+                          type='email'
+                          name='email'
+                          id='email'
+                          autoComplete='email'
                           required
                           value={principal.email}
                           onChange={(e) => setPrincipal({ ...principal, email: e.target.value })}
-                          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
-                      <div className="col-span-6 sm:col-span-4 mt-4">
-                        <div className="flex">
+                      <div className='col-span-6 sm:col-span-4 mt-4'>
+                        <div className='flex'>
                           <label
-                            htmlFor="phone"
-                            className="block text-sm font-medium text-gray-700"
+                            htmlFor='phone'
+                            className='block text-sm font-medium text-gray-700'
                           >
                             Principal Phone Number
                           </label>
-                          <span className="ml-1 text-red-600 font-semibold">*</span>
+                          <span className='ml-1 text-red-600 font-semibold'>*</span>
                         </div>
 
                         <input
-                          type="tel"
-                          name="phone"
-                          id="phone"
-                          autoComplete="tel"
+                          type='tel'
+                          name='phone'
+                          id='phone'
+                          autoComplete='tel'
                           required
                           value={principal.phone}
-                          pattern="[6789][0-9]{9}"
+                          pattern='[6789][0-9]{9}'
                           onChange={(e) => setPrincipal({ ...principal, phone: e.target.value })}
-                          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
-                      <div className="col-span-6 sm:col-span-4 mt-4">
-                        <div className="flex">
+                      <div className='col-span-6 sm:col-span-4 mt-4'>
+                        <div className='flex'>
                           <label
-                            htmlFor="website"
-                            className="block text-sm font-medium text-gray-700"
+                            htmlFor='website'
+                            className='block text-sm font-medium text-gray-700'
                           >
                             College Website
                           </label>
-                          <span className="ml-1 text-red-600 font-semibold">*</span>
+                          <span className='ml-1 text-red-600 font-semibold'>*</span>
                         </div>
 
                         <input
-                          type="text"
-                          name="website"
-                          id="website"
+                          type='text'
+                          name='website'
+                          id='website'
                           required
                           value={college.website}
                           onChange={(e) => setCollege({ ...college, webiste: e.target.value })}
-                          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </>
                   )}
-                  <div className="mt-4">
-                    <button className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 ">
+                  <div className='mt-4'>
+                    <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 '>
                       Submit
                     </button>
                   </div>
