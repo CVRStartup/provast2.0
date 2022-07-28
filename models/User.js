@@ -9,10 +9,12 @@ const userSchema = new mongoose.Schema(
       firstName: {
         type: String,
         trim: true,
+        verified: Boolean,
       },
       lastName: {
         type: String,
         trim: true,
+        verified: Boolean,
       },
       image: {
         type: String,
@@ -21,9 +23,11 @@ const userSchema = new mongoose.Schema(
       },
       dob: {
         type: Date,
+        verified: Boolean,
       },
       gender: {
         type: String,
+        verified: Boolean,
       },
       parents: {
         father: {
@@ -38,6 +42,7 @@ const userSchema = new mongoose.Schema(
           phone: String,
           occupation: String,
         },
+        verified: Boolean,
       },
     },
     contact: {
@@ -51,15 +56,19 @@ const userSchema = new mongoose.Schema(
         state: {
           type: String,
         },
+        verified: Boolean,
       },
       phone: {
         type: Number,
+        verified: Boolean,
       },
       website: {
         type: String,
+        verified: Boolean,
       },
       linkedin: {
         type: String,
+        verified: Boolean,
       },
     },
     education: {
@@ -70,6 +79,7 @@ const userSchema = new mongoose.Schema(
         grade: Number,
         from: Date,
         to: Date,
+        verified: Boolean,
       },
       inter: {
         name: String,
@@ -79,34 +89,26 @@ const userSchema = new mongoose.Schema(
         grade: Number,
         from: Date,
         to: Date,
+        verified: Boolean,
       },
-      diploma: {
-        name: String,
-        board: String,
-        branch: String,
-        typeOfGrade: String,
-        grade: Number,
-        from: Date,
-        to: Date,
-      },
-      graduate: {
-        name: String,
-        program: String,
-        branch: String,
-        typeOfGrade: String,
-        grade: Number,
-        from: Date,
-        to: Date,
-      },
-      postgraduate: {
-        name: String,
-        program: String,
-        branch: String,
-        typeOfGrade: String,
-        grade: Number,
-        from: Date,
-        to: Date,
-      },
+      higherEducation: [
+        {
+          program: String,
+          branch: String,
+          typeOfGrade: String,
+          grade: Number,
+          from: Date,
+          to: Date,
+          college: {
+            name: {
+              type: String,
+              uppercase: true,
+            },
+            code: String,
+          },
+          verified: Boolean,
+        },
+      ],
     },
     approved: {
       type: Boolean,
@@ -119,16 +121,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       uppercase: true,
-    },
-    college: {
-      name: {
-        type: String,
-        uppercase: true,
-      },
-      code: {
-        type: String,
-        uppercase: true,
-      },
+      verified: Boolean,
     },
     principal: {
       email: {
