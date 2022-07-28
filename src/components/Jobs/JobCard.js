@@ -1,14 +1,14 @@
 import moment from "moment";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { BiRupee } from "react-icons/bi";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { formatCurrency } from "../../lib/helper";
+import { useUser } from "../../lib/hooks";
 
 export const JobCard = ({ job }) => {
-  const { data: session } = useSession();
+  const user = useUser();
   const getDesignations = (designations) => {
     var res = "",
       n = designations.roles.length;
@@ -20,7 +20,7 @@ export const JobCard = ({ job }) => {
   return (
     <Link
       href={
-        session?.userDetails?.category === "college"
+        user?.category === "college"
           ? `/dashboard/college/jobs/${job._id}`
           : `/dashboard/student/jobs/${job._id}`
       }
