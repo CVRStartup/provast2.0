@@ -804,6 +804,7 @@ const JobAdd = ({ job, user }) => {
   );
 };
 export const getServerSideProps = async ({ req, res, query }) => {
+  res.setHeader("Cache-Control", "public, s-maxage=10, stale-while-revalidate=59");
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
   if (!user) {
