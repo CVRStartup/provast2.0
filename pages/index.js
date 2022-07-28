@@ -59,10 +59,10 @@ export const getServerSideProps = async function ({ req, res }) {
       },
     };
   }
-  if (!user.academicsAvailable) {
+  if (user.category === "student" && !user.academicsAvailable) {
     return {
       redirect: {
-        destination: "/auth/user/details",
+        destination: "/auth/user/academics",
         permanent: false,
       },
     };

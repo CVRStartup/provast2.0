@@ -554,12 +554,20 @@ export const getServerSideProps = async function ({ req, res }) {
     };
   }
   if (user?.detailsAvailable) {
-    return {
-      redirect: {
-        destination: "/auth/user/academics",
-        permanent: false,
-      },
-    };
+    if (user.category === "student")
+      return {
+        redirect: {
+          destination: "/auth/user/academics",
+          permanent: false,
+        },
+      };
+    else
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
   }
   const {
     data: { colleges },
