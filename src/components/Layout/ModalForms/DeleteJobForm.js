@@ -1,10 +1,10 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useModelContext } from "../../context/ModelContext";
+import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useModelContext } from "../../../context/ModalContext";
 
-export const DeleteForm = () => {
+export const DeleteJobForm = () => {
   const { closeModal, deleteName } = useModelContext();
   const [jobName, setJobName] = useState("");
   const router = useRouter();
