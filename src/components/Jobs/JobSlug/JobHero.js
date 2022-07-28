@@ -1,34 +1,34 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import moment from "moment";
+import axios from "axios";
+import Link from "next/link";
+import { toast } from "react-toastify";
+import { dateInPast } from "../../../lib/helper";
+import { useRouter } from "next/router";
+import { useModelContext } from "../../../context/ModalContext";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-import { dateInPast } from "../../../../src/lib/helper";
-import moment from "moment";
-import { useSession } from "next-auth/react";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { useModelContext } from "../../../context/ModelContext";
-import { Loading } from "../../Layouts/Loading";
+import { useUser } from "../../../lib/hooks";
+import { Loading } from "../../Reusables/Loading";
 
 export const JobHero = ({ job, setJob = "" }) => {
-  const { data: session } = useSession();
+  const user = useUser();
   const { setIsOpen, setForm, setModalJob, loading, setLoading, setDeleteName } = useModelContext();
   const [showOptions, setShowOptions] = useState(false);
   const router = useRouter();
   useEffect(() => {
     if (!job) return;
     const res = job?.eligible?.filter((x) => {
-      return x?.rollnumber === session?.userDetails?.rollNumber;
+      return x?.rollnumber === user?.rollNumber;
     })[0];
     setShowOptions(
-      !session ||
+      !user ||
         res?.status?.applied === null ||
         ((job.typeOfPost === "Off-Campus" || job.typeOfPost === "On-Campus") && !res?.status)
     );
     // setShowOptions(true);
-  }, [job, session]);
+  }, [job, user]);
 
   const getDesignations = (designations) => {
     var res = "",
@@ -40,15 +40,15 @@ export const JobHero = ({ job, setJob = "" }) => {
   };
 
   const handleClick = async (op, roles) => {
-    if (!session) {
-      router.push("/auth/signin");
+    if (!user) {
+      router.push("/auth/login");
       return;
     }
     setLoading(true);
     if (job.typeOfPost === "Shortlisted Students") {
       let newstatus = [];
       job.eligible.forEach((x) => {
-        if (x && x.rollnumber === session?.userDetails?.rollNumber)
+        if (x && x.rollnumber === user?.rollNumber)
           newstatus.push({
             ...x,
             status: {
@@ -59,7 +59,7 @@ export const JobHero = ({ job, setJob = "" }) => {
           });
       });
       const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${session?.userDetails?.rollNumber}`,
+        `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${user?.rollNumber}`,
         {
           newstatus: newstatus[0],
         }
@@ -76,11 +76,11 @@ export const JobHero = ({ job, setJob = "" }) => {
     } else {
       let newstate = [...job.eligible];
       newstate.push({
-        name: session?.userDetails?.firstName + " " + session?.userDetails?.lastName,
-        branch: session?.userDetails?.branch.code,
-        rollnumber: session?.userDetails?.rollNumber,
-        email: session?.userDetails?.emailList[0],
-        phone: session?.userDetails?.phone?.toString(),
+        name: user?.profile?.firstName + " " + user?.profile?.lastName,
+        branch: user?.branch?.code,
+        rollnumber: user?.rollNumber,
+        email: user?.email,
+        phone: user?.contact?.phone?.toString(),
         status: {
           applied: op === "Apply",
           roles: roles,
@@ -129,30 +129,26 @@ export const JobHero = ({ job, setJob = "" }) => {
             {job?.company}{" "}
             {job.eligible.filter((x, index) => {
               // if (!x) console.log(x + index);
-              return x?.rollnumber === session?.userDetails?.rollNumber;
+              return x?.rollnumber === user?.rollNumber;
             }).length > 0 && (
               <div className='text-lg font-bold text-gray-600 inline-flex items-center'>
                 <span className='mr-1'>
-                  {job?.eligible?.filter(
-                    (x) => x?.rollnumber === session?.userDetails?.rollNumber
-                  )[0]?.status?.applied === false
+                  {job?.eligible?.filter((x) => x?.rollnumber === user?.rollNumber)[0]?.status
+                    ?.applied === false
                     ? "(Not Interested"
-                    : job?.eligible?.filter(
-                        (x) => x?.rollnumber === session?.userDetails?.rollNumber
-                      )[0]?.status?.applied === null
+                    : job?.eligible?.filter((x) => x?.rollnumber === user?.rollNumber)[0]?.status
+                        ?.applied === null
                     ? ""
                     : "(Applied"}
                 </span>
                 <span>
-                  {job?.eligible?.filter(
-                    (x) => x?.rollnumber === session?.userDetails?.rollNumber
-                  )[0]?.status?.applied === false ? (
+                  {job?.eligible?.filter((x) => x?.rollnumber === user?.rollNumber)[0]?.status
+                    ?.applied === false ? (
                     <span className='flex items-center'>
                       <MdCancel size={28} color={"red"} /> )
                     </span>
-                  ) : job?.eligible?.filter(
-                      (x) => x?.rollnumber === session?.userDetails?.rollNumber
-                    )[0]?.status?.applied === null ? (
+                  ) : job?.eligible?.filter((x) => x?.rollnumber === user?.rollNumber)[0]?.status
+                      ?.applied === null ? (
                     ""
                   ) : (
                     <span className='flex items-center'>
@@ -175,33 +171,31 @@ export const JobHero = ({ job, setJob = "" }) => {
         </div>
       </div>
       <div className='mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3'>
-        {session?.userDetails?.category === "student" &&
-          showOptions &&
-          dateInPast(new Date(job.to)) && (
-            <div className='mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3'>
-              <button
-                onClick={() => {
-                  if (job?.designation?.roles?.length === 1)
-                    handleClick("Apply", job?.designation?.roles);
-                  else {
-                    setIsOpen(true);
-                    setForm("ApplyJobForm");
-                    setModalJob(job);
-                  }
-                }}
-                className={`inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700`}
-              >
-                Apply Job
-              </button>
-              <button
-                onClick={() => handleClick("Not Intrested", [])}
-                className={` inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700`}
-              >
-                Not Interested
-              </button>
-            </div>
-          )}
-        {session?.userDetails?.category === "college" && (
+        {user?.category === "student" && showOptions && dateInPast(new Date(job.to)) && (
+          <div className='mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3'>
+            <button
+              onClick={() => {
+                if (job?.designation?.roles?.length === 1)
+                  handleClick("Apply", job?.designation?.roles);
+                else {
+                  setIsOpen(true);
+                  setForm("ApplyJobForm");
+                  setModalJob(job);
+                }
+              }}
+              className={`inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700`}
+            >
+              Apply Job
+            </button>
+            <button
+              onClick={() => handleClick("Not Intrested", [])}
+              className={` inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700`}
+            >
+              Not Interested
+            </button>
+          </div>
+        )}
+        {user?.category === "college" && (
           <div className='mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3'>
             <Link href={`/dashboard/college/jobs/${job._id}/edit`}>
               <a
