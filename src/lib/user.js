@@ -28,9 +28,13 @@ export async function createUser({ username, password }) {
 // Here you should lookup for the user in your DB
 export async function findUser({ email }) {
   // This is an in memory store for users, there is no data persistence without a proper DB
-  await connectDB();
-  const data = await User.findOne({ email });
-  return data;
+  try {
+    await connectDB();
+    const data = await User.findOne({ email });
+    return data;
+  } catch (e) {
+    return null;
+  }
 }
 
 // Compare the password of an already fetched user (using `findUser`) and compare the

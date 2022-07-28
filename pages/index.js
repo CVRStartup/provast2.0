@@ -3,6 +3,7 @@ import Layout from "../src/components/layout";
 import Iron from "@hapi/iron";
 import axios from "axios";
 import { getLoginSession } from "../src/lib/auth";
+import { findUser } from "../src/lib/user";
 const Home = ({ user }) => {
   return (
     <Layout>
@@ -41,7 +42,7 @@ const Home = ({ user }) => {
 
 export const getServerSideProps = async function ({ req, res }) {
   const session = await getLoginSession(req);
-  const user = session?._doc;
+  const user = (session?._doc && (await findUser(session._doc))) ?? null;
   if (!user) {
     return {
       redirect: {
@@ -58,8 +59,16 @@ export const getServerSideProps = async function ({ req, res }) {
       },
     };
   }
+  if (!user.academicsAvailable) {
+    return {
+      redirect: {
+        destination: "/auth/user/details",
+        permanent: false,
+      },
+    };
+  }
   return {
-    props: { user },
+    props: {},
   };
 };
 
