@@ -93,7 +93,7 @@ const AdminIndex = () => {
                       key={college._id}
                       className={collegeIdx % 2 === 0 ? undefined : "bg-gray-50"}
                     >
-                      <Link href={`/dashboard/admin/colleges/${college._id}`}>
+                      <Link href={`/dashboard/admin/colleges/${college.college.code}`}>
                         <td className='hover:underline hover:cursor-pointer whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'>
                           {college._id}
                         </td>

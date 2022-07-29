@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
+import { useCollege } from "../../../../../src/hooks/useCollege";
 
-const Index = () => {
+const Index = ({ id }) => {
+  const { college, isError, isLoading } = useCollege(id);
   const [excelFileError, setExcelFileError] = useState(null);
   const [students, setStudents] = useState([]);
   const fileType = [
@@ -23,15 +25,55 @@ const Index = () => {
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
               return {
-                firstName: x["First Name"] ? x["First Name"] : "N/A",
-                lastName: x["Last Name"] ? x["Last Name"] : "N/A",
-                branch: x["Branch"] ? x["Branch"] : "N/A",
-                rollnumber: x["Roll Number"] ? x["Roll Number"] : "N/A",
-                email: x["Email"] ? x["Email"] : "N/A",
-                phone: x["Phone"] ? x["Phone"] : "N/A",
-                batchFrom: x["Batch From"] ? x["Batch From"] : "N/A",
-                batchTo: x["Batch To"] ? x["Batch To"] : "N/A",
-                password: "Provast@2022",
+                email: x["Email Id"] ? x["Email Id"] : null,
+                hash: "Password",
+                salt: "salt",
+                detailsAvailable: true,
+                academicsAvailable: false,
+                profile: {
+                  firstName: x["First Name"] ? x["First Name"] : null,
+                  lastName: x["Last Name"] ? x["Last Name"] : null,
+                  dob: x["Date of Birth"] ? x["Date of Birth"] : null,
+                  gender: x["Gender"] ? x["Gender"] : null,
+                },
+                contact: {
+                  parents: {
+                    father: {
+                      name: x["Father's/Guardian's Name"] ? x["Father's/Guardian's Name"] : null,
+                      email: x["Father's/Guardian's email ID"]
+                        ? x["Father's/Guardian's email ID"]
+                        : null,
+                      phone: x["Father's/Guardian's Contact Number"]
+                        ? x["Father's/Guardian's Contact Number"]
+                        : null,
+                      occupation: x["Father's/Guardian's Occupation"]
+                        ? x["Father's/Guardian's Occupation"]
+                        : null,
+                    },
+                    mother: {
+                      name: x["Mother's Name"] ? x["Mother's Name"] : null,
+                      email: x["Mother's email ID"] ? x["Mother's email ID"] : null,
+                      phone: x["Mother's Contact Number"] ? x["Mother's Contact Number"] : null,
+                      occupation: x["Mother's Occupation"] ? x["Mother's Occupation"] : null,
+                    },
+                  },
+                  address: {
+                    city: x["Permanent Address - City"] ? x["Permanent Address - City"] : null,
+                    country: x["Permanent Address - Country"]
+                      ? x["Permanent Address - Country"]
+                      : "India",
+                    state: x["Permanent Address - State"] ? x["Permanent Address - State"] : null,
+                  },
+                  email: x["Personal Email Address"] ? x["Personal Email Address"] : null,
+                  phone: x["Phone Number"] ? x["Phone Number"] : null,
+                },
+                approved: false,
+                category: "student",
+                rollnumber: x["Roll No"] ? x["Roll No"] : null,
+                college: {
+                  name: college.collegeName,
+                  code: college._id,
+                },
               };
             });
             setStudents(res);
@@ -70,6 +112,14 @@ const Index = () => {
       <button>Create</button>
     </div>
   );
+};
+
+export const getServerSideProps = async ({ req, res, query }) => {
+  return {
+    props: {
+      id: query.id,
+    },
+  };
 };
 
 export default Index;

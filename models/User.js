@@ -107,7 +107,6 @@ const userSchema = new mongoose.Schema(
       },
       code: {
         type: String,
-        uppercase: true,
       },
       passphrase: {
         type: String,
