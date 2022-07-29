@@ -4,22 +4,23 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { useModelContext } from "../../../context/ModalContext";
 import { Loading } from "../../Reusables/Loading";
+import { useUser } from "../../../lib/hooks";
 
 export const ApplyJobForm = () => {
+  const user = useUser();
   const { closeModal, modalJob, loading, setLoading } = useModelContext();
   const [checkedRoles, setCheckRoles] = useState([]);
-  const { data: session } = useSession();
   const router = useRouter();
   const handleClick = async (op, roles) => {
-    if (!session) {
-      router.push("/auth/signin");
+    if (!user) {
+      router.push("/auth/login");
       return;
     }
     setLoading(true);
     if (modalJob.typeOfPost === "Shortlisted Students") {
       let newstatus = [];
       modalJob.eligible.forEach((x) => {
-        if (x && x.rollnumber === session?.userDetails?.rollNumber)
+        if (x && x.rollnumber === user?.rollNumber)
           newstatus.push({
             ...x,
             status: {
@@ -30,7 +31,7 @@ export const ApplyJobForm = () => {
           });
       });
       const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${modalJob._id}&roll=${session?.userDetails?.rollNumber}`,
+        `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${modalJob._id}&roll=${user?.rollNumber}`,
         {
           newstatus: newstatus[0],
         }
@@ -47,11 +48,11 @@ export const ApplyJobForm = () => {
     } else {
       let newstate = [...modalJob.eligible];
       newstate.push({
-        name: session?.userDetails?.firstName + " " + session?.userDetails?.lastName,
+        name: user?.profile?.firstName + " " + user?.profile?.lastName,
         branch: session?.userDetails?.branch.code,
-        rollnumber: session?.userDetails?.rollNumber,
-        email: session?.userDetails?.emailList[0],
-        phone: session?.userDetails?.phone?.toString(),
+        rollnumber: user?.rollNumber,
+        email: user?.contact?.email,
+        phone: user?.contact?.phone?.toString(),
         status: {
           applied: op === "Apply",
           roles: roles,
