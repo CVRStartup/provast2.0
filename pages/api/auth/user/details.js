@@ -6,9 +6,9 @@ export default async function handler(req, res) {
     case "GET":
       await searchUserDetails(req, res);
       break;
-    // case "POST":
-    //   await createUserDetails(req, res);
-    //   break;
+    case "POST":
+      await createUserDetails(req, res);
+      break;
     case "PUT":
       await updateUserDetails(req, res);
       break;
@@ -29,6 +29,29 @@ const searchUserDetails = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+const createUserDetails = async (req, res) => {
+  try {
+    await connectDB();
+
+    const oldEntry = await User.find({ email: req.body.email });
+
+    if (oldEntry) {
+      return res.status(500).end({ message: "User Already Exists", details });
+    }
+
+    const details = new User(req.body);
+    await details.save();
+
+    if (details) {
+      return res.status(200).json({ message: "User Created", details });
+    } else {
+      return res.status(200).json({ message: "Please try again.", details: undefined });
+    }
+  } catch (error) {
+    return res.status(500).end({ message: error.message });
   }
 };
 
