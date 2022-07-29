@@ -18,6 +18,7 @@ import {
   Percentages,
   CGPAs,
   typeOfPlacedStatus,
+  handleFile,
 } from "../../../../src/lib/helper";
 import { DropDown } from "../../../../src/components/Reusables/Dropdown";
 import { CheckBox } from "../../../../src/components/Reusables/CheckBox";
@@ -81,49 +82,6 @@ const JobAdd = ({ user }) => {
   }, [selectedBtechTypeOfGrade]);
 
   const [excelFileError, setExcelFileError] = useState(null);
-  const fileType = [
-    "application/vnd.ms-excel",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  ];
-  const handleFile = (e) => {
-    let selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (selectedFile && fileType.includes(selectedFile.type)) {
-        let reader = new FileReader();
-        reader.readAsArrayBuffer(selectedFile);
-        reader.onload = (e) => {
-          setExcelFileError(null);
-          if (e.target.result !== null) {
-            const workbook = XLSX.read(e.target.result, { type: "buffer" });
-            const worksheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[worksheetName];
-            const data = XLSX.utils.sheet_to_json(worksheet);
-            const res = data.map((x) => {
-              return {
-                name: x["Name"] ? x["Name"] : "N/A",
-                branch: x["Branch"] ? x["Branch"] : "N/A",
-                rollnumber: x["Roll Number"] ? x["Roll Number"] : "N/A",
-                email: x["Email"] ? x["Email"] : "N/A",
-                phone: x["Phone"] ? x["Phone"] : "N/A",
-                status: {
-                  applied: null,
-                  roles: [],
-                },
-              };
-            });
-            setEligible(res);
-          } else {
-            setEligible([]);
-          }
-        };
-      } else {
-        setExcelFileError("Please select only excel file types");
-        setExcelFile(null);
-      }
-    } else {
-      console.log("please select your file");
-    }
-  };
 
   const handleCallBack = (data) => {
     setDescription(data);
@@ -738,7 +696,7 @@ const JobAdd = ({ user }) => {
                     type="file"
                     name="image"
                     id="profileImg"
-                    onChange={handleFile}
+                    onChange={(e) => handleFile(e, setEligible, setExcelFileError)}
                   />
                   {excelFileError &&
                     toast.error(excelFileError, {
