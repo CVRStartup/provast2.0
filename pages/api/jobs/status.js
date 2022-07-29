@@ -13,13 +13,22 @@ const updateJob = async (req, res) => {
   try {
     await connectDB();
     let job = await Jobs.findById(req.query.id);
+    if (!job) {
+      throw new Error("Job not found!");
+    }
     let neweligible = [];
-    job?.eligible?.forEach((x) => {
-      if (x) {
-        if (x.rollnumber !== req.query.roll) neweligible.push(x);
-        else if (req.body.newstatus) neweligible.push(req.body.newstatus);
-      }
-    });
+    if (job.typeOfPost === "Shortlisted Students") {
+      job?.eligible?.forEach((x) => {
+        if (x) {
+          if (x.rollnumber !== req.query.roll) neweligible.push(x);
+          else if (req.body.newstatus) neweligible.push(req.body.newstatus);
+        }
+      });
+    } else {
+      neweligible = job?.eligible;
+      neweligible.push(req.body.newstatus);
+    }
+
     job.eligible = neweligible;
     const updated = await Jobs.findByIdAndUpdate(req.query.id, job, { new: true });
     if (updated) {

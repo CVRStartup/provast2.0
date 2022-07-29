@@ -7,14 +7,14 @@ import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
 
 const StudentJobSlug = ({ id }) => {
-  const { job, isLoading } = useJob(id);
+  const { job } = useJob(id);
 
   if (!job) return <Loading />;
 
   return (
-    <div className='min-h-full bg-gray-100 mt-[10vh]'>
+    <div className="min-h-full bg-gray-100 mt-[10vh]">
       <JobHeader />
-      <main className='py-10'>
+      <main className="py-10">
         <JobHero job={job} />
         <JobInfo job={job} />
       </main>

@@ -9,8 +9,57 @@ import { SiCss3 } from "react-icons/si";
 import { SiAdobe } from "react-icons/si";
 import { FaFigma } from "react-icons/fa";
 import { AiOutlineStar } from "react-icons/ai";
+import { toast } from "react-toastify";
+import axios from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
+
+export const handleJobResponse = async (job, user, op, roles) => {
+  if (!user) return;
+  let data = null;
+  if (job.typeOfPost === "Shortlisted Students") {
+    let newstatus = job.eligible.filter((x) => x.rollnumber === user?.rollNumber)[0];
+    if (!newstatus) return;
+    data = await axios.put(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${user?.rollNumber}`,
+      {
+        newstatus: {
+          ...newstatus,
+          status: {
+            applied: op === "Apply",
+            roles: roles,
+            updatedAt: new Date(),
+          },
+        },
+      }
+    );
+  } else {
+    data = await axios.put(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${user?.rollNumber}`,
+      {
+        newstatus: {
+          name: user?.profile?.firstName + " " + user?.profile?.lastName,
+          branch: user?.branch?.code,
+          rollnumber: user?.rollNumber,
+          email: user?.email,
+          phone: user?.contact?.phone?.toString(),
+          status: {
+            applied: op === "Apply",
+            roles: roles,
+            updatedAt: new Date(),
+          },
+        },
+      }
+    );
+  }
+  if (data.data.message == "Job Updated") {
+    toast.success(op === "Apply" ? "Job Applied" : "Captured response", {
+      toastId: "Job Updated",
+    });
+  } else {
+    toast.error(data.data.message, { toastId: data.data.message });
+  }
+};
 
 const fileType = [
   "application/vnd.ms-excel",
