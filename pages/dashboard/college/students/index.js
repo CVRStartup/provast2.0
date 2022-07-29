@@ -5,30 +5,36 @@ import { Dialog, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { FilterIcon, SearchIcon } from "@heroicons/react/solid";
 // import { DownloadResumes } from "../../../src/components/College/DownloadResume";
-// import { StudentProfile } from "../../../src/components/College/StudentProfile";
 // import { EmptyState } from "../../../src/components/Layouts/EmptyState";
 import { useDownloadResumeFilterContext } from "../../../../src/context/DownloadResumeFilterContext";
 import { useModelContext } from "../../../../src/context/ModalContext";
+import { getLoginSession } from "../../../../src/lib/auth";
+import { findUser } from "../../../../src/lib/user";
+import { useStudents } from "../../../../src/hooks/useStudents";
+import { StudentProfile } from "../../../../src/components/Resumes/StudentProfile";
 
-const Students = ({ studentsDetails, jobs }) => {
+const Students = ({ user }) => {
+  const { students } = useStudents(user);
   const { setIsOpen, setForm } = useModelContext();
   const { downloadOpen, setDownloadOpen, setFilter } = useDownloadResumeFilterContext();
-  const [students, setStudents] = useState(studentsDetails);
-  const [profile, setProfile] = useState(studentsDetails[0]);
+  const [profile, setProfile] = useState(null);
   const [directory, setDirectory] = useState({});
   const [keyword, setKeyword] = useState("");
-  const [filteredStudents, setFilteredStudents] = useState(studentsDetails);
+  const [filteredStudents, setFilteredStudents] = useState(students);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
+    if (!students) return;
+    setProfile(students[0]);
     const newstate = {};
     students.forEach((student) => {
-      const key = student.firstName[0].toUpperCase();
+      const key = student.profile.firstName[0].toUpperCase();
       if (!newstate[key]) newstate[key] = [];
       newstate[key].push(student);
     });
     setDirectory(newstate);
   }, [students]);
   useEffect(() => {
+    if (!students) return;
     const keywords = keyword.split(",").map((x) => x.toUpperCase());
     const newstate = students.filter((x) => {
       for (let i = 0; i < keywords.length; i++) {
@@ -56,85 +62,85 @@ const Students = ({ studentsDetails, jobs }) => {
   return (
     <>
       {students && profile ? (
-        <div className='relative h-screen flex'>
+        <div className="relative h-screen flex mt-[10vh]">
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog
-              as='div'
-              className='w-96 fixed inset-0 flex z-40 lg:hidden'
+              as="div"
+              className="w-96 fixed inset-0 flex z-40 lg:hidden"
               onClose={setSidebarOpen}
             >
               <Transition.Child
                 as={Fragment}
-                enter='transition-opacity ease-linear duration-300'
-                enterFrom='opacity-0'
-                enterTo='opacity-100'
-                leave='transition-opacity ease-linear duration-300'
-                leaveFrom='opacity-100'
-                leaveTo='opacity-0'
+                enter="transition-opacity ease-linear duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity ease-linear duration-300"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
               >
-                <Dialog.Overlay className='fixed inset-0 bg-gray-600 bg-opacity-75' />
+                <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
               </Transition.Child>
               <Transition.Child
                 as={Fragment}
-                enter='transition ease-in-out duration-300 transform'
-                enterFrom='-translate-x-full'
-                enterTo='translate-x-0'
-                leave='transition ease-in-out duration-300 transform'
-                leaveFrom='translate-x-0'
-                leaveTo='-translate-x-full'
+                enter="transition ease-in-out duration-300 transform"
+                enterFrom="-translate-x-full"
+                enterTo="translate-x-0"
+                leave="transition ease-in-out duration-300 transform"
+                leaveFrom="translate-x-0"
+                leaveTo="-translate-x-full"
               >
-                <div className='relative flex-1 flex flex-col max-w-96 w-full bg-white focus:outline-none'>
+                <div className="relative flex-1 flex flex-col max-w-96 w-full bg-white focus:outline-none">
                   <Transition.Child
                     as={Fragment}
-                    enter='ease-in-out duration-300'
-                    enterFrom='opacity-0'
-                    enterTo='opacity-100'
-                    leave='ease-in-out duration-300'
-                    leaveFrom='opacity-100'
-                    leaveTo='opacity-0'
+                    enter="ease-in-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in-out duration-300"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
                   >
-                    <div className='absolute top-0 right-0 -mr-12 pt-2'>
+                    <div className="absolute top-0 right-0 -mr-12 pt-2">
                       <button
-                        type='button'
-                        className='ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
+                        type="button"
+                        className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                         onClick={() => setSidebarOpen(false)}
                       >
-                        <span className='sr-only'>Close sidebar</span>
-                        <XIcon className='h-6 w-6 text-white' aria-hidden='true' />
+                        <span className="sr-only">Close sidebar</span>
+                        <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className='flex-1 h-0 pt-5 pb-4 overflow-y-auto'>
-                    <nav aria-label='Sidebar' className='mt-5'>
-                      <aside className='md:order-first md:flex md:flex-col flex-shrink-0 w-full border-r border-gray-200'>
-                        <div className='px-6 pt-6 pb-4'>
-                          <h2 className='text-lg font-medium text-gray-900'>Students List</h2>
-                          <p className='mt-1 text-sm text-gray-600'>
+                  <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
+                    <nav aria-label="Sidebar" className="mt-5">
+                      <aside className="md:order-first md:flex md:flex-col flex-shrink-0 w-full border-r border-gray-200">
+                        <div className="px-6 pt-6 pb-4">
+                          <h2 className="text-lg font-medium text-gray-900">Students List</h2>
+                          <p className="mt-1 text-sm text-gray-600">
                             Search directory of {students.length} students.
                           </p>
-                          <form className='mt-6 flex space-x-4' action='#'>
-                            <div className='flex-1 min-w-0'>
-                              <label htmlFor='search' className='sr-only'>
+                          <form className="mt-6 flex space-x-4" action="#">
+                            <div className="flex-1 min-w-0">
+                              <label htmlFor="search" className="sr-only">
                                 Search
                               </label>
-                              <div className='relative rounded-md shadow-sm'>
+                              <div className="relative rounded-md shadow-sm">
                                 <div
                                   onClick={handleClickFilter}
-                                  className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'
+                                  className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                                 >
                                   <SearchIcon
-                                    className='h-5 w-5 text-gray-400'
-                                    aria-hidden='true'
+                                    className="h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
                                   />
                                 </div>
                                 <input
-                                  type='search'
-                                  name='search'
-                                  id='search'
+                                  type="search"
+                                  name="search"
+                                  id="search"
                                   value={keyword}
                                   onChange={(e) => setKeyword(e.target.value)}
-                                  className='focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md'
-                                  placeholder='Search'
+                                  className="focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                                  placeholder="Search"
                                 />
                               </div>
                             </div>
@@ -147,44 +153,44 @@ const Students = ({ studentsDetails, jobs }) => {
                                   : "inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                               }
                             >
-                              <FilterIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
-                              <span className='sr-only'>Search</span>
+                              <FilterIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                              <span className="sr-only">Search</span>
                             </button>
                           </form>
                         </div>
                         {/* Directory list */}
-                        <nav className='flex-1 min-h-0 overflow-y-auto' aria-label='Directory'>
+                        <nav className="flex-1 min-h-0 overflow-y-auto" aria-label="Directory">
                           {keyword === "" &&
                             Object.keys(directory).map((letter) => (
-                              <div key={letter} className='relative'>
-                                <div className='z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500'>
+                              <div key={letter} className="relative">
+                                <div className="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
                                   <h3>{letter}</h3>
                                 </div>
-                                <ul role='list' className='relative z-0 divide-y divide-gray-200'>
+                                <ul role="list" className="relative z-0 divide-y divide-gray-200">
                                   {directory[letter].map((student) => (
                                     <li key={student._id}>
                                       <div
                                         onClick={() => setProfile(student)}
-                                        className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500'
+                                        className="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500"
                                       >
-                                        <div className='relative flex-shrink-0 h-10 w-10 rounded-full'>
+                                        <div className="relative flex-shrink-0 h-10 w-10 rounded-full">
                                           <Image
-                                            placeholder='blur'
+                                            placeholder="blur"
                                             blurDataURL={student.image}
-                                            layout='fill'
-                                            objectFit='contain'
+                                            layout="fill"
+                                            objectFit="contain"
                                             src={student.image}
-                                            alt=''
+                                            alt=""
                                           />
                                         </div>
-                                        <div className='flex-1 min-w-0'>
-                                          <a href='#' className='focus:outline-none'>
+                                        <div className="flex-1 min-w-0">
+                                          <a href="#" className="focus:outline-none">
                                             {/* Extend touch target to entire panel */}
-                                            <span className='absolute inset-0' aria-hidden='true' />
-                                            <p className='text-sm font-medium text-gray-900'>
+                                            <span className="absolute inset-0" aria-hidden="true" />
+                                            <p className="text-sm font-medium text-gray-900">
                                               {student.firstName + " " + student.lastName}
                                             </p>
-                                            <p className='text-sm text-gray-500 truncate'>
+                                            <p className="text-sm text-gray-500 truncate">
                                               {student.rollNumber}
                                             </p>
                                           </a>
@@ -201,26 +207,26 @@ const Students = ({ studentsDetails, jobs }) => {
                                 <div key={student._id}>
                                   <div
                                     onClick={() => setProfile(student)}
-                                    className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500'
+                                    className="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500"
                                   >
-                                    <div className='relative flex-shrink-0 h-10 w-10 rounded-full'>
+                                    <div className="relative flex-shrink-0 h-10 w-10 rounded-full">
                                       <Image
-                                        placeholder='blur'
+                                        placeholder="blur"
                                         blurDataURL={student.image}
-                                        layout='fill'
-                                        objectFit='contain'
+                                        layout="fill"
+                                        objectFit="contain"
                                         src={student.image}
-                                        alt=''
+                                        alt=""
                                       />
                                     </div>
-                                    <div className='flex-1 min-w-0'>
-                                      <a href='#' className='focus:outline-none'>
+                                    <div className="flex-1 min-w-0">
+                                      <a href="#" className="focus:outline-none">
                                         {/* Extend touch target to entire panel */}
-                                        <span className='absolute inset-0' aria-hidden='true' />
-                                        <p className='text-sm font-medium text-gray-900'>
+                                        <span className="absolute inset-0" aria-hidden="true" />
+                                        <p className="text-sm font-medium text-gray-900">
                                           {student.firstName + " " + student.lastName}
                                         </p>
-                                        <p className='text-sm text-gray-500 truncate'>
+                                        <p className="text-sm text-gray-500 truncate">
                                           {student.rollNumber}
                                         </p>
                                       </a>
@@ -229,19 +235,19 @@ const Students = ({ studentsDetails, jobs }) => {
                                 </div>
                               ))}
                               {filteredStudents.length === 0 && (
-                                <div className='flex mt-5 flex-col justify-center items-center'>
-                                  <div className='flex-shrink-0 flex justify-center'>
+                                <div className="flex mt-5 flex-col justify-center items-center">
+                                  <div className="flex-shrink-0 flex justify-center">
                                     <Image
-                                      placeholder='blur'
-                                      blurDataURL='/no_results.png'
-                                      layout='fill'
-                                      objectFit='contain'
-                                      className='h-52 w-auto'
-                                      src='/no_results.png'
-                                      alt=''
+                                      placeholder="blur"
+                                      blurDataURL="/no_results.png"
+                                      layout="fill"
+                                      objectFit="contain"
+                                      className="h-52 w-auto"
+                                      src="/no_results.png"
+                                      alt=""
                                     />
                                   </div>
-                                  <h6 className='text-2xl font-semibold text-gray-400'>
+                                  <h6 className="text-2xl font-semibold text-gray-400">
                                     No Results Found
                                   </h6>
                                 </div>
@@ -254,43 +260,43 @@ const Students = ({ studentsDetails, jobs }) => {
                   </div>
                 </div>
               </Transition.Child>
-              <div className='flex-shrink-0 w-14' aria-hidden='true'>
+              <div className="flex-shrink-0 w-14" aria-hidden="true">
                 {/* Force sidebar to shrink to fit close icon */}
               </div>
             </Dialog>
           </Transition.Root>
 
           {/* Static sidebar for desktop */}
-          <div className='hidden lg:flex md:flex-shrink-0 h-screen overflow-y-auto'>
-            <div className='flex flex-col w-96'>
-              <div className='flex-1 w-full flex flex-col  border-r border-gray-200 bg-gray-100'>
-                <aside className='hidden lg:order-first lg:flex lg:flex-col flex-shrink-0 w-96 border-r border-gray-200'>
-                  <div className='px-6 pt-6 pb-4'>
-                    <h2 className='text-lg font-medium text-gray-900'>Students List</h2>
-                    <p className='mt-1 text-sm text-gray-600'>
+          <div className="hidden lg:flex md:flex-shrink-0 h-screen overflow-y-auto">
+            <div className="flex flex-col w-96">
+              <div className="flex-1 w-full flex flex-col  border-r border-gray-200 bg-gray-100">
+                <aside className="hidden lg:order-first lg:flex lg:flex-col flex-shrink-0 w-96 border-r border-gray-200">
+                  <div className="px-6 pt-6 pb-4">
+                    <h2 className="text-lg font-medium text-gray-900">Students List</h2>
+                    <p className="mt-1 text-sm text-gray-600">
                       Search directory of {students.length} students.
                     </p>
-                    <form className='mt-6 flex space-x-4' action='#'>
-                      <div className='flex-1 min-w-0'>
-                        <label htmlFor='search' className='sr-only'>
+                    <form className="mt-6 flex space-x-4" action="#">
+                      <div className="flex-1 min-w-0">
+                        <label htmlFor="search" className="sr-only">
                           Search
                         </label>
-                        <div className='relative rounded-md shadow-sm'>
+                        <div className="relative rounded-md shadow-sm">
                           <div
                             onClick={handleClickFilter}
-                            className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'
+                            className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                           >
-                            <SearchIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
+                            <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                           </div>
                           <input
-                            type='search'
-                            name='search'
-                            id='search'
-                            autoComplete='off'
+                            type="search"
+                            name="search"
+                            id="search"
+                            autoComplete="off"
                             value={keyword}
                             onChange={(e) => setKeyword(e.target.value)}
-                            className='focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md'
-                            placeholder='Search'
+                            className="focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Search"
                           />
                         </div>
                       </div>
@@ -303,44 +309,44 @@ const Students = ({ studentsDetails, jobs }) => {
                             : "inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                         }
                       >
-                        <FilterIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
-                        <span className='sr-only'>Search</span>
+                        <FilterIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <span className="sr-only">Search</span>
                       </button>
                     </form>
                   </div>
                   {/* Directory list */}
-                  <nav className='flex-1 min-h-0 overflow-y-auto' aria-label='Directory'>
+                  <nav className="flex-1 min-h-0 overflow-y-auto" aria-label="Directory">
                     {keyword === "" &&
                       Object.keys(directory).map((letter) => (
-                        <div key={letter} className='relative'>
-                          <div className='z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500'>
+                        <div key={letter} className="relative">
+                          <div className="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
                             <h3>{letter}</h3>
                           </div>
-                          <ul role='list' className='relative z-0 divide-y divide-gray-200'>
+                          <ul role="list" className="relative z-0 divide-y divide-gray-200">
                             {directory[letter].map((student) => (
                               <li key={student._id}>
                                 <div
                                   onClick={() => setProfile(student)}
-                                  className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500'
+                                  className="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500"
                                 >
-                                  <div className='flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden'>
+                                  <div className="flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden">
                                     <Image
-                                      placeholder='blur'
-                                      blurDataURL={student.image}
-                                      layout='fill'
-                                      objectFit='contain'
-                                      src={student.image}
-                                      alt=''
+                                      placeholder="blur"
+                                      blurDataURL={student.profile.image}
+                                      layout="fill"
+                                      objectFit="contain"
+                                      src={student.profile.image}
+                                      alt=""
                                     />
                                   </div>
-                                  <div className='flex-1 min-w-0'>
-                                    <a href='#' className='focus:outline-none'>
+                                  <div className="flex-1 min-w-0">
+                                    <a href="#" className="focus:outline-none">
                                       {/* Extend touch target to entire panel */}
-                                      <span className='absolute inset-0' aria-hidden='true' />
-                                      <p className='text-sm font-medium text-gray-900'>
-                                        {student.firstName + " " + student.lastName}
+                                      <span className="absolute inset-0" aria-hidden="true" />
+                                      <p className="text-sm font-medium text-gray-900">
+                                        {student.profile.firstName + " " + student.profile.lastName}
                                       </p>
-                                      <p className='text-sm text-gray-500 truncate'>
+                                      <p className="text-sm text-gray-500 truncate">
                                         {student.rollNumber}
                                       </p>
                                     </a>
@@ -357,26 +363,26 @@ const Students = ({ studentsDetails, jobs }) => {
                           <div key={student._id}>
                             <div
                               onClick={() => setProfile(student)}
-                              className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500'
+                              className="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500"
                             >
-                              <div className='flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden'>
+                              <div className="flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden">
                                 <Image
-                                  placeholder='blur'
+                                  placeholder="blur"
                                   blurDataURL={student.image}
-                                  layout='fill'
-                                  objectFit='contain'
+                                  layout="fill"
+                                  objectFit="contain"
                                   src={student.image}
-                                  alt=''
+                                  alt=""
                                 />
                               </div>
-                              <div className='flex-1 min-w-0'>
-                                <a href='#' className='focus:outline-none'>
+                              <div className="flex-1 min-w-0">
+                                <a href="#" className="focus:outline-none">
                                   {/* Extend touch target to entire panel */}
-                                  <span className='absolute inset-0' aria-hidden='true' />
-                                  <p className='text-sm font-medium text-gray-900'>
+                                  <span className="absolute inset-0" aria-hidden="true" />
+                                  <p className="text-sm font-medium text-gray-900">
                                     {student.firstName + " " + student.lastName}
                                   </p>
-                                  <p className='text-sm text-gray-500 truncate'>
+                                  <p className="text-sm text-gray-500 truncate">
                                     {student.rollNumber}
                                   </p>
                                 </a>
@@ -385,18 +391,18 @@ const Students = ({ studentsDetails, jobs }) => {
                           </div>
                         ))}
                         {filteredStudents.length === 0 && (
-                          <div className='flex mt-5 flex-col justify-center items-center'>
-                            <div className='relative flex-shrink-0 flex justify-center h-52 w-full'>
+                          <div className="flex mt-5 flex-col justify-center items-center">
+                            <div className="relative flex-shrink-0 flex justify-center h-52 w-full">
                               <Image
-                                placeholder='blur'
-                                blurDataURL='/no_results.png'
-                                layout='fill'
-                                objectFit='contain'
-                                src='/no_results.png'
-                                alt=''
+                                placeholder="blur"
+                                blurDataURL="/no_results.png"
+                                layout="fill"
+                                objectFit="contain"
+                                src="/no_results.png"
+                                alt=""
                               />
                             </div>
-                            <h6 className='text-2xl font-semibold text-gray-400'>
+                            <h6 className="text-2xl font-semibold text-gray-400">
                               No Results Found
                             </h6>
                           </div>
@@ -408,28 +414,28 @@ const Students = ({ studentsDetails, jobs }) => {
               </div>
             </div>
           </div>
-          <div className='flex flex-col min-w-0 flex-1 overflow-hidden'>
-            <div className='lg:hidden'>
-              <div className='flex items-center justify-between bg-gray-50 border-b border-gray-200 px-4 py-1.5'>
+          <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+            <div className="lg:hidden">
+              <div className="flex items-center justify-between bg-gray-50 border-b border-gray-200 px-4 py-1.5">
                 <div>
-                  <h1 className='text-2xl font-bold text-gray-700'>Student</h1>
+                  <h1 className="text-2xl font-bold text-gray-700">Student</h1>
                 </div>
                 <div>
                   <button
-                    type='button'
-                    className='-mr-3 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-600'
+                    type="button"
+                    className="-mr-3 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-600"
                     onClick={() => setSidebarOpen(true)}
                   >
-                    <span className='sr-only'>Open sidebar</span>
-                    <MenuIcon className='h-6 w-6' aria-hidden='true' />
+                    <span className="sr-only">Open sidebar</span>
+                    <MenuIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
               </div>
             </div>
-            <div className='flex-1 relative z-0 flex overflow-hidden'>
-              <main className='flex-1 relative z-0 focus:outline-none xl:order-last h-screen overflow-y-auto'>
+            <div className="flex-1 relative z-0 flex overflow-hidden">
+              <main className="flex-1 relative z-0 focus:outline-none xl:order-last h-screen overflow-y-auto">
                 {/* Breadcrumb */}
-                {/* <StudentProfile profile={profile} jobs={jobs} /> */}
+                <StudentProfile student={profile} />
               </main>
             </div>
           </div>
@@ -445,27 +451,25 @@ const Students = ({ studentsDetails, jobs }) => {
         // />
       )}
       {downloadOpen && (
-        <div className='absolute w-full -top-[1000%]' style={{ zIndex: "-1000" }}>
+        <div className="absolute w-full -top-[1000%]" style={{ zIndex: "-1000" }}>
           {/* <DownloadResumes students={filteredStudents} setDownloadOpen={setDownloadOpen} /> */}
         </div>
       )}
     </>
   );
 };
-
-export const getServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  if (!session) {
+export const getServerSideProps = async ({ req, res }) => {
+  const session = await getLoginSession(req);
+  const user = (session?._doc && (await findUser(session._doc))) ?? null;
+  if (!user) {
     return {
       redirect: {
-        destination: "/auth/signin",
+        destination: "/auth/login",
         permanent: false,
       },
     };
   }
-
-  if (!session.userDetails) {
+  if (!user.detailsAvailable) {
     return {
       redirect: {
         destination: "/auth/user/details",
@@ -473,43 +477,17 @@ export const getServerSideProps = async (context) => {
       },
     };
   }
-
-  if (session.userDetails.category !== "college") {
+  if (user.category === "student") {
     return {
       redirect: {
-        destination: `/dashboard/${session.userDetails.category}`,
+        destination: "/dashbaord/student",
         permanent: false,
       },
     };
   }
-
-  if (session.userDetails.approved === false) {
-    return {
-      redirect: {
-        destination: "/dashboard/college/approvalpending",
-        permanent: false,
-      },
-    };
-  }
-
-  const {
-    data: { students },
-  } = await axios.get(
-    `${process.env.HOST_URL}/api/college/students?collegename=${session.userDetails.college.name}&collegecode=${session.userDetails.college.code}`
-  );
-
-  const {
-    data: { jobs },
-  } = await axios.get(
-    `${process.env.HOST_URL}/api/jobs?collegename=${session.userDetails.college.name}&collegecode=${session.userDetails.college.code}`
-  );
 
   return {
-    props: {
-      session,
-      studentsDetails: students,
-      jobs,
-    },
+    props: {},
   };
 };
 
