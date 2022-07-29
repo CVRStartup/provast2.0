@@ -36,13 +36,21 @@ const Students = ({ user }) => {
   useEffect(() => {
     if (!students) return;
     const keywords = keyword.split(",").map((x) => x.toUpperCase());
+    const match = (s, p) => {
+      if (!s || !p) return false;
+      return s?.toUpperCase().indexOf(p) !== -1;
+    };
     const newstate = students.filter((x) => {
       for (let i = 0; i < keywords.length; i++) {
-        if (x?.rollNumber?.toUpperCase().indexOf(keywords[i].trim(" ")) !== -1) return true;
-        if (x?.firstName?.toUpperCase().indexOf(keywords[i].trim(" ")) !== -1) return true;
-        if (x?.lastName?.toUpperCase().indexOf(keywords[i].trim(" ")) !== -1) return true;
-        if (x?.emailList[0]?.toUpperCase().indexOf(keywords[i].trim(" ")) !== -1) return true;
-        if (x?.phone.toString()?.toUpperCase().indexOf(keywords[i].trim(" ")) !== -1) return true;
+        let p = keywords[i].trim(" ");
+        if (
+          match(x?.rollNumber, p) ||
+          match(x?.profile?.firstName, p) ||
+          match(x?.profile?.lastName, p) ||
+          match(x?.contact?.email, p) ||
+          match(x?.contact?.phone?.toString(), p)
+        )
+          return true;
       }
       return false;
     });
@@ -176,10 +184,10 @@ const Students = ({ user }) => {
                                         <div className="relative flex-shrink-0 h-10 w-10 rounded-full">
                                           <Image
                                             placeholder="blur"
-                                            blurDataURL={student.image}
+                                            blurDataURL={student?.profile?.image}
                                             layout="fill"
                                             objectFit="contain"
-                                            src={student.image}
+                                            src={student?.profile.image}
                                             alt=""
                                           />
                                         </div>
@@ -188,7 +196,9 @@ const Students = ({ user }) => {
                                             {/* Extend touch target to entire panel */}
                                             <span className="absolute inset-0" aria-hidden="true" />
                                             <p className="text-sm font-medium text-gray-900">
-                                              {student.firstName + " " + student.lastName}
+                                              {student?.profile.firstName +
+                                                " " +
+                                                student?.profile.lastName}
                                             </p>
                                             <p className="text-sm text-gray-500 truncate">
                                               {student.rollNumber}
@@ -212,10 +222,10 @@ const Students = ({ user }) => {
                                     <div className="relative flex-shrink-0 h-10 w-10 rounded-full">
                                       <Image
                                         placeholder="blur"
-                                        blurDataURL={student.image}
+                                        blurDataURL={student?.profile.image}
                                         layout="fill"
                                         objectFit="contain"
-                                        src={student.image}
+                                        src={student?.profile.image}
                                         alt=""
                                       />
                                     </div>
@@ -224,7 +234,9 @@ const Students = ({ user }) => {
                                         {/* Extend touch target to entire panel */}
                                         <span className="absolute inset-0" aria-hidden="true" />
                                         <p className="text-sm font-medium text-gray-900">
-                                          {student.firstName + " " + student.lastName}
+                                          {student?.profile.firstName +
+                                            " " +
+                                            student?.profile.lastName}
                                         </p>
                                         <p className="text-sm text-gray-500 truncate">
                                           {student.rollNumber}
@@ -368,10 +380,10 @@ const Students = ({ user }) => {
                               <div className="flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden">
                                 <Image
                                   placeholder="blur"
-                                  blurDataURL={student.image}
+                                  blurDataURL={student?.profile?.image}
                                   layout="fill"
                                   objectFit="contain"
-                                  src={student.image}
+                                  src={student?.profile?.image}
                                   alt=""
                                 />
                               </div>
@@ -380,7 +392,7 @@ const Students = ({ user }) => {
                                   {/* Extend touch target to entire panel */}
                                   <span className="absolute inset-0" aria-hidden="true" />
                                   <p className="text-sm font-medium text-gray-900">
-                                    {student.firstName + " " + student.lastName}
+                                    {student?.profile?.firstName + " " + student?.profile?.lastName}
                                   </p>
                                   <p className="text-sm text-gray-500 truncate">
                                     {student.rollNumber}
@@ -441,14 +453,13 @@ const Students = ({ user }) => {
           </div>
         </div>
       ) : (
-        ""
-        // <EmptyState
-        //   heading={"Students not found."}
-        //   description={"There are no students to find from your college."}
-        //   image={`/no_student_state.svg`}
-        //   href={"/college/dashboard"}
-        //   buttonText={"Go to dashboard"}
-        // />
+        <EmptyState
+          heading={"Students not found."}
+          description={"There are no students to find from your college."}
+          image={`/no_student_state.svg`}
+          href={"/college/dashboard"}
+          buttonText={"Go to dashboard"}
+        />
       )}
       {downloadOpen && (
         <div className="absolute w-full -top-[1000%]" style={{ zIndex: "-1000" }}>
