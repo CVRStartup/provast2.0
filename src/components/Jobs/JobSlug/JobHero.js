@@ -12,7 +12,7 @@ import { MdCancel } from "react-icons/md";
 import { useUser } from "../../../lib/hooks";
 import { Loading } from "../../Reusables/Loading";
 
-export const JobHero = ({ job, setJob = "" }) => {
+export const JobHero = ({ job }) => {
   const user = useUser();
   const { setIsOpen, setForm, setModalJob, loading, setLoading, setDeleteName } = useModelContext();
   const [showOptions, setShowOptions] = useState(false);
