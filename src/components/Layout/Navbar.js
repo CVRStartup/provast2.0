@@ -81,7 +81,6 @@ export const Navbar = () => {
     if (!session) setNavigation(landingNavigation);
     else if (session?.category === "college") setNavigation(collegeNavigation);
     else if (session?.category === "student") setNavigation(studentNavigation);
-    else if (session?.category === "admin") setNavigation(adminNavigation);
   }, [session]);
 
   if (
