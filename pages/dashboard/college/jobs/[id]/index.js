@@ -8,33 +8,34 @@ import { useState } from "react";
 import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
 import { JobHeader } from "../../../../../src/components/Jobs/JobSlug/JobHeader";
+import { useJob } from "../../../../../src/hooks/useJob";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const CollegeJobSlug = ({ job }) => {
+const CollegeJobSlug = ({ id }) => {
+  const { job, isLoading } = useJob(id);
   const [tab, setTab] = useState("Job Information");
-
   const tabs = [
     { name: "Job Information", icon: AiFillIdcard, current: tab === "Job Information" },
     { name: "Analytics", icon: MdAnalytics, current: tab === "Analytics" },
   ];
-
+  if (isLoading) return <div>Loading</div>;
   return (
-    <div className='min-h-full bg-gray-100 mt-[10vh]'>
+    <div className="min-h-full bg-gray-100 mt-[10vh]">
       <JobHeader />
-      <main className='py-10'>
+      <main className="py-10">
         <JobHero job={job} />
-        <div className='max-w-7xl mx-auto mt-5'>
-          <div className='sm:hidden'>
-            <label htmlFor='tabs' className='sr-only'>
+        <div className="max-w-7xl mx-auto mt-5">
+          <div className="sm:hidden">
+            <label htmlFor="tabs" className="sr-only">
               Select a tab
             </label>
             <select
-              id='tabs'
-              name='tabs'
-              className='block w-full focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md'
+              id="tabs"
+              name="tabs"
+              className="block w-full focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
               value={tabs.find((tab) => tab.current).name}
               onChange={(e) => setTab(e.target.value)}
             >
@@ -43,9 +44,9 @@ const CollegeJobSlug = ({ job }) => {
               ))}
             </select>
           </div>
-          <div className='hidden sm:block'>
-            <div className='border-b border-gray-200'>
-              <nav className='-mb-px flex space-x-8' aria-label='Tabs'>
+          <div className="hidden sm:block">
+            <div className="border-b border-gray-200">
+              <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                 {tabs.map((tab) => (
                   <a
                     key={tab.name}
@@ -63,7 +64,7 @@ const CollegeJobSlug = ({ job }) => {
                         tab.current ? "text-orange-500" : "text-gray-400 group-hover:text-gray-500",
                         "-ml-0.5 mr-2 h-5 w-5"
                       )}
-                      aria-hidden='true'
+                      aria-hidden="true"
                     />
                     <span>{tab.name}</span>
                   </a>
@@ -74,13 +75,13 @@ const CollegeJobSlug = ({ job }) => {
         </div>
 
         {tab === "Job Information" && (
-          <div data-aos='fade-up'>
+          <div data-aos="fade-up">
             <JobInfo job={job} />
           </div>
         )}
 
         {tab === "Analytics" && (
-          <div data-aos='fade-up'>
+          <div data-aos="fade-up">
             <EligibleTable
               heading={
                 job.typeOfPost === "Shortlisted Students" ? "Eligible Students" : "Applied Students"
@@ -100,7 +101,6 @@ const CollegeJobSlug = ({ job }) => {
 };
 
 export const getServerSideProps = async ({ req, res, query }) => {
-  res.setHeader("Cache-Control", "public, s-maxage=10, stale-while-revalidate=59");
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
   if (!user) {
@@ -128,13 +128,9 @@ export const getServerSideProps = async ({ req, res, query }) => {
     };
   }
 
-  const {
-    data: { job },
-  } = await axios.get(`${process.env.HOST_URL}/api/jobs/${query.id}`);
-
   return {
     props: {
-      job,
+      id: query.id,
     },
   };
 };

@@ -10,7 +10,7 @@ const sortOrder = [
   { id: 2, name: "Descending", value: "desc" },
 ];
 
-export const Filter = ({ applyFilters }) => {
+export const Filter = ({ applyFilters, jobs, setFilteredJobs }) => {
   const [filter, setFilter] = useState({
     keyword: "",
     sort_by: "created_at",
@@ -22,7 +22,7 @@ export const Filter = ({ applyFilters }) => {
     role: { iandf: true, f: true, i: true },
   });
   useEffect(() => {
-    applyFilters(filter);
+    applyFilters(filter, jobs, setFilteredJobs);
   }, [filter]);
   return (
     <div className="p-2 w-full mb-4">

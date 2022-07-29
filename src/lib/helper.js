@@ -11,6 +11,110 @@ import { FaFigma } from "react-icons/fa";
 import { AiOutlineStar } from "react-icons/ai";
 import moment from "moment";
 
+const fileType = [
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+];
+
+export const handleFile = (e, setData, setError) => {
+  let selectedFile = e.target.files[0];
+  if (selectedFile) {
+    if (selectedFile && fileType.includes(selectedFile.type)) {
+      let reader = new FileReader();
+      reader.readAsArrayBuffer(selectedFile);
+      reader.onload = (e) => {
+        setError(null);
+        if (e.target.result !== null) {
+          const workbook = XLSX.read(e.target.result, { type: "buffer" });
+          const worksheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[worksheetName];
+          const data = XLSX.utils.sheet_to_json(worksheet);
+          const res = data.map((x) => {
+            return {
+              name: x["Name"] ? x["Name"] : "N/A",
+              branch: x["Branch"] ? x["Branch"] : "N/A",
+              rollnumber: x["Roll Number"] ? x["Roll Number"] : "N/A",
+              email: x["Email"] ? x["Email"] : "N/A",
+              phone: x["Phone"] ? x["Phone"] : "N/A",
+              status: {
+                applied: null,
+                roles: [],
+              },
+            };
+          });
+          setData(res);
+        } else {
+          setData([]);
+        }
+      };
+    } else {
+      setError("Please select only excel file types");
+    }
+  } else {
+    console.log("please select your file");
+  }
+};
+
+export const applyFilters = (filter, jobs, setJobs) => {
+  if (!jobs) return;
+  let updatedJobs = jobs;
+  updatedJobs = updatedJobs.filter((job) => {
+    if (Number(job.ctc) != NaN) {
+      if (job.ctc < filter.minimum_ctc_filter) return false;
+    }
+    if (Number(job.stipend) != NaN) {
+      if (job.stipend < filter.minimum_salary_filter) return false;
+    }
+    let currDate = new Date();
+    currDate = currDate.toISOString();
+    let active = job.from <= currDate && job.to >= currDate;
+    if (job.from != null && job.to != null) {
+      if (filter.allow_active == false) {
+        if (active) return false;
+      }
+      if (filter.allow_inactive == false) {
+        if (!active) return false;
+      }
+    } else {
+      if (filter.allow_inactive == false) {
+        return false;
+      }
+    }
+    if (filter.role.i == false) {
+      if (job.role == "Internship") return false;
+    }
+    if (filter.role.f == false) {
+      if (job.role == "Full Time") return false;
+    }
+    if (filter.role.iandf == false) {
+      if (job.role == "Internship and Full Time") return false;
+    }
+    let foundInDesig = job.designation.roles.some((ele) =>
+      ele.toLowerCase().includes(filter.keyword.toLowerCase())
+    );
+    let foundInCompany = job.company.toLowerCase().includes(filter.keyword.toLowerCase());
+    if (!foundInCompany && !foundInDesig) return false;
+    return true;
+  });
+
+  if (filter.sort_by == "created_at") {
+    updatedJobs.sort((a, b) => ((a.from ?? "0") < (b.from ?? "0") ? -1 : 1));
+  } else if (filter.sort_by == "ending_at") {
+    updatedJobs.sort((a, b) => ((a.to ?? "0") < (b.to ?? "0") ? -1 : 1));
+  } else if (filter.sort_by == "stipend") {
+    updatedJobs.sort((a, b) => ((a.stipend ?? 0) < (b.stipend ?? 0) ? -1 : 1));
+  } else if (filter.sort_by == "alphabetical") {
+    updatedJobs.sort((a, b) => {
+      a.company.toLowerCase() < b.company.toLowerCase() ? -1 : 1;
+    });
+  }
+
+  if (filter.sort_order == "desc") {
+    updatedJobs.reverse();
+  }
+  setJobs([...updatedJobs]);
+};
+
 export const skilloptions = [
   {
     id: 1,
