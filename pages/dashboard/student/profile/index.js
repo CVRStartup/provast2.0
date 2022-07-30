@@ -49,7 +49,7 @@ const Profile = ({ user }) => {
                   <div className='mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1'>
                     <div className='sm:hidden 2xl:block mt-6 min-w-0 flex-1'>
                       <h1 className='text-2xl capitalize font-bold text-gray-900 truncate'>
-                        {user?.profile?.firstName} {user?.profile?.lastName}
+                        {user?.profile?.firstName?.value} {user?.profile?.lastName?.value}
                       </h1>
                     </div>
                     <div className='mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
@@ -67,7 +67,7 @@ const Profile = ({ user }) => {
                 </div>
                 <div className='hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1'>
                   <h1 className='text-2xl font-bold text-gray-900 truncate'>
-                    {user?.profile?.firstName} {user?.profile?.lastName}
+                    {user?.profile?.firstName?.value} {user?.profile?.lastName?.value}
                   </h1>
                 </div>
               </div>
@@ -102,13 +102,13 @@ const Profile = ({ user }) => {
                 <div className='sm:col-span-1'>
                   <dt className='capitalize text-md font-medium text-gray-500'>First Name</dt>
                   <dd className=' text-md font-semibold text-gray-900'>
-                    {user?.profile?.firstName}
+                    {user?.profile?.firstName?.value}
                   </dd>
                 </div>
                 <div className='sm:col-span-1'>
                   <dt className='capitalize text-md font-medium text-gray-500'>Last Name</dt>
                   <dd className=' font-semibold text-md text-gray-900'>
-                    {user?.profile?.lastName}
+                    {user?.profile?.lastName?.value}
                   </dd>
                 </div>
                 <div className='sm:col-span-1'>
@@ -117,26 +117,32 @@ const Profile = ({ user }) => {
                 </div>
                 <div className='sm:col-span-1'>
                   <dt className='text-md font-medium text-gray-500'>Given Email</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>{user?.contact?.email}</dd>
+                  <dd className=' font-semibold text-md text-gray-900'>
+                    {user?.contact?.email?.value}
+                  </dd>
                 </div>
                 <div className='sm:col-span-1'>
                   <dt className='text-md font-medium text-gray-500'>Roll Number</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>{user?.rollNumber}</dd>
+                  <dd className=' font-semibold text-md text-gray-900'>
+                    {user?.rollNumber?.value}
+                  </dd>
                 </div>
                 <div className='sm:col-span-1'>
                   <dt className='text-md font-medium text-gray-500'>Mobile Number</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>{user?.contact?.phone}</dd>
+                  <dd className=' font-semibold text-md text-gray-900'>
+                    {user?.contact?.phone?.value}
+                  </dd>
                 </div>
-                {user?.gender && (
+                {user?.gender?.value && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Gender</dt>
-                    <dd className=' font-semibold text-md text-gray-900'>{user?.gender}</dd>
+                    <dd className=' font-semibold text-md text-gray-900'>{user?.gender?.value}</dd>
                   </div>
                 )}
-                {user?.dob && (
+                {user?.dob?.value && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Date Of Birth</dt>
-                    <dd className=' font-semibold text-md text-gray-900'>{user?.dob}</dd>
+                    <dd className=' font-semibold text-md text-gray-900'>{user?.dob?.value}</dd>
                   </div>
                 )}
                 {user?.college?.name && (

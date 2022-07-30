@@ -8,32 +8,78 @@ import { Loader } from "../../../../src/components/Layout/Loader";
 import { countries } from "../../../../src/lib/helper";
 import { BsFillCameraFill } from "react-icons/bs";
 import { useUser } from "../../../../src/lib/hooks";
+import { toast } from "react-toastify";
 
 const ProfileEdit = ({ user }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [rollNumber, setRollNumber] = useState(user?.rollNumber);
+  const [rollNumber, setRollNumber] = useState({
+    value: user?.rollNumber?.value,
+    verified: false,
+    forzen: false,
+  });
   const [profile, setProfile] = useState({
-    firstName: user?.profile?.firstName,
-    lastName: user?.profile?.lastName,
+    firstName: {
+      value: user?.profile?.firstName?.value,
+      verified: false,
+      frozen: false,
+    },
+    lastName: { value: user?.profile?.lastName?.value, verified: false, frozen: false },
     image: user?.profile?.image,
-    gender: user?.profile?.gender,
-    dob: user?.profile?.dob,
+    gender: {
+      value: user?.profile?.gender?.value,
+      verified: false,
+      frozen: false,
+    },
+    dob: {
+      value: user?.profile?.dob?.value,
+      verified: false,
+      frozen: false,
+    },
   });
   const [contact, setContact] = useState({
-    parents: {},
+    parents: {
+      father: {
+        name: user?.contact?.parents?.father?.name,
+        email: user?.contact?.parents?.father?.email,
+        phone: user?.contact?.parents?.father?.phone,
+        occupation: user?.contact?.parents?.father?.occupation,
+      },
+      mother: {
+        name: user?.contact?.parents?.mother?.name,
+        email: user?.contact?.parents?.mother?.email,
+        phone: user?.contact?.parents?.mother?.phone,
+        occupation: user?.contact?.parents?.mother?.occupation,
+      },
+    },
     address: {
       city: user?.address?.city,
       country: user?.address?.country,
       state: user?.address?.state,
     },
-    email: user?.address?.email,
-    linkedin: user?.address?.linkedin,
-    phone: user?.address?.phone,
-    website: user?.address?.website,
+    email: {
+      value: user?.contact?.email?.value,
+      verified: false,
+      frozen: false,
+    },
+    linkedin: {
+      value: user?.contact?.linkedin?.value,
+      verified: false,
+      frozen: false,
+    },
+    phone: {
+      value: user?.contact?.phone?.value,
+      verified: false,
+      frozen: false,
+    },
+    website: {
+      value: user?.contact?.website?.value,
+      verified: false,
+      frozen: false,
+    },
   });
   const [college, setCollege] = useState({
-    name: user?.college?.image,
+    name: user?.college?.name,
   });
 
   const uploadFileHandler = async (e) => {
@@ -49,7 +95,7 @@ const ProfileEdit = ({ user }) => {
       );
       setLoading(false);
       const { url } = uploadRes.data;
-      setImage(url);
+      setProfile({ ...profile, image: url });
     } catch (error) {
       toast.error(error, { toastId: error });
     }
@@ -57,22 +103,21 @@ const ProfileEdit = ({ user }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    console.log("Profile", profile);
+    console.log("Contact", contact);
+    console.log("College", college);
+    console.log("Roll", rollNumber);
     const {
       data: { message },
-    } = await axios.put(`${process.env.NEXT_PUBLIC_HOST_URL}/api/users`, {
-      userId: session.userId,
-      firstName,
-      lastName,
-      email,
-      image,
-      dob,
-      city,
-      state,
-      country,
-      linkedin,
-      about,
-      website,
-    });
+    } = await axios.put(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${user._id}`,
+      {
+        profile,
+        contact,
+        rollNumber,
+        college,
+      }
+    );
     if (message == "Details Updated") {
       toast.success(message, { toastId: message });
       router.push("/dashboard/student/profile");
@@ -118,8 +163,16 @@ const ProfileEdit = ({ user }) => {
                           name='first-name'
                           id='first-name'
                           autoComplete='given-name'
-                          value={profile.firstName}
-                          onChange={(e) => setProfile[{ ...profile, firstName: e.target.value }]}
+                          value={profile.firstName.value}
+                          onChange={(e) =>
+                            setProfile({
+                              ...profile,
+                              firstName: {
+                                ...profile.firstName,
+                                value: e.target.value,
+                              },
+                            })
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -136,8 +189,16 @@ const ProfileEdit = ({ user }) => {
                           name='last-name'
                           id='last-name'
                           autoComplete='family-name'
-                          value={profile.lastName}
-                          onChange={(e) => setProfile[{ ...profile, lastName: e.target.value }]}
+                          value={profile.lastName.value}
+                          onChange={(e) =>
+                            setProfile({
+                              ...profile,
+                              lastName: {
+                                ...profile.lastName,
+                                value: e.target.value,
+                              },
+                            })
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -157,16 +218,21 @@ const ProfileEdit = ({ user }) => {
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
-                      <div className='col-span-6 sm:col-span-3'>
-                        <label htmlFor='branch' className='block text-sm font-medium text-gray-700'>
-                          Branch
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-3'>
+                        <label
+                          htmlFor='rollNumber'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Roll Number
                         </label>
                         <input
                           type='text'
-                          name='branch'
-                          id='branch'
+                          name='rollNumber'
+                          id='rollNumber'
                           disabled
-                          value={"Branch"}
+                          value={rollNumber.value}
+                          onChnage={(e) => setRollNumber({ ...rollNumber, value: e.target.value })}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -180,8 +246,18 @@ const ProfileEdit = ({ user }) => {
                           name='phone'
                           id='phone'
                           autoComplete='tel'
-                          disabled
-                          value={user?.contact?.phone}
+                          value={contact?.phone?.value}
+                          onChange={(e) =>
+                            setContact[
+                              {
+                                ...contact,
+                                phone: {
+                                  ...contact.phone,
+                                  value: e.target.value,
+                                },
+                              }
+                            ]
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -216,7 +292,16 @@ const ProfileEdit = ({ user }) => {
                           name='email-address'
                           id='email-address'
                           autoComplete='email'
-                          value={user?.contact?.email}
+                          value={contact?.email?.value}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              email: {
+                                ...contact.email,
+                                value: e.target.value,
+                              },
+                            })
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -230,58 +315,241 @@ const ProfileEdit = ({ user }) => {
                           name='dob'
                           id='dob'
                           autoComplete='email'
-                          value={profile?.dob?.substring(0, 10)?.substring(0, 10)}
-                          onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
+                          value={profile?.dob?.value?.substring(0, 10)?.substring(0, 10)}
+                          onChange={(e) =>
+                            setProfile({
+                              ...profile,
+                              dob: {
+                                ...profile.dob,
+                                value: e.target.value,
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3'>
+                        <label
+                          htmlFor='fathers-name'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Father&apos;s Name
+                        </label>
+                        <input
+                          type='text'
+                          name='fathers-name'
+                          id='fathers-name'
+                          value={contact?.parents?.father?.name}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                father: {
+                                  ...contact.parents.father,
+                                  name: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3'>
+                        <label
+                          htmlFor='mothers-name'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Mother&apos;s Name
+                        </label>
+                        <input
+                          type='text'
+                          name='mothers-name'
+                          id='mothers-name'
+                          value={contact?.parents?.mother?.name}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                mother: {
+                                  ...contact.parents.mother,
+                                  name: e.target.value,
+                                },
+                              },
+                            })
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
                       <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
                         <label
-                          htmlFor='rollNumber'
+                          htmlFor='fathers-email-address'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Roll Number
+                          Father&apos;s Email address
                         </label>
                         <input
-                          type='text'
-                          name='rollNumber'
-                          id='rollNumber'
-                          disabled
-                          value={rollNumber}
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
+                          type='email'
+                          name='fathers-email-address'
+                          id='fathers-email-address'
+                          value={contact?.parents?.father?.email}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                father: {
+                                  ...contact.parents.father,
+                                  email: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
+
                       <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
                         <label
-                          htmlFor='bacth-from'
+                          htmlFor='fathers-phone'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Batch From
+                          Father&apos;s Phone Number
                         </label>
                         <input
                           type='text'
-                          name='bacth-from'
-                          id='bacth-from'
-                          disabled
-                          value={"2019"}
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
+                          name='fathers-phone'
+                          id='fathers-phone'
+                          value={contact?.parents?.father?.phone}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                father: {
+                                  ...contact.parents.father,
+                                  phone: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
+
                       <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
                         <label
-                          htmlFor='bach-to'
+                          htmlFor='fathers-occupation'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Batch To
+                          Father&apos;s Occupation
                         </label>
                         <input
                           type='text'
-                          name='bach-to'
-                          id='bach-to'
-                          disabled
-                          value={"2023"}
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
+                          name='fathers-occupation'
+                          id='fathers-occupation'
+                          value={contact?.parents?.father?.occupation}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                father: {
+                                  ...contact.parents.father,
+                                  occupation: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                        <label
+                          htmlFor='mothers-email-address'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Mother&apos;s Email address
+                        </label>
+                        <input
+                          type='email'
+                          name='mothers-email-address'
+                          id='mothers-email-address'
+                          value={contact?.parents?.mother?.email}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                mother: {
+                                  ...contact.parents.mother,
+                                  email: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                        <label
+                          htmlFor='mothers-phone'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Mother&apos;s Phone Number
+                        </label>
+                        <input
+                          type='text'
+                          name='mothers-phone'
+                          id='mothers-phone'
+                          value={contact?.parents?.mother?.phone}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                mother: {
+                                  ...contact.parents.mother,
+                                  phone: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                        <label
+                          htmlFor='mothers-occupation'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Mother&apos;s Occupation
+                        </label>
+                        <input
+                          type='text'
+                          name='mothers-occupation'
+                          id='mothers-occupation'
+                          value={contact?.parents?.mother?.occupation}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                mother: {
+                                  ...contact.parents.mother,
+                                  occupation: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
@@ -298,8 +566,16 @@ const ProfileEdit = ({ user }) => {
                             name='country'
                             autoComplete='country-name'
                             className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block text-sm w-full sm:text-md border-gray-300 rounded-md'
-                            value={"India"}
-                            onChange={(e) => setCountry(e.target.value)}
+                            value={contact.address.country}
+                            onChange={(e) =>
+                              setContact({
+                                ...contact,
+                                address: {
+                                  ...contact.address,
+                                  country: e.target.value,
+                                },
+                              })
+                            }
                           >
                             <>
                               <option selected disabled>
@@ -313,7 +589,7 @@ const ProfileEdit = ({ user }) => {
                         </div>
                       </div>
 
-                      {/* <div className='col-span-6 sm:col-span-6 lg:col-span-2'>
+                      <div className='col-span-6 sm:col-span-6 lg:col-span-2'>
                         <label htmlFor='city' className='block text-sm font-medium text-gray-700'>
                           City
                         </label>
@@ -321,8 +597,16 @@ const ProfileEdit = ({ user }) => {
                           type='text'
                           name='city'
                           id='city'
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
+                          value={contact.address.city}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              address: {
+                                ...contact.address,
+                                city: e.target.value,
+                              },
+                            })
+                          }
                           autoComplete='address-level2'
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
@@ -336,12 +620,20 @@ const ProfileEdit = ({ user }) => {
                           type='text'
                           name='region'
                           id='region'
-                          value={state}
-                          onChange={(e) => setState(e.target.value)}
+                          value={contact.address.state}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              address: {
+                                ...contact.address,
+                                state: e.target.value,
+                              },
+                            })
+                          }
                           autoComplete='address-level1'
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
-                      </div> */}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -366,7 +658,7 @@ const ProfileEdit = ({ user }) => {
                 </p>
               </div>
             </div>
-            {/* <div className='mt-5 md:mt-0 md:col-span-2'>
+            <div className='mt-5 md:mt-0 md:col-span-2'>
               <div>
                 <div className='shadow sm:rounded-md sm:overflow-hidden'>
                   <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
@@ -384,8 +676,16 @@ const ProfileEdit = ({ user }) => {
                             name='company-website'
                             id='company-website'
                             className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
-                            value={}
-                            onChange={(e) => setWebsite(e.target.value)}
+                            value={contact.website.value}
+                            onChange={(e) =>
+                              setContact({
+                                ...contact,
+                                website: {
+                                  ...contact.website,
+                                  value: e.target.value,
+                                },
+                              })
+                            }
                             placeholder='https://www.example.com'
                           />
                         </div>
@@ -404,8 +704,16 @@ const ProfileEdit = ({ user }) => {
                             type='text'
                             name='linkedin'
                             id='linkedin'
-                            value={linkedin}
-                            onChange={(e) => setLinkedin(e.target.value)}
+                            value={contact.linkedin.value}
+                            onChange={(e) =>
+                              setContact({
+                                ...contact,
+                                linkedin: {
+                                  ...contact.linkedin,
+                                  value: e.target.value,
+                                },
+                              })
+                            }
                             className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
                             placeholder='https://www.linkedin.com/in/username/'
                           />
@@ -413,7 +721,7 @@ const ProfileEdit = ({ user }) => {
                       </div>
                     </div>
 
-                    <div>
+                    {/* <div>
                       <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
                         About
                       </label>
@@ -432,7 +740,7 @@ const ProfileEdit = ({ user }) => {
                       <p className='mt-2 text-sm text-gray-500'>
                         Brief description for your profile.
                       </p>
-                    </div>
+                    </div> */}
 
                     <div className='sm:col-span-6 mt-3'>
                       <label
@@ -453,11 +761,11 @@ const ProfileEdit = ({ user }) => {
                                 <div className='relative h-full w-full object-fit hover:bg-gray-800'>
                                   <Image
                                     placeholder='blur'
-                                    blurDataURL={image}
+                                    blurDataURL={profile.image}
                                     layout='fill'
                                     objectFit='contain'
                                     className=''
-                                    src={image}
+                                    src={profile.image}
                                     alt=''
                                   />
                                 </div>
@@ -482,13 +790,13 @@ const ProfileEdit = ({ user }) => {
                           </div>
                         ) : (
                           <input
-                            className='cursor-pointer ml-4font-semibold h-10 appearance-none block w-full text-gray-500 px-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                            className='cursor-pointer ml-4 font-semibold h-10 appearance-none block w-full text-gray-500 px-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
                             label='Choose File'
                             type='text'
                             name='image'
                             id='profileImg'
                             readOnly={true}
-                            value={image || ""}
+                            value={profile.image || ""}
                           />
                         )}
                       </div>
@@ -496,7 +804,7 @@ const ProfileEdit = ({ user }) => {
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
 
