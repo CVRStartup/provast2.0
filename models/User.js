@@ -15,14 +15,10 @@ const userSchema = new mongoose.Schema(
       firstName: {
         type: String,
         trim: true,
-        verified: Boolean,
-        frozen: Boolean,
       },
       lastName: {
         type: String,
         trim: true,
-        verified: Boolean,
-        frozen: Boolean,
       },
       image: {
         type: String,
@@ -31,13 +27,9 @@ const userSchema = new mongoose.Schema(
       },
       dob: {
         type: Date,
-        verified: Boolean,
-        frozen: Boolean,
       },
       gender: {
         type: String,
-        verified: Boolean,
-        frozen: Boolean,
       },
     },
     contact: {
@@ -68,23 +60,15 @@ const userSchema = new mongoose.Schema(
       },
       email: {
         type: String,
-        verified: Boolean,
-        frozen: Boolean,
       },
       linkedin: {
         type: String,
-        verified: Boolean,
-        frozen: Boolean,
       },
       phone: {
         type: Number,
-        verified: Boolean,
-        frozen: Boolean,
       },
       website: {
         type: String,
-        verified: Boolean,
-        frozen: Boolean,
       },
     },
     approved: {
@@ -97,8 +81,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       uppercase: true,
-      verified: Boolean,
-      frozen: Boolean,
     },
     college: {
       name: {
