@@ -32,44 +32,8 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     },
-    contact: {
-      parents: {
-        father: {
-          name: String,
-          email: String,
-          phone: String,
-          occupation: String,
-        },
-        mother: {
-          name: String,
-          email: String,
-          phone: String,
-          occupation: String,
-        },
-      },
-      address: {
-        city: {
-          type: String,
-        },
-        country: {
-          type: String,
-        },
-        state: {
-          type: String,
-        },
-      },
-      email: {
-        type: String,
-      },
-      linkedin: {
-        type: String,
-      },
-      phone: {
-        type: Number,
-      },
-      website: {
-        type: String,
-      },
+    phone: {
+      type: Number,
     },
     approved: {
       type: Boolean,
