@@ -42,7 +42,7 @@ export const handleJobResponse = async (job, user, op, roles) => {
           branch: user?.branch?.code,
           rollnumber: user?.rollNumber,
           email: user?.email,
-          phone: user?.contact?.phone?.toString(),
+          phone: user?.phone?.toString(),
           status: {
             applied: op === "Apply",
             roles: roles,

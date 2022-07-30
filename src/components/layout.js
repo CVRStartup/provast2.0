@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Header from "./header";
 import { Navbar } from "./Layout/Navbar";
 
 const Layout = (props) => (
@@ -9,7 +8,7 @@ const Layout = (props) => (
     </Head>
     <Navbar />
     <main>
-      <div className="">{props.children}</div>
+      <div className=''>{props.children}</div>
     </main>
   </>
 );
