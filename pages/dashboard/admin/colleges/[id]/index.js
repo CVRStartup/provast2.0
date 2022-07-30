@@ -101,7 +101,7 @@ const Index = ({ id }) => {
       const salt = crypto.randomBytes(16).toString("hex");
       const hash = crypto.pbkdf2Sync("Provast@123", salt, 1000, 64, "sha512").toString("hex");
       const res = await axios.post("/api/auth/user/details", {
-        ...details,
+        ...s,
         hash,
         salt,
       });
