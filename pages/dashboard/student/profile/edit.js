@@ -1,29 +1,40 @@
+import React, { useState } from "react";
 import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
 import { Loader } from "../../../../src/components/Layout/Loader";
 import { countries } from "../../../../src/lib/helper";
 import { BsFillCameraFill } from "react-icons/bs";
 import { useUser } from "../../../../src/lib/hooks";
 
-const ProfileEdit = ({ details }) => {
-  const session = useUser();
+const ProfileEdit = ({ user }) => {
   const router = useRouter();
-  const [firstName, setFirstName] = useState(details?.firstName);
-  const [lastName, setLastName] = useState(details?.lastName);
-  const [email, setEmail] = useState(details?.emailList[0]);
-  const [image, setImage] = useState(details?.image);
-  const [dob, setDOB] = useState(details?.dob);
-  const [city, setCity] = useState(details?.city);
-  const [state, setState] = useState(details?.state);
-  const [country, setCountry] = useState(details?.country);
-  const [linkedin, setLinkedin] = useState(details?.linkedin);
-  const [about, setAbout] = useState(details?.about);
-  const [website, setWebsite] = useState(details?.website);
   const [loading, setLoading] = useState(false);
+  const [rollNumber, setRollNumber] = useState(user?.rollNumber);
+  const [profile, setProfile] = useState({
+    firstName: user?.profile?.firstName,
+    lastName: user?.profile?.lastName,
+    image: user?.profile?.image,
+    gender: user?.profile?.gender,
+    dob: user?.profile?.dob,
+  });
+  const [contact, setContact] = useState({
+    parents: {},
+    address: {
+      city: user?.address?.city,
+      country: user?.address?.country,
+      state: user?.address?.state,
+    },
+    email: user?.address?.email,
+    linkedin: user?.address?.linkedin,
+    phone: user?.address?.phone,
+    website: user?.address?.website,
+  });
+  const [college, setCollege] = useState({
+    name: user?.college?.image,
+  });
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -62,7 +73,6 @@ const ProfileEdit = ({ details }) => {
       about,
       website,
     });
-    reloadSession();
     if (message == "Details Updated") {
       toast.success(message, { toastId: message });
       router.push("/dashboard/student/profile");
@@ -74,7 +84,7 @@ const ProfileEdit = ({ details }) => {
   return (
     <React.Fragment>
       <Head>
-        <title>Resume Builder | Profile Edit</title>
+        <title>Provast | Profile Edit</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
@@ -108,8 +118,8 @@ const ProfileEdit = ({ details }) => {
                           name='first-name'
                           id='first-name'
                           autoComplete='given-name'
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
+                          value={profile.firstName}
+                          onChange={(e) => setProfile[{ ...profile, firstName: e.target.value }]}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -126,8 +136,8 @@ const ProfileEdit = ({ details }) => {
                           name='last-name'
                           id='last-name'
                           autoComplete='family-name'
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
+                          value={profile.lastName}
+                          onChange={(e) => setProfile[{ ...profile, lastName: e.target.value }]}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -143,7 +153,7 @@ const ProfileEdit = ({ details }) => {
                           name='college'
                           id='college'
                           disabled
-                          value={session?.userDetails?.college?.name}
+                          value={college?.name}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -156,7 +166,7 @@ const ProfileEdit = ({ details }) => {
                           name='branch'
                           id='branch'
                           disabled
-                          value={session?.userDetails?.branch?.name}
+                          value={"Branch"}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -171,7 +181,7 @@ const ProfileEdit = ({ details }) => {
                           id='phone'
                           autoComplete='tel'
                           disabled
-                          value={session?.userDetails?.phone}
+                          value={user?.contact?.phone}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -189,7 +199,7 @@ const ProfileEdit = ({ details }) => {
                           id='registered-email-address'
                           autoComplete='email'
                           disabled
-                          value={session?.user?.email}
+                          value={user?.email}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -206,7 +216,7 @@ const ProfileEdit = ({ details }) => {
                           name='email-address'
                           id='email-address'
                           autoComplete='email'
-                          value={session?.userDetails?.emailList[0]}
+                          value={user?.contact?.email}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -220,8 +230,8 @@ const ProfileEdit = ({ details }) => {
                           name='dob'
                           id='dob'
                           autoComplete='email'
-                          value={dob?.substring(0, 10)?.substring(0, 10)}
-                          onChange={(e) => setDOB(e.target.value)}
+                          value={profile?.dob?.substring(0, 10)?.substring(0, 10)}
+                          onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -238,7 +248,7 @@ const ProfileEdit = ({ details }) => {
                           name='rollNumber'
                           id='rollNumber'
                           disabled
-                          value={session?.userDetails?.rollNumber}
+                          value={rollNumber}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -254,7 +264,7 @@ const ProfileEdit = ({ details }) => {
                           name='bacth-from'
                           id='bacth-from'
                           disabled
-                          value={session?.userDetails?.batch?.start}
+                          value={"2019"}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -270,7 +280,7 @@ const ProfileEdit = ({ details }) => {
                           name='bach-to'
                           id='bach-to'
                           disabled
-                          value={session?.userDetails?.batch?.end}
+                          value={"2023"}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -288,7 +298,7 @@ const ProfileEdit = ({ details }) => {
                             name='country'
                             autoComplete='country-name'
                             className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block text-sm w-full sm:text-md border-gray-300 rounded-md'
-                            value={country}
+                            value={"India"}
                             onChange={(e) => setCountry(e.target.value)}
                           >
                             <>
@@ -303,7 +313,7 @@ const ProfileEdit = ({ details }) => {
                         </div>
                       </div>
 
-                      <div className='col-span-6 sm:col-span-6 lg:col-span-2'>
+                      {/* <div className='col-span-6 sm:col-span-6 lg:col-span-2'>
                         <label htmlFor='city' className='block text-sm font-medium text-gray-700'>
                           City
                         </label>
@@ -331,7 +341,7 @@ const ProfileEdit = ({ details }) => {
                           autoComplete='address-level1'
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -356,7 +366,7 @@ const ProfileEdit = ({ details }) => {
                 </p>
               </div>
             </div>
-            <div className='mt-5 md:mt-0 md:col-span-2'>
+            {/* <div className='mt-5 md:mt-0 md:col-span-2'>
               <div>
                 <div className='shadow sm:rounded-md sm:overflow-hidden'>
                   <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
@@ -374,7 +384,7 @@ const ProfileEdit = ({ details }) => {
                             name='company-website'
                             id='company-website'
                             className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
-                            value={website}
+                            value={}
                             onChange={(e) => setWebsite(e.target.value)}
                             placeholder='https://www.example.com'
                           />
@@ -486,7 +496,7 @@ const ProfileEdit = ({ details }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

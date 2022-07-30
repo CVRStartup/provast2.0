@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 const Form = ({ isLogin, errorMessage, onSubmit }) => (
   <div className='min-h-[100vh] w-full bg-gray-50 flex flex-col items-center justify-center py-12 sm:px-6 lg:px-8'>
@@ -15,7 +16,7 @@ const Form = ({ isLogin, errorMessage, onSubmit }) => (
           alt=''
         />
       </div>
-      <h2 className='text-center text-3xl font-extrabold text-gray-900'>
+      <h2 className='text-center text-3xl font-bold text-gray-900'>
         {isLogin ? "Log in" : "Sign up"} to your account
       </h2>
     </div>
@@ -75,7 +76,7 @@ const Form = ({ isLogin, errorMessage, onSubmit }) => (
 
           {isLogin ? (
             <div className='flex items-center justify-between'>
-              <Link href={"/auth/signin"}>
+              <Link href={"/auth/signup"}>
                 <a className='ml-2 block text-sm text-gray-900 hover:underline'>
                   Are you a new user?
                 </a>
@@ -106,7 +107,10 @@ const Form = ({ isLogin, errorMessage, onSubmit }) => (
               {isLogin ? "Log in" : "Sign up"}
             </button>
           </div>
-          {errorMessage && <p className='error'>{errorMessage}</p>}
+          {errorMessage &&
+            toast.error(errorMessage, {
+              toastId: errorMessage,
+            })}
         </form>
       </div>
     </div>

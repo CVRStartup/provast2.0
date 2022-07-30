@@ -6,9 +6,6 @@ export default async function handler(req, res) {
     case "GET":
       await searchUserDetails(req, res);
       break;
-    // case "POST":
-    //   await createUserDetails(req, res);
-    //   break;
     case "PUT":
       await updateUserDetails(req, res);
       break;
