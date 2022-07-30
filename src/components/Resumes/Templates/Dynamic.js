@@ -1,12 +1,9 @@
-import { useSession } from "next-auth/react";
-import Image from "next/image";
 import React from "react";
 import { useResumeContext } from "../../../context/ResumeContext";
+
 import { months, rename } from "../../../lib/helper";
-import { MarkdownRenderer } from "../../../lib/MarkdownRenderer";
 
 export const Dynamic = ({ componentRef }) => {
-  const { data: session } = useSession();
   const { profile, objective, education, projects, skills, languages, layout } = useResumeContext();
   const { r, g, b, a } = layout?.color || { r: "0", g: "0", b: "0", a: "0" };
   return (
@@ -44,7 +41,7 @@ export const Dynamic = ({ componentRef }) => {
                   Profile Summary
                 </h4>
                 <h4 className="markdown text-[13.5px] tracking-wide mt-3 mb-4">
-                  <MarkdownRenderer>{objective}</MarkdownRenderer>
+                  <MarkdownRenderet>{objective}</MarkdownRenderet>
                 </h4>
               </div>
             )}

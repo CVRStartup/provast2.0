@@ -1,11 +1,9 @@
-import { useSession } from "next-auth/react";
 import React from "react";
 import { useResumeContext } from "../../../context/ResumeContext";
 import { rename } from "../../../lib/helper";
 import { MarkdownRenderer } from "../../../lib/MarkdownRenderer";
 
 export const Onyx = ({ componentRef, filter = null }) => {
-  const { data: session } = useSession();
   const {
     profile,
     social,

@@ -1,12 +1,11 @@
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 import { useResumeContext } from "../../../context/ResumeContext";
+
 import { rename } from "../../../lib/helper";
 import { MarkdownRenderer } from "../../../lib/MarkdownRenderer";
 
 export const Gengar = ({ componentRef }) => {
-  const { data: session } = useSession();
   const {
     profile,
     objective,
