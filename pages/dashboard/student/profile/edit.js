@@ -1,29 +1,86 @@
+import React, { useState } from "react";
 import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
 import { Loader } from "../../../../src/components/Layout/Loader";
 import { countries } from "../../../../src/lib/helper";
 import { BsFillCameraFill } from "react-icons/bs";
 import { useUser } from "../../../../src/lib/hooks";
+import { toast } from "react-toastify";
 
-const ProfileEdit = ({ details }) => {
-  const session = useUser();
+const ProfileEdit = ({ user }) => {
   const router = useRouter();
-  const [firstName, setFirstName] = useState(details?.firstName);
-  const [lastName, setLastName] = useState(details?.lastName);
-  const [email, setEmail] = useState(details?.emailList[0]);
-  const [image, setImage] = useState(details?.image);
-  const [dob, setDOB] = useState(details?.dob);
-  const [city, setCity] = useState(details?.city);
-  const [state, setState] = useState(details?.state);
-  const [country, setCountry] = useState(details?.country);
-  const [linkedin, setLinkedin] = useState(details?.linkedin);
-  const [about, setAbout] = useState(details?.about);
-  const [website, setWebsite] = useState(details?.website);
   const [loading, setLoading] = useState(false);
+  const [rollNumber, setRollNumber] = useState({
+    value: user?.rollNumber?.value,
+    verified: false,
+    forzen: false,
+  });
+  const [profile, setProfile] = useState({
+    firstName: {
+      value: user?.profile?.firstName?.value,
+      verified: false,
+      frozen: false,
+    },
+    lastName: { value: user?.profile?.lastName?.value, verified: false, frozen: false },
+    image: user?.profile?.image,
+    gender: {
+      value: user?.profile?.gender?.value,
+      verified: false,
+      frozen: false,
+    },
+    dob: {
+      value: user?.profile?.dob?.value,
+      verified: false,
+      frozen: false,
+    },
+  });
+  const [contact, setContact] = useState({
+    parents: {
+      father: {
+        name: user?.contact?.parents?.father?.name,
+        email: user?.contact?.parents?.father?.email,
+        phone: user?.contact?.parents?.father?.phone,
+        occupation: user?.contact?.parents?.father?.occupation,
+      },
+      mother: {
+        name: user?.contact?.parents?.mother?.name,
+        email: user?.contact?.parents?.mother?.email,
+        phone: user?.contact?.parents?.mother?.phone,
+        occupation: user?.contact?.parents?.mother?.occupation,
+      },
+    },
+    address: {
+      city: user?.address?.city,
+      country: user?.address?.country,
+      state: user?.address?.state,
+    },
+    email: {
+      value: user?.contact?.email?.value,
+      verified: false,
+      frozen: false,
+    },
+    linkedin: {
+      value: user?.contact?.linkedin?.value,
+      verified: false,
+      frozen: false,
+    },
+    phone: {
+      value: user?.contact?.phone?.value,
+      verified: false,
+      frozen: false,
+    },
+    website: {
+      value: user?.contact?.website?.value,
+      verified: false,
+      frozen: false,
+    },
+  });
+  const [college, setCollege] = useState({
+    name: user?.college?.name,
+  });
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -38,7 +95,7 @@ const ProfileEdit = ({ details }) => {
       );
       setLoading(false);
       const { url } = uploadRes.data;
-      setImage(url);
+      setProfile({ ...profile, image: url });
     } catch (error) {
       toast.error(error, { toastId: error });
     }
@@ -46,23 +103,21 @@ const ProfileEdit = ({ details }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    console.log("Profile", profile);
+    console.log("Contact", contact);
+    console.log("College", college);
+    console.log("Roll", rollNumber);
     const {
       data: { message },
-    } = await axios.put(`${process.env.NEXT_PUBLIC_HOST_URL}/api/users`, {
-      userId: session.userId,
-      firstName,
-      lastName,
-      email,
-      image,
-      dob,
-      city,
-      state,
-      country,
-      linkedin,
-      about,
-      website,
-    });
-    reloadSession();
+    } = await axios.put(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${user._id}`,
+      {
+        profile,
+        contact,
+        rollNumber,
+        college,
+      }
+    );
     if (message == "Details Updated") {
       toast.success(message, { toastId: message });
       router.push("/dashboard/student/profile");
@@ -74,7 +129,7 @@ const ProfileEdit = ({ details }) => {
   return (
     <React.Fragment>
       <Head>
-        <title>Resume Builder | Profile Edit</title>
+        <title>Provast | Profile Edit</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
@@ -108,8 +163,16 @@ const ProfileEdit = ({ details }) => {
                           name='first-name'
                           id='first-name'
                           autoComplete='given-name'
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
+                          value={profile.firstName.value}
+                          onChange={(e) =>
+                            setProfile({
+                              ...profile,
+                              firstName: {
+                                ...profile.firstName,
+                                value: e.target.value,
+                              },
+                            })
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -126,8 +189,16 @@ const ProfileEdit = ({ details }) => {
                           name='last-name'
                           id='last-name'
                           autoComplete='family-name'
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
+                          value={profile.lastName.value}
+                          onChange={(e) =>
+                            setProfile({
+                              ...profile,
+                              lastName: {
+                                ...profile.lastName,
+                                value: e.target.value,
+                              },
+                            })
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -143,20 +214,25 @@ const ProfileEdit = ({ details }) => {
                           name='college'
                           id='college'
                           disabled
-                          value={session?.userDetails?.college?.name}
+                          value={college?.name}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
-                      <div className='col-span-6 sm:col-span-3'>
-                        <label htmlFor='branch' className='block text-sm font-medium text-gray-700'>
-                          Branch
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-3'>
+                        <label
+                          htmlFor='rollNumber'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Roll Number
                         </label>
                         <input
                           type='text'
-                          name='branch'
-                          id='branch'
+                          name='rollNumber'
+                          id='rollNumber'
                           disabled
-                          value={session?.userDetails?.branch?.name}
+                          value={rollNumber.value}
+                          onChnage={(e) => setRollNumber({ ...rollNumber, value: e.target.value })}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -170,8 +246,18 @@ const ProfileEdit = ({ details }) => {
                           name='phone'
                           id='phone'
                           autoComplete='tel'
-                          disabled
-                          value={session?.userDetails?.phone}
+                          value={contact?.phone?.value}
+                          onChange={(e) =>
+                            setContact[
+                              {
+                                ...contact,
+                                phone: {
+                                  ...contact.phone,
+                                  value: e.target.value,
+                                },
+                              }
+                            ]
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -189,7 +275,7 @@ const ProfileEdit = ({ details }) => {
                           id='registered-email-address'
                           autoComplete='email'
                           disabled
-                          value={session?.user?.email}
+                          value={user?.email}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
@@ -206,7 +292,16 @@ const ProfileEdit = ({ details }) => {
                           name='email-address'
                           id='email-address'
                           autoComplete='email'
-                          value={session?.userDetails?.emailList[0]}
+                          value={contact?.email?.value}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              email: {
+                                ...contact.email,
+                                value: e.target.value,
+                              },
+                            })
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
@@ -220,58 +315,241 @@ const ProfileEdit = ({ details }) => {
                           name='dob'
                           id='dob'
                           autoComplete='email'
-                          value={dob?.substring(0, 10)?.substring(0, 10)}
-                          onChange={(e) => setDOB(e.target.value)}
+                          value={profile?.dob?.value?.substring(0, 10)?.substring(0, 10)}
+                          onChange={(e) =>
+                            setProfile({
+                              ...profile,
+                              dob: {
+                                ...profile.dob,
+                                value: e.target.value,
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3'>
+                        <label
+                          htmlFor='fathers-name'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Father&apos;s Name
+                        </label>
+                        <input
+                          type='text'
+                          name='fathers-name'
+                          id='fathers-name'
+                          value={contact?.parents?.father?.name}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                father: {
+                                  ...contact.parents.father,
+                                  name: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3'>
+                        <label
+                          htmlFor='mothers-name'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Mother&apos;s Name
+                        </label>
+                        <input
+                          type='text'
+                          name='mothers-name'
+                          id='mothers-name'
+                          value={contact?.parents?.mother?.name}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                mother: {
+                                  ...contact.parents.mother,
+                                  name: e.target.value,
+                                },
+                              },
+                            })
+                          }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
                       <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
                         <label
-                          htmlFor='rollNumber'
+                          htmlFor='fathers-email-address'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Roll Number
+                          Father&apos;s Email address
                         </label>
                         <input
-                          type='text'
-                          name='rollNumber'
-                          id='rollNumber'
-                          disabled
-                          value={session?.userDetails?.rollNumber}
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
+                          type='email'
+                          name='fathers-email-address'
+                          id='fathers-email-address'
+                          value={contact?.parents?.father?.email}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                father: {
+                                  ...contact.parents.father,
+                                  email: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
+
                       <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
                         <label
-                          htmlFor='bacth-from'
+                          htmlFor='fathers-phone'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Batch From
+                          Father&apos;s Phone Number
                         </label>
                         <input
                           type='text'
-                          name='bacth-from'
-                          id='bacth-from'
-                          disabled
-                          value={session?.userDetails?.batch?.start}
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
+                          name='fathers-phone'
+                          id='fathers-phone'
+                          value={contact?.parents?.father?.phone}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                father: {
+                                  ...contact.parents.father,
+                                  phone: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
+
                       <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
                         <label
-                          htmlFor='bach-to'
+                          htmlFor='fathers-occupation'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Batch To
+                          Father&apos;s Occupation
                         </label>
                         <input
                           type='text'
-                          name='bach-to'
-                          id='bach-to'
-                          disabled
-                          value={session?.userDetails?.batch?.end}
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
+                          name='fathers-occupation'
+                          id='fathers-occupation'
+                          value={contact?.parents?.father?.occupation}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                father: {
+                                  ...contact.parents.father,
+                                  occupation: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                        <label
+                          htmlFor='mothers-email-address'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Mother&apos;s Email address
+                        </label>
+                        <input
+                          type='email'
+                          name='mothers-email-address'
+                          id='mothers-email-address'
+                          value={contact?.parents?.mother?.email}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                mother: {
+                                  ...contact.parents.mother,
+                                  email: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                        <label
+                          htmlFor='mothers-phone'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Mother&apos;s Phone Number
+                        </label>
+                        <input
+                          type='text'
+                          name='mothers-phone'
+                          id='mothers-phone'
+                          value={contact?.parents?.mother?.phone}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                mother: {
+                                  ...contact.parents.mother,
+                                  phone: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                        <label
+                          htmlFor='mothers-occupation'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Mother&apos;s Occupation
+                        </label>
+                        <input
+                          type='text'
+                          name='mothers-occupation'
+                          id='mothers-occupation'
+                          value={contact?.parents?.mother?.occupation}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              parents: {
+                                ...contact.parents,
+                                mother: {
+                                  ...contact.parents.mother,
+                                  occupation: e.target.value,
+                                },
+                              },
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
@@ -288,8 +566,16 @@ const ProfileEdit = ({ details }) => {
                             name='country'
                             autoComplete='country-name'
                             className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block text-sm w-full sm:text-md border-gray-300 rounded-md'
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
+                            value={contact.address.country}
+                            onChange={(e) =>
+                              setContact({
+                                ...contact,
+                                address: {
+                                  ...contact.address,
+                                  country: e.target.value,
+                                },
+                              })
+                            }
                           >
                             <>
                               <option selected disabled>
@@ -311,8 +597,16 @@ const ProfileEdit = ({ details }) => {
                           type='text'
                           name='city'
                           id='city'
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
+                          value={contact.address.city}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              address: {
+                                ...contact.address,
+                                city: e.target.value,
+                              },
+                            })
+                          }
                           autoComplete='address-level2'
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
@@ -326,8 +620,16 @@ const ProfileEdit = ({ details }) => {
                           type='text'
                           name='region'
                           id='region'
-                          value={state}
-                          onChange={(e) => setState(e.target.value)}
+                          value={contact.address.state}
+                          onChange={(e) =>
+                            setContact({
+                              ...contact,
+                              address: {
+                                ...contact.address,
+                                state: e.target.value,
+                              },
+                            })
+                          }
                           autoComplete='address-level1'
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
@@ -374,8 +676,16 @@ const ProfileEdit = ({ details }) => {
                             name='company-website'
                             id='company-website'
                             className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
-                            value={website}
-                            onChange={(e) => setWebsite(e.target.value)}
+                            value={contact.website.value}
+                            onChange={(e) =>
+                              setContact({
+                                ...contact,
+                                website: {
+                                  ...contact.website,
+                                  value: e.target.value,
+                                },
+                              })
+                            }
                             placeholder='https://www.example.com'
                           />
                         </div>
@@ -394,8 +704,16 @@ const ProfileEdit = ({ details }) => {
                             type='text'
                             name='linkedin'
                             id='linkedin'
-                            value={linkedin}
-                            onChange={(e) => setLinkedin(e.target.value)}
+                            value={contact.linkedin.value}
+                            onChange={(e) =>
+                              setContact({
+                                ...contact,
+                                linkedin: {
+                                  ...contact.linkedin,
+                                  value: e.target.value,
+                                },
+                              })
+                            }
                             className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
                             placeholder='https://www.linkedin.com/in/username/'
                           />
@@ -403,7 +721,7 @@ const ProfileEdit = ({ details }) => {
                       </div>
                     </div>
 
-                    <div>
+                    {/* <div>
                       <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
                         About
                       </label>
@@ -422,7 +740,7 @@ const ProfileEdit = ({ details }) => {
                       <p className='mt-2 text-sm text-gray-500'>
                         Brief description for your profile.
                       </p>
-                    </div>
+                    </div> */}
 
                     <div className='sm:col-span-6 mt-3'>
                       <label
@@ -443,11 +761,11 @@ const ProfileEdit = ({ details }) => {
                                 <div className='relative h-full w-full object-fit hover:bg-gray-800'>
                                   <Image
                                     placeholder='blur'
-                                    blurDataURL={image}
+                                    blurDataURL={profile.image}
                                     layout='fill'
                                     objectFit='contain'
                                     className=''
-                                    src={image}
+                                    src={profile.image}
                                     alt=''
                                   />
                                 </div>
@@ -472,13 +790,13 @@ const ProfileEdit = ({ details }) => {
                           </div>
                         ) : (
                           <input
-                            className='cursor-pointer ml-4font-semibold h-10 appearance-none block w-full text-gray-500 px-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                            className='cursor-pointer ml-4 font-semibold h-10 appearance-none block w-full text-gray-500 px-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
                             label='Choose File'
                             type='text'
                             name='image'
                             id='profileImg'
                             readOnly={true}
-                            value={image || ""}
+                            value={profile.image || ""}
                           />
                         )}
                       </div>
