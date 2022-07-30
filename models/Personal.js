@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const personalSchema = new mongoose.Schema({
-  user: { type: String },
+  user: String,
   contact: {
     parents: {
       father: {
@@ -27,9 +27,6 @@ const personalSchema = new mongoose.Schema({
       state: {
         type: String,
       },
-    },
-    email: {
-      type: String,
     },
     linkedin: {
       type: String,

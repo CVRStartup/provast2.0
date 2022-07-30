@@ -39,7 +39,7 @@ const createUserDetails = async (req, res) => {
     const oldEntry = await User.find({ email: req.body.email });
 
     if (oldEntry) {
-      return res.status(500).end({ message: "User Already Exists", details });
+      return res.status(500).json({ message: "User Already Exists", details });
     }
 
     const details = new User(req.body);
@@ -51,7 +51,7 @@ const createUserDetails = async (req, res) => {
       return res.status(200).json({ message: "Please try again.", details: undefined });
     }
   } catch (error) {
-    return res.status(500).end({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 

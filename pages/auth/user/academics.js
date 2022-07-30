@@ -40,6 +40,32 @@ const Academics = () => {
     frozen: false,
   });
 
+  const [contact, setContact] = useState({
+    parents: {
+      father: {
+        name: "",
+        email: "",
+        phone: "",
+        occupation: "",
+      },
+      mother: {
+        name: "",
+        email: "",
+        phone: "",
+        occupation: "",
+      },
+    },
+    address: {
+      city: "",
+      country: "",
+      state: "",
+    },
+    linkedin: "",
+    website: "",
+    verified: false,
+    frozen: false,
+  });
+
   useEffect(() => {
     setAcademics({
       ...academics,
@@ -61,6 +87,13 @@ const Academics = () => {
       { academics }
     );
 
+    const { data: personalDetails } = await axios.post(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/personal?userId=${session._id}`,
+      {
+        contact,
+      }
+    );
+
     const { data: updatedUserData } = await axios.put(
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session._id}`,
       { academicsAvailable: true }
@@ -68,7 +101,7 @@ const Academics = () => {
 
     setLoading(false);
     if (data.message === "Details Created") {
-      if (updatedUserData) {
+      if (updatedUserData && personalDetails) {
         router.push("/");
       }
     } else {
@@ -308,6 +341,10 @@ export const getServerSideProps = async function ({ req, res }) {
       },
     };
   }
+
+  return {
+    props: {},
+  };
 };
 
 export default Academics;

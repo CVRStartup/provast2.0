@@ -75,7 +75,7 @@ const Form = ({ isLogin, errorMessage, onSubmit }) => (
 
           {isLogin ? (
             <div className='flex items-center justify-between'>
-              <Link href={"/auth/signin"}>
+              <Link href={"/auth/signup"}>
                 <a className='ml-2 block text-sm text-gray-900 hover:underline'>
                   Are you a new user?
                 </a>

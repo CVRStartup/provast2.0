@@ -30,7 +30,6 @@ const createUserAcademics = async (req, res) => {
       return res.status(200).json({ message: "Details Already Exists" });
     } else {
       const { academics } = req.body;
-      console.log(academics);
       const newAcademic = new Academic({
         user,
         education: [academics],
