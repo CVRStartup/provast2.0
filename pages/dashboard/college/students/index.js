@@ -44,11 +44,11 @@ const Students = ({ user }) => {
       for (let i = 0; i < keywords.length; i++) {
         let p = keywords[i].trim(" ");
         if (
-          match(x?.rollNumber, p) ||
+          match(x?.rollNumber?.value, p) ||
           match(x?.profile?.firstName, p) ||
           match(x?.profile?.lastName, p) ||
           match(x?.email, p) ||
-          match(x?.phone?.toString(), p)
+          match(x?.phone?.value?.toString(), p)
         )
           return true;
       }
@@ -201,7 +201,7 @@ const Students = ({ user }) => {
                                                 student?.profile.lastName}
                                             </p>
                                             <p className='text-sm text-gray-500 truncate'>
-                                              {student.rollNumber}
+                                              {student.rollNumber.value}
                                             </p>
                                           </a>
                                         </div>
@@ -239,7 +239,7 @@ const Students = ({ user }) => {
                                             student?.profile.lastName}
                                         </p>
                                         <p className='text-sm text-gray-500 truncate'>
-                                          {student.rollNumber}
+                                          {student.rollNumber.value}
                                         </p>
                                       </a>
                                     </div>
@@ -359,7 +359,7 @@ const Students = ({ user }) => {
                                         {student.profile.firstName + " " + student.profile.lastName}
                                       </p>
                                       <p className='text-sm text-gray-500 truncate'>
-                                        {student.rollNumber}
+                                        {student.rollNumber.value}
                                       </p>
                                     </a>
                                   </div>
@@ -395,7 +395,7 @@ const Students = ({ user }) => {
                                     {student?.profile?.firstName + " " + student?.profile?.lastName}
                                   </p>
                                   <p className='text-sm text-gray-500 truncate'>
-                                    {student.rollNumber}
+                                    {student.rollNumber.value}
                                   </p>
                                 </a>
                               </div>

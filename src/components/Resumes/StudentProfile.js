@@ -61,7 +61,7 @@ export const StudentProfile = ({ student }) => {
                     <span>Message</span>
                   </a>
                   <a
-                    href={`tel:${student.phone}`}
+                    href={`tel:${student.phone.value}`}
                     className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
                   >
                     <PhoneIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
@@ -123,7 +123,7 @@ export const StudentProfile = ({ student }) => {
                 </div>
                 <div className='sm:col-span-1'>
                   <dt className='text-md font-medium text-gray-500'>Mobile Number</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>{student?.phone}</dd>
+                  <dd className=' font-semibold text-md text-gray-900'>{student?.phone?.value}</dd>
                 </div>
               </dl>
             </div>

@@ -18,10 +18,10 @@ export const handleJobResponse = async (job, user, op, roles) => {
   if (!user) return;
   let data = null;
   if (job.typeOfPost === "Shortlisted Students") {
-    let newstatus = job.eligible.filter((x) => x.rollnumber === user?.rollNumber)[0];
+    let newstatus = job.eligible.filter((x) => x.rollnumber === user?.rollNumber?.value)[0];
     if (!newstatus) return;
     data = await axios.put(
-      `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${user?.rollNumber}`,
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${user?.rollNumber?.value}`,
       {
         newstatus: {
           ...newstatus,
@@ -35,14 +35,14 @@ export const handleJobResponse = async (job, user, op, roles) => {
     );
   } else {
     data = await axios.put(
-      `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${user?.rollNumber}`,
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${user?.rollNumber?.value}`,
       {
         newstatus: {
           name: user?.profile?.firstName + " " + user?.profile?.lastName,
           branch: user?.branch?.code,
-          rollnumber: user?.rollNumber,
+          rollnumber: user?.rollNumber?.value,
           email: user?.email,
-          phone: user?.phone?.toString(),
+          phone: user?.phone?.value?.toString(),
           status: {
             applied: op === "Apply",
             roles: roles,
@@ -299,7 +299,7 @@ export const getJobs = (jobs, userDetails, status) => {
     eligible: [],
   };
   jobs.forEach((job) => {
-    const response = job.eligible.filter((x) => x.rollnumber === userDetails.rollNumber);
+    const response = job.eligible.filter((x) => x.rollnumber === userDetails.rollNumber.value);
     var flag =
       job.typeOfPost === "Off-Campus" ||
       (job.college === userDetails.college &&

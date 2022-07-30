@@ -16,7 +16,7 @@ const ProfileEdit = ({ userDetails }) => {
   const user = JSON.parse(userDetails);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [rollNumber, setRollNumber] = useState(user?.rollNumber);
+  const [rollNumber, setRollNumber] = useState(user?.rollNumber?.value);
   const [profile, setProfile] = useState({
     firstName: user?.profile?.firstName,
     lastName: user?.profile?.lastName,

@@ -80,49 +80,49 @@ const Academics = () => {
     <React.Fragment>
       <Head>
         <title>Provast | Academics</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className="background">
+      <main className='background'>
         {loading && <Loading />}
-        <div className="min-h-screen flex flex-col justify-center items-center pb-4 sm:px-6 lg:px-8">
-          <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-3xl">
-            <div className="bg-white pt-1 pb-8 shadow-xl rounded-xl px-10">
-              <div className="my-6 flex justify-between items-center">
-                <div className="">
-                  <span className="text-xs font-semibold">Signed In As : </span>
-                  <span className="text-sm font-bold text-gray-600">{session?.email}</span>
+        <div className='min-h-screen flex flex-col justify-center items-center pb-4 sm:px-6 lg:px-8'>
+          <div className='mt-4 sm:mx-auto sm:w-full sm:max-w-3xl'>
+            <div className='bg-white pt-1 pb-8 shadow-xl rounded-xl px-10'>
+              <div className='my-6 flex justify-between items-center'>
+                <div className=''>
+                  <span className='text-xs font-semibold'>Signed In As : </span>
+                  <span className='text-sm font-bold text-gray-600'>{session?.email}</span>
                 </div>
-                <button className="font-semibold text-blue-600 text-sm underline hover:text-blue-800">
-                  <a href="/api/auth/logout">Logout</a>
+                <button className='font-semibold text-blue-600 text-sm underline hover:text-blue-800'>
+                  <a href='/api/auth/logout'>Logout</a>
                 </button>
               </div>
-              <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <h2 className="mt-2 text-center text-2xl font-bold  text-gray-900">
+              <div className='sm:mx-auto sm:w-full sm:max-w-md'>
+                <h2 className='mt-2 text-center text-2xl font-bold  text-gray-900'>
                   Current education details
                 </h2>
               </div>
               <form onSubmit={submitHandler}>
                 <React.Fragment>
-                  <div className="col-span-6 sm:col-span-6 mt-2">
-                    <div className="flex">
-                      <label htmlFor="school" className="block text-sm font-medium text-gray-700">
+                  <div className='col-span-6 sm:col-span-6 mt-2'>
+                    <div className='flex'>
+                      <label htmlFor='school' className='block text-sm font-medium text-gray-700'>
                         School / Institution
                       </label>
-                      <span className="ml-1 text-red-600 font-semibold">*</span>
+                      <span className='ml-1 text-red-600 font-semibold'>*</span>
                     </div>
                     <input
-                      type="text"
-                      name="school"
-                      id="school"
+                      type='text'
+                      name='school'
+                      id='school'
                       value={academics.institution}
                       onChange={(e) => setAcademics({ ...academics, institution: e.target.value })}
                       required
-                      className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
 
-                  <div className="relative mb-20 grid grid-cols-6 gap-6 mt-4">
-                    <div className="col-span-6 sm:col-span-3 absolute left-0 w-[48%]">
+                  <div className='relative mb-20 grid grid-cols-6 gap-6 mt-4'>
+                    <div className='col-span-6 sm:col-span-3 absolute left-0 w-[48%]'>
                       <DropDown
                         title={"Program / Degree"}
                         isRequired
@@ -131,7 +131,7 @@ const Academics = () => {
                         setSelectedOption={setSelectedDegree}
                       />
                     </div>
-                    <div className="col-span-6 sm:col-span-3 absolute right-0 w-[48%]">
+                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
                       <DropDown
                         title={"Branch / Specialization"}
                         isRequired
@@ -142,25 +142,25 @@ const Academics = () => {
                     </div>
                   </div>
 
-                  <div className="relative grid grid-cols-6 gap-6">
-                    <div className="col-span-6 sm:col-span-3 ">
-                      <div className="flex">
-                        <label htmlFor="board" className="block text-sm font-medium text-gray-700">
+                  <div className='relative grid grid-cols-6 gap-6'>
+                    <div className='col-span-6 sm:col-span-3 '>
+                      <div className='flex'>
+                        <label htmlFor='board' className='block text-sm font-medium text-gray-700'>
                           Board / University
                         </label>
-                        <span className="ml-1 text-red-600 font-semibold">*</span>
+                        <span className='ml-1 text-red-600 font-semibold'>*</span>
                       </div>
                       <input
-                        type="text"
-                        name="board"
-                        id="board"
+                        type='text'
+                        name='board'
+                        id='board'
                         required
                         value={academics.board}
                         onChange={(e) => setAcademics({ ...academics, board: e.target.value })}
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
-                    <div className="col-span-6 sm:col-span-3 absolute right-0 w-[48%]">
+                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
                       <DropDown
                         title={"Education Type"}
                         isRequired
@@ -171,18 +171,18 @@ const Academics = () => {
                     </div>
                   </div>
 
-                  <div className="flex mt-4">
-                    <label htmlFor="score" className="block text-sm font-medium text-gray-700">
+                  <div className='flex mt-4'>
+                    <label htmlFor='score' className='block text-sm font-medium text-gray-700'>
                       Score
                     </label>
-                    <span className="ml-1 text-red-600 font-semibold">*</span>
+                    <span className='ml-1 text-red-600 font-semibold'>*</span>
                   </div>
-                  <div className="relative grid grid-cols-6 gap-6">
-                    <div className="col-span-6 sm:col-span-3 ">
+                  <div className='relative grid grid-cols-6 gap-6'>
+                    <div className='col-span-6 sm:col-span-3 '>
                       <input
-                        type="number"
-                        name="score"
-                        id="score"
+                        type='text'
+                        name='score'
+                        id='score'
                         required
                         value={academics.grade}
                         onChange={(e) =>
@@ -191,10 +191,10 @@ const Academics = () => {
                             score: { ...academics.score, grade: e.target.value },
                           })
                         }
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
-                    <div className="col-span-6 sm:col-span-3 absolute right-0 w-[48%]">
+                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
                       <DropDown
                         options={typeOfEducationGrade}
                         selectedOption={selectedTypeOfEducationGrade}
@@ -203,21 +203,21 @@ const Academics = () => {
                     </div>
                   </div>
 
-                  <div className="flex mt-4">
-                    <label htmlFor="duration" className="block text-sm font-medium text-gray-700">
+                  <div className='flex mt-4'>
+                    <label htmlFor='duration' className='block text-sm font-medium text-gray-700'>
                       Duration
                     </label>
-                    <span className="ml-1 text-red-600 font-semibold">*</span>
+                    <span className='ml-1 text-red-600 font-semibold'>*</span>
                   </div>
-                  <div className="grid grid-cols-6 gap-6">
-                    <div className="col-span-6 sm:col-span-3">
+                  <div className='grid grid-cols-6 gap-6'>
+                    <div className='col-span-6 sm:col-span-3'>
                       <input
-                        type="number"
-                        name="duration"
-                        placeholder="YYYY"
-                        min="2001"
-                        max="2100"
-                        id="duration"
+                        type='number'
+                        name='duration'
+                        placeholder='YYYY'
+                        min='2001'
+                        max='2100'
+                        id='duration'
                         onChange={(e) =>
                           setAcademics({
                             ...academics,
@@ -225,17 +225,17 @@ const Academics = () => {
                           })
                         }
                         required
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
-                    <div className="col-span-6 sm:col-span-3">
+                    <div className='col-span-6 sm:col-span-3'>
                       <input
-                        type="number"
-                        placeholder="YYYY"
-                        min="2001"
-                        max="2100"
-                        name="duration"
-                        id="duration"
+                        type='number'
+                        placeholder='YYYY'
+                        min='2001'
+                        max='2100'
+                        name='duration'
+                        id='duration'
                         onChange={(e) =>
                           setAcademics({
                             ...academics,
@@ -243,13 +243,13 @@ const Academics = () => {
                           })
                         }
                         required
-                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
                   </div>
 
-                  <div className="mt-4">
-                    <button className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 ">
+                  <div className='mt-4'>
+                    <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 '>
                       Submit
                     </button>
                   </div>
