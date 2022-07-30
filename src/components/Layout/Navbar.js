@@ -26,41 +26,34 @@ export const Navbar = () => {
     {
       name: "Open Jobs",
       href: "/dashboard/student/openjobs",
-      current: router.asPath === "/dashboard/student/openjobs",
     },
   ];
   const adminNavigation = [
     {
       name: "Dashboard",
       href: "/dashboard/admin",
-      current: router.asPath === "/dashboard/admin",
     },
   ];
   const collegeNavigation = [
     {
       name: "Dashboard",
       href: "/dashboard/college",
-      current: router.asPath === "/dashboard/college",
     },
     {
       name: "Students",
       href: "/dashboard/college/students",
-      current: router.asPath === "/dashboard/college/students",
     },
     {
       name: "Jobs",
       href: "/dashboard/college/jobs",
-      current: router.asPath === "/dashboard/college/jobs",
     },
     {
       name: "Assessments",
-      href: "/dashboard/college/assignment",
-      current: router.asPath === "/dashboard/college/assignments",
+      href: "/dashboard/college/assessments",
     },
     {
       name: "Learn",
       href: "/dashboard/college/learn",
-      current: router.asPath === "/dashboard/college/learn",
     },
   ];
 
@@ -68,27 +61,22 @@ export const Navbar = () => {
     {
       name: "Dashboard",
       href: "/dashboard/student",
-      current: router.asPath === "/dashboard/student",
     },
     {
       name: "Resumes",
       href: "/dashboard/student/resumes",
-      current: router.asPath === "/dashboard/student/resumes",
     },
     {
       name: "Assessments",
-      href: "/dashboard/student/assignment",
-      current: router.asPath === "/dashboard/student/assignment",
+      href: "/dashboard/student/assessments",
     },
     {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",
-      current: router.asPath === "/dashboard/student/testpatterns",
     },
     {
       name: "Learn",
       href: "/dashboard/student/learn",
-      current: router.asPath === "/dashboard/student/learn",
     },
   ];
 
@@ -141,11 +129,8 @@ export const Navbar = () => {
               <a
                 key={option.name}
                 href={option.href}
-                className={classNames(
-                  option.current ? "text-orange-600" : "text-gray-900 hover:text-orange-400",
-                  "rounded-md py-2 px-3 inline-flex options-center text-[15px] font-medium"
-                )}
-                aria-current={option.current ? "page" : undefined}
+                className='text-gray-900 hover:text-orange-400
+                  rounded-md py-2 px-3 inline-flex options-center text-[15px] font-medium'
               >
                 {option.name}
               </a>

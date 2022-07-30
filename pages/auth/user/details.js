@@ -16,7 +16,11 @@ const typeOfCategory = [
 
 const Details = ({ colleges, user }) => {
   const router = useRouter();
-  const [rollNumber, setRollNumber] = useState("");
+  const [rollNumber, setRollNumber] = useState({
+    value: "",
+    verified: false,
+    frozen: false,
+  });
   const [loading, setLoading] = useState(false);
   const [collegeSearchValue, setCollegeSearchValue] = useState("");
   const [collegeList, setCollegeList] = useState([]);
@@ -31,8 +35,14 @@ const Details = ({ colleges, user }) => {
     image: user?.profile?.image,
     gender: selectedGender.name,
     dob: null,
+    verified: false,
+    frozen: false,
   });
-  const [phone, setPhone] = useState(null);
+  const [phone, setPhone] = useState({
+    value: null,
+    verified: false,
+    frozen: false,
+  });
   const [college, setCollege] = useState({
     name: "",
     code: "",
@@ -47,6 +57,8 @@ const Details = ({ colleges, user }) => {
       email: "",
       phone: null,
     },
+    verified: false,
+    frozen: false,
   });
   const session = useUser();
 
@@ -312,7 +324,7 @@ const Details = ({ colleges, user }) => {
                         disabled={category === "student" && !verified}
                         required
                         value={rollNumber}
-                        onChange={(e) => setRollNumber(e.target.value)}
+                        onChange={(e) => setRollNumber({ ...rollNumber, value: e.target.value })}
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
@@ -410,7 +422,7 @@ const Details = ({ colleges, user }) => {
                             ...college,
                             placement: { ...college.placement, phone: e.target.value },
                           });
-                        if (category === "student") setPhone(e.target.value);
+                        if (category === "student") setPhone({ ...phone, value: e.target.value });
                       }}
                       className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />

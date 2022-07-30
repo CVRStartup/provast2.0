@@ -45,39 +45,39 @@ export const Core = ({ componentRef, filter = null }) => {
         style={{ fontFamily: layout?.font }}
         className={`w-a4W bg-white mx-auto h-a4H my-5`}
       >
-        <div className="p-7">
-          <div className="flex justify-between items-center ">
-            <div className="flex items-center">
-              <div className="relative w-36 h-36 rounded-md object-fit mr-4">
+        <div className='p-7'>
+          <div className='flex justify-between items-center '>
+            <div className='flex items-center'>
+              <div className='relative w-36 h-36 rounded-md object-fit mr-4'>
                 {profile && <img src={profile?.image} />}
               </div>
-              <div className="flex flex-col">
+              <div className='flex flex-col'>
                 <h2
                   style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                  className="text-3xl font-bold capitalize"
+                  className='text-3xl font-bold capitalize'
                 >
                   {rename(profile?.firstName)} {rename(profile?.lastName)}
                 </h2>
-                <h1 className="text-xs uppercase font-bold text-gray-500 tracking-wider">
+                <h1 className='text-xs uppercase font-bold text-gray-500 tracking-wider'>
                   {profile?.role}
                 </h1>
 
-                <div className="mt-5">
+                <div className='mt-5'>
                   <div
                     style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                    className="w-full flex items-center justify-start"
+                    className='w-full flex items-center justify-start'
                   >
                     <BiPhone size={20} />
-                    <span className="ml-2 text-sm font-semibold text-gray-700">
-                      {profile?.phone}
+                    <span className='ml-2 text-sm font-semibold text-gray-700'>
+                      {profile?.phone?.value}
                     </span>
                   </div>
                   <div
                     style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                    className="w-full flex items-center justify-start"
+                    className='w-full flex items-center justify-start'
                   >
                     <AiOutlineCalendar size={20} />
-                    <span className="ml-2 text-sm font-semibold text-gray-700">{profile?.dob}</span>
+                    <span className='ml-2 text-sm font-semibold text-gray-700'>{profile?.dob}</span>
                   </div>
                 </div>
               </div>
@@ -87,17 +87,17 @@ export const Core = ({ componentRef, filter = null }) => {
                 <>
                   <h4
                     style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                    className="uppercase text-sm font-semibold mt-1 "
+                    className='uppercase text-sm font-semibold mt-1 '
                   >
                     Languages
                   </h4>
 
-                  <div className="flex">
+                  <div className='flex'>
                     {languages?.map((langauge) => {
                       if (langauge?.enabled === true) {
                         return (
                           <div key={langauge?._id}>
-                            <h5 className="text-sm font-semibold mr-4">{langauge?.name}</h5>
+                            <h5 className='text-sm font-semibold mr-4'>{langauge?.name}</h5>
                           </div>
                         );
                       }
@@ -107,10 +107,10 @@ export const Core = ({ componentRef, filter = null }) => {
               )}
               <div
                 style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                className="w-full my-1 flex items-center justify-start"
+                className='w-full my-1 flex items-center justify-start'
               >
                 <FiMail size={18} />
-                <span className="ml-2 text-sm font-semibold text-gray-700">{profile?.email}</span>
+                <span className='ml-2 text-sm font-semibold text-gray-700'>{profile?.email}</span>
               </div>
 
               {social?.map((option) => {
@@ -120,10 +120,10 @@ export const Core = ({ componentRef, filter = null }) => {
                     <div
                       key={option._id}
                       style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                      className="w-full my-1 flex items-center justify-start"
+                      className='w-full my-1 flex items-center justify-start'
                     >
                       {Icon && <Icon size={20} />}
-                      <span className="ml-2 text-sm font-semibold text-gray-700">
+                      <span className='ml-2 text-sm font-semibold text-gray-700'>
                         {option?.username}
                       </span>
                     </div>
@@ -132,23 +132,23 @@ export const Core = ({ componentRef, filter = null }) => {
               })}
             </div>
           </div>
-          <div className="flex justify-between mt-2">
+          <div className='flex justify-between mt-2'>
             {education?.filter((option) => option?.enabled).length > 0 && (
-              <div className="w-full">
+              <div className='w-full'>
                 <h4
                   style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                  className="uppercase font-semibold"
+                  className='uppercase font-semibold'
                 >
                   Education
                 </h4>
                 {education
                   ?.filter((option) => option?.enabled === true)
                   .map((option) => (
-                    <div key={option?._id} className="mb-2">
-                      <div className="flex justify-between my-1">
-                        <div className="text-[15px] font-semibold">
-                          <p className="leading-4">{option?.institution}</p>
-                          <p className="text-[13.5px] text-gray-600">
+                    <div key={option?._id} className='mb-2'>
+                      <div className='flex justify-between my-1'>
+                        <div className='text-[15px] font-semibold'>
+                          <p className='leading-4'>{option?.institution}</p>
+                          <p className='text-[13.5px] text-gray-600'>
                             {option?.typeOfDegree !== "School / Intermediate" &&
                             option?.typeOfDegree !== "None"
                               ? `${option?.typeOfDegree},`
@@ -157,7 +157,7 @@ export const Core = ({ componentRef, filter = null }) => {
                           </p>
                         </div>
 
-                        <div className="text-xs font-bold text-gray-500">
+                        <div className='text-xs font-bold text-gray-500'>
                           {`(${
                             months[new Date(option?.startDate?.substring(0, 10)).getMonth() + 1]
                           } ${new Date(option?.startDate?.substring(0, 10)).getFullYear()}) - (${
@@ -167,7 +167,7 @@ export const Core = ({ componentRef, filter = null }) => {
                       </div>
 
                       {option?.summary?.enabled && (
-                        <div className="markdown text-[13.5px] mt-1">
+                        <div className='markdown text-[13.5px] mt-1'>
                           <MarkdownRenderer>{option?.summary?.data}</MarkdownRenderer>
                         </div>
                       )}
@@ -181,23 +181,23 @@ export const Core = ({ componentRef, filter = null }) => {
               <div>
                 <h4
                   style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                  className="uppercase font-semibold mt-2"
+                  className='uppercase font-semibold mt-2'
                 >
                   Experience
                 </h4>
                 {work?.map((option) => {
                   if (option?.enabled === true) {
                     return (
-                      <div key={option?._id} className="mb-2">
-                        <div className="flex items-center justify-between">
-                          <div className="text-[15px] font-semibold">
+                      <div key={option?._id} className='mb-2'>
+                        <div className='flex items-center justify-between'>
+                          <div className='text-[15px] font-semibold'>
                             {option?.company},{" "}
-                            <span className="text-[12px] capitalize font-base text-gray-600">
+                            <span className='text-[12px] capitalize font-base text-gray-600'>
                               {option?.designation}
                             </span>
                           </div>
 
-                          <div className="text-xs font-bold text-gray-500">
+                          <div className='text-xs font-bold text-gray-500'>
                             {`(${
                               months[new Date(option?.from?.substring(0, 10)).getMonth() + 1]
                             } ${new Date(option?.from?.substring(0, 10)).getFullYear()}) - (${
@@ -207,7 +207,7 @@ export const Core = ({ componentRef, filter = null }) => {
                         </div>
 
                         {option?.summary?.enabled && (
-                          <div className="markdown text-[13.5px]">
+                          <div className='markdown text-[13.5px]'>
                             <MarkdownRenderer>{option?.summary?.data}</MarkdownRenderer>
                           </div>
                         )}
@@ -219,26 +219,26 @@ export const Core = ({ componentRef, filter = null }) => {
             )}
 
             {projects?.filter((project) => project?.enabled)?.length > 0 && (
-              <div className="mt-4">
+              <div className='mt-4'>
                 <h4
                   style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                  className="uppercase font-semibold mt-1"
+                  className='uppercase font-semibold mt-1'
                 >
                   Projects
                 </h4>
                 {projects?.map((project) => {
                   if (project?.enabled === true) {
                     return (
-                      <div key={project?._id} className="mb-2">
+                      <div key={project?._id} className='mb-2'>
                         <div>
-                          <div className="flex justify-between">
-                            <div className="text-[15px] font-semibold">{project?.name}</div>
-                            <div className="relative font-semibold text-[13px] ">
+                          <div className='flex justify-between'>
+                            <div className='text-[15px] font-semibold'>{project?.name}</div>
+                            <div className='relative font-semibold text-[13px] '>
                               <div>{project?.website}</div>
-                              <div className="absolute w-full bottom-1 left-0 border-t border-gray-500"></div>
+                              <div className='absolute w-full bottom-1 left-0 border-t border-gray-500'></div>
                             </div>
                           </div>
-                          <div className="markdown capitalize text-[13px]">
+                          <div className='markdown capitalize text-[13px]'>
                             <MarkdownRenderer>{project?.summary?.data}</MarkdownRenderer>
                           </div>
                         </div>
@@ -250,28 +250,28 @@ export const Core = ({ componentRef, filter = null }) => {
             )}
           </div>
           {certifications?.filter((certification) => certification?.enabled)?.length > 0 && (
-            <div className="mt-4">
+            <div className='mt-4'>
               <h3
                 style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                className="uppercase font-semibold"
+                className='uppercase font-semibold'
               >
                 Certifications
               </h3>
               {certifications?.map((certification) => {
                 if (certification?.enabled === true) {
                   return (
-                    <div key={certification?._id} className="relative mb-2">
-                      <div className="text-[15px] font-semibold">
+                    <div key={certification?._id} className='relative mb-2'>
+                      <div className='text-[15px] font-semibold'>
                         {certification?.title},{" "}
-                        <span className="text-[12px] font-base text-gray-500">
+                        <span className='text-[12px] font-base text-gray-500'>
                           {certification?.issuer}
                         </span>
                       </div>
-                      <div className="absolute top-0 right-0 text-sm font-light">
+                      <div className='absolute top-0 right-0 text-sm font-light'>
                         {new Date(certification?.date).getFullYear()}
                       </div>
 
-                      <div className="markdown capitalize text-xs">
+                      <div className='markdown capitalize text-xs'>
                         <MarkdownRenderer>{certification?.summary?.data}</MarkdownRenderer>
                       </div>
                     </div>
@@ -280,12 +280,12 @@ export const Core = ({ componentRef, filter = null }) => {
               })}
             </div>
           )}
-          <div className="flex justify-between">
+          <div className='flex justify-between'>
             {awards?.filter((award) => award?.enabled)?.length > 0 && (
-              <div className="w-[50%]">
+              <div className='w-[50%]'>
                 <h3
                   style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                  className="uppercase font-semibold mt-3"
+                  className='uppercase font-semibold mt-3'
                 >
                   Awards
                 </h3>
@@ -293,20 +293,20 @@ export const Core = ({ componentRef, filter = null }) => {
                 {awards?.map((award) => {
                   if (award?.enabled === true) {
                     return (
-                      <div key={award?._id} className="mb-2">
-                        <div className="flex items-center justify-between">
-                          <div className="text-[15px] font-semibold leading-3">
+                      <div key={award?._id} className='mb-2'>
+                        <div className='flex items-center justify-between'>
+                          <div className='text-[15px] font-semibold leading-3'>
                             {award?.name},{" "}
-                            <span className="text-[12px] capitalize tracking-wide text-gray-500">
+                            <span className='text-[12px] capitalize tracking-wide text-gray-500'>
                               awarded by {award?.awarder}
                             </span>
                           </div>
-                          <div className="text-xs font-bold text-gray-500">
+                          <div className='text-xs font-bold text-gray-500'>
                             {new Date(award?.date).getFullYear()}
                           </div>
                         </div>
 
-                        <div className="markdown capitalize text-xs mt-1">
+                        <div className='markdown capitalize text-xs mt-1'>
                           <MarkdownRenderer>{award?.summary?.data}</MarkdownRenderer>
                         </div>
                       </div>
@@ -315,12 +315,12 @@ export const Core = ({ componentRef, filter = null }) => {
                 })}
               </div>
             )}
-            <div className="w-[45%]">
+            <div className='w-[45%]'>
               {skills?.filter((skill) => skill?.enabled).length > 0 && (
                 <div>
                   <h4
                     style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}
-                    className="uppercase font-semibold mt-3"
+                    className='uppercase font-semibold mt-3'
                   >
                     Skills
                   </h4>
@@ -328,9 +328,9 @@ export const Core = ({ componentRef, filter = null }) => {
                   {skills?.map((skill) => {
                     if (skill?.enabled === true) {
                       return (
-                        <div key={skill?._id} className="flex justify-between items-center my-1">
-                          <h4 className="text-xs capitalize font-semibold">{skill?.name}</h4>
-                          <h4 className="text-xs capitalize font-semibold">{skill?.level}</h4>
+                        <div key={skill?._id} className='flex justify-between items-center my-1'>
+                          <h4 className='text-xs capitalize font-semibold'>{skill?.name}</h4>
+                          <h4 className='text-xs capitalize font-semibold'>{skill?.level}</h4>
                         </div>
                       );
                     }
