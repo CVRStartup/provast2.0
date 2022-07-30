@@ -18,9 +18,18 @@ const academicSchema = new mongoose.Schema(
           from: Number,
           to: Number,
         },
-        current: Boolean,
-        verified: Boolean,
-        frozen: Boolean,
+        current: {
+          type: Boolean,
+          default: false,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
   },

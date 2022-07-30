@@ -31,9 +31,27 @@ const userSchema = new mongoose.Schema(
       gender: {
         type: String,
       },
+      verified: {
+        type: Boolean,
+        default: false,
+      },
+      frozen: {
+        type: Boolean,
+        default: false,
+      },
     },
     phone: {
-      type: Number,
+      value: {
+        type: Number,
+      },
+      verified: {
+        type: Boolean,
+        default: false,
+      },
+      frozen: {
+        type: Boolean,
+        default: false,
+      },
     },
     approved: {
       type: Boolean,
@@ -42,9 +60,19 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     rollNumber: {
-      type: String,
-      trim: true,
-      uppercase: true,
+      value: {
+        type: String,
+        trim: true,
+        uppercase: true,
+      },
+      verified: {
+        type: Boolean,
+        default: false,
+      },
+      frozen: {
+        type: Boolean,
+        default: false,
+      },
     },
     college: {
       name: {
@@ -78,6 +106,14 @@ const userSchema = new mongoose.Schema(
         phone: {
           type: Number,
         },
+      },
+      verified: {
+        type: Boolean,
+        default: false,
+      },
+      frozen: {
+        type: Boolean,
+        default: false,
       },
     },
   },

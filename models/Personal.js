@@ -37,6 +37,14 @@ const personalSchema = new mongoose.Schema({
     website: {
       type: String,
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+    frozen: {
+      type: Boolean,
+      default: false,
+    },
   },
 });
 
