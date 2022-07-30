@@ -33,26 +33,32 @@ const searchUserDetails = async (req, res) => {
 };
 
 const createUserDetails = async (req, res) => {
-  // try {
-  await connectDB();
+  try {
+    await connectDB();
 
-  // const oldEntry = await User.find({ email: req.body.email });
+    const details = new User(req.body);
+    await details.save();
 
-  // if (oldEntry) {
-  //   return res.status(500).end({ message: "User Already Exists", oldEntry });
-  // }
-
-  const details = new User(req.body);
-  await details.save();
-
-  if (details) {
-    return res.status(200).json({ message: "User Created", details });
-  } else {
-    return res.status(200).json({ message: "Please try again.", details: undefined });
+    if (details) {
+      return res.status(200).json({ message: "User Created", details });
+    } else {
+      return res.status(200).json({ message: "Please try again.", details: undefined });
+    }
+  } catch (error) {
+    console.log(error);
+    if (error.code === 11000) {
+      return res.status(500).json({
+        message: `The ${
+          Object.keys(error.keyPattern)[0] === "rollNumber"
+            ? "roll number"
+            : Object.keys(error.keyPattern)[0]
+        } has already been registered.`,
+        details: false,
+      });
+    } else {
+      return res.status(500).json({ message: error, details: false });
+    }
   }
-  // } catch (error) {
-  //   return res.status(500).end({ message: error.message });
-  // }
 };
 
 const updateUserDetails = async (req, res) => {

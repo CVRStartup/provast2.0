@@ -24,7 +24,6 @@ export default nextConnect()
       // session is the payload to save in the token, it may contain basic info about the user
       const session = { ...user };
       await setLoginSession(res, session);
-
       res.status(200).send({ done: true });
     } catch (error) {
       console.error(error);

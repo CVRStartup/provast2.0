@@ -166,7 +166,6 @@ const userSchema = new mongoose.Schema(
         type: String,
         trim: true,
         uppercase: true,
-        unique: true,
       },
       verified: {
         type: Boolean,
@@ -215,4 +214,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.users || mongoose.model("users", userSchema);
+export default mongoose.models.User || mongoose.model("User", userSchema);

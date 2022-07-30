@@ -1,4 +1,4 @@
-import User from "../../../models/User";
+import User from "../../../models/User.js";
 import OTP from "../../../models/Otp";
 import connectDB from "../../../src/lib/connectDB.js";
 import otpGenerator from "otp-generator";

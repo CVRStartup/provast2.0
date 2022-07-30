@@ -1,4 +1,4 @@
-import UserDetails from "../../../../models/User";
+import User from "../../../../models/User.js";
 import connectDB from "../../../../src/lib/connectDB";
 
 export default async function handler(req, res) {
@@ -21,7 +21,7 @@ const deleteRegisteredCollege = async (req, res) => {
 
     const { id } = req.query;
 
-    const college = await UserDetails.findOneAndDelete({ _id: id });
+    const college = await User.findOneAndDelete({ _id: id });
 
     if (college) {
       return res.status(200).json({ message: "College Deleted" });
@@ -39,11 +39,7 @@ const updateRegisteredCollegeStatus = async (req, res) => {
 
     const { id, status } = req.query;
 
-    const college = await UserDetails.findOneAndUpdate(
-      { _id: id },
-      { approved: status },
-      { new: true }
-    );
+    const college = await User.findOneAndUpdate({ _id: id }, { approved: status }, { new: true });
 
     if (college) {
       return res.status(200).json({ message: "Status Updated", college });
@@ -59,7 +55,7 @@ const getAllRegisteredColleges = async (req, res) => {
   try {
     await connectDB();
 
-    const collegeDetails = await UserDetails.find({ category: "college" });
+    const collegeDetails = await User.find({ category: "college" });
 
     if (collegeDetails.length > 0) {
       return res.status(200).json({ message: "colleges Found", collegeDetails });

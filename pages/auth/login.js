@@ -3,7 +3,6 @@ import Router from "next/router";
 import { useUser } from "../../src/lib/hooks";
 import Layout from "../../src/components/layout";
 import Form from "../../src/components/form";
-import Image from "next/image";
 
 const Login = () => {
   useUser({ redirectTo: "/", redirectIfFound: true });

@@ -23,7 +23,7 @@ const verifyPassphrase = async (req, res) => {
 
     const college = await User.findOne({ "college.passphrase": pass });
 
-    if (college.approved) {
+    if (college?.approved) {
       return res.status(200).json({
         message: "College found",
         verified: true,
