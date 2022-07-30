@@ -13,16 +13,32 @@ const userSchema = new mongoose.Schema(
     },
     profile: {
       firstName: {
-        type: String,
-        trim: true,
-        verified: Boolean,
-        frozen: Boolean,
+        value: {
+          type: String,
+          trim: true,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
       lastName: {
-        type: String,
-        trim: true,
-        verified: Boolean,
-        frozen: Boolean,
+        value: {
+          type: String,
+          trim: true,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
       image: {
         type: String,
@@ -30,14 +46,31 @@ const userSchema = new mongoose.Schema(
           "http://res.cloudinary.com/dj7nomqfd/image/upload/v1647117869/uploads/bphhxvmlcyyu2pntbikm.png",
       },
       dob: {
-        type: Date,
-        verified: Boolean,
-        frozen: Boolean,
+        value: {
+          type: Date,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
       gender: {
-        type: String,
-        verified: Boolean,
-        frozen: Boolean,
+        value: {
+          type: String,
+          trim: true,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
     },
     contact: {
@@ -45,13 +78,13 @@ const userSchema = new mongoose.Schema(
         father: {
           name: String,
           email: String,
-          phone: String,
+          phone: Number,
           occupation: String,
         },
         mother: {
           name: String,
           email: String,
-          phone: String,
+          phone: Number,
           occupation: String,
         },
       },
@@ -67,24 +100,59 @@ const userSchema = new mongoose.Schema(
         },
       },
       email: {
-        type: String,
-        verified: Boolean,
-        frozen: Boolean,
+        value: {
+          type: String,
+          trim: true,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
       linkedin: {
-        type: String,
-        verified: Boolean,
-        frozen: Boolean,
+        value: {
+          type: String,
+          trim: true,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
       phone: {
-        type: Number,
-        verified: Boolean,
-        frozen: Boolean,
+        value: {
+          type: Number,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
       website: {
-        type: String,
-        verified: Boolean,
-        frozen: Boolean,
+        value: {
+          type: String,
+          trim: true,
+        },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        frozen: {
+          type: Boolean,
+          default: false,
+        },
       },
     },
     approved: {
@@ -94,11 +162,20 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     rollNumber: {
-      type: String,
-      trim: true,
-      uppercase: true,
-      verified: Boolean,
-      frozen: Boolean,
+      value: {
+        type: String,
+        trim: true,
+        uppercase: true,
+        unique: true,
+      },
+      verified: {
+        type: Boolean,
+        default: false,
+      },
+      frozen: {
+        type: Boolean,
+        default: false,
+      },
     },
     college: {
       name: {

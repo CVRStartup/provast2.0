@@ -16,7 +16,7 @@ const typeOfCategory = [
 
 const Details = ({ colleges, user }) => {
   const router = useRouter();
-  const [rollNumber, setRollNumber] = useState("");
+  const [rollNumber, setRollNumber] = useState({ value: "", verified: false, frozen: false });
   const [loading, setLoading] = useState(false);
   const [collegeSearchValue, setCollegeSearchValue] = useState("");
   const [collegeList, setCollegeList] = useState([]);
@@ -26,11 +26,27 @@ const Details = ({ colleges, user }) => {
 
   const [category, setCategory] = useState("student");
   const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
+    firstName: {
+      value: "",
+      verified: false,
+      frozen: false,
+    },
+    lastName: {
+      value: "",
+      verified: false,
+      frozen: false,
+    },
     image: user?.profile?.image,
-    gender: selectedGender.name,
-    dob: null,
+    gender: {
+      value: selectedGender.name,
+      verified: false,
+      frozen: false,
+    },
+    dob: {
+      value: null,
+      verified: false,
+      frozen: false,
+    },
   });
   const [college, setCollege] = useState({
     name: "",
@@ -52,8 +68,16 @@ const Details = ({ colleges, user }) => {
   const [verified, setVerified] = useState(false);
   const [passphrase, setPassphrase] = useState("");
   const [contact, setContact] = useState({
-    email: "",
-    phone: null,
+    email: {
+      value: "",
+      verified: false,
+      frozen: false,
+    },
+    phone: {
+      value: null,
+      verified: false,
+      frozen: false,
+    },
   });
 
   const verifyPassphrase = async () => {
@@ -72,7 +96,12 @@ const Details = ({ colleges, user }) => {
     const { data } = await axios.put(
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session?._id}`,
       {
-        profile,
+        profile: {
+          ...profile,
+          gender: {
+            value: selectedGender.name,
+          },
+        },
         contact,
         rollNumber,
         category,
@@ -225,8 +254,13 @@ const Details = ({ colleges, user }) => {
                         autoComplete="given-name"
                         disabled={category === "student" && !verified}
                         required
-                        value={profile.firstName}
-                        onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
+                        value={profile.firstName.value}
+                        onChange={(e) =>
+                          setProfile({
+                            ...profile,
+                            firstName: { ...profile.firstName, value: e.target.value },
+                          })
+                        }
                         className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -248,8 +282,13 @@ const Details = ({ colleges, user }) => {
                         autoComplete="family-name"
                         disabled={category === "student" && !verified}
                         required
-                        value={profile.lastName}
-                        onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
+                        value={profile.lastName.value}
+                        onChange={(e) =>
+                          setProfile({
+                            ...profile,
+                            lastName: { ...profile.lastName, value: e.target.value },
+                          })
+                        }
                         className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -314,8 +353,8 @@ const Details = ({ colleges, user }) => {
                         autoComplete="roll-number"
                         disabled={category === "student" && !verified}
                         required
-                        value={rollNumber}
-                        onChange={(e) => setRollNumber(e.target.value)}
+                        value={rollNumber.value}
+                        onChange={(e) => setRollNumber({ ...rollNumber, value: e.target.value })}
                         className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -377,7 +416,7 @@ const Details = ({ colleges, user }) => {
                       id="email"
                       autoComplete="email"
                       required
-                      value={category === "college" ? college.placement.email : contact.email}
+                      value={category === "college" ? college.placement.email : contact.email.value}
                       disabled={category === "student" && !verified}
                       onChange={(e) => {
                         if (category === "college")
@@ -388,7 +427,7 @@ const Details = ({ colleges, user }) => {
                         if (category === "student")
                           setContact({
                             ...contact,
-                            email: e.target.value,
+                            email: { ...contact.email, value: e.target.value },
                           });
                       }}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
@@ -411,7 +450,7 @@ const Details = ({ colleges, user }) => {
                       required
                       disabled={category === "student" && !verified}
                       pattern="[6789][0-9]{9}"
-                      value={category === "college" ? college.placement.phone : contact.phone}
+                      value={category === "college" ? college.placement.phone : contact.phone.value}
                       onChange={(e) => {
                         if (category === "college")
                           setCollege({
@@ -421,7 +460,7 @@ const Details = ({ colleges, user }) => {
                         if (category === "student")
                           setContact({
                             ...contact,
-                            phone: e.target.value,
+                            phone: { ...contact.phone, value: e.target.value },
                           });
                       }}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
