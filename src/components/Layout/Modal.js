@@ -3,24 +3,23 @@ import { Fragment } from "react";
 import { GrClose } from "react-icons/gr";
 import { useModelContext } from "../../context/ModalContext";
 import { ApplyJobForm } from "./ModalForms/ApplyJobForm";
+import { AwardForm } from "./ModalForms/Awards";
+import { CertificationsForm } from "./ModalForms/Certifications";
 // import { DownloadStudentList } from "../College/Assignment/DownloadStudentList";
 // import { DownloadResumeFilter } from "../College/DownloadResumeFilter";
 // import EditQuestion from "../College/EditQuestion";
-// import { AwardForm } from "../Resumes/Forms/Awards";
-// import { CertificationsForm } from "../Resumes/Forms/Certifications";
 // import { DownloadResumeForm } from "../Resumes/Forms/College/DownloadResumeForm";
 // import { DownloadUserList } from "../Resumes/Forms/DownloadUserList";
-// import { EducationForm } from "../Resumes/Forms/Education";
-// import { HobbiesForm } from "../Resumes/Forms/Hobbies";
-// import { LanguageForm } from "../Resumes/Forms/Languages";
-// import PickTemplate from "../Resumes/Forms/PickTemplate";
-// import { ProjectForm } from "../Resumes/Forms/Projects";
-// import { SkillForm } from "../Resumes/Forms/Skills";
-// import { SocialForm } from "../Resumes/Forms/Social";
-// import { WorkExperienceForm } from "../Resumes/Forms/WorkExperience";
 // import { PaymentForm } from "./PaymentForm";
 import { DeleteJobForm } from "./ModalForms/DeleteJobForm";
+import { EducationForm } from "./ModalForms/Education";
+import { HobbiesForm } from "./ModalForms/Hobbies";
+import { LanguageForm } from "./ModalForms/Languages";
+import { ProjectForm } from "./ModalForms/Projects";
 import { ResumeForm } from "./ModalForms/ResumeForm";
+import { SkillForm } from "./ModalForms/Skills";
+import { SocialForm } from "./ModalForms/Social";
+import { WorkExperienceForm } from "./ModalForms/WorkExperience";
 
 export const Modal = () => {
   const { isOpen, closeModal, form, setLoading } = useModelContext();
@@ -81,7 +80,7 @@ export const Modal = () => {
                 >
                   <GrClose size={15} />
                 </button>
-                {/* {form === "social" && <SocialForm />}
+                {form === "social" && <SocialForm />}
                 {form === "education" && <EducationForm />}
                 {form === "awards" && <AwardForm />}
                 {form === "certifications" && <CertificationsForm />}
@@ -89,7 +88,7 @@ export const Modal = () => {
                 {form === "workexperience" && <WorkExperienceForm />}
                 {form === "skills" && <SkillForm />}
                 {form === "hobbies" && <HobbiesForm />}
-                {form === "language" && <LanguageForm />} */}
+                {form === "language" && <LanguageForm />}
                 {form === "resume" && <ResumeForm />}
                 {/* {form === "downloadResumeFile" && <DownloadResumeForm />}
                 {form === "downloadUserList" && <DownloadUserList />}
