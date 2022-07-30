@@ -1,12 +1,9 @@
-import { useSession } from "next-auth/react";
 import React from "react";
 import { useResumeContext } from "../../../context/ResumeContext";
 import { rename, months } from "../../../lib/helper";
 import { MarkdownRenderer } from "../../../lib/MarkdownRenderer";
-import { HeadingDivider } from "../Refined/HeadingDivider";
 
 export const Diamond = ({ componentRef, filter = null }) => {
-  const { data: session } = useSession();
   const { profile, objective, education, work, skills, languages, layout } = useResumeContext();
   const { r, g, b, a } = layout?.color || { r: "0", g: "0", b: "0", a: "0" };
   const headingClass =

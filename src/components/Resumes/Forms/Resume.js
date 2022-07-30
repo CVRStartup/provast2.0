@@ -1,14 +1,14 @@
 import { Dialog } from "@headlessui/react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useModelContext } from "../../../context/ModalContext";
+import { useModelContext } from "../../../context/ModelContext";
 import { useResumeContext } from "../../../context/ResumeContext";
-import { intialResume } from "../../../data/initalResume";
-import { useUser } from "../../../lib/hooks";
+import { intialResume } from "../../../data/intial";
 
 export const ResumeForm = () => {
-  const user = useUser();
+  const { data: session } = useSession();
   const router = useRouter();
   const { closeModal, setLoading } = useModelContext();
   const { template } = useResumeContext();
@@ -18,7 +18,6 @@ export const ResumeForm = () => {
   const [publicResume, setPublicResume] = useState(intialResume);
 
   const handleCreate = async (e) => {
-    if (!user) return;
     setLoading(true);
     e.preventDefault();
     const currResume = importFromPublicResume ? publicResume : intialResume;
@@ -26,16 +25,16 @@ export const ResumeForm = () => {
     const {
       data: { message, resume },
     } = await axios.post(`${process.env.NEXT_PUBLIC_HOST_URL}/api/resume`, {
-      userId: user._id,
+      userId: session.userId,
       resume: {
         ...currResume,
         public: false,
         personal: {
-          firstName: user?.profile?.firstName,
-          lastName: user?.profile?.lastName,
-          image: user?.profile?.image,
-          email: user?.email,
-          phone: user?.phone,
+          firstName: session?.userDetails?.firstName,
+          lastName: session?.userDetails?.lastName,
+          image: session?.userDetails?.image,
+          email: session?.userDetails?.emailList[0],
+          phone: session?.userDetails?.phone,
         },
         layout: {
           color: {
@@ -56,19 +55,18 @@ export const ResumeForm = () => {
   };
 
   useEffect(() => {
-    if (!user) return;
     (async () => {
       const {
         data: { resumes },
       } = await axios.get(
-        `${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/getpublicresume?id=${user._id}`
+        `${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/getpublicresume?id=${session.userId}`
       );
       if (resumes.length > 0) {
         setHasPublicResume(true);
         setPublicResume(resumes[0]);
       }
     })();
-  }, [user]);
+  }, [session]);
 
   return (
     <form onSubmit={handleCreate}>

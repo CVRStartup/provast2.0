@@ -15,12 +15,12 @@ import { ApplyJobForm } from "./ModalForms/ApplyJobForm";
 // import { LanguageForm } from "../Resumes/Forms/Languages";
 // import PickTemplate from "../Resumes/Forms/PickTemplate";
 // import { ProjectForm } from "../Resumes/Forms/Projects";
-// import { ResumeForm } from "../Resumes/Forms/Resume";
 // import { SkillForm } from "../Resumes/Forms/Skills";
 // import { SocialForm } from "../Resumes/Forms/Social";
 // import { WorkExperienceForm } from "../Resumes/Forms/WorkExperience";
 // import { PaymentForm } from "./PaymentForm";
 import { DeleteJobForm } from "./ModalForms/DeleteJobForm";
+import { ResumeForm } from "./ModalForms/ResumeForm";
 
 export const Modal = () => {
   const { isOpen, closeModal, form, setLoading } = useModelContext();
@@ -89,15 +89,15 @@ export const Modal = () => {
                 {form === "workexperience" && <WorkExperienceForm />}
                 {form === "skills" && <SkillForm />}
                 {form === "hobbies" && <HobbiesForm />}
-                {form === "language" && <LanguageForm />}
+                {form === "language" && <LanguageForm />} */}
                 {form === "resume" && <ResumeForm />}
-                {form === "downloadResumeFile" && <DownloadResumeForm />}
+                {/* {form === "downloadResumeFile" && <DownloadResumeForm />}
                 {form === "downloadUserList" && <DownloadUserList />}
                 {form === "downloadStudentList" && <DownloadStudentList />}
                 {form === "pickTemplate" && <PickTemplate />}
                 {form === "questionModal" && <EditQuestion />}
                 {form === "paymentForm" && <PaymentForm />}
-                {form === "downloadResumeFilter" && <DownloadResumeFilter />} */}
+                {form === "downloadResumeFilter" && <DownloadResumeFilter />}  */}
                 {form === "ApplyJobForm" && <ApplyJobForm />}
                 {form === "deleteForm" && <DeleteJobForm />}
               </div>

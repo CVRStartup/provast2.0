@@ -1,11 +1,9 @@
-import { useSession } from "next-auth/react";
 import React from "react";
 import { useResumeContext } from "../../../context/ResumeContext";
 import { months, rename } from "../../../lib/helper";
 import { MarkdownRenderer } from "../../../lib/MarkdownRenderer";
 
 export const Stockholm = ({ componentRef }) => {
-  const { data: session } = useSession();
   const {
     profile,
     social,

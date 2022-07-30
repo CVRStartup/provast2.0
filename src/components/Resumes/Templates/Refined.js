@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import React from "react";
 import { useResumeContext } from "../../../context/ResumeContext";
 import { rename } from "../../../lib/helper";
@@ -6,7 +5,6 @@ import { MarkdownRenderer } from "../../../lib/MarkdownRenderer";
 import { HeadingDivider } from "../Refined/HeadingDivider";
 
 export const Refined = ({ componentRef, filter = null }) => {
-  const { data: session } = useSession();
   console.log(filter);
   const { profile, education, awards, certifications, projects, skills, languages, layout } =
     useResumeContext();

@@ -1,12 +1,9 @@
-import { useSession } from "next-auth/react";
-import Image from "next/image";
 import React from "react";
 import { useResumeContext } from "../../../context/ResumeContext";
 import { months, rename } from "../../../lib/helper";
 import { MarkdownRenderer } from "../../../lib/MarkdownRenderer";
 
 export const Moscow = ({ componentRef }) => {
-  const { data: session } = useSession();
   const { profile, objective, education, projects, work, skills, hobbies, languages, layout } =
     useResumeContext();
   return (

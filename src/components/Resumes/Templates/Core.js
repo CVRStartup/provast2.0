@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 import {
@@ -24,7 +23,6 @@ const icons = {
 };
 
 export const Core = ({ componentRef, filter = null }) => {
-  const { data: session } = useSession();
   const {
     profile,
     social,
