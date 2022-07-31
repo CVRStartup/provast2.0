@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MdEdit } from "react-icons/md";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
+import { usePersonal } from "../../../../src/hooks/usePersonal";
 
 const tabs = [{ name: "Profile", href: "#", current: true }];
 
@@ -12,7 +13,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Profile = ({ user }) => {
+const Profile = ({ userDetails }) => {
+  const user = JSON.parse(userDetails);
+  console.log(user);
+  const { personal, isError, isLoading } = usePersonal(user?._id);
+
   return (
     <React.Fragment>
       <Head>
@@ -116,127 +121,141 @@ const Profile = ({ user }) => {
                   <dd className=' font-semibold text-md text-gray-900'>{user?.email}</dd>
                 </div>
                 <div className='sm:col-span-1'>
-                  <dt className='text-md font-medium text-gray-500'>Given Email</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>{user?.email}</dd>
-                </div>
-                <div className='sm:col-span-1'>
-                  <dt className='text-md font-medium text-gray-500'>Roll Number</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>
-                    {user?.rollNumber?.value}
-                  </dd>
-                </div>
-                <div className='sm:col-span-1'>
                   <dt className='text-md font-medium text-gray-500'>Mobile Number</dt>
                   <dd className=' font-semibold text-md text-gray-900'>{user?.phone?.value}</dd>
                 </div>
-                {user?.gender?.value && (
-                  <div className='sm:col-span-1'>
-                    <dt className='text-md font-medium text-gray-500'>Gender</dt>
-                    <dd className=' font-semibold text-md text-gray-900'>{user?.gender?.value}</dd>
-                  </div>
-                )}
-                {user?.dob?.value && (
-                  <div className='sm:col-span-1'>
-                    <dt className='text-md font-medium text-gray-500'>Date Of Birth</dt>
-                    <dd className=' font-semibold text-md text-gray-900'>{user?.dob?.value}</dd>
-                  </div>
-                )}
+
                 {user?.college?.name && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>College</dt>
                     <dd className=' font-semibold text-md text-gray-900'>{user?.college?.name}</dd>
                   </div>
                 )}
-                {user?.address?.linkedin && (
+                <div className='sm:col-span-1'>
+                  <dt className='text-md font-medium text-gray-500'>Roll Number</dt>
+                  <dd className=' font-semibold text-md text-gray-900'>
+                    {user?.rollNumber?.value}
+                  </dd>
+                </div>
+
+                {user?.profile?.gender && (
+                  <div className='sm:col-span-1'>
+                    <dt className='text-md font-medium text-gray-500'>Gender</dt>
+                    <dd className=' font-semibold text-md text-gray-900'>
+                      {user?.profile?.gender}
+                    </dd>
+                  </div>
+                )}
+                {user?.profile?.dob && (
+                  <div className='sm:col-span-1'>
+                    <dt className='text-md font-medium text-gray-500'>Date Of Birth</dt>
+                    <dd className=' font-semibold text-md text-gray-900'>
+                      {user?.profile?.dob?.substring(0, 10)}
+                    </dd>
+                  </div>
+                )}
+                {personal?.contact?.linkedin && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Linkedin</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.address?.linkedin}
+                      {personal?.contact?.linkedin}
                     </dd>
                   </div>
                 )}
-                {user?.address?.website && (
+                {personal?.contact?.website && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Website</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.address?.website}
+                      {personal?.contact?.website}
                     </dd>
                   </div>
                 )}
-                {user?.address?.city && (
+                {personal?.contact?.address?.city && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Permanent City</dt>
-                    <dd className=' font-semibold text-md text-gray-900'>{user?.address?.city}</dd>
+                    <dd className=' font-semibold text-md text-gray-900'>
+                      {personal?.contact?.address?.city}
+                    </dd>
                   </div>
                 )}
-                {user?.address?.state && (
+                {personal?.contact?.address?.state && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Permanent State</dt>
-                    <dd className=' font-semibold text-md text-gray-900'>{user?.address?.state}</dd>
+                    <dd className=' font-semibold text-md text-gray-900'>
+                      {personal?.contact?.address?.state}
+                    </dd>
                   </div>
                 )}
-                {user?.contact?.parents?.father?.name && (
+                {personal?.contact?.address?.country && (
+                  <div className='sm:col-span-1'>
+                    <dt className='text-md font-medium text-gray-500'>Permanent Country</dt>
+                    <dd className=' font-semibold text-md text-gray-900'>
+                      {personal?.contact?.address?.country}
+                    </dd>
+                  </div>
+                )}
+                {personal?.contact?.parents?.father?.name && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Father&apos;s Name</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.contact?.parents?.father?.name}
+                      {personal?.contact?.parents?.father?.name}
                     </dd>
                   </div>
                 )}
-                {user?.contact?.parents?.father?.email && (
+                {personal?.contact?.parents?.father?.email && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Father&apos;s Email</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.contact?.parents?.father?.email}
+                      {personal?.contact?.parents?.father?.email}
                     </dd>
                   </div>
                 )}
-                {user?.contact?.parents?.father?.phone && (
+                {personal?.contact?.parents?.father?.phone && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Father&apos;s Phone</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.contact?.parents?.father?.phone}
+                      {personal?.contact?.parents?.father?.phone}
                     </dd>
                   </div>
                 )}
-                {user?.contact?.parents?.father?.occupation && (
+                {personal?.contact?.parents?.father?.occupation && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Father&apos;s Occupation</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.contact?.parents?.father?.occupation}
+                      {personal?.contact?.parents?.father?.occupation}
                     </dd>
                   </div>
                 )}
 
-                {user?.contact?.parents?.mother?.name && (
+                {personal?.contact?.parents?.mother?.name && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Mother&apos;s Name</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.contact?.parents?.mother?.name}
+                      {personal?.contact?.parents?.mother?.name}
                     </dd>
                   </div>
                 )}
-                {user?.contact?.parents?.mother?.email && (
+                {personal?.contact?.parents?.mother?.email && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Mother&apos;s Email</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.contact?.parents?.mother?.email}
+                      {personal?.contact?.parents?.mother?.email}
                     </dd>
                   </div>
                 )}
-                {user?.contact?.parents?.mother?.phone && (
+                {personal?.contact?.parents?.mother?.phone && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Mother&apos;s Phone</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.contact?.parents?.mother?.phone}
+                      {personal?.contact?.parents?.mother?.phone}
                     </dd>
                   </div>
                 )}
-                {user?.contact?.parents?.father?.occupation && (
+                {personal?.contact?.parents?.mother?.occupation && (
                   <div className='sm:col-span-1'>
                     <dt className='text-md font-medium text-gray-500'>Mother&apos;s Occupation</dt>
                     <dd className=' font-semibold text-md text-gray-900'>
-                      {user?.contact?.parents?.father?.occupation}
+                      {personal?.contact?.parents?.mother?.occupation}
                     </dd>
                   </div>
                 )}
@@ -287,7 +306,7 @@ export const getServerSideProps = async ({ req, res }) => {
     };
   }
   return {
-    props: {},
+    props: { userDetails: JSON.stringify(user) },
   };
 };
 export default Profile;

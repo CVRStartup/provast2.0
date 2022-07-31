@@ -11,12 +11,24 @@ import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
+import { usePersonal } from "../../../../src/hooks/usePersonal";
 
 const ProfileEdit = ({ userDetails }) => {
   const user = JSON.parse(userDetails);
+  const { personal, isError, isLoading } = usePersonal(user._id);
+  console.log(personal);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [rollNumber, setRollNumber] = useState(user?.rollNumber?.value);
+  const [rollNumber, setRollNumber] = useState({
+    value: user?.rollNumber?.value,
+    verified: false,
+    frozen: false,
+  });
+  const [phone, setPhone] = useState({
+    value: user?.phone?.value,
+    verified: false,
+    frozen: false,
+  });
   const [profile, setProfile] = useState({
     firstName: user?.profile?.firstName,
     lastName: user?.profile?.lastName,
@@ -29,33 +41,27 @@ const ProfileEdit = ({ userDetails }) => {
   const [contact, setContact] = useState({
     parents: {
       father: {
-        name: user?.contact?.parents?.father?.name,
-        email: user?.contact?.parents?.father?.email,
-        phone: user?.contact?.parents?.father?.phone,
-        occupation: user?.contact?.parents?.father?.occupation,
+        name: personal?.contact?.parents?.father?.name,
+        email: personal?.contact?.parents?.father?.email,
+        phone: personal?.contact?.parents?.father?.phone,
+        occupation: personal?.contact?.parents?.father?.occupation,
       },
       mother: {
-        name: user?.contact?.parents?.mother?.name,
-        email: user?.contact?.parents?.mother?.email,
-        phone: user?.contact?.parents?.mother?.phone,
-        occupation: user?.contact?.parents?.mother?.occupation,
+        name: personal?.contact?.parents?.mother?.name,
+        email: personal?.contact?.parents?.mother?.email,
+        phone: personal?.contact?.parents?.mother?.phone,
+        occupation: personal?.contact?.parents?.mother?.occupation,
       },
     },
     address: {
-      city: user?.address?.city,
-      country: user?.address?.country,
-      state: user?.address?.state,
+      city: personal?.contact?.address?.city,
+      country: personal?.contact?.address?.country,
+      state: personal?.contact?.address?.state,
     },
-    linkedin: {
-      value: user?.contact?.linkedin?.value,
-      verified: false,
-      frozen: false,
-    },
-    website: {
-      value: user?.contact?.website?.value,
-      verified: false,
-      frozen: false,
-    },
+    linkedin: personal?.contact?.linkedin,
+    website: personal?.contact?.website,
+    verified: false,
+    frozen: false,
   });
   const [college, setCollege] = useState({
     name: user?.college?.name,
@@ -88,12 +94,21 @@ const ProfileEdit = ({ userDetails }) => {
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${user._id}`,
       {
         profile,
-        contact,
         rollNumber,
         college,
+        phone,
       }
     );
-    if (message == "Details Updated") {
+    const {
+      data: { message: personalMessage },
+    } = await axios.put(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/personal?userId=${user._id}`,
+      {
+        contact,
+      }
+    );
+    console.log(personalMessage);
+    if (message == "Details Updated" && personalMessage == "Personal Details Updated") {
       toast.success(message, { toastId: message });
       mutate("/api/user");
       router.push("/dashboard/student/profile");
@@ -139,14 +154,11 @@ const ProfileEdit = ({ userDetails }) => {
                           name='first-name'
                           id='first-name'
                           autoComplete='given-name'
-                          value={profile.firstName.value}
+                          value={profile.firstName}
                           onChange={(e) =>
                             setProfile({
                               ...profile,
-                              firstName: {
-                                ...profile.firstName,
-                                value: e.target.value,
-                              },
+                              firstName: e.target.value,
                             })
                           }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
@@ -165,14 +177,11 @@ const ProfileEdit = ({ userDetails }) => {
                           name='last-name'
                           id='last-name'
                           autoComplete='family-name'
-                          value={profile.lastName.value}
+                          value={profile.lastName}
                           onChange={(e) =>
                             setProfile({
                               ...profile,
-                              lastName: {
-                                ...profile.lastName,
-                                value: e.target.value,
-                              },
+                              lastName: e.target.value,
                             })
                           }
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
@@ -213,7 +222,26 @@ const ProfileEdit = ({ userDetails }) => {
                         />
                       </div>
 
-                      <div className='col-span-6 sm:col-span-3'>
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                        <label htmlFor='dob' className='block text-sm font-medium text-gray-700'>
+                          Date Of Birth
+                        </label>
+                        <input
+                          type='date'
+                          name='dob'
+                          id='dob'
+                          value={profile?.dob?.substring(0, 10)}
+                          onChange={(e) =>
+                            setProfile({
+                              ...profile,
+                              dob: e.target.value,
+                            })
+                          }
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
                         <label htmlFor='phone' className='block text-sm font-medium text-gray-700'>
                           Phone Number
                         </label>
@@ -222,23 +250,13 @@ const ProfileEdit = ({ userDetails }) => {
                           name='phone'
                           id='phone'
                           autoComplete='tel'
-                          value={contact?.phone?.value}
-                          onChange={(e) =>
-                            setContact[
-                              {
-                                ...contact,
-                                phone: {
-                                  ...contact.phone,
-                                  value: e.target.value,
-                                },
-                              }
-                            ]
-                          }
+                          value={phone?.value}
+                          onChange={(e) => setPhone({ ...phone, value: e.target.value })}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
                         />
                       </div>
 
-                      <div className='col-span-6 sm:col-span-3'>
+                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
                         <label
                           htmlFor='registered-email-address'
                           className='block text-sm font-medium text-gray-700'
@@ -253,55 +271,6 @@ const ProfileEdit = ({ userDetails }) => {
                           disabled
                           value={user?.email}
                           className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3'>
-                        <label
-                          htmlFor='email-address'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Given Email address
-                        </label>
-                        <input
-                          type='email'
-                          name='email-address'
-                          id='email-address'
-                          autoComplete='email'
-                          value={contact?.email?.value}
-                          onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              email: {
-                                ...contact.email,
-                                value: e.target.value,
-                              },
-                            })
-                          }
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3'>
-                        <label htmlFor='dob' className='block text-sm font-medium text-gray-700'>
-                          Date Of Birth
-                        </label>
-                        <input
-                          type='date'
-                          name='dob'
-                          id='dob'
-                          autoComplete='email'
-                          value={profile?.dob?.value?.substring(0, 10)?.substring(0, 10)}
-                          onChange={(e) =>
-                            setProfile({
-                              ...profile,
-                              dob: {
-                                ...profile.dob,
-                                value: e.target.value,
-                              },
-                            })
-                          }
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
@@ -652,14 +621,11 @@ const ProfileEdit = ({ userDetails }) => {
                             name='company-website'
                             id='company-website'
                             className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
-                            value={contact.website.value}
+                            value={contact.website}
                             onChange={(e) =>
                               setContact({
                                 ...contact,
-                                website: {
-                                  ...contact.website,
-                                  value: e.target.value,
-                                },
+                                website: e.target.value,
                               })
                             }
                             placeholder='https://www.example.com'
@@ -680,14 +646,11 @@ const ProfileEdit = ({ userDetails }) => {
                             type='text'
                             name='linkedin'
                             id='linkedin'
-                            value={contact.linkedin.value}
+                            value={contact.linkedin}
                             onChange={(e) =>
                               setContact({
                                 ...contact,
-                                linkedin: {
-                                  ...contact.linkedin,
-                                  value: e.target.value,
-                                },
+                                linkedin: e.target.value,
                               })
                             }
                             className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
