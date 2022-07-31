@@ -3,9 +3,9 @@ import Academic from "../../../../models/Academic";
 
 export default async function handler(req, res) {
   switch (req.method) {
-    // case "GET":
-    //   await searchUserDetails(req, res);
-    //   break;
+    case "GET":
+      await searchUserAcademics(req, res);
+      break;
     case "POST":
       await createUserAcademics(req, res);
       break;
@@ -14,7 +14,30 @@ export default async function handler(req, res) {
     //   break;
   }
 }
+const searchUserAcademics = async (req, res) => {
+  try {
+    await connectDB();
+    const { user } = req.query;
 
+    if (!user) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
+
+    const details = await Academic.findOne({ _id: user });
+
+    if (details) {
+      return res
+        .status(200)
+        .json({ message: "Academic details found", details });
+    } else {
+      return res
+        .status(200)
+        .json({ message: "Academic details not found", details: undefined });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 const createUserAcademics = async (req, res) => {
   try {
     await connectDB();

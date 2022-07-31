@@ -193,6 +193,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
         </div>
 
         {assessment &&
+          dataArr &&
           dataArr.map((section, oldIndex) => {
             return (
               <div key={oldIndex} className="w-[65%]">

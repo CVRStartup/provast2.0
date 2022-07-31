@@ -648,6 +648,11 @@ export const getServerSideProps = async ({ req, res, query }) => {
     `${process.env.HOST_URL}/api/assessments/status/${assessment._id}?userId=${user._id}&assessmentId=${query.id}`
   );
 
+  const {
+    data: { academics },
+  } = await axios.get(
+    `${process.env.HOST_URL}/api/assessments/status/${assessment._id}`
+  );
   // if (
   //   !assessment.allowedBatches.includes(user.batch.end) &&
   //   !assessment.allowedBranches.includes(user.branch.code)

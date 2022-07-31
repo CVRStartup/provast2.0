@@ -11,6 +11,7 @@ import { CertificationsForm } from "./ModalForms/Certifications";
 // import { DownloadResumeForm } from "../Resumes/Forms/College/DownloadResumeForm";
 // import { DownloadUserList } from "../Resumes/Forms/DownloadUserList";
 // import { PaymentForm } from "./PaymentForm";
+import EditQuestion from "../College/EditQuestion";
 import { DeleteJobForm } from "./ModalForms/DeleteJobForm";
 import { EducationForm } from "./ModalForms/Education";
 import { HobbiesForm } from "./ModalForms/Hobbies";
@@ -51,7 +52,10 @@ export const Modal = () => {
               <Dialog.Overlay className="fixed inset-0" />
             </Transition.Child>
 
-            <span className="inline-block bg-white h-screen z-10 align-middle" aria-hidden="true">
+            <span
+              className="inline-block bg-white h-screen z-10 align-middle"
+              aria-hidden="true"
+            >
               &#8203;
             </span>
             <Transition.Child
@@ -97,6 +101,7 @@ export const Modal = () => {
                 {form === "questionModal" && <EditQuestion />}
                 {form === "paymentForm" && <PaymentForm />}
                 {form === "downloadResumeFilter" && <DownloadResumeFilter />}  */}
+                {form === "questionModal" && <EditQuestion />}
                 {form === "ApplyJobForm" && <ApplyJobForm />}
                 {form === "deleteForm" && <DeleteJobForm />}
               </div>

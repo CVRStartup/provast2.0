@@ -4,14 +4,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { useUser } from "../../../lib/hooks";
-export const AssessmentCard = ({ assessment, studentDetails }) => {
+export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
   const [ID, setID] = useState(0);
   const [status, setStatus] = useState(null);
 
   const user = useUser();
 
   let isDisabledForBatches = !assessment.allowedBatches.includes(
-    studentDetails?.batch?.end
+    studentDetails?.batch?.to
   );
 
   let isShortListed = false;
@@ -19,13 +19,13 @@ export const AssessmentCard = ({ assessment, studentDetails }) => {
   let isDisabledForBranches = false;
 
   // change later the logic for a student if he doesn't have a branch
-  if (!assessment.allowedBranches.includes(studentDetails?.branch?.code))
+  if (!assessment.allowedBranches.includes(studentDetails?.branch))
     isDisabledForBranches = true;
 
   if (assessment.allowedBranches.length === 0) isDisabledForBranches = false;
 
-  assessment?.shortlistedStudents?.forEach((rollNumber) => {
-    if (rollNumber === studentDetails?.rollNumber) isShortListed = true;
+  assessment?.shortlistedStudents?.forEach((roll) => {
+    if (roll === rollNumber) isShortListed = true;
   });
 
   if (assessment?.shortlistedStudents?.length === 0) isShortListed = true;
@@ -172,7 +172,7 @@ export const AssessmentCard = ({ assessment, studentDetails }) => {
 
   return (
     <div className="my-5">
-      {!isDisabled ? (
+      {isDisabled ? (
         <div className="cursor-not-allowed">{assessmentCardContent}</div>
       ) : (
         <Link href={`/dashboard/student/assessments/${assessment["_id"]}`}>
