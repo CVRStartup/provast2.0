@@ -2,6 +2,7 @@ import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
 import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
@@ -77,25 +78,27 @@ const Details = ({ colleges, user }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log({ profile, category, college, approved: !(category === "college") });
-    const { data } = await axios.put(
-      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session?._id}`,
-      {
-        profile,
-        phone,
-        rollNumber,
-        category,
-        college,
-        approved: !(category === "college"),
-        detailsAvailable: true,
+    try {
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${session?._id}`,
+        {
+          profile,
+          phone,
+          rollNumber,
+          category,
+          college,
+          approved: !(category === "college"),
+          detailsAvailable: true,
+        }
+      );
+      setLoading(false);
+      if (data.message === "Details Updated") {
+        toast.success("User Details Created.", { toastId: "User Details Created." });
+        router.push("/dashboard/student");
       }
-    );
-    setLoading(false);
-    if (data.message === "Details Updated") {
-      if (category === "student") router.push("/auth/user/academics");
-      else router.push("/");
-    } else {
-      alert(data.message);
+    } catch (e) {
+      toast.error(e.response.data.message, { toastId: e.response.data.message });
+      setLoading(false);
     }
   };
 
@@ -565,7 +568,7 @@ export const getServerSideProps = async function ({ req, res }) {
     else
       return {
         redirect: {
-          destination: "/",
+          destination: "/dashboard/college",
           permanent: false,
         },
       };

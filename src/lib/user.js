@@ -11,8 +11,7 @@ export async function createUser({ username, password }) {
   await connectDB();
   const oldEntry = await User.findOne({ email: username });
   if (oldEntry) {
-    throw new Error("User Already Exists");
-    return;
+    throw new Error("User Already Exists, Please Log in.");
   }
   const salt = crypto.randomBytes(16).toString("hex");
   const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
@@ -25,7 +24,6 @@ export async function createUser({ username, password }) {
     academicsAvailable: false,
   });
   await user.save();
-
   return { username, createdAt: Date.now() };
 }
 
