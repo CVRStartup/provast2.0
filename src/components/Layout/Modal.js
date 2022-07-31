@@ -6,12 +6,11 @@ import { ApplyJobForm } from "./ModalForms/ApplyJobForm";
 import { AwardForm } from "./ModalForms/Awards";
 import { CertificationsForm } from "./ModalForms/Certifications";
 // import { DownloadStudentList } from "../College/Assignment/DownloadStudentList";
-// import { DownloadResumeFilter } from "../College/DownloadResumeFilter";
 // import EditQuestion from "../College/EditQuestion";
-// import { DownloadResumeForm } from "../Resumes/Forms/College/DownloadResumeForm";
 // import { DownloadUserList } from "../Resumes/Forms/DownloadUserList";
 // import { PaymentForm } from "./PaymentForm";
 import { DeleteJobForm } from "./ModalForms/DeleteJobForm";
+import { DownloadResumeFilter } from "./ModalForms/DownloadResumeFilter";
 import { EducationForm } from "./ModalForms/Education";
 import { HobbiesForm } from "./ModalForms/Hobbies";
 import { LanguageForm } from "./ModalForms/Languages";
@@ -95,8 +94,8 @@ export const Modal = () => {
                 {form === "downloadStudentList" && <DownloadStudentList />}
                 {form === "pickTemplate" && <PickTemplate />}
                 {form === "questionModal" && <EditQuestion />}
-                {form === "paymentForm" && <PaymentForm />}
-                {form === "downloadResumeFilter" && <DownloadResumeFilter />}  */}
+                {form === "paymentForm" && <PaymentForm />} */}
+                {form === "downloadResumeFilter" && <DownloadResumeFilter />}
                 {form === "ApplyJobForm" && <ApplyJobForm />}
                 {form === "deleteForm" && <DeleteJobForm />}
               </div>

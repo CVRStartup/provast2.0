@@ -11,6 +11,7 @@ import { Refined } from "./Templates/Refined";
 import { Stockholm } from "./Templates/Stockholm";
 import { TAdigital } from "./Templates/TAdigital";
 import { Loading } from "../Reusables/Loading";
+import { Loader } from "../Layout/Loader";
 
 const Templates = {
   noncore: NonCore,
@@ -42,24 +43,24 @@ export const StudentResume = ({ userId }) => {
 
   if (!resume && !isFetching)
     return (
-      <div className='pt-4 flex flex-col bg-white'>
-        <main className='flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='relative flex-shrink-0 flex justify-center h-40 w-40 mx-auto'>
+      <div className="pt-4 flex flex-col bg-white">
+        <main className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative flex-shrink-0 flex justify-center h-40 w-40 mx-auto">
             <Image
-              placeholder='blur'
-              blurDataURL='/no_results.png'
-              layout='fill'
-              objectFit='contain'
-              src='/no_results.png'
-              alt=''
+              placeholder="blur"
+              blurDataURL="/no_results.png"
+              layout="fill"
+              objectFit="contain"
+              src="/no_results.png"
+              alt=""
             />
           </div>
-          <div className='py-4'>
-            <div className='text-center'>
-              <h1 className='mt-2 text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl'>
+          <div className="py-4">
+            <div className="text-center">
+              <h1 className="mt-2 text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
                 Public Resume Not Found.
               </h1>
-              <p className='mt-2 text-base text-gray-500'>
+              <p className="mt-2 text-base text-gray-500">
                 Seems like student having all private resumes.
               </p>
             </div>
@@ -71,11 +72,13 @@ export const StudentResume = ({ userId }) => {
   return (
     <div>
       {isFetching ? (
-        <div className='flex justify-center mt-6'>
-          <Loading />
+        <div className="flex justify-center items-center w-full h-[30vh] mt-6">
+          <div className="h-16 w-16">
+            <Loader />
+          </div>
         </div>
       ) : (
-        <section className='bg-gray-900 mx-auto overflow-auto py-5'>
+        <section className="bg-gray-900 mx-auto overflow-auto py-5">
           {Template && <Template componentRef={componentRef} />}
         </section>
       )}
