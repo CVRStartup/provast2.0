@@ -14,6 +14,9 @@ import { useResumeContext } from "../../../../src/context/ResumeContext";
 import { Loading } from "../../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
+import { useResumes } from "../../../../src/hooks/useResumes";
+import { usePublicResumes } from "../../../../src/hooks/usePublicResumes";
+import { mutate } from "swr";
 
 const templates = [
   {
@@ -110,42 +113,31 @@ const ResumeIndex = ({ user }) => {
     { name: "MBA", current: tab === "MBA" },
   ];
   const router = useRouter();
+  const { resumes } = useResumes(user);
+  const { publicResumes } = usePublicResumes(user);
   const [state, setState] = useState(1);
   const [isEdit, setIsEdit] = useState(false);
   const [resume, setResume] = useState(null);
-  const [resumes, setResumes] = useState(null);
   const { setIsOpen, setForm, loading, setLoading } = useModelContext();
   const [resumeFetchLoading, setResumeFetchLoading] = useState(false);
   const { setTemplate } = useResumeContext();
 
   useEffect(async () => {
-    if (!user) return;
+    if (!user || !resumes || !publicResumes) return;
     setResumeFetchLoading(true);
-    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/user`, {
-      params: {
-        userId: user._id,
-      },
-    });
-
-    const x = await axios.get(`/api/resume/getpublicresume?id=${user._id}`);
-    let newresumes = data.resumes;
-    if (x.data.resumes.length === 0 && data.resumes.length > 0) {
-      const upd = await axios.put(`/api/resume/${data.resumes[0]._id}`, {
+    if (publicResumes.length === 0 && resumes.length > 0) {
+      await axios.put(`/api/resume/${resumes[0]._id}`, {
         res: {
-          ...data.resumes[0],
+          ...resumes[0],
           public: true,
         },
       });
-      newresumes = newresumes.map((x) => {
-        if (x._id === data.resumes[0]._id) return upd.data.resume;
-        return x;
-      });
+      mutate(`/api/resume/getpublicresume?id=${user._id}`);
+      mutate(`/api/resume/user?userId=${user._id}`);
     }
-    setResumes(newresumes);
-    if (data.resumes.length === 0) setState(2);
-
+    if (resumes.length === 0) setState(2);
     setResumeFetchLoading(false);
-  }, [user]);
+  }, [publicResumes, resumes, user]);
 
   const handleClick = async (template) => {
     if (!isEdit) {
@@ -162,6 +154,7 @@ const ResumeIndex = ({ user }) => {
           },
         },
       });
+      mutate(`/api/resume/user?userId=${user._id}`);
       router.push(`${process.env.NEXT_PUBLIC_HOST_URL}/dashboard/student/resumes/${resume._id}`);
     }
   };
@@ -174,37 +167,30 @@ const ResumeIndex = ({ user }) => {
 
   const handleDeleteResume = async (id) => {
     await axios.delete(`${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/${id}`);
-    router.reload();
+    mutate(`/api/resume/getpublicresume?id=${user._id}`);
+    mutate(`/api/resume/user?userId=${user._id}`);
   };
 
   const handleTogglePublic = async (resume, id) => {
     setLoading(true);
-    const {
-      data: { resumes },
-    } = await axios.get(
-      `${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/getpublicresume?id=${user._id}`
-    );
-    resumes.forEach(
-      async (x) =>
+    if (!publicResumes) return;
+    publicResumes.forEach(async (x) => {
+      if (x.public)
         await axios.put(`${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/${x._id}`, {
           res: {
             ...x,
             public: false,
           },
-        })
-    );
+        });
+    });
     await axios.put(`${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/${id}`, {
       res: {
         ...resume,
         public: true,
       },
     });
-    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/user`, {
-      params: {
-        userId: user._id,
-      },
-    });
-    setResumes(data.resumes);
+    mutate(`/api/resume/getpublicresume?id=${user._id}`);
+    mutate(`/api/resume/user?userId=${user._id}`);
     setLoading(false);
   };
 

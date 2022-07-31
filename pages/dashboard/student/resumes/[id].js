@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Router, useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { Left } from "../../../../src/components/Resumes/Editor/Left";
 import { Right } from "../../../../src/components/Resumes/Editor/Right/index";
@@ -15,6 +16,7 @@ import { Ruby } from "../../../../src/components/Resumes/Templates/Ruby";
 import { Stockholm } from "../../../../src/components/Resumes/Templates/Stockholm";
 import { TAdigital } from "../../../../src/components/Resumes/Templates/TAdigital";
 import { useModelContext } from "../../../../src/context/ModalContext";
+import { useResumes } from "../../../../src/hooks/useResumes";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
 
@@ -33,13 +35,20 @@ const Templates = {
   diamond: Diamond,
 };
 
-const ResumeSlug = ({ resumeDetails }) => {
+const ResumeSlug = ({ id }) => {
   const componentRef = useRef();
+  const { resumes } = useResumes();
+  const [resume, setResume] = useState(null);
+  const router = useRouter();
   const { setLoading } = useModelContext();
   const Template = Templates[resumeDetails.layout.template];
   useEffect(() => {
+    if (!resumes) return;
+    const currentResume = resumes.find((x) => x._id === id);
+    if (!currentResume) router.push("/dashboard/student/resumes");
+    setResume(resumes.find((x) => x._id === id));
     setLoading(false);
-  }, []);
+  }, [resumes]);
   return (
     <div className="mt-[-10vh]">
       <Left resumeDetails={resumeDetails} />
@@ -79,7 +88,6 @@ export const getServerSideProps = async (context) => {
       },
     };
   }
-
   if (user.category !== "student") {
     return {
       redirect: {
@@ -88,7 +96,6 @@ export const getServerSideProps = async (context) => {
       },
     };
   }
-
   if (user.category === "student" && !user.academicsAvailable) {
     return {
       redirect: {
@@ -97,24 +104,10 @@ export const getServerSideProps = async (context) => {
       },
     };
   }
-
-  const {
-    data: { resume },
-  } = await axios.get(`${process.env.HOST_URL}/api/resume/${context.query.id}`);
-
-  if (!resume) {
-    return {
-      redirect: {
-        destination: `/dashboard/student/resumes`,
-        permanent: false,
-      },
-    };
-  }
-
   return {
     props: {
       session,
-      resumeDetails: resume,
+      id: context.query.id,
     },
   };
 };

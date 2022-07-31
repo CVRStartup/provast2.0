@@ -1,6 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Image from "next/image";
+import Link from "next/link";
 import { Fragment, useEffect } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useModelContext } from "../../../context/ModalContext";
@@ -168,9 +169,9 @@ export const Left = ({ resumeDetails }) => {
           </button>
         </div>
         <div className="flex items-center justify-center fixed bottom-[10px] h-10 w-10 rounded-full left-[7px] bg-white cursor-pointer hover:bg-gray-200">
-          <a href={"/dashboard/student/resumes"}>
+          <Link href={"/dashboard/student/resumes"}>
             <HiOutlineArrowNarrowLeft size={28} color="#404040" />
-          </a>
+          </Link>
         </div>
       </div>
       <style>{`
