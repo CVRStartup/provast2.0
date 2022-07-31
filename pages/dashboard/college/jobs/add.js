@@ -676,6 +676,7 @@ const JobAdd = ({ user }) => {
                   </div>
                 </div>
               )}
+
               <div className="sm:col-span-3 relative -top-[22px]">
                 <DropDown
                   title={"Status"}
@@ -684,6 +685,7 @@ const JobAdd = ({ user }) => {
                   setSelectedOption={setSelectedStatus}
                 />
               </div>
+
               <div className="sm:col-span-3">
                 <label className="text-base font-medium text-gray-900">Type Of Job Posting</label>
                 <p className="text-sm leading-5 text-gray-500">
@@ -712,27 +714,27 @@ const JobAdd = ({ user }) => {
                     ))}
                   </div>
                 </fieldset>
-                {typeOfPost === "Shortlisted Students" && (
-                  <div className="sm:col-span-3">
-                    <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
-                      Upload Spreadsheet
-                    </label>
-
-                    <input
-                      className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      label="Choose File"
-                      type="file"
-                      name="image"
-                      id="profileImg"
-                      onChange={(e) => handleFile(e, setEligible, setExcelFileError)}
-                    />
-                    {excelFileError &&
-                      toast.error(excelFileError, {
-                        toastId: excelFileError,
-                      })}
-                  </div>
-                )}
               </div>
+              {typeOfPost === "Shortlisted Students" && (
+                <div className="sm:col-span-3">
+                  <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+                    Upload Spreadsheet
+                  </label>
+
+                  <input
+                    className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    label="Choose File"
+                    type="file"
+                    name="image"
+                    id="profileImg"
+                    onChange={(e) => handleFile(e, setEligible, setExcelFileError)}
+                  />
+                  {excelFileError &&
+                    toast.error(excelFileError, {
+                      toastId: excelFileError,
+                    })}
+                </div>
+              )}
             </form>
           </div>
         </div>
