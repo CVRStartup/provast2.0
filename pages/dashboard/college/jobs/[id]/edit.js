@@ -825,7 +825,31 @@ const JobAdd = ({ job, user }) => {
                 )}
               </div>
 
+<<<<<<< HEAD
               <div className="sm:col-span-6 rounded border">
+=======
+              <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+                  <p>{"Job Posting Location"}</p>
+                  <div className='ml-3 flex items-center font-normal'>
+                    <input
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      checked={jobPostingLocation.includes("PAN India")}
+                      onChange={(e) => {
+                        const id = jobPostingLocation.indexOf("PAN India");
+                        if (id == -1) setJobPostingLocation([...jobPostingLocation, "PAN India"]);
+                        else {
+                          const cat = jobPostingLocation;
+                          cat.splice(id, 1);
+                          setJobPostingLocation([...cat]);
+                        }
+                      }}
+                    />
+                    <label>PAN India</label>
+                  </div>
+                </h4>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                 <CheckBox
                   title={"Job Posting Location"}
                   options={jobPostingLocationOptions}
@@ -833,7 +857,27 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={jobPostingLocation}
                 />
               </div>
+<<<<<<< HEAD
               <div className="sm:col-span-6 rounded border">
+=======
+              <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+                  <p>{"Year Of Passing"}</p>
+                  <div className='ml-3 flex items-center font-normal'>
+                    <input
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      checked={yearofPassing.length === generateYearsBetween().length}
+                      onChange={() => {
+                        if (yearofPassing.length === generateYearsBetween().length)
+                          setYearofPassing([]);
+                        else setYearofPassing([...generateYearsBetween().map((x) => x.name)]);
+                      }}
+                    />
+                    <label>All Years</label>
+                  </div>
+                </h4>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                 <CheckBox
                   title={"Year Of Passing"}
                   options={generateYearsBetween()}
@@ -841,7 +885,26 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={yearofPassing}
                 />
               </div>
+<<<<<<< HEAD
               <div className="sm:col-span-6 rounded border">
+=======
+              <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+                  <p>{"Eligible Branches"}</p>
+                  <div className='ml-3 flex items-center font-normal'>
+                    <input
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      checked={branchOptions.length === branches.length}
+                      onChange={() => {
+                        if (branchOptions.length === branches.length) setBranchOptions([]);
+                        else setBranchOptions([...branches.map((x) => x.name)]);
+                      }}
+                    />
+                    <label>All Branches</label>
+                  </div>
+                </h4>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                 <CheckBox
                   title={"Eligible Branches"}
                   options={branches}
@@ -849,6 +912,7 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={branchOptions}
                 />
               </div>
+<<<<<<< HEAD
               <div className="sm:col-span-6 rounded border bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
                 <div>
                   {rounds &&
@@ -868,6 +932,10 @@ const JobAdd = ({ job, user }) => {
                 </div>
               </div>
               <div className="sm:col-span-3 relative -top-[22px]">
+=======
+
+              <div className='sm:col-span-1 relative -top-[22px]'>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                 <DropDown
                   title={"Xth Type Of Grade"}
                   options={typeOfGrade}
@@ -875,8 +943,13 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedXthTypeOfGrade}
                 />
               </div>
+<<<<<<< HEAD
               <div className="sm:col-span-3 relative -top-[22px]">
                 {selectedXthTypeOfGrade.name !== "Not Applicable" && (
+=======
+              {selectedXthTypeOfGrade.name !== "Not Applicable" && (
+                <div className='sm:col-span-1 relative -top-[22px]'>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                   <DropDown
                     title={"Xth Grade"}
                     options={
@@ -887,9 +960,15 @@ const JobAdd = ({ job, user }) => {
                     selectedOption={selectedXthGrade}
                     setSelectedOption={setSelectedXthGrade}
                   />
+<<<<<<< HEAD
                 )}
               </div>
               <div className="sm:col-span-3 relative -top-[22px]">
+=======
+                </div>
+              )}
+              <div className='sm:col-span-1 relative -top-[22px]'>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                 <DropDown
                   title={"XIIth Type Of Grade"}
                   options={typeOfGrade}
@@ -897,8 +976,13 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedXIIthTypeOfGrade}
                 />
               </div>
+<<<<<<< HEAD
               <div className="sm:col-span-3 relative -top-[22px]">
                 {selectedXIIthTypeOfGrade.name !== "Not Applicable" && (
+=======
+              {selectedXIIthTypeOfGrade.name !== "Not Applicable" && (
+                <div className='sm:col-span-1 relative -top-[22px]'>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                   <DropDown
                     title={"XIIth Grade"}
                     options={
@@ -909,9 +993,15 @@ const JobAdd = ({ job, user }) => {
                     selectedOption={selectedXIIthGrade}
                     setSelectedOption={setSelectedXIIthGrade}
                   />
+<<<<<<< HEAD
                 )}
               </div>
               <div className="sm:col-span-3 relative -top-[22px]">
+=======
+                </div>
+              )}
+              <div className='sm:col-span-1 relative -top-[22px]'>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                 <DropDown
                   title={"Btech Type Of Grade"}
                   options={typeOfGrade}
@@ -919,8 +1009,13 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedBtechTypeOfGrade}
                 />
               </div>
+<<<<<<< HEAD
               <div className="sm:col-span-3 relative -top-[22px]">
                 {selectedBtechTypeOfGrade.name !== "Not Applicable" && (
+=======
+              {selectedBtechTypeOfGrade.name !== "Not Applicable" && (
+                <div className='sm:col-span-1 relative -top-[22px]'>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                   <DropDown
                     title={"Btech Grade"}
                     options={
@@ -931,10 +1026,17 @@ const JobAdd = ({ job, user }) => {
                     selectedOption={selectedBtechGrade}
                     setSelectedOption={setSelectedBtechGrade}
                   />
+<<<<<<< HEAD
                 )}
               </div>
               <div className="sm:col-span-3">
                 <label className="text-base font-medium text-gray-900">
+=======
+                </div>
+              )}
+              <div className='sm:col-span-3'>
+                <label className='text-base font-medium text-gray-900'>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                   What students are eligible ?
                 </label>
                 <p className="text-sm leading-5 text-gray-500">
@@ -970,6 +1072,7 @@ const JobAdd = ({ job, user }) => {
                   </div>
                 </fieldset>
               </div>
+<<<<<<< HEAD
               <div className="sm:col-span-3 relative -top-[22px]">
                 {placed && (
                   <div className="flex flex-col mt-5">
@@ -978,6 +1081,14 @@ const JobAdd = ({ job, user }) => {
                         Maximum salary ?
                       </p>
                       <p className="text-sm font-light">
+=======
+              {placed && (
+                <div className='sm:col-span-3 relative -top-[22px]'>
+                  <div className='flex flex-col mt-5'>
+                    <div className='flex items-center justify-between'>
+                      <p className='text-base font-medium text-gray-900'>Maximum salary ?</p>
+                      <p className='text-sm font-light'>
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
                         {"₹" + Number(salary).toLocaleString("en-IN")}
                       </p>
                     </div>
@@ -998,7 +1109,15 @@ const JobAdd = ({ job, user }) => {
                       ></input>
                     </div>
                   </div>
-                )}
+                </div>
+              )}
+              <div className='sm:col-span-3 relative -top-[22px]'>
+                <DropDown
+                  title={"Status"}
+                  options={status}
+                  selectedOption={selectedStatus}
+                  setSelectedOption={setSelectedStatus}
+                />
               </div>
               <div className="sm:col-span-3">
                 <label className="text-base font-medium text-gray-900">
@@ -1030,6 +1149,7 @@ const JobAdd = ({ job, user }) => {
                     ))}
                   </div>
                 </fieldset>
+<<<<<<< HEAD
                 <div className="pt-4">
                   <DropDown
                     title={"Status"}
@@ -1038,6 +1158,8 @@ const JobAdd = ({ job, user }) => {
                     setSelectedOption={setSelectedStatus}
                   />
                 </div>
+=======
+>>>>>>> 7078b080eae35c12c9c30187b0da771a562d2c4e
               </div>
 
               {typeOfPost === "Shortlisted Students" && (

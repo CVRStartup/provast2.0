@@ -330,7 +330,7 @@ export const genders = [
   { name: "Other", code: "Other" },
 ];
 
-export const branches = [
+export const btechBranches = [
   { name: "Aeronautical Engineering", code: "AE" },
   { name: "Agriculture Engineering", code: "AgriE" },
   { name: "Artificial Intelligence", code: "AI" },
@@ -352,6 +352,60 @@ export const branches = [
   { name: "Information Technology", code: "IT" },
   { name: "Instrumentation and Control", code: "IC" },
 ];
+
+export const mbaBranches = [
+  {
+    name: "Human Resource Management",
+    code: "HR",
+  },
+  {
+    name: "Finance",
+    code: "Finance",
+  },
+  {
+    name: "Banking",
+    code: "Banking",
+  },
+];
+
+export const mtechBranches = [
+  { name: "Aeronautical Engineering", code: "AE" },
+  { name: "Agriculture Engineering", code: "AgriE" },
+  { name: "Artificial Intelligence", code: "AI" },
+  { name: "Artificial Intelligence and Machine Learning", code: "AI and ML" },
+  { name: "Big Data Analytics", code: "BDA" },
+  { name: "Biomedical Engineering", code: "BE" },
+  { name: "Chemical Engineering", code: "CE" },
+  { name: "Civil Engineering", code: "Civil" },
+  { name: "Computer Science and Engineering", code: "CSE" },
+  { name: "Computer Science and Information Technology", code: "CSIT" },
+  { name: "Cyber Security", code: "CyberS" },
+  { name: "Data Science", code: "DS" },
+  { name: "Electrical and Electronics Engineering", code: "EEE" },
+  { name: "Electrical Engineering", code: "EE" },
+  { name: "Electronics and Communication Engineering", code: "ECE" },
+  { name: "Electronics and Instrumentation Engineering", code: "EIE" },
+  { name: "Mechanical Engineering", code: "Mech" },
+  { name: "Mining Engineering", code: "ME" },
+  { name: "Information Technology", code: "IT" },
+  { name: "Instrumentation and Control", code: "IC" },
+];
+
+export const degreeBranches = [
+  {
+    name: "Architecture",
+    code: "Architecture",
+  },
+  {
+    name: "Arts",
+    code: "Arts",
+  },
+  {
+    name: "Law",
+    code: "Law",
+  },
+];
+
 export const verifyDates = (from, to) => {
   const dateErrors = {
     from: null,
@@ -1286,6 +1340,13 @@ export const typeOfPosting = [
   { id: "shortlisted", name: "Shortlisted Students" },
   { id: "onCampus", name: "On-Campus" },
   { id: "offCampus", name: "Off-Campus" },
+];
+
+export const typeOfJobProgram = [
+  { id: "btech", name: "B.Tech" },
+  { id: "mba", name: "MBA" },
+  { id: "mtech", name: "M.Tech" },
+  { id: "degree", name: "Degree" },
 ];
 
 export const typeOfPlacedStatus = [
