@@ -161,8 +161,9 @@ const Packages = ({ userDetails }) => {
   const session = JSON.parse(userDetails);
   const { payment, isLoading } = usePlan(session?._id);
   const withoutGST = (amount, plan) =>
-    Math.floor(Number(amount) - Number(getEighteenPercent(amount)));
-  console.log();
+    Math.floor(
+      Number(amount) - Number(getEighteenPercent(plans.filter((p) => p.name === plan)[0].price))
+    );
   if (isLoading) return <div></div>;
   return (
     <div className="bg-white">
@@ -195,8 +196,11 @@ const Packages = ({ userDetails }) => {
                 <p>
                   <span className="text-4xl font-extrabold text-gray-900">
                     ₹
-                    {tier.price > withoutGST(payment.amount)
-                      ? Math.max(0, tier.price - (payment ? withoutGST(payment.amount) : 0))
+                    {tier.price > withoutGST(payment.amount, payment.plan)
+                      ? Math.max(
+                          0,
+                          tier.price - (payment ? withoutGST(payment.amount, payment.plan) : 0)
+                        )
                       : tier.price}
                   </span>
                   <span className="text-base font-medium text-gray-500">/year</span>
@@ -205,7 +209,7 @@ const Packages = ({ userDetails }) => {
                 <Link
                   href={
                     payment
-                      ? withoutGST(payment.amount) < tier.price
+                      ? withoutGST(payment.amount, payment.plan) < tier.price
                         ? `/packages/checkout/${index}`
                         : "#"
                       : `/packages/checkout/${index}`
@@ -214,11 +218,11 @@ const Packages = ({ userDetails }) => {
                   <button
                     className={`${
                       payment
-                        ? withoutGST(payment.amount) < tier.price
-                          ? "hover:to-pink-600"
-                          : "cursor-not-allowed"
-                        : `hover:to-pink-600`
-                    } cursor-pointer mt-6 block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                        ? withoutGST(payment.amount, payment.plan) < tier.price
+                          ? "hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500"
+                          : "cursor-not-allowed bg-gray-400"
+                        : `hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500`
+                    } cursor-pointer mt-6 block w-full  border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
                   >
                     {payment
                       ? payment.plan === tier.name
@@ -326,8 +330,12 @@ const Packages = ({ userDetails }) => {
                         <p>
                           <span className="text-4xl font-extrabold text-gray-900">
                             ₹
-                            {tier.price > payment.amount
-                              ? Math.max(0, tier.price - (payment ? payment.amount : 0))
+                            {tier.price > withoutGST(payment.amount, payment.plan)
+                              ? Math.max(
+                                  0,
+                                  tier.price -
+                                    (payment ? withoutGST(payment.amount, payment.plan) : 0)
+                                )
                               : tier.price}
                           </span>
                           <span className="text-base font-medium text-gray-500">/year</span>
@@ -337,7 +345,7 @@ const Packages = ({ userDetails }) => {
                       <Link
                         href={
                           payment
-                            ? payment.amount < tier.price
+                            ? withoutGST(payment.amount, payment.plan) < tier.price
                               ? `/packages/checkout/${index}`
                               : "#"
                             : `/packages/checkout/${index}`
@@ -346,16 +354,18 @@ const Packages = ({ userDetails }) => {
                         <button
                           className={`${
                             payment
-                              ? payment.amount < tier.price
-                                ? "hover:to-pink-600"
-                                : "cursor-not-allowed"
-                              : `hover:to-pink-600`
-                          } cursor-pointer mt-6 block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                              ? withoutGST(payment.amount, payment.plan) < tier.price
+                                ? "hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500"
+                                : "cursor-not-allowed bg-gray-400"
+                              : `hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500`
+                          } cursor-pointer mt-6 block w-full  border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
                         >
                           {payment
                             ? payment.plan === tier.name
                               ? "Purchased"
-                              : (tier.price > payment.amount ? "Upgrade to " : "Buy ") + tier.name
+                              : (tier.price > withoutGST(payment.amount, payment.plan)
+                                  ? "Upgrade to "
+                                  : "Buy ") + tier.name
                             : "Buy " + tier.name}
                         </button>
                       </Link>
