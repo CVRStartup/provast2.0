@@ -16,7 +16,7 @@ import { usePersonal } from "../../../../src/hooks/usePersonal";
 const ProfileEdit = ({ userDetails }) => {
   const user = JSON.parse(userDetails);
   const { personal, isError, isLoading } = usePersonal(user._id);
-  console.log(personal);
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [rollNumber, setRollNumber] = useState({
