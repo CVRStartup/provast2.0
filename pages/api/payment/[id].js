@@ -22,7 +22,7 @@ const searchOrder = async (req, res) => {
     if (payment) {
       return res.status(200).json({ message: "payment Found", payment });
     } else {
-      return res.status(200).json({ message: "payment not found", payment: false });
+      return res.status(200).json({ message: "payment not found", payment: undefined });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
