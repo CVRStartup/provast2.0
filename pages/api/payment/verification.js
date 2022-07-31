@@ -16,6 +16,7 @@ const verifyOrder = async (req, res) => {
 
     const { razorpay_order_id, razorpay_signature, razorpay_payment_id } = req.body.response;
     const key_secret = process.env.RAZORPAY_KEY_SECRET;
+
     const hash = crypto.createHmac("sha256", key_secret);
     hash.update(razorpay_order_id + "|" + razorpay_payment_id);
     const digest = hash.digest("hex");

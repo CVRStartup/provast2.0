@@ -5,8 +5,11 @@ import Link from "next/link";
 import { ChevronRightIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { MdDoubleArrow } from "react-icons/md";
-import { toast } from "react-toastify";
 import { countries, getEighteenPercent } from "../../../src/lib/helper";
+import { getLoginSession } from "../../../src/lib/auth";
+import { findUser } from "../../../src/lib/user";
+import { usePlan } from "../../../src/hooks/usePlan";
+import { toast } from "react-toastify";
 
 const plans = [
   {
@@ -29,8 +32,9 @@ const plans = [
   },
 ];
 
-const CheckoutSlug = ({ user }) => {
-  const session = user;
+const CheckoutSlug = ({ userDetails }) => {
+  const session = JSON.parse(userDetails);
+  const { payment, isError, isLoading } = usePlan(userDetails._id);
   const router = useRouter();
   const { id } = router.query;
   const [plan, setPlan] = useState(null);
@@ -48,10 +52,12 @@ const CheckoutSlug = ({ user }) => {
   }, [id]);
 
   const createOrder = async (amount) => {
-    const finalAmount = Math.max(0, amount - (session?.plan ? session?.plan?.amount : 0));
+    const finalAmount = Math.max(0, amount - (payment?.plan ? payment?.plan?.amount : 0));
     const {
       data: { order },
     } = await axios.get(`/api/payment/?amount=${finalAmount}`);
+
+    console.log(order);
 
     return { amount: order.amount, orderId: order.id };
   };
@@ -98,16 +104,19 @@ const CheckoutSlug = ({ user }) => {
             data: { message },
           } = await axios.post("/api/payment/verification", {
             response,
-            userId: session?.userId,
+            userId: session?._id,
             plan: plan?.name,
             amount: amount / 100,
-            tier: plan.tier,
+            tier: plan?.tier,
             email,
             address,
             phone,
           });
-          if (message === "Payment Successfull") toast.success(message, { toastId: message });
-          else toast.error(message, { toastId: message });
+          console.log(message);
+          if (message == "Payment Successfull") {
+            toast.success(message, { toastId: message });
+            router.push(`/packages`);
+          } else toast.error(message, { toastId: message });
         }
       },
       prefill: {
@@ -328,8 +337,8 @@ const CheckoutSlug = ({ user }) => {
           <span className='text-white text-4xl font-bold'>
             ₹
             {plan
-              ? Number((plan.price - (session?.plan ? session?.plan?.amount : 0)).toFixed(2)) +
-                Number(getEighteenPercent(plan.price))
+              ? Number((plan.price - (payment?.plan ? payment?.plan?.amount : 0)).toFixed(2)) +
+                Number(getEighteenPercent(plan?.price))
               : ""}{" "}
             INR
           </span>
@@ -341,7 +350,7 @@ const CheckoutSlug = ({ user }) => {
               <dt>Subtotal</dt>
               <dd>
                 <span>
-                  ₹{plan && (plan.price - (session?.plan ? session?.plan?.amount : 0)).toFixed(2)}{" "}
+                  ₹{plan && (plan?.price - (payment?.plan ? payment?.plan?.amount : 0)).toFixed(2)}{" "}
                   INR
                 </span>
               </dd>
@@ -364,7 +373,7 @@ const CheckoutSlug = ({ user }) => {
                   ₹
                   {plan
                     ? Number(
-                        (plan.price - (session?.plan ? session?.plan?.amount : 0)).toFixed(2)
+                        (plan.price - (payment?.plan ? payment?.plan?.amount : 0)).toFixed(2)
                       ) + Number(getEighteenPercent(plan.price))
                     : ""}{" "}
                   INR
@@ -376,6 +385,33 @@ const CheckoutSlug = ({ user }) => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps = async ({ req, res }) => {
+  const session = await getLoginSession(req);
+  const user = (session?._doc && (await findUser(session._doc))) ?? null;
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
+  }
+  if (!user.detailsAvailable) {
+    return {
+      redirect: {
+        destination: "/auth/user/details",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      userDetails: JSON.stringify(user),
+    },
+  };
 };
 
 export default CheckoutSlug;

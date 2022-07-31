@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CheckIcon, ChevronDownIcon, MinusIcon } from "@heroicons/react/solid";
 import { getLoginSession } from "../../src/lib/auth";
 import { findUser } from "../../src/lib/user";
+import { usePlan } from "../../src/hooks/usePlan";
 
 const plans = [
   {
@@ -150,10 +151,12 @@ const footerNavigation = {
   ],
 };
 
-const Packages = ({ user }) => {
-  const session = user;
+const Packages = ({ userDetails }) => {
+  const session = JSON.parse(userDetails);
+  const { payment, isError, isLoading } = usePlan(session?._id);
+  console.log(payment);
   return (
-    <div className='bg-white'>
+    <div className='bg-white mt-[10vh]'>
       {/* {loading && <Loading />} */}
       <div className='bg-orange-900'>
         {/* Header section with select menu */}
@@ -183,8 +186,8 @@ const Packages = ({ user }) => {
                 <p>
                   <span className='text-4xl font-extrabold text-gray-900'>
                     ₹
-                    {tier.price > session?.plan?.amount
-                      ? Math.max(0, tier.price - (session?.plan ? session?.plan?.amount : 0))
+                    {tier.price > payment?.plan?.amount
+                      ? Math.max(0, tier.price - (payment?.plan ? payment?.plan?.amount : 0))
                       : tier.price}
                   </span>
                   <span className='text-base font-medium text-gray-500'>/year</span>
@@ -192,8 +195,8 @@ const Packages = ({ user }) => {
                 <p className='mt-4 text-sm text-gray-500'>{tier.description}</p>
                 <Link
                   href={
-                    session?.plan
-                      ? session?.plan?.amount < tier.price
+                    payment?.plan
+                      ? payment?.plan?.amount < tier.price
                         ? `/packages/checkout/${index}`
                         : "#"
                       : `/packages/checkout/${index}`
@@ -201,17 +204,17 @@ const Packages = ({ user }) => {
                 >
                   <button
                     className={`${
-                      session?.plan
-                        ? session?.plan?.amount < tier.price
+                      payment?.plan
+                        ? payment?.plan?.amount < tier.price
                           ? "hover:to-pink-600"
                           : "cursor-not-allowed"
                         : `hover:to-pink-600`
                     } cursor-pointer mt-6 block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
                   >
-                    {session?.plan
-                      ? session?.plan?.plan === tier.name
+                    {payment?.plan
+                      ? payment?.plan?.plan === tier.name
                         ? "Purchased"
-                        : (tier.price > session?.plan?.amount ? "Upgrade to " : "Buy ") + tier.name
+                        : (tier.price > payment?.plan?.amount ? "Upgrade to " : "Buy ") + tier.name
                       : "Buy " + tier.name}
                   </button>
                 </Link>
@@ -314,10 +317,10 @@ const Packages = ({ user }) => {
                         <p>
                           <span className='text-4xl font-extrabold text-gray-900'>
                             ₹
-                            {tier.price > session?.plan?.amount
+                            {tier.price > payment?.plan?.amount
                               ? Math.max(
                                   0,
-                                  tier.price - (session?.plan ? session?.plan?.amount : 0)
+                                  tier.price - (payment?.plan ? payment?.plan?.amount : 0)
                                 )
                               : tier.price}
                           </span>
@@ -327,8 +330,8 @@ const Packages = ({ user }) => {
                       </div>
                       <Link
                         href={
-                          session?.plan
-                            ? session?.plan?.amount < tier.price
+                          payment?.plan
+                            ? payment?.plan?.amount < tier.price
                               ? `/packages/checkout/${index}`
                               : "#"
                             : `/packages/checkout/${index}`
@@ -336,17 +339,17 @@ const Packages = ({ user }) => {
                       >
                         <button
                           className={`${
-                            session?.plan
-                              ? session?.plan?.amount < tier.price
+                            payment?.plan
+                              ? payment?.plan?.amount < tier.price
                                 ? "hover:to-pink-600"
                                 : "cursor-not-allowed"
                               : `hover:to-pink-600`
                           } cursor-pointer mt-6 block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
                         >
-                          {session?.plan
-                            ? session?.plan?.plan === tier.name
+                          {payment?.plan
+                            ? payment?.plan?.plan === tier.name
                               ? "Purchased"
-                              : (tier.price > session?.plan?.amount ? "Upgrade to " : "Buy ") +
+                              : (tier.price > payment?.plan?.amount ? "Upgrade to " : "Buy ") +
                                 tier.name
                             : "Buy " + tier.name}
                         </button>
@@ -447,7 +450,9 @@ export const getServerSideProps = async ({ req, res }) => {
   }
 
   return {
-    props: {},
+    props: {
+      userDetails: JSON.stringify(user),
+    },
   };
 };
 
