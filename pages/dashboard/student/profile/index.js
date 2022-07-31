@@ -15,7 +15,6 @@ function classNames(...classes) {
 
 const Profile = ({ userDetails }) => {
   const user = JSON.parse(userDetails);
-  console.log(user);
   const { personal, isError, isLoading } = usePersonal(user?._id);
 
   return (
