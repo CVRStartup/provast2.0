@@ -18,51 +18,51 @@ const Jobs = ({ user }) => {
   }, [jobs]);
 
   return (
-    <div className='px-5 pt-1 overflow-auto w-[100%] mt-[10vh]'>
-      <div className='rounded-md h-14 px-10 bg-gray-800 flex items-center justify-between'>
-        <div className='flex-1 min-w-0'>
-          <h2 className='text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate'>Jobs</h2>
+    <div className="px-5 pt-1 overflow-auto w-[100%] mt-[10vh]">
+      <div className="rounded-md h-16 px-5 bg-gray-800 flex items-center justify-between">
+        <div className="flex-1 min-w-0">
+          <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">Jobs</h2>
         </div>
-        <div className='mt-4 flex md:mt-0 md:ml-4'>
-          <Link href='/dashboard/college/jobs/add'>
-            <a className='ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-orange-500'>
+        <div className="mt-4 flex md:mt-0 md:ml-4">
+          <Link href="/dashboard/college/jobs/add">
+            <a className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-orange-500">
               Publish
             </a>
           </Link>
         </div>
       </div>
-      <div className='flex justify-between items-start mt-5'>
-        <div className='w-[100%] flex'>
-          <div className=' h-[85vh] bg-gray-50 mr-4 rounded-md sticky top-0 left-0 w-[25%]'>
+      <div className="flex justify-between items-start mt-5">
+        <div className="w-[100%] flex">
+          <div className=" h-[85vh] bg-gray-50 mr-4 rounded-md sticky top-0 left-0 w-[25%]">
             <Filter applyFilters={applyFilters} jobs={jobs} setFilteredJobs={setFilteredJobs} />
           </div>
 
-          <div className='bg-gray-50 min-h-[85vh] rounded-md p-2 w-full'>
-            <div className='min-w-0'>
-              <div className='lg:min-w-0'>
-                <div className='h-full px-1'>
-                  <div className='mt-4 relative h-full' style={{ minHeight: "36rem" }}>
+          <div className="bg-gray-50 min-h-[85vh] rounded-md p-2 w-full">
+            <div className="min-w-0">
+              <div className="lg:min-w-0">
+                <div className="h-full px-1">
+                  <div className="mt-4 relative h-full" style={{ minHeight: "36rem" }}>
                     {isLoading ? (
                       <JobCardSkeleton />
                     ) : filteredJobs?.length > 0 ? (
-                      <div className='flex flex-col'>
+                      <div className="flex flex-col">
                         {filteredJobs?.map((job) => (
                           <JobCard key={job._id} job={job} />
                         ))}
                       </div>
                     ) : (
-                      <div className='flex mt-10 flex-col justify-center items-center w-full'>
-                        <div className='relative flex-shrink-0 flex justify-center h-72 w-full'>
+                      <div className="flex mt-10 flex-col justify-center items-center w-full">
+                        <div className="relative flex-shrink-0 flex justify-center h-72 w-full">
                           <Image
-                            placeholder='blur'
-                            blurDataURL='/no_results.png'
-                            layout='fill'
-                            objectFit='contain'
-                            src='/no_results.png'
-                            alt=''
+                            placeholder="blur"
+                            blurDataURL="/no_results.png"
+                            layout="fill"
+                            objectFit="contain"
+                            src="/no_results.png"
+                            alt=""
                           />
                         </div>
-                        <h6 className='text-3xl font-semibold text-gray-400'>No Jobs Found</h6>
+                        <h6 className="text-3xl font-semibold text-gray-400">No Jobs Found</h6>
                       </div>
                     )}
                   </div>

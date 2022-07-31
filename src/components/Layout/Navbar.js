@@ -51,10 +51,6 @@ export const Navbar = () => {
       name: "Assessments",
       href: "/dashboard/college/assessments",
     },
-    {
-      name: "Learn",
-      href: "/dashboard/college/learn",
-    },
   ];
 
   const studentNavigation = [
