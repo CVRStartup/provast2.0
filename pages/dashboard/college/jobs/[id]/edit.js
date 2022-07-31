@@ -27,6 +27,8 @@ import { CheckBox } from "../../../../../src/components/Reusables/CheckBox";
 import { Loading } from "../../../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
+import { Round } from "../../../../../src/components/Jobs/Round";
+import { Question } from "../../../../../src/components/Jobs/Question";
 
 const getSelected = (options, value) => {
   if (!value) return options[0];
@@ -54,19 +56,27 @@ const JobAdd = ({ job, user }) => {
   const [to, setTo] = useState(job?.to || new Date().toISOString());
   const [image, setImage] = useState(job?.image);
   const [logo, setLogo] = useState(job?.logo);
-  const [jobPostingLocation, setJobPostingLocation] = useState(job?.jobPostingLocation);
+  const [jobPostingLocation, setJobPostingLocation] = useState(
+    job?.jobPostingLocation
+  );
   const [yearofPassing, setYearofPassing] = useState(job?.yearofPassing);
   const [branchOptions, setBranchOptions] = useState(job?.branchOptions);
   const [typeOfPost, setTypeOfPost] = useState(job?.typeOfPost);
   const [loading, setLoading] = useState({ type: null, status: false });
   const [eligible, setEligible] = useState(job?.eligible);
-  const [selectedRole, setSelectedRole] = useState(getSelected(role, job?.role));
+  const [selectedRole, setSelectedRole] = useState(
+    getSelected(role, job?.role)
+  );
 
-  const [selectedStatus, setSelectedStatus] = useState(getSelected(status, job?.status));
+  const [selectedStatus, setSelectedStatus] = useState(
+    getSelected(status, job?.status)
+  );
   const [selectedStipendRange, setSelectedStipendRange] = useState(
     getSelected(stipendRange, job?.stipendRange)
   );
-  const [selectedCTCRange, setSelectedCTCRange] = useState(getSelected(ctcRange, job?.ctcRange));
+  const [selectedCTCRange, setSelectedCTCRange] = useState(
+    getSelected(ctcRange, job?.ctcRange)
+  );
 
   const [placed, setPlaced] = useState(job?.eligibility?.placed);
   const [salary, setSalary] = useState(job?.eligibility?.salary || 0);
@@ -81,10 +91,6 @@ const JobAdd = ({ job, user }) => {
     getSelected(typeOfGrade, job?.eligibility?.btech?.typeOfGrade)
   );
 
-  console.log(getSelectedGrade(Percentages, job?.eligibility?.tenth?.grade));
-  console.log(job?.eligibility?.inter?.grade);
-  console.log(job?.eligibility?.btech?.grade);
-
   const [selectedXthGrade, setSelectedXthGrade] = useState(
     getSelectedGrade(Percentages, job?.eligibility?.tenth?.grade)
   );
@@ -95,27 +101,42 @@ const JobAdd = ({ job, user }) => {
     getSelectedGrade(Percentages, job?.eligibility?.btech?.grade)
   );
 
+  const [rounds, setRounds] = useState(job?.rounds);
+  const [questionnaire, setQuestionnaire] = useState(job?.questionnaire);
+
   useEffect(() => {
     if (selectedXthTypeOfGrade.name === "CGPA")
-      setSelectedXthGrade(getSelectedGrade(CGPAs, job?.eligibility?.tenth?.grade));
+      setSelectedXthGrade(
+        getSelectedGrade(CGPAs, job?.eligibility?.tenth?.grade)
+      );
     else if (selectedXthTypeOfGrade.name === "Percentage")
-      setSelectedXthGrade(getSelectedGrade(Percentages, job?.eligibility?.tenth?.grade));
+      setSelectedXthGrade(
+        getSelectedGrade(Percentages, job?.eligibility?.tenth?.grade)
+      );
     else setSelectedXthGrade({ id: 11, name: 0 });
   }, [selectedXthTypeOfGrade]);
 
   useEffect(() => {
     if (selectedXIIthTypeOfGrade.name === "CGPA")
-      setSelectedXthGrade(getSelectedGrade(CGPAs, job?.eligibility?.inter?.grade));
+      setSelectedXthGrade(
+        getSelectedGrade(CGPAs, job?.eligibility?.inter?.grade)
+      );
     else if (selectedXIIthTypeOfGrade.name === "Percentage")
-      setSelectedXthGrade(getSelectedGrade(Percentages, job?.eligibility?.inter?.grade));
+      setSelectedXthGrade(
+        getSelectedGrade(Percentages, job?.eligibility?.inter?.grade)
+      );
     else setSelectedXIIthGrade({ id: 11, name: 0 });
   }, [selectedXIIthTypeOfGrade]);
 
   useEffect(() => {
     if (selectedBtechTypeOfGrade.name === "CGPA")
-      setSelectedXthGrade(getSelectedGrade(CGPAs, job?.eligibility?.btech?.grade));
+      setSelectedXthGrade(
+        getSelectedGrade(CGPAs, job?.eligibility?.btech?.grade)
+      );
     else if (selectedBtechTypeOfGrade.name === "Percentage")
-      setSelectedXthGrade(getSelectedGrade(Percentages, job?.eligibility?.btech?.grade));
+      setSelectedXthGrade(
+        getSelectedGrade(Percentages, job?.eligibility?.btech?.grade)
+      );
     else setSelectedBtechGrade({ id: 11, name: 0 });
   }, [selectedBtechTypeOfGrade]);
 
@@ -142,8 +163,13 @@ const JobAdd = ({ job, user }) => {
               if (student) existingStudents.add(student.rollnumber);
             });
             var res = [];
+            let studentList = [];
             data.forEach((x) => {
-              if (x && x["Roll Number"] && !existingStudents.has(x["Roll Number"]))
+              if (
+                x &&
+                x["Roll Number"] &&
+                !existingStudents.has(x["Roll Number"])
+              )
                 res.push({
                   name: x["Name"] ? x["Name"] : "N/A",
                   branch: x["Branch"] ? x["Branch"] : "N/A",
@@ -224,6 +250,8 @@ const JobAdd = ({ job, user }) => {
       from,
       to,
       eligible,
+      rounds,
+      questionnaire,
     });
 
     setLoading({ type: "edit", status: false });
@@ -255,89 +283,265 @@ const JobAdd = ({ job, user }) => {
       toast.error(error, { toastId: error });
     }
   };
+  const addNewRound = (num) => {
+    if (num < rounds.length) {
+      let newRounds = [...rounds];
+      for (let i = rounds.length - num; i > 0; i--) newRounds.pop();
+      setRounds([...newRounds]);
+    } else {
+      let number = num - rounds.length;
+      let newRound = {
+        name: "",
+        description: "",
+        completed: false,
+        date: {
+          from: null,
+          to: null,
+        },
+        attendees: [],
+        shortlisted: [],
+        result: [],
+      };
+      let newRounds = [...rounds];
+      for (let i = 0; i < number; i++) newRounds.push(newRound);
+      setRounds([...newRounds]);
+    }
+  };
 
-  console.log(from);
-  console.log(to);
+  const checkFileType = (filename) => {
+    let parts = filename.split(".");
+    let extension = parts[parts.length - 1];
+    switch (extension) {
+      case "xls":
+      case "xlsx":
+      case "csv":
+        return true;
+      default:
+        return false;
+    }
+  };
+  const handleRoundChange = (fieldName, updatedValue, index) => {
+    let newRounds = [...rounds];
+    if (fieldName == "date-from" || fieldName == "date-to") {
+      if (fieldName == "date-from")
+        newRounds[index]["date"]["from"] = updatedValue;
+      else newRounds[index]["date"]["to"] = updatedValue;
+    } else {
+      newRounds[index][fieldName] = updatedValue;
+    }
+
+    if (fieldName == "completed") newRounds[index].shortlisted = [];
+    setRounds([...newRounds]);
+  };
+
+  const handleShortlistFile = (e, field, index) => {
+    let selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      if (checkFileType(selectedFile.name)) {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
+        reader.onload = (e) => {
+          if (e.target.result !== null) {
+            const workbook = XLSX.read(e.target.result, { type: "buffer" });
+            const worksheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[worksheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+
+            toast.success("File uploaded successfully!", {
+              toastId: 21,
+            });
+
+            let studentList = [];
+            if (field === "results") {
+              studentList = data.map((student) => {
+                return {
+                  rollNumber: student["Roll Number"],
+                  role: student["Role"],
+                  result: student["Result"],
+                };
+              });
+            } else {
+              studentList = data.map((student) => {
+                return {
+                  rollNumber: student["Roll Number"],
+                  role: student["Role"],
+                };
+              });
+            }
+
+            let newRounds = [...rounds];
+            newRounds[index][field].push(...studentList);
+            setRounds([...newRounds]);
+          }
+        };
+      } else {
+        setFileError("Upload Failed: Please select only Excel files!");
+        toast.error("Upload Failed: Please select only Excel files!", {
+          toastId: 23,
+        });
+      }
+    } else {
+      toast.error("Upload Failed: No file selected", {
+        toastId: 22,
+      });
+    }
+  };
+
+  const addNewQuestion = () => {
+    let newQuestions = [...questionnaire];
+    newQuestions.push({
+      question: {
+        questionName: "",
+        required: false,
+        options: [],
+      },
+    });
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const handleQuestionChange = (fieldName, updatedValue, index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question[fieldName] = updatedValue;
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const clearOptions = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options = [];
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const handleOptionChange = (value, optionIndex, index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options[optionIndex] = value;
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const removeOption = (index, optionIndex) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options.splice(optionIndex, 1);
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const addOption = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options.push("");
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const removeQuestion = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions.splice(index, 1);
+    setQuestionnaire([...newQuestions]);
+  };
+
   return (
-    <main className='bg-gray-50 mt-[10vh]'>
+    <main className="bg-gray-50 mt-[10vh]">
       {loading.type === "edit" && loading.status === true ? <Loading /> : ""}
-      <div className='space-y-6 max-w-6xl mx-auto py-8'>
-        <div className='bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>
-          <div className='mb-5 md:col-span-1'>
-            <h3 className='text-lg font-medium leading-6 text-gray-900'>Job Infomation</h3>
-            <p className='mt-1 text-sm text-gray-500'>
-              This information will be displayed publicly so be careful what you share.
+      <div className="space-y-6 max-w-6xl mx-auto py-8">
+        <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+          <div className="mb-5 md:col-span-1">
+            <h3 className="text-lg font-medium leading-6 text-gray-900">
+              Job Infomation
+            </h3>
+            <p className="mt-1 text-sm text-gray-500">
+              This information will be displayed publicly so be careful what you
+              share.
             </p>
           </div>
           <div>
-            <form className='mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6' method='POST'>
-              <div className='sm:col-span-3'>
-                <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+            <form
+              className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
+              method="POST"
+            >
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Company Name
                 </label>
                 <input
-                  type='text'
-                  name='name'
-                  id='name'
+                  type="text"
+                  name="name"
+                  id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  autoComplete='off'
-                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                  autoComplete="off"
+                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />
               </div>
-              <div className='sm:col-span-3'>
-                <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Website
                 </label>
                 <input
-                  type='text'
-                  name='name'
-                  id='name'
+                  type="text"
+                  name="name"
+                  id="name"
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  autoComplete='off'
-                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                  autoComplete="off"
+                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />
               </div>
-              <div className='sm:col-span-6'>
-                <label htmlFor='purpose' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-6">
+                <label
+                  htmlFor="purpose"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Description
                 </label>
                 <Editor input={description} dataCallBack={handleCallBack} />
-                <p className='mt-2 text-sm text-gray-500'>Few lines to describe the job role.</p>
+                <p className="mt-2 text-sm text-gray-500">
+                  Few lines to describe the job role.
+                </p>
               </div>
 
-              <div className='sm:col-span-3'>
-                <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="photo"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Logo
                 </label>
-                <div className='mt-1'>
-                  <div className='sm:mt-0 sm:col-span-2'>
+                <div className="mt-1">
+                  <div className="sm:mt-0 sm:col-span-2">
                     {loading.type === "logo" && loading.status ? (
-                      <div className='animate-pulse'>
-                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
+                      <div className="animate-pulse">
+                        <input className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10"></input>
                       </div>
                     ) : (
                       <input
-                        type='text'
+                        type="text"
                         value={logo}
                         disabled={true}
                         onChange={(e) => setLogo(e.target.value)}
-                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       />
                     )}
                     {loading.type === "logo" && loading.status ? (
-                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
-                        <Loader size={8} color='gray' />
+                      <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed">
+                        <Loader size={8} color="gray" />
                         Please Wait...
                       </div>
                     ) : (
                       <input
-                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-                        label='Choose File'
-                        type='file'
-                        name='image'
-                        id='profileImg'
+                        className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        label="Choose File"
+                        type="file"
+                        name="image"
+                        id="profileImg"
                         onChange={(e) => uploadFileHandler(e, "logo")}
                       />
                     )}
@@ -345,37 +549,40 @@ const JobAdd = ({ job, user }) => {
                 </div>
               </div>
 
-              <div className='sm:col-span-3'>
-                <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="photo"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Banner
                 </label>
-                <div className='mt-1'>
-                  <div className='sm:mt-0 sm:col-span-2'>
+                <div className="mt-1">
+                  <div className="sm:mt-0 sm:col-span-2">
                     {loading.type === "banner" && loading.status ? (
-                      <div className='animate-pulse'>
-                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
+                      <div className="animate-pulse">
+                        <input className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10"></input>
                       </div>
                     ) : (
                       <input
-                        type='text'
+                        type="text"
                         value={image}
                         disabled={true}
                         onChange={(e) => setImage(e.target.value)}
-                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       />
                     )}
                     {loading.type === "banner" && loading.status ? (
-                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
-                        <Loader size={8} color='gray' />
+                      <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed">
+                        <Loader size={8} color="gray" />
                         Please Wait...
                       </div>
                     ) : (
                       <input
-                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-                        label='Choose File'
-                        type='file'
-                        name='image'
-                        id='profileImg'
+                        className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        label="Choose File"
+                        type="file"
+                        name="image"
+                        id="profileImg"
                         onChange={(e) => uploadFileHandler(e, "banner")}
                       />
                     )}
@@ -383,44 +590,66 @@ const JobAdd = ({ job, user }) => {
                 </div>
               </div>
 
-              <div className='sm:col-span-3'>
-                <label htmlFor='startDate' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="startDate"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Start Date
                 </label>
-                <div className='mt-1'>
+                <div className="mt-1">
                   <input
-                    type='datetime-local'
-                    name='startDate'
-                    id='startDate'
+                    type="datetime-local"
+                    name="startDate"
+                    id="startDate"
                     value={from?.substring(0, 16)}
                     onChange={(e) => {
-                      console.log(from);
                       setFrom(e.target.value);
                     }}
                     required
-                    className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                    className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
               </div>
 
-              <div className='sm:col-span-3'>
-                <label htmlFor='endDate' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="endDate"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   End Date
                 </label>
-                <div className='mt-1'>
+                <div className="mt-1">
                   <input
-                    type='datetime-local'
-                    name='endDate'
-                    id='endDate'
+                    type="datetime-local"
+                    name="endDate"
+                    id="endDate"
                     required
                     value={to?.substring(0, 16)}
                     onChange={(e) => setTo(e.target.value)}
-                    className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                    className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
               </div>
-
-              <div className='sm:col-span-6 relative -top-[22px]'>
+              <div className="">
+                <label
+                  htmlFor="roundNumber"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Enter number of rounds
+                </label>
+                <input
+                  type="number"
+                  name="roundNumber"
+                  id="roundNumber"
+                  min="1"
+                  value={rounds.length}
+                  onChange={(e) => addNewRound(e.target.value)}
+                  autoComplete="off"
+                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="sm:col-span-6 relative -top-[22px]">
                 <DropDown
                   title={"Role"}
                   options={role}
@@ -429,50 +658,58 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
 
-              <div className='sm:col-span-6'>
-                <div className='flex items-start justify-between'>
-                  <div className='w-[49%]'>
+              <div className="sm:col-span-6">
+                <div className="flex items-start justify-between">
+                  <div className="w-[49%]">
                     <MultiInput
-                      title='Designation'
+                      title="Designation"
                       handleExtraOptions={(extra) =>
-                        setDesignation({ ...designation, roles: [...designation.roles, extra] })
+                        setDesignation({
+                          ...designation,
+                          roles: [...designation.roles, extra],
+                        })
                       }
                       deleteOption={(option) =>
                         setDesignation({
                           ...designation,
-                          roles: [...designation.roles.filter((x) => x !== option)],
+                          roles: [
+                            ...designation.roles.filter((x) => x !== option),
+                          ],
                         })
                       }
                       extraOptions={designation.roles}
                     />
                   </div>
 
-                  <div className='w-[49%]'>
+                  <div className="w-[49%]">
                     <label
-                      htmlFor='name'
-                      className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                     >
                       Max Roles That can be applied
                     </label>
                     <input
-                      type='number'
-                      name='name'
-                      id='name'
+                      type="number"
+                      name="name"
+                      id="name"
                       value={designation.max}
                       onChange={(e) =>
-                        setDesignation({ ...designation, max: parseInt(e.target.value) })
+                        setDesignation({
+                          ...designation,
+                          max: parseInt(e.target.value),
+                        })
                       }
-                      autoComplete='off'
-                      className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      autoComplete="off"
+                      className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className='sm:col-span-6'>
+              <div className="sm:col-span-6">
                 {selectedRole.name === "Internship" ? (
-                  <div className='grid grid-cols-2 gap-4'>
-                    <div className='relative -top-[22px]'>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="relative -top-[22px]">
                       <DropDown
                         title={"Stipend Range"}
                         options={stipendRange}
@@ -480,24 +717,27 @@ const JobAdd = ({ job, user }) => {
                         setSelectedOption={setSelectedStipendRange}
                       />
                     </div>
-                    <div className=''>
-                      <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                    <div className="">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         Exact Stipend
                       </label>
                       <input
-                        type='number'
-                        name='name'
-                        id='name'
+                        type="number"
+                        name="name"
+                        id="name"
                         value={stipend}
                         onChange={(e) => setStipend(e.target.value)}
-                        autoComplete='off'
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        autoComplete="off"
+                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                   </div>
                 ) : selectedRole.name === "Full Time" ? (
-                  <div className='grid grid-cols-2 gap-4'>
-                    <div className='relative -top-[22px]'>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="relative -top-[22px]">
                       <DropDown
                         title={"CTC Range"}
                         options={ctcRange}
@@ -505,25 +745,28 @@ const JobAdd = ({ job, user }) => {
                         setSelectedOption={setSelectedCTCRange}
                       />
                     </div>
-                    <div className=''>
-                      <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                    <div className="">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         Exact CTC
                       </label>
                       <input
-                        type='number'
-                        name='name'
-                        id='name'
+                        type="number"
+                        name="name"
+                        id="name"
                         value={ctc}
                         onChange={(e) => setCtc(e.target.value)}
-                        autoComplete='off'
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        autoComplete="off"
+                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                   </div>
                 ) : selectedRole.name === "Internship and Full Time" ? (
-                  <div className='grid grid-cols-2 gap-4'>
-                    <div className='grid grid-cols-2 gap-4'>
-                      <div className='relative -top-[22px]'>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="relative -top-[22px]">
                         <DropDown
                           title={"Stipend Range"}
                           options={stipendRange}
@@ -531,23 +774,26 @@ const JobAdd = ({ job, user }) => {
                           setSelectedOption={setSelectedStipendRange}
                         />
                       </div>
-                      <div className=''>
-                        <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                      <div className="">
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
                           Exact Stipend
                         </label>
                         <input
-                          type='number'
-                          name='name'
-                          id='name'
+                          type="number"
+                          name="name"
+                          id="name"
                           value={stipend}
                           onChange={(e) => setStipend(e.target.value)}
-                          autoComplete='off'
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          autoComplete="off"
+                          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-4'>
-                      <div className='relative -top-[22px]'>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="relative -top-[22px]">
                         <DropDown
                           title={"CTC Range"}
                           options={ctcRange}
@@ -555,18 +801,21 @@ const JobAdd = ({ job, user }) => {
                           setSelectedOption={setSelectedCTCRange}
                         />
                       </div>
-                      <div className=''>
-                        <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                      <div className="">
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
                           Exact CTC
                         </label>
                         <input
-                          type='number'
-                          name='name'
-                          id='name'
+                          type="number"
+                          name="name"
+                          id="name"
                           value={ctc}
                           onChange={(e) => setCtc(e.target.value)}
-                          autoComplete='off'
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          autoComplete="off"
+                          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                     </div>
@@ -576,7 +825,7 @@ const JobAdd = ({ job, user }) => {
                 )}
               </div>
 
-              <div className='sm:col-span-6 rounded border'>
+              <div className="sm:col-span-6 rounded border">
                 <CheckBox
                   title={"Job Posting Location"}
                   options={jobPostingLocationOptions}
@@ -584,7 +833,7 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={jobPostingLocation}
                 />
               </div>
-              <div className='sm:col-span-6 rounded border'>
+              <div className="sm:col-span-6 rounded border">
                 <CheckBox
                   title={"Year Of Passing"}
                   options={generateYearsBetween()}
@@ -592,7 +841,7 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={yearofPassing}
                 />
               </div>
-              <div className='sm:col-span-6 rounded border'>
+              <div className="sm:col-span-6 rounded border">
                 <CheckBox
                   title={"Eligible Branches"}
                   options={branches}
@@ -600,8 +849,25 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={branchOptions}
                 />
               </div>
-
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className="sm:col-span-6 rounded border bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+                <div>
+                  {rounds &&
+                    rounds.map((round, roundIndex) => {
+                      return (
+                        <Round
+                          type={"edit"}
+                          round={round}
+                          roundIndex={roundIndex}
+                          from={job?.from}
+                          to={job?.to}
+                          handleRoundChange={handleRoundChange}
+                          handleShortlistFile={handleShortlistFile}
+                        />
+                      );
+                    })}
+                </div>
+              </div>
+              <div className="sm:col-span-3 relative -top-[22px]">
                 <DropDown
                   title={"Xth Type Of Grade"}
                   options={typeOfGrade}
@@ -609,17 +875,21 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedXthTypeOfGrade}
                 />
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className="sm:col-span-3 relative -top-[22px]">
                 {selectedXthTypeOfGrade.name !== "Not Applicable" && (
                   <DropDown
                     title={"Xth Grade"}
-                    options={selectedXthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    options={
+                      selectedXthTypeOfGrade.name === "CGPA"
+                        ? CGPAs
+                        : Percentages
+                    }
                     selectedOption={selectedXthGrade}
                     setSelectedOption={setSelectedXthGrade}
                   />
                 )}
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className="sm:col-span-3 relative -top-[22px]">
                 <DropDown
                   title={"XIIth Type Of Grade"}
                   options={typeOfGrade}
@@ -627,17 +897,21 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedXIIthTypeOfGrade}
                 />
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className="sm:col-span-3 relative -top-[22px]">
                 {selectedXIIthTypeOfGrade.name !== "Not Applicable" && (
                   <DropDown
                     title={"XIIth Grade"}
-                    options={selectedXIIthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    options={
+                      selectedXIIthTypeOfGrade.name === "CGPA"
+                        ? CGPAs
+                        : Percentages
+                    }
                     selectedOption={selectedXIIthGrade}
                     setSelectedOption={setSelectedXIIthGrade}
                   />
                 )}
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className="sm:col-span-3 relative -top-[22px]">
                 <DropDown
                   title={"Btech Type Of Grade"}
                   options={typeOfGrade}
@@ -645,43 +919,49 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedBtechTypeOfGrade}
                 />
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className="sm:col-span-3 relative -top-[22px]">
                 {selectedBtechTypeOfGrade.name !== "Not Applicable" && (
                   <DropDown
                     title={"Btech Grade"}
-                    options={selectedBtechTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    options={
+                      selectedBtechTypeOfGrade.name === "CGPA"
+                        ? CGPAs
+                        : Percentages
+                    }
                     selectedOption={selectedBtechGrade}
                     setSelectedOption={setSelectedBtechGrade}
                   />
                 )}
               </div>
-              <div className='sm:col-span-3'>
-                <label className='text-base font-medium text-gray-900'>
+              <div className="sm:col-span-3">
+                <label className="text-base font-medium text-gray-900">
                   What students are eligible ?
                 </label>
-                <p className='text-sm leading-5 text-gray-500'>
+                <p className="text-sm leading-5 text-gray-500">
                   Who should be able to apply to this job ?
                 </p>
-                <fieldset className='mt-4'>
-                  <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10'>
+                <fieldset className="mt-4">
+                  <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                     {typeOfPlacedStatus.map((option) => (
-                      <div key={option.id} className='flex items-center'>
+                      <div key={option.id} className="flex items-center">
                         <input
                           id={option.id}
-                          name='placed'
-                          type='radio'
+                          name="placed"
+                          type="radio"
                           value={option.name}
                           defaultChecked={option.id === "everyone"}
                           onChange={(e) =>
                             setPlaced(
-                              e.target.value === "Everyone" ? null : e.target.value === "Placed"
+                              e.target.value === "Everyone"
+                                ? null
+                                : e.target.value === "Placed"
                             )
                           }
-                          className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
+                          className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
                         />
                         <label
                           htmlFor={option.id}
-                          className='ml-3 block text-sm font-medium text-gray-700'
+                          className="ml-3 block text-sm font-medium text-gray-700"
                         >
                           {option.name}
                         </label>
@@ -690,22 +970,24 @@ const JobAdd = ({ job, user }) => {
                   </div>
                 </fieldset>
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className="sm:col-span-3 relative -top-[22px]">
                 {placed && (
-                  <div className='flex flex-col mt-5'>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-base font-medium text-gray-900'>Maximum salary ?</p>
-                      <p className='text-sm font-light'>
+                  <div className="flex flex-col mt-5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-base font-medium text-gray-900">
+                        Maximum salary ?
+                      </p>
+                      <p className="text-sm font-light">
                         {"₹" + Number(salary).toLocaleString("en-IN")}
                       </p>
                     </div>
-                    <div className='p-1 mt-1'>
+                    <div className="p-1 mt-1">
                       <input
-                        type='range'
+                        type="range"
                         min={0}
                         max={500000}
                         step={5000}
-                        className='w-full '
+                        className="w-full "
                         value={salary}
                         onInput={(ev) => {
                           setSalary(ev.target.value);
@@ -718,27 +1000,29 @@ const JobAdd = ({ job, user }) => {
                   </div>
                 )}
               </div>
-              <div className='sm:col-span-3'>
-                <label className='text-base font-medium text-gray-900'>Type Of Job Posting</label>
-                <p className='text-sm leading-5 text-gray-500'>
+              <div className="sm:col-span-3">
+                <label className="text-base font-medium text-gray-900">
+                  Type Of Job Posting
+                </label>
+                <p className="text-sm leading-5 text-gray-500">
                   How would you like to show this job posting?
                 </p>
-                <fieldset className='mt-4'>
-                  <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10'>
+                <fieldset className="mt-4">
+                  <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                     {typeOfPosting.map((option) => (
-                      <div key={option.id} className='flex items-center'>
+                      <div key={option.id} className="flex items-center">
                         <input
                           id={option.id}
-                          name='notification-method'
-                          type='radio'
+                          name="notification-method"
+                          type="radio"
                           value={option.name}
                           defaultChecked={option.id === "shortlisted"}
                           onChange={(e) => setTypeOfPost(e.target.value)}
-                          className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
+                          className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
                         />
                         <label
                           htmlFor={option.id}
-                          className='ml-3 block text-sm font-medium text-gray-700'
+                          className="ml-3 block text-sm font-medium text-gray-700"
                         >
                           {option.name}
                         </label>
@@ -746,7 +1030,7 @@ const JobAdd = ({ job, user }) => {
                     ))}
                   </div>
                 </fieldset>
-                <div className='pt-4'>
+                <div className="pt-4">
                   <DropDown
                     title={"Status"}
                     options={status}
@@ -757,17 +1041,20 @@ const JobAdd = ({ job, user }) => {
               </div>
 
               {typeOfPost === "Shortlisted Students" && (
-                <div className='sm:col-span-3'>
-                  <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="photo"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Upload Spreadsheet
                   </label>
 
                   <input
-                    className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-                    label='Choose File'
-                    type='file'
-                    name='image'
-                    id='profileImg'
+                    className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    label="Choose File"
+                    type="file"
+                    name="image"
+                    id="profileImg"
                     onChange={handleFile}
                   />
                   {excelFileError &&
@@ -776,15 +1063,39 @@ const JobAdd = ({ job, user }) => {
                     })}
                 </div>
               )}
+              <div className="sm:col-span-6 rounded border bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+                <h3>Questionnaire</h3>
+
+                {questionnaire &&
+                  questionnaire.map((questionObj, questionIndex) => {
+                    return (
+                      <Question
+                        question={questionObj.question}
+                        type={
+                          questionObj.question.options &&
+                          questionObj.question.options.length > 0
+                        }
+                        index={questionIndex}
+                        handleQuestionChange={handleQuestionChange}
+                        clearOptions={clearOptions}
+                        handleOptionChange={handleOptionChange}
+                        removeOption={removeOption}
+                        addOption={addOption}
+                        removeQuestion={removeQuestion}
+                      />
+                    );
+                  })}
+                <div onClick={addNewQuestion}>Add question</div>
+              </div>
             </form>
           </div>
         </div>
 
-        <div className='flex justify-end'>
+        <div className="flex justify-end">
           <Link href={`/dashboard/college/jobs/${router.query.id}`}>
             <button
-              type='button'
-              className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+              type="button"
+              className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Cancel
             </button>
@@ -804,7 +1115,10 @@ const JobAdd = ({ job, user }) => {
   );
 };
 export const getServerSideProps = async ({ req, res, query }) => {
-  res.setHeader("Cache-Control", "public, s-maxage=10, stale-while-revalidate=59");
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
   if (!user) {

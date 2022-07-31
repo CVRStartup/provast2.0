@@ -27,6 +27,8 @@ import Link from "next/link";
 import { Loading } from "../../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
+import { Round } from "../../../../src/components/Jobs/Round";
+import { Question } from "../../../../src/components/Jobs/Question";
 
 const JobAdd = ({ user }) => {
   const router = useRouter();
@@ -52,32 +54,61 @@ const JobAdd = ({ user }) => {
 
   const [selectedRole, setSelectedRole] = useState(role[0]);
   const [selectedStatus, setSelectedStatus] = useState(status[0]);
-  const [selectedStipendRange, setSelectedStipendRange] = useState(stipendRange[0]);
+  const [selectedStipendRange, setSelectedStipendRange] = useState(
+    stipendRange[0]
+  );
   const [selectedCTCRange, setSelectedCTCRange] = useState(ctcRange[0]);
 
-  const [selectedXthTypeOfGrade, setSelectedXthTypeOfGrade] = useState(typeOfGrade[0]);
-  const [selectedXIIthTypeOfGrade, setSelectedXIIthTypeOfGrade] = useState(typeOfGrade[0]);
-  const [selectedBtechTypeOfGrade, setSelectedBtechTypeOfGrade] = useState(typeOfGrade[0]);
+  const [selectedXthTypeOfGrade, setSelectedXthTypeOfGrade] = useState(
+    typeOfGrade[0]
+  );
+  const [selectedXIIthTypeOfGrade, setSelectedXIIthTypeOfGrade] = useState(
+    typeOfGrade[0]
+  );
+  const [selectedBtechTypeOfGrade, setSelectedBtechTypeOfGrade] = useState(
+    typeOfGrade[0]
+  );
 
   const [selectedXthGrade, setSelectedXthGrade] = useState(CGPAs[0]);
   const [selectedXIIthGrade, setSelectedXIIthGrade] = useState(CGPAs[0]);
   const [selectedBtechGrade, setSelectedBtechGrade] = useState(CGPAs[0]);
 
+  const [rounds, setRounds] = useState([
+    {
+      name: "",
+      description: "",
+      completed: false,
+      date: {
+        from: null,
+        to: null,
+      },
+      attendees: [],
+      shortlisted: [],
+      result: [],
+    },
+  ]);
+  const [questionnaire, setQuestionnaire] = useState([]);
+
   useEffect(() => {
     if (selectedXthTypeOfGrade.name === "CGPA") setSelectedXthGrade(CGPAs[0]);
-    else if (selectedXthTypeOfGrade.name === "Percentage") setSelectedXthGrade(Percentages[0]);
+    else if (selectedXthTypeOfGrade.name === "Percentage")
+      setSelectedXthGrade(Percentages[0]);
     else setSelectedXthGrade({ id: 11, name: 0 });
   }, [selectedXthTypeOfGrade]);
 
   useEffect(() => {
-    if (selectedXIIthTypeOfGrade.name === "CGPA") setSelectedXIIthGrade(CGPAs[0]);
-    else if (selectedXIIthTypeOfGrade.name === "Percentage") setSelectedXIIthGrade(Percentages[0]);
+    if (selectedXIIthTypeOfGrade.name === "CGPA")
+      setSelectedXIIthGrade(CGPAs[0]);
+    else if (selectedXIIthTypeOfGrade.name === "Percentage")
+      setSelectedXIIthGrade(Percentages[0]);
     else setSelectedXIIthGrade({ id: 11, name: 0 });
   }, [selectedXIIthTypeOfGrade]);
 
   useEffect(() => {
-    if (selectedBtechTypeOfGrade.name === "CGPA") setSelectedBtechGrade(CGPAs[0]);
-    else if (selectedBtechTypeOfGrade.name === "Percentage") setSelectedBtechGrade(Percentages[0]);
+    if (selectedBtechTypeOfGrade.name === "CGPA")
+      setSelectedBtechGrade(CGPAs[0]);
+    else if (selectedBtechTypeOfGrade.name === "Percentage")
+      setSelectedBtechGrade(Percentages[0]);
     else setSelectedBtechGrade({ id: 11, name: 0 });
   }, [selectedBtechTypeOfGrade]);
 
@@ -135,6 +166,8 @@ const JobAdd = ({ user }) => {
       from,
       to,
       eligible,
+      rounds,
+      questionnaire,
     });
 
     setLoading({ type: "add", status: false });
@@ -146,6 +179,13 @@ const JobAdd = ({ user }) => {
       toast.error(message, { toastId: message });
     }
   };
+
+  useEffect(() => {
+    let rollNumbers = eligible.map((x) => x.rollnumber);
+    let newRounds = [...rounds];
+    newRounds[0].shortlisted = rollNumbers;
+    setRounds(newRounds);
+  }, [eligible]);
 
   const uploadFileHandler = async (e, type) => {
     const file = e.target.files[0];
@@ -167,21 +207,189 @@ const JobAdd = ({ user }) => {
     }
   };
 
+  const addNewRound = (num) => {
+    if (num < rounds.length) {
+      let newRounds = [...rounds];
+      for (let i = rounds.length - num; i > 0; i--) newRounds.pop();
+      setRounds([...newRounds]);
+    } else {
+      let number = num - rounds.length;
+      let newRound = {
+        name: "",
+        description: "",
+        completed: false,
+        date: {
+          from: null,
+          to: null,
+        },
+        attendees: [],
+        shortlisted: [],
+        result: [],
+      };
+      let newRounds = [...rounds];
+      for (let i = 0; i < number; i++) newRounds.push(newRound);
+      setRounds([...newRounds]);
+    }
+
+    console.log(rounds);
+  };
+
+  const checkFileType = (filename) => {
+    let parts = filename.split(".");
+    let extension = parts[parts.length - 1];
+    switch (extension) {
+      case "xls":
+      case "xlsx":
+      case "csv":
+        return true;
+      default:
+        return false;
+    }
+  };
+  const handleRoundChange = (fieldName, updatedValue, index) => {
+    let newRounds = [...rounds];
+    if (fieldName == "date-from" || fieldName == "date-to") {
+      if (fieldName == "date-from")
+        newRounds[index]["date"]["from"] = updatedValue;
+      else newRounds[index]["date"]["to"] = updatedValue;
+    } else {
+      newRounds[index][fieldName] = updatedValue;
+    }
+
+    if (fieldName == "completed") newRounds[index].shortlisted = [];
+    setRounds([...newRounds]);
+  };
+
+  const handleShortlistFile = (e, field, index) => {
+    let selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      if (checkFileType(selectedFile.name)) {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
+        reader.onload = (e) => {
+          if (e.target.result !== null) {
+            const workbook = XLSX.read(e.target.result, { type: "buffer" });
+            const worksheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[worksheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+
+            toast.success("File uploaded successfully!", {
+              toastId: 21,
+            });
+            let studentList = [];
+            if (field === "result") {
+              studentList = data.map((student) => {
+                return {
+                  rollNumber: student["Roll Number"],
+                  role: student["Role"],
+                  result: student["Result"],
+                };
+              });
+            } else {
+              studentList = data.map((student) => {
+                return {
+                  rollNumber: student["Roll Number"],
+                  role: student["Role"],
+                };
+              });
+            }
+
+            let newRounds = [...rounds];
+            newRounds[index].field.push(...studentList);
+            setRounds([...newRounds]);
+          }
+        };
+      } else {
+        setFileError("Upload Failed: Please select only Excel files!");
+        toast.error("Upload Failed: Please select only Excel files!", {
+          toastId: 23,
+        });
+      }
+    } else {
+      toast.error("Upload Failed: No file selected", {
+        toastId: 22,
+      });
+    }
+  };
+
+  const addNewQuestion = () => {
+    let newQuestions = [...questionnaire];
+    newQuestions.push({
+      question: {
+        questionName: "",
+        required: false,
+        options: [],
+      },
+    });
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const handleQuestionChange = (fieldName, updatedValue, index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question[fieldName] = updatedValue;
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const clearOptions = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options = [];
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const handleOptionChange = (value, optionIndex, index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options[optionIndex] = value;
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const removeOption = (index, optionIndex) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options.splice(optionIndex, 1);
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const addOption = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options.push("");
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const removeQuestion = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions.splice(index, 1);
+    setQuestionnaire([...newQuestions]);
+  };
   return (
     <main className="bg-gray-50 mt-10">
       {loading.type === "add" && loading.status === true ? <Loading /> : ""}
       <div className="space-y-6 max-w-6xl mx-auto py-8">
         <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
           <div className="mb-5 md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">Job Infomation</h3>
+            <h3 className="text-lg font-medium leading-6 text-gray-900">
+              Job Infomation
+            </h3>
             <p className="mt-1 text-sm text-gray-500">
-              This information will be displayed publicly so be careful what you share.
+              This information will be displayed publicly so be careful what you
+              share.
             </p>
           </div>
           <div>
-            <form className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6" method="POST">
+            <form
+              className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
+              method="POST"
+            >
               <div className="sm:col-span-3">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Company Name
                 </label>
                 <input
@@ -195,7 +403,10 @@ const JobAdd = ({ user }) => {
                 />
               </div>
               <div className="sm:col-span-3">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 ">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 "
+                >
                   Website
                 </label>
                 <input
@@ -209,15 +420,23 @@ const JobAdd = ({ user }) => {
                 />
               </div>
               <div className="sm:col-span-6">
-                <label htmlFor="purpose" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="purpose"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Description
                 </label>
                 <Editor input={description} dataCallBack={handleCallBack} />
-                <p className="mt-2 text-sm text-gray-500">Few lines to describe the job role.</p>
+                <p className="mt-2 text-sm text-gray-500">
+                  Few lines to describe the job role.
+                </p>
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="photo"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Logo
                 </label>
                 <div className="mt-1">
@@ -255,7 +474,10 @@ const JobAdd = ({ user }) => {
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="photo"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Banner
                 </label>
                 <div className="mt-1">
@@ -293,7 +515,10 @@ const JobAdd = ({ user }) => {
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="startDate"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Start Date
                 </label>
                 <div className="mt-1">
@@ -310,7 +535,10 @@ const JobAdd = ({ user }) => {
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="endDate"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   End Date
                 </label>
                 <div className="mt-1">
@@ -325,7 +553,24 @@ const JobAdd = ({ user }) => {
                   />
                 </div>
               </div>
-
+              <div className="">
+                <label
+                  htmlFor="roundNumber"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Enter number of rounds
+                </label>
+                <input
+                  type="number"
+                  name="roundNumber"
+                  id="roundNumber"
+                  min="1"
+                  value={rounds.length}
+                  onChange={(e) => addNewRound(e.target.value)}
+                  autoComplete="off"
+                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                />
+              </div>
               <div className="sm:col-span-6 relative -top-[22px]">
                 <DropDown
                   title={"Role"}
@@ -341,12 +586,17 @@ const JobAdd = ({ user }) => {
                     <MultiInput
                       title="Designation"
                       handleExtraOptions={(extra) =>
-                        setDesignation({ ...designation, roles: [...designation.roles, extra] })
+                        setDesignation({
+                          ...designation,
+                          roles: [...designation.roles, extra],
+                        })
                       }
                       deleteOption={(option) =>
                         setDesignation({
                           ...designation,
-                          roles: [...designation.roles.filter((x) => x !== option)],
+                          roles: [
+                            ...designation.roles.filter((x) => x !== option),
+                          ],
                         })
                       }
                       extraOptions={designation.roles}
@@ -366,7 +616,10 @@ const JobAdd = ({ user }) => {
                       id="name"
                       value={designation.max}
                       onChange={(e) =>
-                        setDesignation({ ...designation, max: parseInt(e.target.value) })
+                        setDesignation({
+                          ...designation,
+                          max: parseInt(e.target.value),
+                        })
                       }
                       autoComplete="off"
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
@@ -387,7 +640,10 @@ const JobAdd = ({ user }) => {
                       />
                     </div>
                     <div className="">
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         Exact Stipend
                       </label>
                       <input
@@ -412,7 +668,10 @@ const JobAdd = ({ user }) => {
                       />
                     </div>
                     <div className="">
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         Exact CTC
                       </label>
                       <input
@@ -438,7 +697,10 @@ const JobAdd = ({ user }) => {
                         />
                       </div>
                       <div className="">
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
                           Exact Stipend
                         </label>
                         <input
@@ -462,7 +724,10 @@ const JobAdd = ({ user }) => {
                         />
                       </div>
                       <div className="">
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
                           Exact CTC
                         </label>
                         <input
@@ -492,7 +757,11 @@ const JobAdd = ({ user }) => {
                       checked={jobPostingLocation.includes("PAN India")}
                       onChange={(e) => {
                         const id = jobPostingLocation.indexOf("PAN India");
-                        if (id == -1) setJobPostingLocation([...jobPostingLocation, "PAN India"]);
+                        if (id == -1)
+                          setJobPostingLocation([
+                            ...jobPostingLocation,
+                            "PAN India",
+                          ]);
                         else {
                           const cat = jobPostingLocation;
                           cat.splice(id, 1);
@@ -517,11 +786,18 @@ const JobAdd = ({ user }) => {
                     <input
                       type="checkbox"
                       className="h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none"
-                      checked={yearofPassing.length === generateYearsBetween().length}
+                      checked={
+                        yearofPassing.length === generateYearsBetween().length
+                      }
                       onChange={() => {
-                        if (yearofPassing.length === generateYearsBetween().length)
+                        if (
+                          yearofPassing.length === generateYearsBetween().length
+                        )
                           setYearofPassing([]);
-                        else setYearofPassing([...generateYearsBetween().map((x) => x.name)]);
+                        else
+                          setYearofPassing([
+                            ...generateYearsBetween().map((x) => x.name),
+                          ]);
                       }}
                     />
                     <label>All Years</label>
@@ -543,7 +819,8 @@ const JobAdd = ({ user }) => {
                       className="h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none"
                       checked={branchOptions.length === branches.length}
                       onChange={() => {
-                        if (branchOptions.length === branches.length) setBranchOptions([]);
+                        if (branchOptions.length === branches.length)
+                          setBranchOptions([]);
                         else setBranchOptions([...branches.map((x) => x.name)]);
                       }}
                     />
@@ -557,7 +834,24 @@ const JobAdd = ({ user }) => {
                   checkedOptions={branchOptions}
                 />
               </div>
-
+              <div className="sm:col-span-6 rounded border bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+                <div>
+                  {rounds &&
+                    rounds.map((round, roundIndex) => {
+                      return (
+                        <Round
+                          type={"add"}
+                          round={round}
+                          roundIndex={roundIndex}
+                          from={from}
+                          to={to}
+                          handleRoundChange={handleRoundChange}
+                          handleShortlistFile={handleShortlistFile}
+                        />
+                      );
+                    })}
+                </div>
+              </div>
               <div className="sm:col-span-1 relative -top-[22px]">
                 <DropDown
                   title={"Xth Type Of Grade"}
@@ -570,7 +864,11 @@ const JobAdd = ({ user }) => {
                 <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"Xth Grade"}
-                    options={selectedXthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    options={
+                      selectedXthTypeOfGrade.name === "CGPA"
+                        ? CGPAs
+                        : Percentages
+                    }
                     selectedOption={selectedXthGrade}
                     setSelectedOption={setSelectedXthGrade}
                   />
@@ -588,7 +886,11 @@ const JobAdd = ({ user }) => {
                 <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"XIIth Grade"}
-                    options={selectedXIIthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    options={
+                      selectedXIIthTypeOfGrade.name === "CGPA"
+                        ? CGPAs
+                        : Percentages
+                    }
                     selectedOption={selectedXIIthGrade}
                     setSelectedOption={setSelectedXIIthGrade}
                   />
@@ -606,7 +908,11 @@ const JobAdd = ({ user }) => {
                 <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"Btech Grade"}
-                    options={selectedBtechTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    options={
+                      selectedBtechTypeOfGrade.name === "CGPA"
+                        ? CGPAs
+                        : Percentages
+                    }
                     selectedOption={selectedBtechGrade}
                     setSelectedOption={setSelectedBtechGrade}
                   />
@@ -631,7 +937,9 @@ const JobAdd = ({ user }) => {
                           defaultChecked={option.id === "everyone"}
                           onChange={(e) =>
                             setPlaced(
-                              e.target.value === "Everyone" ? null : e.target.value === "Placed"
+                              e.target.value === "Everyone"
+                                ? null
+                                : e.target.value === "Placed"
                             )
                           }
                           className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
@@ -652,7 +960,9 @@ const JobAdd = ({ user }) => {
                 <div className="sm:col-span-3 relative -top-[22px]">
                   <div className="flex flex-col mt-5">
                     <div className="flex items-center justify-between">
-                      <p className="text-base font-medium text-gray-900">Maximum salary ?</p>
+                      <p className="text-base font-medium text-gray-900">
+                        Maximum salary ?
+                      </p>
                       <p className="text-sm font-light">
                         {"₹" + Number(salary).toLocaleString("en-IN")}
                       </p>
@@ -686,7 +996,10 @@ const JobAdd = ({ user }) => {
               </div>
               {typeOfPost === "Shortlisted Students" && (
                 <div className="sm:col-span-3">
-                  <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="photo"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Upload Spreadsheet
                   </label>
 
@@ -696,7 +1009,9 @@ const JobAdd = ({ user }) => {
                     type="file"
                     name="image"
                     id="profileImg"
-                    onChange={(e) => handleFile(e, setEligible, setExcelFileError)}
+                    onChange={(e) =>
+                      handleFile(e, setEligible, setExcelFileError)
+                    }
                   />
                   {excelFileError &&
                     toast.error(excelFileError, {
@@ -705,7 +1020,9 @@ const JobAdd = ({ user }) => {
                 </div>
               )}
               <div className="sm:col-span-3">
-                <label className="text-base font-medium text-gray-900">Type Of Job Posting</label>
+                <label className="text-base font-medium text-gray-900">
+                  Type Of Job Posting
+                </label>
                 <p className="text-sm leading-5 text-gray-500">
                   How would you like to show this job posting?
                 </p>
@@ -732,6 +1049,30 @@ const JobAdd = ({ user }) => {
                     ))}
                   </div>
                 </fieldset>
+              </div>
+              <div className="sm:col-span-6 rounded border bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+                <h3>Questionnaire</h3>
+
+                {questionnaire &&
+                  questionnaire.map((questionObj, questionIndex) => {
+                    return (
+                      <Question
+                        question={questionObj.question}
+                        type={
+                          questionObj.question.options &&
+                          questionObj.question.options.length > 0
+                        }
+                        index={questionIndex}
+                        handleQuestionChange={handleQuestionChange}
+                        clearOptions={clearOptions}
+                        handleOptionChange={handleOptionChange}
+                        removeOption={removeOption}
+                        addOption={addOption}
+                        removeQuestion={removeQuestion}
+                      />
+                    );
+                  })}
+                <div onClick={addNewQuestion}>Add question</div>
               </div>
             </form>
           </div>

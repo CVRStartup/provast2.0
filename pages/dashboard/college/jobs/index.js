@@ -21,7 +21,9 @@ const Jobs = ({ user }) => {
     <div className="px-5 pt-1 overflow-auto w-[100%]">
       <div className="rounded-md h-14 px-10 bg-gray-800 flex items-center justify-between">
         <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">Jobs</h2>
+          <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+            Jobs
+          </h2>
         </div>
         <div className="mt-4 flex md:mt-0 md:ml-4">
           <Link href="/dashboard/college/jobs/add">
@@ -34,14 +36,21 @@ const Jobs = ({ user }) => {
       <div className="flex justify-between items-start mt-5">
         <div className="w-[100%] flex">
           <div className=" h-[85vh] bg-gray-50 mr-4 rounded-md sticky top-0 left-0 w-[25%]">
-            <Filter applyFilters={applyFilters} jobs={jobs} setFilteredJobs={setFilteredJobs} />
+            <Filter
+              applyFilters={applyFilters}
+              jobs={jobs}
+              setFilteredJobs={setFilteredJobs}
+            />
           </div>
 
           <div className="bg-gray-50 min-h-[85vh] rounded-md p-2 w-full">
             <div className="min-w-0">
               <div className="lg:min-w-0">
                 <div className="h-full px-1">
-                  <div className="mt-4 relative h-full" style={{ minHeight: "36rem" }}>
+                  <div
+                    className="mt-4 relative h-full"
+                    style={{ minHeight: "36rem" }}
+                  >
                     {isLoading ? (
                       <JobCardSkeleton />
                     ) : filteredJobs?.length > 0 ? (
@@ -62,7 +71,9 @@ const Jobs = ({ user }) => {
                             alt=""
                           />
                         </div>
-                        <h6 className="text-3xl font-semibold text-gray-400">No Jobs Found</h6>
+                        <h6 className="text-3xl font-semibold text-gray-400">
+                          No Jobs Found
+                        </h6>
                       </div>
                     )}
                   </div>
@@ -84,7 +95,10 @@ const Jobs = ({ user }) => {
   );
 };
 export const getServerSideProps = async ({ req, res }) => {
-  res.setHeader("Cache-Control", "public, s-maxage=10, stale-while-revalidate=59");
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
   if (!user) {

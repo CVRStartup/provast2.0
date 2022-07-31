@@ -9,6 +9,8 @@ import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
 import { JobHeader } from "../../../../../src/components/Jobs/JobSlug/JobHeader";
 import { useJob } from "../../../../../src/hooks/useJob";
+import { Questionnaire } from "../../../../../src/components/Jobs/Questionnaire";
+import { RoundInfo } from "../../../../../src/components/Jobs/RoundInfo";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -18,8 +20,18 @@ const CollegeJobSlug = ({ id }) => {
   const { job, isLoading } = useJob(id);
   const [tab, setTab] = useState("Job Information");
   const tabs = [
-    { name: "Job Information", icon: AiFillIdcard, current: tab === "Job Information" },
+    {
+      name: "Job Information",
+      icon: AiFillIdcard,
+      current: tab === "Job Information",
+    },
     { name: "Analytics", icon: MdAnalytics, current: tab === "Analytics" },
+    {
+      name: "Questionnaire",
+      icon: AiFillIdcard,
+      current: tab === "Questionnaire",
+    },
+    { name: "Rounds", icon: MdAnalytics, current: tab === "Rounds" },
   ];
   if (isLoading) return <div>Loading</div>;
   return (
@@ -61,7 +73,9 @@ const CollegeJobSlug = ({ id }) => {
                   >
                     <tab.icon
                       className={classNames(
-                        tab.current ? "text-orange-500" : "text-gray-400 group-hover:text-gray-500",
+                        tab.current
+                          ? "text-orange-500"
+                          : "text-gray-400 group-hover:text-gray-500",
                         "-ml-0.5 mr-2 h-5 w-5"
                       )}
                       aria-hidden="true"
@@ -84,7 +98,9 @@ const CollegeJobSlug = ({ id }) => {
           <div data-aos="fade-up">
             <EligibleTable
               heading={
-                job.typeOfPost === "Shortlisted Students" ? "Eligible Students" : "Applied Students"
+                job.typeOfPost === "Shortlisted Students"
+                  ? "Eligible Students"
+                  : "Applied Students"
               }
               tagline={
                 job.typeOfPost === "Shortlisted Students"
@@ -93,6 +109,16 @@ const CollegeJobSlug = ({ id }) => {
               }
               eligible={job.eligible}
             />
+          </div>
+        )}
+        {tab === "Questionnaire" && (
+          <div data-aos="fade-up">
+            <Questionnaire job={job} />
+          </div>
+        )}
+        {tab === "Rounds" && (
+          <div data-aos="fade-up">
+            <RoundInfo job={job} />
           </div>
         )}
       </main>
