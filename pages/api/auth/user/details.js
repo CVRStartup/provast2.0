@@ -36,10 +36,10 @@ const createUserDetails = async (req, res) => {
   try {
     await connectDB();
 
-    const oldEntry = await User.find({ email: req.body.email });
+    const oldEntry = await User.findOne({ email: req.body.email });
 
     if (oldEntry) {
-      return res.status(500).json({ message: "User Already Exists", details });
+      return res.status(500).json({ message: "User Already Exists", details: oldEntry });
     }
 
     const details = new User(req.body);

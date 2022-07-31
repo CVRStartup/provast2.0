@@ -14,6 +14,7 @@ const Index = ({ id }) => {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   ];
   const handleFile = (e) => {
+    if (!college) return;
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       if (selectedFile && fileType.includes(selectedFile.type)) {
@@ -28,51 +29,28 @@ const Index = ({ id }) => {
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
               return {
-                email: x["Email Id"] ? x["Email Id"] : null,
-                hash: "Password",
-                salt: "salt",
+                email: x["Email Id"] ?? null,
                 detailsAvailable: true,
                 academicsAvailable: false,
                 profile: {
-                  firstName: x["First Name"] ? x["First Name"] : null,
-                  lastName: x["Last Name"] ? x["Last Name"] : null,
-                  dob: x["Date of Birth"] ? x["Date of Birth"] : null,
-                  gender: x["Gender"] ? x["Gender"] : null,
+                  firstName: x["First Name"] ?? null,
+                  lastName: x["Last Name"] ?? null,
+                  gender: x["Gender"] ?? null,
+                  verified: false,
+                  frozen: false,
                 },
-                contact: {
-                  parents: {
-                    father: {
-                      name: x["Father's/Guardian's Name"] ? x["Father's/Guardian's Name"] : null,
-                      email: x["Father's/Guardian's email ID"]
-                        ? x["Father's/Guardian's email ID"]
-                        : null,
-                      phone: x["Father's/Guardian's Contact Number"]
-                        ? x["Father's/Guardian's Contact Number"]
-                        : null,
-                      occupation: x["Father's/Guardian's Occupation"]
-                        ? x["Father's/Guardian's Occupation"]
-                        : null,
-                    },
-                    mother: {
-                      name: x["Mother's Name"] ? x["Mother's Name"] : null,
-                      email: x["Mother's email ID"] ? x["Mother's email ID"] : null,
-                      phone: x["Mother's Contact Number"] ? x["Mother's Contact Number"] : null,
-                      occupation: x["Mother's Occupation"] ? x["Mother's Occupation"] : null,
-                    },
-                  },
-                  address: {
-                    city: x["Permanent Address - City"] ? x["Permanent Address - City"] : null,
-                    country: x["Permanent Address - Country"]
-                      ? x["Permanent Address - Country"]
-                      : "India",
-                    state: x["Permanent Address - State"] ? x["Permanent Address - State"] : null,
-                  },
-                  email: x["Personal Email Address"] ? x["Personal Email Address"] : null,
-                  phone: x["Phone Number"] ? x["Phone Number"] : null,
-                },
-                approved: false,
+                approved: true,
                 category: "student",
-                rollnumber: x["Roll No"] ? x["Roll No"] : null,
+                rollnumber: {
+                  value: x["Roll No"] ?? null,
+                  frozen: false,
+                  verified: false,
+                },
+                phone: {
+                  value: x["Phone Number"] ?? null,
+                  frozen: false,
+                  verified: false,
+                },
                 college: {
                   name: college.collegeName,
                   code: college._id,
@@ -98,24 +76,27 @@ const Index = ({ id }) => {
     const failedAccounts = [];
     for (let i = 0; i < students.length; i++) {
       const s = students[i];
-      const salt = crypto.randomBytes(16).toString("hex");
-      const hash = crypto.pbkdf2Sync("Provast@123", salt, 1000, 64, "sha512").toString("hex");
-      const res = await axios.post("/api/auth/user/details", {
-        ...details,
-        hash,
-        salt,
-      });
-      if (res.status === 200) {
+      try {
+        const salt = crypto.randomBytes(16).toString("hex");
+        const hash = crypto.pbkdf2Sync("Provast@123", salt, 1000, 64, "sha512").toString("hex");
+        await axios.post("/api/auth/user/details", {
+          ...s,
+          hash,
+          salt,
+        });
         createdCount += 1;
-      } else {
-        failedAccounts.push(s);
+      } catch (e) {
+        failedAccounts.push({
+          account: s,
+          reason: e.response.data.message,
+        });
       }
     }
     if (total === createdCount) {
       toast.success("All Users Are Successfully Created!");
     } else {
       toast.error("Account creation failed for " + failedAccounts.length + " Students.");
-      setStudents(failedAccounts);
+      console.log(failedAccounts);
     }
   };
   return (
