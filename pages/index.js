@@ -5,6 +5,8 @@ import { Guide } from "../src/components/Landing/Guide";
 import { Slider } from "../src/components/Landing/Slider";
 import { Testimonials } from "../src/components/Landing/Testimonials";
 import { Navbar } from "../src/components/Layout/Navbar";
+import { getLoginSession } from "../src/lib/auth";
+import { findUser } from "../src/lib/user";
 
 const Index = () => {
   return (
@@ -61,10 +63,18 @@ const Index = () => {
   );
 };
 
-export const getServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  if (session && !session.userDetails) {
+export const getServerSideProps = async ({ req, res }) => {
+  const session = await getLoginSession(req);
+  const user = (session?._doc && (await findUser(session._doc))) ?? null;
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
+  }
+  if (!user.detailsAvailable) {
     return {
       redirect: {
         destination: "/auth/user/details",
@@ -72,11 +82,16 @@ export const getServerSideProps = async (context) => {
       },
     };
   }
-
+  if (user.category === "student" && !user.academicsAvailable) {
+    return {
+      redirect: {
+        destination: "/auth/user/academics",
+        permanent: false,
+      },
+    };
+  }
   return {
-    props: {
-      session,
-    },
+    props: {},
   };
 };
 
