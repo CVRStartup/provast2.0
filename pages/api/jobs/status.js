@@ -20,7 +20,7 @@ const updateJob = async (req, res) => {
     if (job.typeOfPost === "Shortlisted Students") {
       job?.eligible?.forEach((x) => {
         if (x) {
-          if (x.rollnumber.value !== req.query.roll) neweligible.push(x);
+          if (x.rollnumber !== req.query.roll) neweligible.push(x);
           else if (req.body.newstatus) neweligible.push(req.body.newstatus);
         }
       });
@@ -28,7 +28,7 @@ const updateJob = async (req, res) => {
       neweligible = job?.eligible;
       neweligible.push(req.body.newstatus);
     }
-
+    console.log(neweligible);
     job.eligible = neweligible;
     const updated = await Jobs.findByIdAndUpdate(req.query.id, job, { new: true });
     if (updated) {

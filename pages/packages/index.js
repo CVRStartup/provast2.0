@@ -160,13 +160,15 @@ function classNames(...classes) {
 const Packages = ({ userDetails }) => {
   const session = JSON.parse(userDetails);
   const { payment, isLoading } = usePlan(session?._id);
-  const withoutGST = (amount, plan) =>
-    Math.floor(
+  const withoutGST = (amount, plan) => {
+    if (!amount || !plan) return 0;
+    return Math.floor(
       Number(amount) - Number(getEighteenPercent(plans.filter((p) => p.name === plan)[0].price))
     );
-  if (isLoading) return <div></div>;
+  };
+  if (isLoading) return <div className="mt-[20vh]">Loading...</div>;
   return (
-    <div className="bg-white">
+    <div className="bg-white mt-[10vh]">
       {/* {loading && <Loading />} */}
       <div className="bg-orange-900">
         {/* Header section with select menu */}
@@ -196,10 +198,10 @@ const Packages = ({ userDetails }) => {
                 <p>
                   <span className="text-4xl font-extrabold text-gray-900">
                     ₹
-                    {tier.price > withoutGST(payment.amount, payment.plan)
+                    {tier.price > withoutGST(payment?.amount, payment?.plan)
                       ? Math.max(
                           0,
-                          tier.price - (payment ? withoutGST(payment.amount, payment.plan) : 0)
+                          tier.price - (payment ? withoutGST(payment?.amount, payment?.plan) : 0)
                         )
                       : tier.price}
                   </span>
@@ -209,7 +211,7 @@ const Packages = ({ userDetails }) => {
                 <Link
                   href={
                     payment
-                      ? withoutGST(payment.amount, payment.plan) < tier.price
+                      ? withoutGST(payment?.amount, payment?.plan) < tier.price
                         ? `/packages/checkout/${index}`
                         : "#"
                       : `/packages/checkout/${index}`
@@ -218,7 +220,7 @@ const Packages = ({ userDetails }) => {
                   <button
                     className={`${
                       payment
-                        ? withoutGST(payment.amount, payment.plan) < tier.price
+                        ? withoutGST(payment?.amount, payment?.plan) < tier.price
                           ? "hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500"
                           : "cursor-not-allowed bg-gray-400"
                         : `hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500`
@@ -330,11 +332,11 @@ const Packages = ({ userDetails }) => {
                         <p>
                           <span className="text-4xl font-extrabold text-gray-900">
                             ₹
-                            {tier.price > withoutGST(payment.amount, payment.plan)
+                            {tier.price > withoutGST(payment?.amount, payment?.plan)
                               ? Math.max(
                                   0,
                                   tier.price -
-                                    (payment ? withoutGST(payment.amount, payment.plan) : 0)
+                                    (payment ? withoutGST(payment?.amount, payment?.plan) : 0)
                                 )
                               : tier.price}
                           </span>
@@ -345,7 +347,7 @@ const Packages = ({ userDetails }) => {
                       <Link
                         href={
                           payment
-                            ? withoutGST(payment.amount, payment.plan) < tier.price
+                            ? withoutGST(payment?.amount, payment?.plan) < tier.price
                               ? `/packages/checkout/${index}`
                               : "#"
                             : `/packages/checkout/${index}`
@@ -354,7 +356,7 @@ const Packages = ({ userDetails }) => {
                         <button
                           className={`${
                             payment
-                              ? withoutGST(payment.amount, payment.plan) < tier.price
+                              ? withoutGST(payment?.amount, payment?.plan) < tier.price
                                 ? "hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500"
                                 : "cursor-not-allowed bg-gray-400"
                               : `hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500`
@@ -363,7 +365,7 @@ const Packages = ({ userDetails }) => {
                           {payment
                             ? payment.plan === tier.name
                               ? "Purchased"
-                              : (tier.price > withoutGST(payment.amount, payment.plan)
+                              : (tier.price > withoutGST(payment?.amount, payment?.plan)
                                   ? "Upgrade to "
                                   : "Buy ") + tier.name
                             : "Buy " + tier.name}

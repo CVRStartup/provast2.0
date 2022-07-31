@@ -6,6 +6,7 @@ import { useModelContext } from "../../../context/ModalContext";
 import { Loading } from "../../Reusables/Loading";
 import { useUser } from "../../../lib/hooks";
 import { handleJobResponse } from "../../../lib/helper";
+import { mutate } from "swr";
 
 export const ApplyJobForm = () => {
   const user = useUser();
@@ -77,9 +78,10 @@ export const ApplyJobForm = () => {
           </button>
           <button
             type="button"
-            onClick={() => {
+            onClick={async () => {
               if (checkedRoles.length > 0) {
-                handleJobResponse(modalJob, user, "Apply", checkedRoles);
+                await handleJobResponse(modalJob, user, "Apply", checkedRoles);
+                await mutate(`/api/jobs/${modalJob._id}`);
                 closeModal();
               } else {
                 toast.error("Please select any one role", {
