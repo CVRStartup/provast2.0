@@ -2,6 +2,7 @@ import { Dialog } from "@headlessui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { mutate } from "swr";
 import { useModelContext } from "../../../context/ModalContext";
 import { useResumeContext } from "../../../context/ResumeContext";
 import { intialResume } from "../../../data/initalResume";
@@ -35,7 +36,7 @@ export const ResumeForm = () => {
           lastName: user?.profile?.lastName,
           image: user?.profile?.image,
           email: user?.email,
-          phone: user?.phone,
+          phone: user?.phone?.value?.toString(),
         },
         layout: {
           color: {
@@ -49,6 +50,7 @@ export const ResumeForm = () => {
         },
       },
     });
+    await mutate(`/api/resume/user?userId=${user?._id}`);
     if (message === "Success! Resumes Created") {
       router.push(`/dashboard/student/resumes/${resume._id}`);
     }

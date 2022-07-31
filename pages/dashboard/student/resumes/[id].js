@@ -1,6 +1,5 @@
-import axios from "axios";
-import { Router, useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 import { Left } from "../../../../src/components/Resumes/Editor/Left";
 import { Right } from "../../../../src/components/Resumes/Editor/Right/index";
 import { Core } from "../../../../src/components/Resumes/Templates/Core";
@@ -35,38 +34,43 @@ const Templates = {
   diamond: Diamond,
 };
 
-const ResumeSlug = ({ id }) => {
+const ResumeSlug = ({ user, id }) => {
   const componentRef = useRef();
-  const { resumes } = useResumes();
+  const { resumes } = useResumes(user);
   const [resume, setResume] = useState(null);
   const router = useRouter();
   const { setLoading } = useModelContext();
-  const Template = Templates[resumeDetails.layout.template];
+  const Template = Templates[resume?.layout?.template];
   useEffect(() => {
     if (!resumes) return;
-    const currentResume = resumes.find((x) => x._id === id);
-    if (!currentResume) router.push("/dashboard/student/resumes");
-    setResume(resumes.find((x) => x._id === id));
     setLoading(false);
+    const currentResume = resumes.find((x) => x._id === id);
+    if (!currentResume) {
+      router.push("/dashboard/student/resumes");
+      return;
+    }
+    setResume(currentResume);
   }, [resumes]);
-  return (
-    <div className="mt-[-10vh]">
-      <Left resumeDetails={resumeDetails} />
-      <main className="lg:ml-[30%] flex-1 mt-[10vh]">
-        <div className="flex justify-between bg-gray-800 overflow-auto">
-          <section className="mx-auto h-screen overflow-auto py-5 w-full">
-            <Template componentRef={componentRef} />
-          </section>
-          <section className="w-[25%] h-screen overflow-auto">
-            <Right componentRef={componentRef} />
-          </section>
-        </div>
-      </main>
-      <style jsx>{`
-        @import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Handlee&family=Lavishly+Yours&family=Lobster&family=Lora:ital@1&family=Merienda&family=Padauk&family=Patrick+Hand&family=Roboto&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Yellowtail&display=swap");
-      `}</style>
-    </div>
-  );
+  if (!resume) return <div></div>;
+  if (resume)
+    return (
+      <div className="mt-[-10vh]">
+        <Left resumeDetails={resume} />
+        <main className="lg:ml-[30%] flex-1 mt-[10vh]">
+          <div className="flex justify-between bg-gray-800 overflow-auto">
+            <section className="mx-auto h-screen overflow-auto py-5 w-full">
+              <Template componentRef={componentRef} />
+            </section>
+            <section className="w-[25%] h-screen overflow-auto">
+              <Right componentRef={componentRef} />
+            </section>
+          </div>
+        </main>
+        <style jsx>{`
+          @import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Handlee&family=Lavishly+Yours&family=Lobster&family=Lora:ital@1&family=Merienda&family=Padauk&family=Patrick+Hand&family=Roboto&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Yellowtail&display=swap");
+        `}</style>
+      </div>
+    );
 };
 
 export const getServerSideProps = async (context) => {

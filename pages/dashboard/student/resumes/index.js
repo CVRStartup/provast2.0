@@ -132,8 +132,8 @@ const ResumeIndex = ({ user }) => {
           public: true,
         },
       });
-      mutate(`/api/resume/getpublicresume?id=${user._id}`);
-      mutate(`/api/resume/user?userId=${user._id}`);
+      await mutate(`/api/resume/getpublicresume?id=${user._id}`);
+      await mutate(`/api/resume/user?userId=${user._id}`);
     }
     if (resumes.length === 0) setState(2);
     setResumeFetchLoading(false);
@@ -154,7 +154,7 @@ const ResumeIndex = ({ user }) => {
           },
         },
       });
-      mutate(`/api/resume/user?userId=${user._id}`);
+      await mutate(`/api/resume/user?userId=${user._id}`);
       router.push(`${process.env.NEXT_PUBLIC_HOST_URL}/dashboard/student/resumes/${resume._id}`);
     }
   };
@@ -167,8 +167,8 @@ const ResumeIndex = ({ user }) => {
 
   const handleDeleteResume = async (id) => {
     await axios.delete(`${process.env.NEXT_PUBLIC_HOST_URL}/api/resume/${id}`);
-    mutate(`/api/resume/getpublicresume?id=${user._id}`);
-    mutate(`/api/resume/user?userId=${user._id}`);
+    await mutate(`/api/resume/getpublicresume?id=${user._id}`);
+    await mutate(`/api/resume/user?userId=${user._id}`);
   };
 
   const handleTogglePublic = async (resume, id) => {
@@ -189,8 +189,8 @@ const ResumeIndex = ({ user }) => {
         public: true,
       },
     });
-    mutate(`/api/resume/getpublicresume?id=${user._id}`);
-    mutate(`/api/resume/user?userId=${user._id}`);
+    await mutate(`/api/resume/getpublicresume?id=${user._id}`);
+    await mutate(`/api/resume/user?userId=${user._id}`);
     setLoading(false);
   };
 
@@ -212,7 +212,7 @@ const ResumeIndex = ({ user }) => {
   const checkResumeCreation = (count) => {
     return (
       user?.college?.name === "SRM INSTITUTE OF SCIENCE AND TECHNOLOGY" ||
-      user?.college?.name === "CVR COLLEGE OF ENGINEERING" ||
+      user?.college?.name === "CVR College of Engineering" ||
       user?.college?.name === "SRI INDU COLLEGE OF ENGINEERING AND TECHNOLOGY"
       // (session?.plan?.plan === "Basic" && count < 2) ||
       // (session?.plan?.plan === "Essential" && count < 5) ||

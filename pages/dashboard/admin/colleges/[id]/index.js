@@ -100,18 +100,18 @@ const Index = ({ id }) => {
     }
   };
   return (
-    <div className="mt-[10vh]">
-      <div className="sm:col-span-3">
-        <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+    <div className='mt-[10vh]'>
+      <div className='sm:col-span-3'>
+        <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
           Upload Spreadsheet
         </label>
 
         <input
-          className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          label="Choose File"
-          type="file"
-          name="image"
-          id="profileImg"
+          className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+          label='Choose File'
+          type='file'
+          name='image'
+          id='profileImg'
           onChange={handleFile}
         />
         {excelFileError &&

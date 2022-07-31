@@ -6,11 +6,9 @@ const JobSchema = mongoose.Schema(
     college: {
       name: {
         type: String,
-        uppercase: true,
       },
       code: {
         type: String,
-        uppercase: true,
       },
     },
     company: {

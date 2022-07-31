@@ -59,7 +59,7 @@ const searchJobs = async (req, res) => {
       college: { name: req.query.collegename, code: req.query.collegecode },
     }).sort({ $natural: -1 });
 
-    if (jobs) {
+    if (jobs.length > 0) {
       return res.status(200).json({ message: "jobs Found", jobs });
     } else {
       return res.status(200).json({ message: "jobs not found", jobs: [] });
