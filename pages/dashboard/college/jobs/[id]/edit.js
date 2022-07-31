@@ -256,8 +256,6 @@ const JobAdd = ({ job, user }) => {
     }
   };
 
-  console.log(from);
-  console.log(to);
   return (
     <main className='bg-gray-50 mt-[10vh]'>
       {loading.type === "edit" && loading.status === true ? <Loading /> : ""}
@@ -577,6 +575,26 @@ const JobAdd = ({ job, user }) => {
               </div>
 
               <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+                  <p>{"Job Posting Location"}</p>
+                  <div className='ml-3 flex items-center font-normal'>
+                    <input
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      checked={jobPostingLocation.includes("PAN India")}
+                      onChange={(e) => {
+                        const id = jobPostingLocation.indexOf("PAN India");
+                        if (id == -1) setJobPostingLocation([...jobPostingLocation, "PAN India"]);
+                        else {
+                          const cat = jobPostingLocation;
+                          cat.splice(id, 1);
+                          setJobPostingLocation([...cat]);
+                        }
+                      }}
+                    />
+                    <label>PAN India</label>
+                  </div>
+                </h4>
                 <CheckBox
                   title={"Job Posting Location"}
                   options={jobPostingLocationOptions}
@@ -585,6 +603,22 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
               <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+                  <p>{"Year Of Passing"}</p>
+                  <div className='ml-3 flex items-center font-normal'>
+                    <input
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      checked={yearofPassing.length === generateYearsBetween().length}
+                      onChange={() => {
+                        if (yearofPassing.length === generateYearsBetween().length)
+                          setYearofPassing([]);
+                        else setYearofPassing([...generateYearsBetween().map((x) => x.name)]);
+                      }}
+                    />
+                    <label>All Years</label>
+                  </div>
+                </h4>
                 <CheckBox
                   title={"Year Of Passing"}
                   options={generateYearsBetween()}
@@ -601,7 +635,7 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
 
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className='sm:col-span-1 relative -top-[22px]'>
                 <DropDown
                   title={"Xth Type Of Grade"}
                   options={typeOfGrade}
@@ -609,17 +643,17 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedXthTypeOfGrade}
                 />
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
-                {selectedXthTypeOfGrade.name !== "Not Applicable" && (
+              {selectedXthTypeOfGrade.name !== "Not Applicable" && (
+                <div className='sm:col-span-1 relative -top-[22px]'>
                   <DropDown
                     title={"Xth Grade"}
                     options={selectedXthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
                     selectedOption={selectedXthGrade}
                     setSelectedOption={setSelectedXthGrade}
                   />
-                )}
-              </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+                </div>
+              )}
+              <div className='sm:col-span-1 relative -top-[22px]'>
                 <DropDown
                   title={"XIIth Type Of Grade"}
                   options={typeOfGrade}
@@ -627,17 +661,17 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedXIIthTypeOfGrade}
                 />
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
-                {selectedXIIthTypeOfGrade.name !== "Not Applicable" && (
+              {selectedXIIthTypeOfGrade.name !== "Not Applicable" && (
+                <div className='sm:col-span-1 relative -top-[22px]'>
                   <DropDown
                     title={"XIIth Grade"}
                     options={selectedXIIthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
                     selectedOption={selectedXIIthGrade}
                     setSelectedOption={setSelectedXIIthGrade}
                   />
-                )}
-              </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+                </div>
+              )}
+              <div className='sm:col-span-1 relative -top-[22px]'>
                 <DropDown
                   title={"Btech Type Of Grade"}
                   options={typeOfGrade}
@@ -645,16 +679,16 @@ const JobAdd = ({ job, user }) => {
                   setSelectedOption={setSelectedBtechTypeOfGrade}
                 />
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
-                {selectedBtechTypeOfGrade.name !== "Not Applicable" && (
+              {selectedBtechTypeOfGrade.name !== "Not Applicable" && (
+                <div className='sm:col-span-1 relative -top-[22px]'>
                   <DropDown
                     title={"Btech Grade"}
                     options={selectedBtechTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
                     selectedOption={selectedBtechGrade}
                     setSelectedOption={setSelectedBtechGrade}
                   />
-                )}
-              </div>
+                </div>
+              )}
               <div className='sm:col-span-3'>
                 <label className='text-base font-medium text-gray-900'>
                   What students are eligible ?
@@ -690,8 +724,8 @@ const JobAdd = ({ job, user }) => {
                   </div>
                 </fieldset>
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
-                {placed && (
+              {placed && (
+                <div className='sm:col-span-3 relative -top-[22px]'>
                   <div className='flex flex-col mt-5'>
                     <div className='flex items-center justify-between'>
                       <p className='text-base font-medium text-gray-900'>Maximum salary ?</p>
@@ -716,7 +750,15 @@ const JobAdd = ({ job, user }) => {
                       ></input>
                     </div>
                   </div>
-                )}
+                </div>
+              )}
+              <div className='sm:col-span-3 relative -top-[22px]'>
+                <DropDown
+                  title={"Status"}
+                  options={status}
+                  selectedOption={selectedStatus}
+                  setSelectedOption={setSelectedStatus}
+                />
               </div>
               <div className='sm:col-span-3'>
                 <label className='text-base font-medium text-gray-900'>Type Of Job Posting</label>
@@ -746,14 +788,6 @@ const JobAdd = ({ job, user }) => {
                     ))}
                   </div>
                 </fieldset>
-                <div className='pt-4'>
-                  <DropDown
-                    title={"Status"}
-                    options={status}
-                    selectedOption={selectedStatus}
-                    setSelectedOption={setSelectedStatus}
-                  />
-                </div>
               </div>
 
               {typeOfPost === "Shortlisted Students" && (
