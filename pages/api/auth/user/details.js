@@ -66,6 +66,14 @@ const updateUserDetails = async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
+    if (req.body.rollNumber) {
+      const oldRollnumberEntry = await User.findOne({
+        "rollNumber.value": req.body.rollNumber.value,
+      });
+      if (oldRollnumberEntry)
+        return res.status(500).json({ message: "Roll Number Already Exists" });
+    }
+
     const details = await User.findOneAndUpdate({ _id: userId }, req.body, { new: true });
 
     console.log("Details", details);
