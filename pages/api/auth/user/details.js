@@ -60,15 +60,15 @@ const updateUserDetails = async (req, res) => {
     await connectDB();
 
     const { userId } = req.query;
-
-    console.log(req.body);
+    console.log("Details req", req.body);
 
     if (!userId) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
     const details = await User.findOneAndUpdate({ _id: userId }, req.body, { new: true });
-    console.log(details);
+
+    console.log("Details", details);
     if (details) {
       return res.status(200).json({ message: "Details Updated", details });
     } else {
