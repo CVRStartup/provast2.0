@@ -10,6 +10,7 @@ import { findUser } from "../../../src/lib/user";
 import { useJobs } from "../../../src/hooks/useJobs";
 import { JobCard } from "../../../src/components/Jobs/JobCard";
 import { JobChart } from "../../../src/components/Jobs/JobChart";
+import { useResumes } from "../../../src/hooks/useResumes";
 
 const resources = [
   {
@@ -32,18 +33,14 @@ const resources = [
 
 const StudentIndex = ({ user }) => {
   const { jobs, isLoading } = useJobs(user);
-  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState(null);
   const [counts, setCounts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+  const { resumes } = useResumes(user);
   useEffect(() => {
-    if (!jobs) return;
+    if (!jobs || !resumes) return;
     (async () => {
       const dataSet = [0, 7, 0, 0];
-      setLoading(true);
-      //   //resumes created
-      //   const { data } = await axios.get(`/api/resume/user?userId=${user?._id}`);
-      //   dataSet[0] = data.resumes.length;
+      dataSet[0] = resumes.length;
       for (let i = 0; i < jobs.length; i++) {
         for (let j = 0; j < jobs[i].eligible.length; j++) {
           if (jobs[i].eligible[j]?.rollnumber === user?.rollNumber?.value) {
@@ -54,7 +51,6 @@ const StudentIndex = ({ user }) => {
       }
       setFilteredJobs(jobs);
       setCounts(dataSet);
-      setLoading(false);
     })();
   }, [jobs]);
 
@@ -68,14 +64,17 @@ const StudentIndex = ({ user }) => {
   }, []);
 
   return (
-    <div className="px-5 pt-1 overflow-auto w-[100%] mt-[10vh]">
+    <div className="px-5 pt-1 overflow-auto w-[100%] mt-[9vh]">
       <div className="flex justify-between items-start mt-5">
-        <div className="w-[79%] flex">
-          <div className="  bg-gray-50 mr-4 rounded-md sticky top-0 left-0 w-[25%]">
-            <Filter applyFilters={applyFilters} jobs={jobs} setFilteredJobs={setFilteredJobs} />
+        <div className="w-[80%] flex">
+          <div className="mr-4 rounded-md sticky top-0 left-0 w-[25%]">
+            <div className="bg-gray-50">
+              <Filter applyFilters={applyFilters} jobs={jobs} setFilteredJobs={setFilteredJobs} />
+            </div>
+
             <h1 className="text-center font-semibold">Jobs</h1>
             <JobChart counts={[counts[2], counts[3]]} labels={["Pending", "Applied"]} />
-            <h1 className="text-center font-semibold">Resumes</h1>
+            <h1 className="text-center font-semibold mt-2">Resumes</h1>
             <JobChart counts={[counts[0], counts[1]]} labels={["Created", "Available"]} />
           </div>
 
@@ -84,7 +83,7 @@ const StudentIndex = ({ user }) => {
               <div className="lg:min-w-0">
                 <div className="h-full px-1">
                   <div className="mt-4 relative h-full" style={{ minHeight: "36rem" }}>
-                    {loading ? (
+                    {!filteredJobs && isLoading ? (
                       <JobCardSkeleton />
                     ) : filteredJobs?.length > 0 ? (
                       <div className="flex flex-col">
@@ -93,7 +92,7 @@ const StudentIndex = ({ user }) => {
                         ))}
                       </div>
                     ) : (
-                      <div className="flex mt-10 flex-col justify-center items-center w-full">
+                      <div className="flex mt-10 pt-32 flex-col justify-center items-center w-full">
                         <div className="relative flex-shrink-0 flex justify-center h-72 w-72">
                           <Image
                             placeholder="blur"

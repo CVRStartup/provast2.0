@@ -2,7 +2,7 @@ import React from "react";
 
 const epam = () => {
   return (
-    <div className="flex justify-center items-center mt-20 mb-10 mx-10">
+    <div className="flex justify-center items-center mt-20 mb-10 mx-10 mt-[10vh]">
       <table cellSpacing={0} border={0} className="sortable">
         <colgroup width={62} />
         <colgroup width={158} />

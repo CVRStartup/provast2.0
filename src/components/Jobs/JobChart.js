@@ -20,7 +20,7 @@ export const JobChart = ({ counts, labels }) => {
   if (counts[0] === 0 && counts[1] === 0) emptyFlag = true;
 
   return (
-    <div className="mx-auto p-2">
+    <div className="mx-auto px-4">
       {emptyFlag ? (
         <div className="rounded shadow bg-slate-200 bg-opacity-80 text-center p-5 mb-5">
           The Dataset is empty for

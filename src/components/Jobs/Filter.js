@@ -25,7 +25,7 @@ export const Filter = ({ applyFilters, jobs, setFilteredJobs }) => {
     applyFilters(filter, jobs, setFilteredJobs);
   }, [filter]);
   return (
-    <div className="p-4 w-full">
+    <div className="p-4 pb-2 w-full">
       <p className="block text-[13.8px] font-bold text-gray-900 mb-2">Filters</p>
 
       <div className="mb-3 sm:mt-0 sm:col-span-1">

@@ -7,7 +7,7 @@ import { PDFViewer } from "../../../../../src/components/Learn/PDFViewer";
 
 const MaterialSlug = ({ file }) => {
   return (
-    <div className='mt-[10vh]'>
+    <div className="mt-[15vh">
       <PDFViewer file={file} />
     </div>
   );
