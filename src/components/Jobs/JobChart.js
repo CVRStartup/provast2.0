@@ -20,13 +20,13 @@ export const JobChart = ({ counts, labels }) => {
   if (counts[0] === 0 && counts[1] === 0) emptyFlag = true;
 
   return (
-    <div className=''>
+    <div className="mx-auto p-2">
       {emptyFlag ? (
-        <div className='rounded shadow bg-slate-200 bg-opacity-80 text-center p-5 mb-5'>
+        <div className="rounded shadow bg-slate-200 bg-opacity-80 text-center p-5 mb-5">
           The Dataset is empty for
           <div>
-            <span className='text-red-500 font-semibold'>{labels[0]}</span> and{" "}
-            <span className='text-orange-400 font-semibold'>{labels[1]}</span>
+            <span className="text-red-500 font-semibold">{labels[0]}</span> and{" "}
+            <span className="text-orange-400 font-semibold">{labels[1]}</span>
           </div>
         </div>
       ) : (
