@@ -31,7 +31,7 @@ const Login = () => {
       });
       if (res.status === 200) {
         setLoading(false);
-        Router.push("/");
+        Router.push("/dashboard/student");
       } else {
         throw new Error(await res.text());
       }

@@ -627,6 +627,21 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
               <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+                  <p>{"Eligible Branches"}</p>
+                  <div className='ml-3 flex items-center font-normal'>
+                    <input
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      checked={branchOptions.length === branches.length}
+                      onChange={() => {
+                        if (branchOptions.length === branches.length) setBranchOptions([]);
+                        else setBranchOptions([...branches.map((x) => x.name)]);
+                      }}
+                    />
+                    <label>All Branches</label>
+                  </div>
+                </h4>
                 <CheckBox
                   title={"Eligible Branches"}
                   options={branches}
