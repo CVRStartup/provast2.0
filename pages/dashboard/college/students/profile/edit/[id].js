@@ -284,9 +284,9 @@ const ProfileEdit = ({ id }) => {
                           type='text'
                           name='rollNumber'
                           id='rollNumber'
+                          disabled
                           value={rollNumber.value}
-                          onChnage={(e) => setRollNumber({ ...rollNumber, value: e.target.value })}
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md cursor-not-allowed bg-gray-100'
                         />
                       </div>
 
