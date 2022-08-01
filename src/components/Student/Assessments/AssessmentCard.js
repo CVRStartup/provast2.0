@@ -33,8 +33,6 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
   let isDisabled =
     isDisabledForBatches || isDisabledForBranches || !isShortListed;
 
-  // console.log(studentDetails);
-
   useEffect(() => {
     (async () => {
       const {

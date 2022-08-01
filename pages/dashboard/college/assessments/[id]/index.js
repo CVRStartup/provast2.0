@@ -27,6 +27,8 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
 
     setCurrentStatuses(newStatuses.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(newStatuses.length / itemsPerPage));
+
+    console.log(studentStatuses);
   }, [itemOffset, itemsPerPage]);
 
   const handlePageClick = (event) => {
@@ -56,7 +58,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
       toast.success("Assessment deleted!", {
         toastId: 122,
       });
-      router.push("/dashboard/college/assessment");
+      router.push("/dashboard/college/assessments");
     } catch {
       toast.error("Failed to delete", {
         toastId: 233,
@@ -353,6 +355,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
+  console.log(students);
 
   let studentStatuses = [];
   students.forEach((student) => {

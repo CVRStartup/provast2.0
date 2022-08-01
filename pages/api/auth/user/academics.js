@@ -23,16 +23,16 @@ const searchUserAcademics = async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
-    const details = await Academic.findOne({ _id: user });
+    const academics = await Academic.findOne({ user: user });
 
-    if (details) {
+    if (academics) {
       return res
         .status(200)
-        .json({ message: "Academic details found", details });
+        .json({ message: "Academic details found", academics });
     } else {
       return res
         .status(200)
-        .json({ message: "Academic details not found", details: undefined });
+        .json({ message: "Academic details not found", academics: undefined });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });

@@ -79,7 +79,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
   return {
     props: {
       assessments,
-      academics,
+      academics: academics ? academics : null,
     },
   };
 };
