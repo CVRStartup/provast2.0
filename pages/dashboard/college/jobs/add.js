@@ -219,9 +219,10 @@ const JobAdd = ({ user }) => {
         description: "",
         completed: false,
         date: {
-          from: null,
-          to: null,
+          from: from ? from : null,
+          to: to ? to : null,
         },
+        status: "Yet to start",
         attendees: [],
         shortlisted: [],
         result: [],
@@ -283,7 +284,7 @@ const JobAdd = ({ user }) => {
                 return {
                   rollNumber: student["Roll Number"],
                   role: student["Role"],
-                  result: student["Result"],
+                  status: student["Result"],
                 };
               });
             } else {
@@ -843,8 +844,6 @@ const JobAdd = ({ user }) => {
                           type={"add"}
                           round={round}
                           roundIndex={roundIndex}
-                          from={from}
-                          to={to}
                           handleRoundChange={handleRoundChange}
                           handleShortlistFile={handleShortlistFile}
                         />

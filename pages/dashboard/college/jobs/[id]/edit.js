@@ -295,9 +295,10 @@ const JobAdd = ({ job, user }) => {
         description: "",
         completed: false,
         date: {
-          from: null,
-          to: null,
+          from: from ? from : null,
+          to: to ? to : null,
         },
+        status: "Yet to start",
         attendees: [],
         shortlisted: [],
         result: [],
@@ -353,12 +354,12 @@ const JobAdd = ({ job, user }) => {
             });
 
             let studentList = [];
-            if (field === "results") {
+            if (field === "result") {
               studentList = data.map((student) => {
                 return {
                   rollNumber: student["Roll Number"],
                   role: student["Role"],
-                  result: student["Result"],
+                  status: student["Result"],
                 };
               });
             } else {
@@ -858,8 +859,6 @@ const JobAdd = ({ job, user }) => {
                           type={"edit"}
                           round={round}
                           roundIndex={roundIndex}
-                          from={job?.from}
-                          to={job?.to}
                           handleRoundChange={handleRoundChange}
                           handleShortlistFile={handleShortlistFile}
                         />

@@ -7,11 +7,31 @@ import { Loading } from "../../Reusables/Loading";
 import { useUser } from "../../../lib/hooks";
 import { handleJobResponse } from "../../../lib/helper";
 import { mutate } from "swr";
+import JobQuestionInput from "../../Student/JobQuestionInput";
 
 export const ApplyJobForm = () => {
   const user = useUser();
   const { closeModal, modalJob, loading } = useModelContext();
   const [checkedRoles, setCheckRoles] = useState([]);
+  const [checkedOptions, setCheckedOptions] = useState([]);
+  const [blankInputQuestions, setBlankInputQuestions] = useState([]);
+  const checkOptionHandler = (e, questionId) => {
+    const newCheckedOptions = [...checkedOptions];
+    let questionPresent = false;
+
+    const option = e.target.value;
+
+    newCheckedOptions.forEach((checkedOption) => {
+      if (checkedOption["questionId"] === questionId) {
+        checkedOption["answer"] = option;
+        questionPresent = true;
+      }
+    });
+
+    if (questionPresent) setCheckedOptions(newCheckedOptions);
+    else
+      setCheckedOptions([...newCheckedOptions, { answer: option, questionId }]);
+  };
   return (
     <form>
       <div className="flex items-center justify-between">
@@ -65,6 +85,54 @@ export const ApplyJobForm = () => {
           </div>
         </fieldset>
       </div>
+      <div className="mt-5 w-full text-white">
+        <fieldset className="space-y-5">
+          <div className="relative">
+            {modalJob?.questionnaire?.map((question, index) => {
+              return (
+                <div key={index}>
+                  <div>
+                    <span>Question: {question.question.questionName}</span>
+                    <span>
+                      {question?.question?.options?.length > 0 ? (
+                        question?.question?.options?.map((option, newIndex) => (
+                          <div key={newIndex}>
+                            <input
+                              checked={checkedOptions.some(
+                                (questionObj) =>
+                                  questionObj["answer"] === option
+                              )}
+                              type="checkbox"
+                              name={option}
+                              id={option}
+                              onChange={(e) =>
+                                checkOptionHandler(e, question._id)
+                              }
+                              value={option}
+                            />
+                            <label
+                              htmlFor={option}
+                              className="font-medium text-white"
+                            >
+                              {option}
+                            </label>
+                          </div>
+                        ))
+                      ) : (
+                        <JobQuestionInput
+                          blankInputQuestions={blankInputQuestions}
+                          setBlankInputQuestions={setBlankInputQuestions}
+                          questionId={question._id}
+                        />
+                      )}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </fieldset>
+      </div>
       <div>
         <div className="flex justify-end">
           <button
@@ -80,7 +148,10 @@ export const ApplyJobForm = () => {
             type="button"
             onClick={async () => {
               if (checkedRoles.length > 0) {
-                await handleJobResponse(modalJob, user, "Apply", checkedRoles);
+                await handleJobResponse(modalJob, user, "Apply", checkedRoles, [
+                  ...checkedOptions,
+                  ...blankInputQuestions,
+                ]);
                 await mutate(`/api/jobs/${modalJob._id}`);
                 closeModal();
               } else {

@@ -12,23 +12,25 @@ export const RoundInfo = ({ job }) => {
                 <p>From: {round.date.from ? round.date.from : "TBD"}</p>
                 <p>To: {round.date.to ? round.date.to : "TBD"}</p>
               </div>
-              {round.completed ? <p>Completed</p> : <p>Yet to complete</p>}
-              {round.completed && round.shortlisted.length > 0 && (
-                <div>
+              {round.status && <p>{round.status}</p>}
+              {(round.status === "Partially completed" ||
+                round.status === "Completed") &&
+                round.shortlisted.length > 0 && (
                   <div>
-                    The following students have been shortlisted for the next
-                    round:{" "}
+                    <div>
+                      The following students have been shortlisted for the next
+                      round:{" "}
+                    </div>
+                    <table>
+                      <th>Roll Number</th>
+                      {round.shortlisted.map((student, index) => (
+                        <tr key={index}>
+                          {index + 1}. {student}
+                        </tr>
+                      ))}
+                    </table>
                   </div>
-                  <table>
-                    <th>Roll Number</th>
-                    {round.shortlisted.map((student, index) => (
-                      <tr key={index}>
-                        {index + 1}. {student}
-                      </tr>
-                    ))}
-                  </table>
-                </div>
-              )}
+                )}
             </div>
           ))}
         </div>

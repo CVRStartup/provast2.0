@@ -15,12 +15,21 @@ import moment from "moment";
 import jwt from "jsonwebtoken";
 import * as XLSX from "xlsx";
 
-export const handleJobResponse = async (job, user, op, roles) => {
+export const handleJobResponse = async (
+  job,
+  user,
+  op,
+  roles,
+  questionnaire
+) => {
   if (!user) return;
   let data = null;
   if (job.typeOfPost === "Shortlisted Students") {
-    let newstatus = job.eligible.filter((x) => x.rollnumber === user?.rollNumber?.value)[0];
+    let newstatus = job.eligible.filter(
+      (x) => x.rollnumber === user?.rollNumber?.value
+    )[0];
     if (!newstatus) return;
+
     data = await axios.put(
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/status?id=${job._id}&roll=${user?.rollNumber?.value}`,
       {
@@ -30,6 +39,7 @@ export const handleJobResponse = async (job, user, op, roles) => {
             applied: op === "Apply",
             roles: roles,
             updatedAt: new Date(),
+            answers: questionnaire ? [...questionnaire] : [],
           },
         },
       }
@@ -48,6 +58,7 @@ export const handleJobResponse = async (job, user, op, roles) => {
             applied: op === "Apply",
             roles: roles,
             updatedAt: new Date(),
+            answers: questionnaire ? [...questionnaire] : [],
           },
         },
       }
@@ -143,7 +154,9 @@ export const applyFilters = (filter, jobs, setJobs) => {
     let foundInDesig = job.designation.roles.some((ele) =>
       ele.toLowerCase().includes(filter.keyword.toLowerCase())
     );
-    let foundInCompany = job.company.toLowerCase().includes(filter.keyword.toLowerCase());
+    let foundInCompany = job.company
+      .toLowerCase()
+      .includes(filter.keyword.toLowerCase());
     if (!foundInCompany && !foundInDesig) return false;
     return true;
   });
@@ -300,14 +313,17 @@ export const getJobs = (jobs, userDetails, status) => {
     eligible: [],
   };
   jobs.forEach((job) => {
-    const response = job.eligible.filter((x) => x.rollnumber === userDetails.rollNumber.value);
+    const response = job.eligible.filter(
+      (x) => x.rollnumber === userDetails.rollNumber.value
+    );
     var flag =
       job.typeOfPost === "Off-Campus" ||
       (job.college === userDetails.college &&
         (job.typeOfPost === "On-Campus" || response.length > 0));
     if (flag) {
       studentJobs.eligible.add(job);
-      if (response.length === 0 || response[0].status === null) studentJobs.pending.add(job);
+      if (response.length === 0 || response[0].status === null)
+        studentJobs.pending.add(job);
       else if (response[0].status === false) studentJobs.rejected.add(job);
       else studentJobs.applied.add(job);
     }
@@ -652,7 +668,8 @@ export const errors = {
   OAuthAccountNotLinked:
     "To confirm your identity, sign in with the same account you used originally.",
   EmailSignin: "Check your email address.",
-  CredentialsSignin: "Sign in failed. Check the details you provided are correct.",
+  CredentialsSignin:
+    "Sign in failed. Check the details you provided are correct.",
   default: "Unable to sign in.",
 };
 
@@ -660,13 +677,21 @@ export const rename = (name) => {
   if (!name) return name;
   var separateWord = name.toLowerCase().split(" ");
   for (var i = 0; i < separateWord.length; i++) {
-    separateWord[i] = separateWord[i].charAt(0).toUpperCase() + separateWord[i]?.substring(1);
+    separateWord[i] =
+      separateWord[i].charAt(0).toUpperCase() + separateWord[i]?.substring(1);
   }
   return separateWord.join(" ");
 };
 
 export const editorStructure = {
-  dynamic: ["profile", "objective", "education", "projects", "skills", "languages"],
+  dynamic: [
+    "profile",
+    "objective",
+    "education",
+    "projects",
+    "skills",
+    "languages",
+  ],
   core: [
     "profile",
     "education",
@@ -713,11 +738,42 @@ export const editorStructure = {
     "hobbies",
     "social",
   ],
-  refined: ["profile", "education", "projects", "certification", "awards", "skills", "languages"],
-  tadigital: ["profile", "objective", "education", "projects", "skills", "languages", "awards"],
+  refined: [
+    "profile",
+    "education",
+    "projects",
+    "certification",
+    "awards",
+    "skills",
+    "languages",
+  ],
+  tadigital: [
+    "profile",
+    "objective",
+    "education",
+    "projects",
+    "skills",
+    "languages",
+    "awards",
+  ],
   pro: ["profile", "education", "projects", "skills"],
-  gengar: ["profile", "objective", "education", "certification", "skills", "languages"],
-  stockholm: ["profile", "objective", "education", "projects", "skills", "languages", "awards"],
+  gengar: [
+    "profile",
+    "objective",
+    "education",
+    "certification",
+    "skills",
+    "languages",
+  ],
+  stockholm: [
+    "profile",
+    "objective",
+    "education",
+    "projects",
+    "skills",
+    "languages",
+    "awards",
+  ],
   pro: ["profile", "education", "projects", "skills"],
   ruby: [
     "profile",
@@ -781,7 +837,8 @@ export const trim_json = (resume) => {
   delete resume["public"];
   delete resume["layout"];
   Object.keys(resume).forEach((key) => {
-    if (resume[key] instanceof Array) resume[key].forEach((record) => delete record["_id"]);
+    if (resume[key] instanceof Array)
+      resume[key].forEach((record) => delete record["_id"]);
   });
   return resume;
 };
@@ -886,24 +943,38 @@ export const degrees = [
   { name: "Associate of Applied Science (AAS) in Administrative Support" },
   { name: "Associate of Applied Science (AAS) in Baking and Pastry" },
   { name: "Associate of Applied Science (AAS) in Business Administration" },
-  { name: "Associate of Applied Science (AAS) in Business Administration - Finance" },
-  { name: "Associate of Applied Science (AAS) in Business Information Systems" },
-  { name: "Associate of Applied Science (AAS) in Civil Justice - Law Enforcement" },
+  {
+    name: "Associate of Applied Science (AAS) in Business Administration - Finance",
+  },
+  {
+    name: "Associate of Applied Science (AAS) in Business Information Systems",
+  },
+  {
+    name: "Associate of Applied Science (AAS) in Civil Justice - Law Enforcement",
+  },
   { name: "Associate of Applied Science (AAS) in Clinical Medical Assisting" },
   { name: "Associate of Applied Science (AAS) in Computer Applications" },
   { name: "Associate of Applied Science (AAS) in Computer Electronics" },
   { name: "Associate of Applied Science (AAS) in Computer Game Design" },
-  { name: "Associate of Applied Science (AAS) in Computer Information Systems" },
+  {
+    name: "Associate of Applied Science (AAS) in Computer Information Systems",
+  },
   { name: "Associate of Applied Science (AAS) in Culinary Arts" },
-  { name: "Associate of Applied Science (AAS) in Digital Media Communications" },
+  {
+    name: "Associate of Applied Science (AAS) in Digital Media Communications",
+  },
   { name: "Associate of Applied Science (AAS) in Digital Photography" },
   { name: "Associate of Applied Science (AAS) in Electronic Engineering" },
   { name: "Associate of Applied Science (AAS) in Emergency Medical Services" },
   { name: "Associate of Applied Science (AAS) in Health Care Management" },
-  { name: "Associate of Applied Science (AAS) in Health Information Management" },
+  {
+    name: "Associate of Applied Science (AAS) in Health Information Management",
+  },
   { name: "Associate of Applied Science (AAS) in Healthcare Administration" },
   { name: "Associate of Applied Science (AAS) in Legal Office E-ministration" },
-  { name: "Associate of Applied Science (AAS) in Telecommunications Technology" },
+  {
+    name: "Associate of Applied Science (AAS) in Telecommunications Technology",
+  },
   { name: "Associate of Applied Science (AAS) in Television Production" },
   { name: "Associate of Applied Science (AAS) in Visual Communications" },
   { name: "Associate of Arts (AA) in Computer Information Systems" },
@@ -913,7 +984,9 @@ export const degrees = [
   { name: "Associate of Biotechnology" },
   { name: "Associate of Business Science (ABS) in Individualized Studies" },
   { name: "Associate of Early Childhood Education (AECE)" },
-  { name: "Associate of Occupational Studies (AOS) in Legal Office Administration" },
+  {
+    name: "Associate of Occupational Studies (AOS) in Legal Office Administration",
+  },
   { name: "Associate of Science (AS) in Computer Information Science" },
   { name: "Associate of Science (AS) in Computer Science" },
   { name: "Associate of Science (AS) in Corrections, Probation, & Parole" },
@@ -975,7 +1048,9 @@ export const degrees = [
   { name: "Bachelor of Science in Biomedical Engineering" },
   { name: "Bachelor of Science in Bible" },
   { name: "Bachelor of Science in Business Administration" },
-  { name: "Bachelor of Science in Business Administration - Computer Application" },
+  {
+    name: "Bachelor of Science in Business Administration - Computer Application",
+  },
   { name: "Bachelor of Science in Business Administration - Economics" },
   { name: "Bachelor of Science in Business and Technology" },
   { name: "Bachelor of Science in Chemical Engineering" },

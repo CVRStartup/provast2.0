@@ -22,14 +22,16 @@ export const Round = ({
   type,
   round,
   roundIndex,
-  from,
-  to,
   handleRoundChange,
   handleShortlistFile,
 }) => {
   const [roundStatus, setRoundStatus] = useState(
-    round.status ? round.status : typeOfRoundStatus[0]
+    round.status
+      ? typeOfRoundStatus.filter((st) => st.name === round.status)[0]
+      : typeOfRoundStatus[0]
   );
+
+  console.log(round.date);
   const changeRoundStatus = (status) => {
     setRoundStatus(status);
     handleRoundChange("status", status.name, roundIndex);
@@ -83,7 +85,6 @@ export const Round = ({
             options={typeOfRoundStatus}
             selectedOption={roundStatus}
             setSelectedOption={changeRoundStatus}
-            className={type == "add" ? "cursor-not-allowed" : ""}
           />
         </div>
       </div>
@@ -99,9 +100,7 @@ export const Round = ({
           name="roundDateFrom"
           value={
             round != null && round.date.from != null
-              ? round.date.from
-              : from
-              ? from
+              ? round.date.from.substring(0, 16)
               : ""
           }
           id="roundDateFrom"
@@ -122,9 +121,7 @@ export const Round = ({
           id="roundDateTo"
           value={
             round != null && round.date.to != null
-              ? round.date.to
-              : to
-              ? to
+              ? round.date.to.substring(0, 16)
               : ""
           }
           onChange={(e) =>
@@ -133,13 +130,7 @@ export const Round = ({
           className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
         ></input>
       </div>
-      <div
-        className={`${
-          round && round.status === "Yet to start" && type != "add"
-            ? "visible"
-            : "hidden"
-        }`}
-      >
+      <div className={`${round && type != "add" ? "visible" : "hidden"}`}>
         <label
           htmlFor="shortlist"
           className="block text-sm font-medium text-gray-700"
@@ -156,13 +147,7 @@ export const Round = ({
           onChange={(e) => handleShortlistFile(e, "shortlisted", roundIndex)}
         />
       </div>
-      <div
-        className={`${
-          round && round.status === "In progress" && type != "add"
-            ? "visible"
-            : "hidden"
-        }`}
-      >
+      <div className={`${round && type != "add" ? "visible" : "hidden"}`}>
         <label
           htmlFor="shortlist"
           className="block text-sm font-medium text-gray-700"
@@ -193,7 +178,7 @@ export const Round = ({
           htmlFor="shortlist"
           className="block text-sm font-medium text-gray-700"
         >
-          Upload Results
+          Upload Result
         </label>
 
         <input
@@ -202,7 +187,7 @@ export const Round = ({
           type="file"
           name="excelFile"
           id="excelFile"
-          onChange={(e) => handleShortlistFile(e, "results", roundIndex)}
+          onChange={(e) => handleShortlistFile(e, "result", roundIndex)}
         />
       </div>
     </div>
