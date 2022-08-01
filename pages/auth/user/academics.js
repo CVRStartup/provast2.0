@@ -13,7 +13,6 @@ import {
 } from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 import { findUser } from "../../../src/lib/user";
-import { btechBranches } from "../../../src/lib/helper";
 
 const Academics = () => {
   const session = useUser();
