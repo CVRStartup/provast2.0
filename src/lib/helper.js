@@ -15,19 +15,11 @@ import moment from "moment";
 import jwt from "jsonwebtoken";
 import * as XLSX from "xlsx";
 
-export const handleJobResponse = async (
-  job,
-  user,
-  op,
-  roles,
-  questionnaire
-) => {
+export const handleJobResponse = async (job, user, op, roles, questionnaire) => {
   if (!user) return;
   let data = null;
   if (job.typeOfPost === "Shortlisted Students") {
-    let newstatus = job.eligible.filter(
-      (x) => x.rollnumber === user?.rollNumber?.value
-    )[0];
+    let newstatus = job.eligible.filter((x) => x.rollnumber === user?.rollNumber?.value)[0];
     if (!newstatus) return;
 
     data = await axios.put(
@@ -155,9 +147,7 @@ export const applyFilters = (filter, jobs, setJobs) => {
     let foundInDesig = job.designation.roles.some((ele) =>
       ele.toLowerCase().includes(filter.keyword.toLowerCase())
     );
-    let foundInCompany = job.company
-      .toLowerCase()
-      .includes(filter.keyword.toLowerCase());
+    let foundInCompany = job.company.toLowerCase().includes(filter.keyword.toLowerCase());
     if (!foundInCompany && !foundInDesig) return false;
     return true;
   });
@@ -314,17 +304,14 @@ export const getJobs = (jobs, userDetails, status) => {
     eligible: [],
   };
   jobs.forEach((job) => {
-    const response = job.eligible.filter(
-      (x) => x.rollnumber === userDetails.rollNumber.value
-    );
+    const response = job.eligible.filter((x) => x.rollnumber === userDetails.rollNumber.value);
     var flag =
       job.typeOfPost === "Off-Campus" ||
       (job.college === userDetails.college &&
         (job.typeOfPost === "On-Campus" || response.length > 0));
     if (flag) {
       studentJobs.eligible.add(job);
-      if (response.length === 0 || response[0].status === null)
-        studentJobs.pending.add(job);
+      if (response.length === 0 || response[0].status === null) studentJobs.pending.add(job);
       else if (response[0].status === false) studentJobs.rejected.add(job);
       else studentJobs.applied.add(job);
     }
@@ -372,16 +359,48 @@ export const btechBranches = [
 
 export const mbaBranches = [
   {
-    name: "Human Resource Management",
-    code: "HR",
+    name: "Artificial Intelligence and Data Science",
+    code: "Artificial Intelligence and Data Science",
+  },
+  {
+    name: "Banking and Financial Services",
+    code: "Banking and Financial Services",
+  },
+  {
+    name: "Business Analytics",
+    code: "Business Analytics",
+  },
+  {
+    name: "Digital Marketing",
+    code: "Digital Marketing",
   },
   {
     name: "Finance",
     code: "Finance",
   },
   {
-    name: "Banking",
-    code: "Banking",
+    name: "Hospital Management",
+    code: "Hospital Management",
+  },
+  {
+    name: "Human Resources",
+    code: "Human Resources",
+  },
+  {
+    name: "Management Information Systems",
+    code: "Management Information Systems",
+  },
+  {
+    name: "Marketing",
+    code: "Marketing",
+  },
+  {
+    name: "Operations",
+    code: "Operations",
+  },
+  {
+    name: "Strategy",
+    code: "Strategy",
   },
 ];
 
@@ -723,8 +742,7 @@ export const errors = {
   OAuthAccountNotLinked:
     "To confirm your identity, sign in with the same account you used originally.",
   EmailSignin: "Check your email address.",
-  CredentialsSignin:
-    "Sign in failed. Check the details you provided are correct.",
+  CredentialsSignin: "Sign in failed. Check the details you provided are correct.",
   default: "Unable to sign in.",
 };
 
@@ -732,21 +750,13 @@ export const rename = (name) => {
   if (!name) return name;
   var separateWord = name.toLowerCase().split(" ");
   for (var i = 0; i < separateWord.length; i++) {
-    separateWord[i] =
-      separateWord[i].charAt(0).toUpperCase() + separateWord[i]?.substring(1);
+    separateWord[i] = separateWord[i].charAt(0).toUpperCase() + separateWord[i]?.substring(1);
   }
   return separateWord.join(" ");
 };
 
 export const editorStructure = {
-  dynamic: [
-    "profile",
-    "objective",
-    "education",
-    "projects",
-    "skills",
-    "languages",
-  ],
+  dynamic: ["profile", "objective", "education", "projects", "skills", "languages"],
   core: [
     "profile",
     "education",
@@ -793,42 +803,11 @@ export const editorStructure = {
     "hobbies",
     "social",
   ],
-  refined: [
-    "profile",
-    "education",
-    "projects",
-    "certification",
-    "awards",
-    "skills",
-    "languages",
-  ],
-  tadigital: [
-    "profile",
-    "objective",
-    "education",
-    "projects",
-    "skills",
-    "languages",
-    "awards",
-  ],
+  refined: ["profile", "education", "projects", "certification", "awards", "skills", "languages"],
+  tadigital: ["profile", "objective", "education", "projects", "skills", "languages", "awards"],
   pro: ["profile", "education", "projects", "skills"],
-  gengar: [
-    "profile",
-    "objective",
-    "education",
-    "certification",
-    "skills",
-    "languages",
-  ],
-  stockholm: [
-    "profile",
-    "objective",
-    "education",
-    "projects",
-    "skills",
-    "languages",
-    "awards",
-  ],
+  gengar: ["profile", "objective", "education", "certification", "skills", "languages"],
+  stockholm: ["profile", "objective", "education", "projects", "skills", "languages", "awards"],
   pro: ["profile", "education", "projects", "skills"],
   ruby: [
     "profile",
@@ -892,8 +871,7 @@ export const trim_json = (resume) => {
   delete resume["public"];
   delete resume["layout"];
   Object.keys(resume).forEach((key) => {
-    if (resume[key] instanceof Array)
-      resume[key].forEach((record) => delete record["_id"]);
+    if (resume[key] instanceof Array) resume[key].forEach((record) => delete record["_id"]);
   });
   return resume;
 };
