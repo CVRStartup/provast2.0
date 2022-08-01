@@ -26,9 +26,6 @@ const Academics = () => {
   const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
     typeOfEducationGrade[0]
   );
-  const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
-    typeOfEducationGrade[0]
-  );
 
   const [academics, setAcademics] = useState({
     institution: "",
