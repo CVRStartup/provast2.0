@@ -10,6 +10,20 @@
   padding: 0;
 }
 
+.background {
+  background-image: url("https://qsf.fs.quoracdn.net/-4-ans_frontend_assets.images.home_page_bg_desktop.png-26-4770753d59b970e1.png");
+  width: 100%;
+  position: absolute;
+  min-height: 100%;
+  box-shadow: rgb(0 0 0 / 5%) 0px 0px 0px 1px inset;
+  transition-property: background-image;
+  transition-duration: 180ms;
+  transition-timing-function: ease-in-out;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 /* Markdown styles */
 .markdown > ul {
   list-style: disc;
