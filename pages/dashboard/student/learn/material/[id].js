@@ -3,15 +3,12 @@ import dynamic from "next/dynamic";
 import { resourceCategories } from "../../../../../public/resources/structure";
 import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
-const PDFViewer = dynamic(
-  () => import("../../../../../src/components/Learn/PDFViewer"),
-  {
-    ssr: false,
-  }
-);
+const PDFViewer = dynamic(() => import("../../../../../src/components/Learn/PDFViewer"), {
+  ssr: false,
+});
 const MaterialSlug = ({ file }) => {
   return (
-    <div className="mt-[15vh]">
+    <div className='mt-[10vh]'>
       <PDFViewer file={file} />
     </div>
   );

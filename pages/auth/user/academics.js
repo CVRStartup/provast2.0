@@ -5,7 +5,12 @@ import React, { useEffect, useState } from "react";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
 import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
-import { branches, degrees, typeOfEducation, typeOfEducationGrade } from "../../../src/lib/helper";
+import {
+  btechBranches,
+  degrees,
+  typeOfEducation,
+  typeOfEducationGrade,
+} from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 import { findUser } from "../../../src/lib/user";
 
@@ -15,7 +20,7 @@ const Academics = () => {
   const [loading, setLoading] = useState(false);
 
   const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
-  const [selectedBranch, setSelectedBranch] = useState(branches[0]);
+  const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
   const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
     typeOfEducationGrade[0]
@@ -102,7 +107,7 @@ const Academics = () => {
     setLoading(false);
     if (data.message === "Details Created") {
       if (updatedUserData && personalDetails) {
-        router.push("/");
+        router.push("/dashboard/student");
       }
     } else {
       alert(data.message);
@@ -168,7 +173,7 @@ const Academics = () => {
                       <DropDown
                         title={"Branch / Specialization"}
                         isRequired
-                        options={branches}
+                        options={btechBranches}
                         selectedOption={selectedBranch}
                         setSelectedOption={setSelectedBranch}
                       />

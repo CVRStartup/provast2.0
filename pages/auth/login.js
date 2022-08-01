@@ -7,10 +7,7 @@ import { Loading } from "../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../src/lib/auth";
 import { findUser } from "../../src/lib/user";
 import { mutate } from "swr";
-
 const Login = () => {
-  useUser({ redirectTo: "/", redirectIfFound: true });
-
   const [errorMsg, setErrorMsg] = useState("");
   const { loading, setLoading } = useModelContext();
 
@@ -33,7 +30,7 @@ const Login = () => {
       if (res.status === 200) {
         setLoading(false);
         mutate("/api/user");
-        Router.push("/dashboard/college");
+        Router.push("/dashboard/student");
       } else {
         throw new Error(await res.text());
       }
