@@ -12,12 +12,14 @@ import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
 import { useStudents } from "../../../../src/hooks/useStudents";
 import { StudentProfile } from "../../../../src/components/Resumes/StudentProfile";
+import { usePersonal } from "../../../../src/hooks/usePersonal";
 
 const Students = ({ user }) => {
   const { students } = useStudents(user);
   const { setIsOpen, setForm } = useModelContext();
   const { downloadOpen, setDownloadOpen, setFilter } = useDownloadResumeFilterContext();
   const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [directory, setDirectory] = useState({});
   const [keyword, setKeyword] = useState("");
   const [filteredStudents, setFilteredStudents] = useState(students);
@@ -33,8 +35,8 @@ const Students = ({ user }) => {
     });
     setFilteredStudents(students);
     setDirectory(newstate);
-  }, [students]);
-  console.log(Object.keys(directory).sort());
+    xs;
+  }, [students, profile]);
   useEffect(() => {
     if (!students) return;
     const keywords = keyword.split(",").map((x) => x.toUpperCase());
