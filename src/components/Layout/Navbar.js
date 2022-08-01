@@ -47,14 +47,10 @@ export const Navbar = () => {
       name: "Jobs",
       href: "/dashboard/college/jobs",
     },
-    {
-      name: "Assessments",
-      href: "/dashboard/college/assessments",
-    },
-    {
-      name: "Learn",
-      href: "/dashboard/college/learn",
-    },
+    // {
+    //   name: "Assessments",
+    //   href: "/dashboard/college/assessments",
+    // },
   ];
 
   const studentNavigation = [
@@ -66,10 +62,10 @@ export const Navbar = () => {
       name: "Resumes",
       href: "/dashboard/student/resumes",
     },
-    {
-      name: "Assessments",
-      href: "/dashboard/student/assessments",
-    },
+    // {
+    //   name: "Assessments",
+    //   href: "/dashboard/student/assessments",
+    // },
     {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",

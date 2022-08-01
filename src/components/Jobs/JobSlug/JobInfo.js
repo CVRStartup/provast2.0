@@ -179,8 +179,8 @@ export const JobInfo = ({ job }) => {
 
       <section aria-labelledby='timeline-title' className='lg:col-start-3 lg:col-span-1'>
         {job.typeOfPost === "Shortlisted Students" && (
-          <div className='mb-5 rounded-lg shadow bg-white py-2'>
-            <div className='h-[305px] w-[305px] mx-auto'>
+          <div className='mb-5 rounded-lg shadow bg-white py-2 pt-4'>
+            <div className='max-h-[305px] w-[305px] mx-auto'>
               <JobChart
                 counts={[
                   job.eligible.filter((x) => x?.status?.applied === null).length,

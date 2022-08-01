@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { FilterIcon, SearchIcon } from "@heroicons/react/solid";
-// import { DownloadResumes } from "../../../src/components/College/DownloadResume";
+import { DownloadResumes } from "../../../../src/components/Resumes/DownloadResume";
 // import { EmptyState } from "../../../src/components/Layouts/EmptyState";
 import { useDownloadResumeFilterContext } from "../../../../src/context/DownloadResumeFilterContext";
 import { useModelContext } from "../../../../src/context/ModalContext";
@@ -12,12 +12,14 @@ import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
 import { useStudents } from "../../../../src/hooks/useStudents";
 import { StudentProfile } from "../../../../src/components/Resumes/StudentProfile";
+import { usePersonal } from "../../../../src/hooks/usePersonal";
 
 const Students = ({ user }) => {
   const { students } = useStudents(user);
   const { setIsOpen, setForm } = useModelContext();
   const { downloadOpen, setDownloadOpen, setFilter } = useDownloadResumeFilterContext();
   const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [directory, setDirectory] = useState({});
   const [keyword, setKeyword] = useState("");
   const [filteredStudents, setFilteredStudents] = useState(students);
@@ -31,8 +33,9 @@ const Students = ({ user }) => {
       if (!newstate[key]) newstate[key] = [];
       newstate[key].push(student);
     });
+    setFilteredStudents(students);
     setDirectory(newstate);
-  }, [students]);
+  }, [students, profile]);
   useEffect(() => {
     if (!students) return;
     const keywords = keyword.split(",").map((x) => x.toUpperCase());
@@ -126,7 +129,7 @@ const Students = ({ user }) => {
                           <p className='mt-1 text-sm text-gray-600'>
                             Search directory of {students.length} students.
                           </p>
-                          <form className='mt-6 flex space-x-4' action='#'>
+                          <div className='mt-6 flex space-x-4' action='#'>
                             <div className='flex-1 min-w-0'>
                               <label htmlFor='search' className='sr-only'>
                                 Search
@@ -164,7 +167,7 @@ const Students = ({ user }) => {
                               <FilterIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
                               <span className='sr-only'>Search</span>
                             </button>
-                          </form>
+                          </div>
                         </div>
                         {/* Directory list */}
                         <nav className='flex-1 min-h-0 overflow-y-auto' aria-label='Directory'>
@@ -464,7 +467,7 @@ const Students = ({ user }) => {
       )}
       {downloadOpen && (
         <div className='absolute w-full -top-[1000%]' style={{ zIndex: "-1000" }}>
-          {/* <DownloadResumes students={filteredStudents} setDownloadOpen={setDownloadOpen} /> */}
+          <DownloadResumes students={filteredStudents} setDownloadOpen={setDownloadOpen} />
         </div>
       )}
     </>

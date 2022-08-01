@@ -11,7 +11,8 @@ import { Popover, Transition } from "@headlessui/react";
 import { useJobs } from "../../../src/hooks/useJobs";
 import { useStudents } from "../../../src/hooks/useStudents";
 
-const Index = ({ user }) => {
+const Index = ({ userDetails }) => {
+  const user = JSON.parse(userDetails);
   const { jobs, isLoading } = useJobs(user);
   const { students } = useStudents(user);
   const [filteredJobs, setFilteredJobs] = useState([]);
@@ -217,7 +218,7 @@ export const getServerSideProps = async ({ req, res }) => {
     };
   }
   return {
-    props: {},
+    props: { userDetails: JSON.stringify(user) },
   };
 };
 export default Index;
