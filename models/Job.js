@@ -113,9 +113,61 @@ const JobSchema = mongoose.Schema(
               type: String,
             },
           ],
+          answers: [
+            {
+              questionId: String,
+              answer: {
+                type: String,
+                default: null,
+              },
+            },
+          ],
           updatedAt: {
             type: Date,
           },
+        },
+      },
+    ],
+    rounds: [
+      {
+        name: String,
+        description: String,
+        status: String,
+        date: {
+          from: Date,
+          to: Date,
+        },
+        attendees: [
+          {
+            rollNumber: String,
+            role: String,
+          },
+        ],
+        shortlisted: [
+          {
+            rollNumber: String,
+            role: String,
+          },
+        ],
+        result: [
+          {
+            rollNumber: String,
+            role: String,
+            status: String,
+          },
+        ],
+      },
+    ],
+    questionnaire: [
+      {
+        question: {
+          questionName: String,
+          required: Boolean,
+          options: [
+            {
+              type: String,
+            },
+          ],
         },
       },
     ],
