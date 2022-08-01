@@ -34,6 +34,7 @@ const Students = ({ user }) => {
     setFilteredStudents(students);
     setDirectory(newstate);
   }, [students]);
+  console.log(Object.keys(directory).sort());
   useEffect(() => {
     if (!students) return;
     const keywords = keyword.split(",").map((x) => x.toUpperCase());
@@ -170,48 +171,53 @@ const Students = ({ user }) => {
                         {/* Directory list */}
                         <nav className="flex-1 min-h-0 overflow-y-auto" aria-label="Directory">
                           {keyword === "" &&
-                            Object.keys(directory).map((letter) => (
-                              <div key={letter} className="relative">
-                                <div className="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
-                                  <h3>{letter}</h3>
+                            Object.keys(directory)
+                              .sort()
+                              .map((letter) => (
+                                <div key={letter} className="relative">
+                                  <div className="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
+                                    <h3>{letter}</h3>
+                                  </div>
+                                  <ul role="list" className="relative z-0 divide-y divide-gray-200">
+                                    {directory[letter].map((student) => (
+                                      <li key={student._id}>
+                                        <div
+                                          onClick={() => setProfile(student)}
+                                          className="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500"
+                                        >
+                                          <div className="relative flex-shrink-0 h-10 w-10 rounded-full">
+                                            <Image
+                                              placeholder="blur"
+                                              blurDataURL={student?.profile?.image}
+                                              layout="fill"
+                                              objectFit="contain"
+                                              src={student?.profile.image}
+                                              alt=""
+                                            />
+                                          </div>
+                                          <div className="flex-1 min-w-0">
+                                            <a href="#" className="focus:outline-none">
+                                              {/* Extend touch target to entire panel */}
+                                              <span
+                                                className="absolute inset-0"
+                                                aria-hidden="true"
+                                              />
+                                              <p className="text-sm font-medium text-gray-900">
+                                                {student?.profile.firstName +
+                                                  " " +
+                                                  student?.profile.lastName}
+                                              </p>
+                                              <p className="text-sm text-gray-500 truncate">
+                                                {student.rollNumber.value}
+                                              </p>
+                                            </a>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    ))}
+                                  </ul>
                                 </div>
-                                <ul role="list" className="relative z-0 divide-y divide-gray-200">
-                                  {directory[letter].map((student) => (
-                                    <li key={student._id}>
-                                      <div
-                                        onClick={() => setProfile(student)}
-                                        className="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500"
-                                      >
-                                        <div className="relative flex-shrink-0 h-10 w-10 rounded-full">
-                                          <Image
-                                            placeholder="blur"
-                                            blurDataURL={student?.profile?.image}
-                                            layout="fill"
-                                            objectFit="contain"
-                                            src={student?.profile.image}
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                          <a href="#" className="focus:outline-none">
-                                            {/* Extend touch target to entire panel */}
-                                            <span className="absolute inset-0" aria-hidden="true" />
-                                            <p className="text-sm font-medium text-gray-900">
-                                              {student?.profile.firstName +
-                                                " " +
-                                                student?.profile.lastName}
-                                            </p>
-                                            <p className="text-sm text-gray-500 truncate">
-                                              {student.rollNumber.value}
-                                            </p>
-                                          </a>
-                                        </div>
-                                      </div>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            ))}
+                              ))}
                           {keyword !== "" && (
                             <div>
                               {filteredStudents.map((student) => (
@@ -330,46 +336,50 @@ const Students = ({ user }) => {
                   {/* Directory list */}
                   <nav className="flex-1 min-h-0 overflow-y-auto" aria-label="Directory">
                     {keyword === "" &&
-                      Object.keys(directory).map((letter) => (
-                        <div key={letter} className="relative">
-                          <div className="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
-                            <h3>{letter}</h3>
+                      Object.keys(directory)
+                        .sort()
+                        .map((letter) => (
+                          <div key={letter} className="relative">
+                            <div className="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
+                              <h3>{letter}</h3>
+                            </div>
+                            <ul role="list" className="relative z-0 divide-y divide-gray-200">
+                              {directory[letter].map((student) => (
+                                <li key={student._id}>
+                                  <div
+                                    onClick={() => setProfile(student)}
+                                    className="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500"
+                                  >
+                                    <div className="flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden">
+                                      <Image
+                                        placeholder="blur"
+                                        blurDataURL={student.profile.image}
+                                        layout="fill"
+                                        objectFit="contain"
+                                        src={student.profile.image}
+                                        alt=""
+                                      />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <a href="#" className="focus:outline-none">
+                                        {/* Extend touch target to entire panel */}
+                                        <span className="absolute inset-0" aria-hidden="true" />
+                                        <p className="text-sm font-medium text-gray-900">
+                                          {student.profile.firstName +
+                                            " " +
+                                            student.profile.lastName}
+                                        </p>
+                                        <p className="text-sm text-gray-500 truncate">
+                                          {student.rollNumber.value}
+                                        </p>
+                                      </a>
+                                    </div>
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
-                          <ul role="list" className="relative z-0 divide-y divide-gray-200">
-                            {directory[letter].map((student) => (
-                              <li key={student._id}>
-                                <div
-                                  onClick={() => setProfile(student)}
-                                  className="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500"
-                                >
-                                  <div className="flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden">
-                                    <Image
-                                      placeholder="blur"
-                                      blurDataURL={student.profile.image}
-                                      layout="fill"
-                                      objectFit="contain"
-                                      src={student.profile.image}
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <a href="#" className="focus:outline-none">
-                                      {/* Extend touch target to entire panel */}
-                                      <span className="absolute inset-0" aria-hidden="true" />
-                                      <p className="text-sm font-medium text-gray-900">
-                                        {student.profile.firstName + " " + student.profile.lastName}
-                                      </p>
-                                      <p className="text-sm text-gray-500 truncate">
-                                        {student.rollNumber.value}
-                                      </p>
-                                    </a>
-                                  </div>
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                        ))}
                     {keyword !== "" && (
                       <div>
                         {filteredStudents.map((student) => (

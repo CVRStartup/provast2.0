@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { Filter } from "../../../src/components/Jobs/Filter";
@@ -14,10 +13,16 @@ import { useResumes } from "../../../src/hooks/useResumes";
 
 const resources = [
   {
+    heading: "IBM Preplacement",
+    image:
+      "https://webimages.mongodb.com/_com_assets/cms/ibmlogo-s4il2j9lwy.png?auto=format%2Ccompress&ch=DPR",
+    href: "https://app.altrulabs.com/play/video/zBLZwmFRppKJ/IT8tks3RrgVs",
+  },
+  {
     heading: "Epam Resouces for 2023",
     image:
       "https://res.cloudinary.com/crowdicity-us-east-1/image/upload/w_710,h_500,c_fill/epam-anywhere-logo-240x240-png_ehxcx7",
-    href: "/dashboard/student/resources/epam",
+    href: "/resources/epam",
   },
   {
     heading: "What it takes to be an SDET @Commvault?",
