@@ -6,12 +6,23 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const DropDown = ({ isRequired, selectedOption, setSelectedOption, title, options }) => {
+export const DropDown = ({
+  isRequired,
+  selectedOption,
+  setSelectedOption,
+  title,
+  options,
+  isDark,
+}) => {
   return (
     <Listbox value={selectedOption} onChange={setSelectedOption}>
       {({ open }) => (
         <>
-          <Listbox.Label className='flex items-center mb-1 h-full text-sm font-medium text-gray-700'>
+          <Listbox.Label
+            className={`flex items-center mb-1 h-full text-sm font-medium ${
+              isDark ? "text-white" : "text-gray-700"
+            } `}
+          >
             {title}
             {isRequired ? <span className='ml-1 mt-1 text-red-600 font-semibold'>*</span> : ""}
           </Listbox.Label>
