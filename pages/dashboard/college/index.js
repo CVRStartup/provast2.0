@@ -11,8 +11,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { useJobs } from "../../../src/hooks/useJobs";
 import { useStudents } from "../../../src/hooks/useStudents";
 
-const Index = ({ userDetails }) => {
-  const user = JSON.parse(userDetails);
+const Index = ({ user }) => {
   const { jobs, isLoading } = useJobs(user);
   const { students } = useStudents(user);
   const [filteredJobs, setFilteredJobs] = useState([]);

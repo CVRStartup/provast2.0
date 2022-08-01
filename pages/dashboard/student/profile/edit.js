@@ -94,7 +94,6 @@ const ProfileEdit = ({ userDetails }) => {
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/details?userId=${user._id}`,
       {
         profile,
-        rollNumber,
         college,
         phone,
       }
@@ -107,11 +106,11 @@ const ProfileEdit = ({ userDetails }) => {
         contact,
       }
     );
-    console.log(personalMessage);
     if (message == "Details Updated" && personalMessage == "Personal Details Updated") {
       toast.success(message, { toastId: message });
-      await mutate("/api/user");
       router.push("/dashboard/student/profile");
+      await mutate("/api/user");
+      await mutate(`/api/auth/user/personal?userId=${user?._id}`);
     } else {
       toast.error(message, { toastId: message });
     }

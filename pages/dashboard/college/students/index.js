@@ -13,13 +13,14 @@ import { findUser } from "../../../../src/lib/user";
 import { useStudents } from "../../../../src/hooks/useStudents";
 import { StudentProfile } from "../../../../src/components/Resumes/StudentProfile";
 import { usePersonal } from "../../../../src/hooks/usePersonal";
+import { mutate } from "swr";
 
 const Students = ({ user }) => {
   const { students } = useStudents(user);
   const { setIsOpen, setForm } = useModelContext();
   const { downloadOpen, setDownloadOpen, setFilter } = useDownloadResumeFilterContext();
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { personal } = usePersonal(profile?._id);
   const [directory, setDirectory] = useState({});
   const [keyword, setKeyword] = useState("");
   const [filteredStudents, setFilteredStudents] = useState(students);
@@ -35,8 +36,7 @@ const Students = ({ user }) => {
     });
     setFilteredStudents(students);
     setDirectory(newstate);
-    xs;
-  }, [students, profile]);
+  }, [students]);
   useEffect(() => {
     if (!students) return;
     const keywords = keyword.split(",").map((x) => x.toUpperCase());
