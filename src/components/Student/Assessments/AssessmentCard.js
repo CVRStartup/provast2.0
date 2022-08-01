@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { useUser } from "../../../lib/hooks";
+import { btechBranches } from "../../../lib/helper.js";
 export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
   const [ID, setID] = useState(0);
   const [status, setStatus] = useState(null);
@@ -19,7 +20,12 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
   let isDisabledForBranches = false;
 
   // change later the logic for a student if he doesn't have a branch
-  if (!assessment.allowedBranches.includes(studentDetails?.branch))
+  let allowedBranches = btechBranches.map((bBranch) => {
+    if (assessment.allowedBranches.includes(bBranch.code)) return bBranch.name;
+  });
+
+  //console.log(allowedBranches);
+  if (!allowedBranches.includes(studentDetails?.branch))
     isDisabledForBranches = true;
 
   if (assessment.allowedBranches.length === 0) isDisabledForBranches = false;
@@ -33,6 +39,7 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
   let isDisabled =
     isDisabledForBatches || isDisabledForBranches || !isShortListed;
 
+  //console.log(isDisabledForBranches);
   useEffect(() => {
     (async () => {
       const {

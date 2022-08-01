@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { DropDown } from "../../../../src/components/Reusables/Dropdown";
 import { generateYearsBetween, status } from "../../../../src/lib/helper";
-import { branches as oldBranches } from "../../../../src/lib/helper";
+import { btechBranches as oldBranches } from "../../../../src/lib/helper";
 
 const AssessmentAdd = ({ user }) => {
   const mode = [
@@ -201,9 +201,11 @@ const AssessmentAdd = ({ user }) => {
       });
     }
   };
+
   // submit function
   const handleSubmit = (e) => {
     e.preventDefault();
+
     try {
       if (fileError !== "") {
         toast.error(fileError, {
@@ -218,9 +220,14 @@ const AssessmentAdd = ({ user }) => {
           mode: selectedMode.name,
           user: user._id,
           public: selectedStatus.name === "Draft" ? false : true,
-          college: user.college,
+          college: {
+            name: user.college.name,
+            code: user.college.code,
+          },
         }
       );
+      console.log(data);
+      console.log(user.college);
       toast.success("Assessment created", {
         toastId: 1,
       });

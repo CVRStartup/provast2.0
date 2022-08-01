@@ -13,7 +13,7 @@ import { debounce, first } from "lodash";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
-  const [fullscreen, setFullscreen] = useState(true);
+  const [fullscreen, setFullscreen] = useState(false);
   const [firstWarning, setFirstWarning] = useState(false);
 
   const [assessment, setAssessment] = useState(assessmentDetails);
@@ -33,7 +33,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
     [handle]
   );
   const handleFullscreenInterrupt = (flag) => {
-    if (!flag || !assessment || assessment.mode === "Practice") return;
+    if (!flag) return;
     setFullscreen(false);
     if (firstWarning) {
       submitHandler();
@@ -81,7 +81,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
     //fullscreen is true but firstwarning is false implies new test
 
     const handleWindowChange = (e) => {
-      if (!assessment || assessment.mode === "Practice") return;
+      if (!assessment || assessment.mode === "Practice" || !status) return;
       setFullscreen(false);
       submitHandler();
     };

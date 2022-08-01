@@ -6,11 +6,9 @@ const assessmentSchema = new mongoose.Schema(
     college: {
       name: {
         type: String,
-        uppercase: true,
       },
       code: {
         type: String,
-        uppercase: true,
       },
     },
     name: {

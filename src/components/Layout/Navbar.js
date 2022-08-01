@@ -47,10 +47,10 @@ export const Navbar = () => {
       name: "Jobs",
       href: "/dashboard/college/jobs",
     },
-    // {
-    //   name: "Assessments",
-    //   href: "/dashboard/college/assessments",
-    // },
+    {
+      name: "Assessments",
+      href: "/dashboard/college/assessments",
+    },
   ];
 
   const studentNavigation = [
@@ -62,10 +62,10 @@ export const Navbar = () => {
       name: "Resumes",
       href: "/dashboard/student/resumes",
     },
-    // {
-    //   name: "Assessments",
-    //   href: "/dashboard/student/assessments",
-    // },
+    {
+      name: "Assessments",
+      href: "/dashboard/student/assessments",
+    },
     {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",
@@ -87,7 +87,8 @@ export const Navbar = () => {
 
   if (
     router.pathname.split("/").indexOf("auth") !== -1 ||
-    (router.pathname.split("/")[3] === "resumes" && router.pathname.split("/")[4] === "[id]") ||
+    (router.pathname.split("/")[3] === "resumes" &&
+      router.pathname.split("/")[4] === "[id]") ||
     router.pathname.indexOf("approvalpending") !== -1 ||
     router.pathname.indexOf("checkout") !== -1
   )

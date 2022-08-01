@@ -75,7 +75,8 @@ export const getServerSideProps = async ({ req, res, query }) => {
   } = await axios.get(
     `${process.env.HOST_URL}/api/auth/user/academics?user=${user._id}`
   );
-
+  console.log(assessments);
+  console.log(academics);
   return {
     props: {
       assessments,

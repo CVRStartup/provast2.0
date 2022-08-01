@@ -70,7 +70,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
-
+  console.log(user.college.name);
   const {
     data: { assessments },
   } = await axios.get(
