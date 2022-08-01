@@ -19,7 +19,7 @@ const Form = ({ isLogin, errorMessage, onSubmit }) => (
               />
             </Link>
           </div>
-          <h2 className='text-center text-3xl font-bold text-gray-900'>
+          <h2 className='text-center text-2xl font-bold text-gray-900'>
             {isLogin ? "Log in" : "Sign up"} to your account
           </h2>
         </div>
