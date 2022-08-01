@@ -2,8 +2,8 @@ import React from "react";
 
 export const StudentProfileDetails = ({ student, personal }) => {
   return (
-    <div className='my-7 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden'>
-      <dl className='grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2'>
+    <div className='my-7 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden'>
+      <dl className='grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3'>
         <div className='sm:col-span-1'>
           <dt className='capitalize text-md font-medium text-gray-500'>First Name</dt>
           <dd className=' text-md font-semibold text-gray-900'>{student?.profile?.firstName}</dd>
