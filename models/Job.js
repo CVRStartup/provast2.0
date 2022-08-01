@@ -139,19 +139,19 @@ const JobSchema = mongoose.Schema(
         },
         attendees: [
           {
-            rollNumber: String,
+            email: String,
             role: String,
           },
         ],
         shortlisted: [
           {
-            rollNumber: String,
+            email: String,
             role: String,
           },
         ],
         result: [
           {
-            rollNumber: String,
+            email: String,
             role: String,
             status: String,
           },

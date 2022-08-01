@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const JobResult = ({ job, rollNumber }) => {
+export const JobResult = ({ job, email }) => {
   const [result, setResult] = useState([]);
   useEffect(() => {
     if (!job || !job.rounds) return;
@@ -12,14 +12,11 @@ export const JobResult = ({ job, rollNumber }) => {
         newRound.status == "Partially completed" ||
         newRound.status == "Completed"
       ) {
-        console.log(
-          newRound.result.filter((res) => res.rollNumber === rollNumber)
-        );
-        console.log(rollNumber);
+        console.log(newRound.result.filter((res) => res.email === email));
+        console.log(email);
         if (
           newRound.result &&
-          newRound.result.filter((res) => res.rollNumber === rollNumber)
-            .length > 0
+          newRound.result.filter((res) => res.email === email).length > 0
         ) {
           if (index == job.rounds.length - 1)
             newRound.message = "You have been selected!";

@@ -91,7 +91,7 @@ const StudentJobSlug = ({ id }) => {
 
         {tab === "Result" && (
           <div data-aos="fade-up">
-            <JobResult job={job} rollNumber={user?.rollNumber?.value} />
+            <JobResult job={job} email={user?.email} />
           </div>
         )}
       </main>

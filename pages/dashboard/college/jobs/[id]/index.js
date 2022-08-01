@@ -11,6 +11,8 @@ import { JobHeader } from "../../../../../src/components/Jobs/JobSlug/JobHeader"
 import { useJob } from "../../../../../src/hooks/useJob";
 import { Questionnaire } from "../../../../../src/components/Jobs/Questionnaire";
 import { RoundInfo } from "../../../../../src/components/Jobs/RoundInfo";
+import { useUser } from "../../../../../src/lib/hooks";
+import { useStudents } from "../../../../../src/hooks/useStudents";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -19,6 +21,8 @@ function classNames(...classes) {
 const CollegeJobSlug = ({ id }) => {
   const { job, isLoading } = useJob(id);
   const [tab, setTab] = useState("Job Information");
+  const user = useUser();
+  const students = useStudents(user);
   const tabs = [
     {
       name: "Job Information",
@@ -34,6 +38,37 @@ const CollegeJobSlug = ({ id }) => {
     { name: "Rounds", icon: MdAnalytics, current: tab === "Rounds" },
   ];
   if (isLoading) return <div>Loading</div>;
+
+  const getFileterdEligible = (eligible) => {
+    if (students && students.students) {
+      let newFilteredStudents = eligible.map((student) => {
+        let studentDetails = {};
+        students.students.some((studentDetail) => {
+          if (studentDetail.email == student.email) {
+            studentDetails = {
+              name:
+                studentDetail.profile.firstName +
+                " " +
+                studentDetail.profile.lastName,
+              email: studentDetail.email,
+              phone: studentDetail.phone?.value,
+              rollnumber: studentDetail.rollNumber?.value,
+              status: student.status,
+            };
+            return true;
+          }
+        });
+        return studentDetails;
+      });
+
+      newFilteredStudents = newFilteredStudents.filter(
+        (x) => x && x.name != null
+      );
+      return newFilteredStudents;
+    }
+    return eligible;
+  };
+
   return (
     <div className="min-h-full bg-gray-100 mt-[10vh]">
       <JobHeader />
@@ -107,7 +142,7 @@ const CollegeJobSlug = ({ id }) => {
                   ? " A list of all the students who are eligible to apply job."
                   : " A list of all the students who have applied for job."
               }
-              eligible={job.eligible}
+              eligible={getFileterdEligible(job.eligible)}
             />
           </div>
         )}

@@ -21,6 +21,7 @@ const typeOfRoundStatus = [
 export const Round = ({
   type,
   round,
+  isPrevComplete,
   roundIndex,
   handleRoundChange,
   handleShortlistFile,
@@ -55,12 +56,16 @@ export const Round = ({
             type="text"
             name="roundName"
             id="roundName"
+            disabled={!isPrevComplete}
             value={round?.name}
             onChange={(e) =>
               handleRoundChange("name", e.target.value, roundIndex)
             }
             autoComplete="off"
-            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            className={
+              "mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" +
+              (isPrevComplete ? "" : " cursor-not-allowed")
+            }
             required
           />
         </div>
@@ -75,12 +80,16 @@ export const Round = ({
             type="text"
             name="roundDescription"
             id="roundDescription"
+            disabled={!isPrevComplete}
             value={round?.description}
             onChange={(e) =>
               handleRoundChange("description", e.target.value, roundIndex)
             }
             autoComplete="off"
-            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            className={
+              "mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" +
+              (isPrevComplete ? "" : " cursor-not-allowed")
+            }
           ></input>
         </div>
         <div className="relative -top-[23px]">
@@ -103,6 +112,7 @@ export const Round = ({
           <input
             type="datetime-local"
             name="roundDateFrom"
+            disabled={!isPrevComplete}
             value={
               round != null && round.date.from != null
                 ? round.date.from.substring(0, 16)
@@ -112,7 +122,10 @@ export const Round = ({
             onChange={(e) =>
               handleRoundChange("date-from", e.target.value, roundIndex)
             }
-            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            className={
+              "mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" +
+              (isPrevComplete ? "" : " cursor-not-allowed")
+            }
           />
         </div>
         <div>
@@ -126,6 +139,7 @@ export const Round = ({
             type="datetime-local"
             name="roundDateTo"
             id="roundDateTo"
+            disabled={!isPrevComplete}
             value={
               round != null && round.date.to != null
                 ? round.date.to.substring(0, 16)
@@ -134,7 +148,10 @@ export const Round = ({
             onChange={(e) =>
               handleRoundChange("date-to", e.target.value, roundIndex)
             }
-            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            className={
+              "mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" +
+              (isPrevComplete ? "" : " cursor-not-allowed")
+            }
           />
         </div>
       </div>
@@ -151,11 +168,15 @@ export const Round = ({
         </label>
 
         <input
-          className="mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          className={
+            "mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" +
+            (isPrevComplete ? "" : " cursor-not-allowed")
+          }
           label="Choose File"
           type="file"
           name="excelFile"
           id="excelFile"
+          disabled={!isPrevComplete}
           onChange={(e) => handleShortlistFile(e, "shortlisted", roundIndex)}
         />
       </div>
@@ -168,10 +189,14 @@ export const Round = ({
         </label>
 
         <input
-          className="mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          className={
+            "mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" +
+            (isPrevComplete ? "" : " cursor-not-allowed")
+          }
           label="Choose File"
           type="file"
           name="excelFile"
+          disabled={!isPrevComplete}
           id="excelFile"
           onChange={(e) => handleShortlistFile(e, "attendees", roundIndex)}
         />
@@ -194,10 +219,14 @@ export const Round = ({
         </label>
 
         <input
-          className="mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          className={
+            "mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" +
+            (isPrevComplete ? "" : " cursor-not-allowed")
+          }
           label="Choose File"
           type="file"
           name="excelFile"
+          disabled={!isPrevComplete}
           id="excelFile"
           onChange={(e) => handleShortlistFile(e, "result", roundIndex)}
         />
