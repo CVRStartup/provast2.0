@@ -5,14 +5,16 @@ import { Guide } from "../src/components/Landing/Guide";
 import { Slider } from "../src/components/Landing/Slider";
 import { Testimonials } from "../src/components/Landing/Testimonials";
 import { Navbar } from "../src/components/Layout/Navbar";
+import { getLoginSession } from "../src/lib/auth";
+import { findUser } from "../src/lib/user";
 
 const Index = () => {
   return (
     <>
       <NextSeo
-        title="Provast"
-        description="This example uses more of the available config options."
-        canonical="https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png"
+        title='Provast'
+        description='This example uses more of the available config options.'
+        canonical='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
         openGraph={{
           url: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png",
           title: "Open Graph Title",
@@ -47,9 +49,9 @@ const Index = () => {
           cardType: "summary_large_image",
         }}
       />
-      <div className="bg-white">
+      <div className='bg-white'>
         <Navbar />
-        <main className="mt-[10vh] mb-10">
+        <main className='mt-[10vh] mb-10'>
           <Slider />
           <Guide />
           <Testimonials />
@@ -59,6 +61,33 @@ const Index = () => {
       </div>
     </>
   );
+};
+
+export const getServerSideProps = async ({ req, res, query }) => {
+  const session = await getLoginSession(req);
+  const user = (session?._doc && (await findUser(session._doc))) ?? null;
+
+  if (user && !user.detailsAvailable) {
+    return {
+      redirect: {
+        destination: "/auth/user/details",
+        permanent: false,
+      },
+    };
+  }
+
+  if (user.category === "student" && !user.academicsAvailable) {
+    return {
+      redirect: {
+        destination: "/auth/user/academics",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default Index;
