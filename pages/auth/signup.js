@@ -6,6 +6,7 @@ import { useModelContext } from "../../src/context/ModalContext";
 import { Loading } from "../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../src/lib/auth";
 import { findUser } from "../../src/lib/user";
+import mutate from "swr";
 
 const Signup = () => {
   useUser({ redirectTo: "/", redirectIfFound: true });
@@ -42,7 +43,8 @@ const Signup = () => {
           body: JSON.stringify(body),
         });
         if (res.status === 200) {
-          Router.push("/");
+          Router.push("/dashboard/student");
+          // mutate("/api/user");
           setLoading(false);
         } else {
           setLoading(false);

@@ -6,7 +6,11 @@ import { DropDown } from "../../../src/components/Reusables/Dropdown";
 import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
 import {
+<<<<<<< HEAD
   branches,
+=======
+  btechBranches,
+>>>>>>> fec2ee1e9b61775f5e9987b4139f7ace59f116dc
   degrees,
   typeOfEducation,
   typeOfEducationGrade,
@@ -22,8 +26,14 @@ const Academics = () => {
 
   const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
   const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
+<<<<<<< HEAD
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(
     typeOfEducation[0]
+=======
+  const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
+  const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
+    typeOfEducationGrade[0]
+>>>>>>> fec2ee1e9b61775f5e9987b4139f7ace59f116dc
   );
   const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] =
     useState(typeOfEducationGrade[0]);
@@ -114,7 +124,7 @@ const Academics = () => {
     setLoading(false);
     if (data.message === "Details Created") {
       if (updatedUserData && personalDetails) {
-        router.push("/");
+        router.push("/dashboard/student");
       }
     } else {
       alert(data.message);

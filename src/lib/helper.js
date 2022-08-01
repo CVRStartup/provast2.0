@@ -1432,12 +1432,12 @@ export const typeOfPlacedStatus = [
 ];
 
 export const jobPostingLocationOptions = [
-  { id: 1, name: "Hyderabad" },
-  { id: 2, name: "Bengaluru" },
+  { id: 1, name: "Bengaluru" },
+  { id: 2, name: "Delhi" },
   { id: 3, name: "Chennai" },
-  { id: 4, name: "Mumbai" },
-  { id: 5, name: "Pune" },
-  { id: 6, name: "Delhi" },
+  { id: 4, name: "Hyderabad" },
+  { id: 5, name: "Mumbai" },
+  { id: 6, name: "Pune" },
   { id: 7, name: "NCR Region" },
   { id: 8, name: "Surat" },
   { id: 9, name: "Kota" },

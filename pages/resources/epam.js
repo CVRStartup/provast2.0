@@ -1,8 +1,7 @@
 import React from "react";
-
 const epam = () => {
   return (
-    <div className="flex justify-center items-center mt-20 mb-10 mx-10 mt-[10vh]">
+    <div className="flex justify-center items-center mb-10 mx-10 mt-32">
       <table cellSpacing={0} border={0} className="sortable">
         <colgroup width={62} />
         <colgroup width={158} />
@@ -1446,34 +1445,6 @@ const epam = () => {
       </table>
     </div>
   );
-};
-
-export const getServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  if (!session || !session.userDetails) {
-    return {
-      redirect: {
-        destination: "/auth/user/details",
-        permanent: false,
-      },
-    };
-  }
-
-  if (session.userDetails.category !== "student") {
-    return {
-      redirect: {
-        destination: `/dashboard/${session.userDetails.category}`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
 };
 
 export default epam;
