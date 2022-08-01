@@ -6,16 +6,18 @@ const Form = ({ isLogin, errorMessage, onSubmit }) => (
     <div className='sm:mx-auto sm:w-full sm:max-w-md'>
       <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-          <div className='relative w-48 h-16 mx-auto'>
-            <Image
-              placeholder='blur'
-              blurDataURL='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
-              layout='fill'
-              objectFit='contain'
-              className=''
-              src='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
-              alt=''
-            />
+          <div className='relative w-48 h-16 mx-auto cursor-pointer'>
+            <Link href={"/"}>
+              <Image
+                placeholder='blur'
+                blurDataURL='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
+                layout='fill'
+                objectFit='contain'
+                className=''
+                src='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
+                alt=''
+              />
+            </Link>
           </div>
           <h2 className='text-center text-3xl font-bold text-gray-900'>
             {isLogin ? "Log in" : "Sign up"} to your account
