@@ -154,8 +154,8 @@ const Academics = () => {
                     />
                   </div>
 
-                  <div className='relative mb-20 grid grid-cols-6 gap-6 mt-4'>
-                    <div className='col-span-6 sm:col-span-3 absolute left-0 w-[48%]'>
+                  <div className='grid grid-cols-6 gap-4'>
+                    <div className='col-span-6 sm:col-span-3'>
                       <DropDown
                         title={"Program / Degree"}
                         isRequired
@@ -164,7 +164,7 @@ const Academics = () => {
                         setSelectedOption={setSelectedDegree}
                       />
                     </div>
-                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                    <div className='col-span-6 sm:col-span-3'>
                       <DropDown
                         title={"Branch / Specialization"}
                         isRequired
@@ -174,9 +174,8 @@ const Academics = () => {
                       />
                     </div>
                   </div>
-
-                  <div className='relative grid grid-cols-6 gap-6'>
-                    <div className='col-span-6 sm:col-span-3 '>
+                  <div className='grid grid-cols-6 gap-4 mt-10'>
+                    <div className='col-span-6 sm:col-span-3'>
                       <div className='flex'>
                         <label htmlFor='board' className='block text-sm font-medium text-gray-700'>
                           Board / University
@@ -193,7 +192,7 @@ const Academics = () => {
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
-                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                    <div className='col-span-6 sm:col-span-3 relative -top-[23px]'>
                       <DropDown
                         title={"Education Type"}
                         isRequired
@@ -210,7 +209,7 @@ const Academics = () => {
                     </label>
                     <span className='ml-1 text-red-600 font-semibold'>*</span>
                   </div>
-                  <div className='relative grid grid-cols-6 gap-6'>
+                  <div className='grid grid-cols-6 gap-4'>
                     <div className='col-span-6 sm:col-span-3 '>
                       <input
                         type='text'
@@ -227,8 +226,10 @@ const Academics = () => {
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
-                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                    <div className='col-span-6 sm:col-span-3 relative -top-[45px]'>
                       <DropDown
+                        title={"Grade"}
+                        isRequired
                         options={typeOfEducationGrade}
                         selectedOption={selectedTypeOfEducationGrade}
                         setSelectedOption={setSelectedTypeOfEducationGrade}
@@ -236,7 +237,7 @@ const Academics = () => {
                     </div>
                   </div>
 
-                  <div className='flex mt-4'>
+                  <div className='flex'>
                     <label htmlFor='duration' className='block text-sm font-medium text-gray-700'>
                       Duration
                     </label>
