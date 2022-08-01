@@ -127,7 +127,7 @@ const JobAdd = ({ user }) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-
+    console.log(eligible);
     setLoading({ type: "add", status: true });
 
     const {
@@ -186,16 +186,9 @@ const JobAdd = ({ user }) => {
       toast.error(message, { toastId: message });
     }
   };
-
   useEffect(() => {
-    let rollNumbers = eligible.map((x) => x.rollnumber);
-    let newRounds = [...rounds];
-    newRounds[0].shortlisted = rollNumbers;
-    setRounds(newRounds);
-
-    console.log(newRounds);
+    console.log(eligible);
   }, [eligible]);
-
   const uploadFileHandler = async (e, type) => {
     const file = e.target.files[0];
     const formData = new FormData();
@@ -215,7 +208,61 @@ const JobAdd = ({ user }) => {
       toast.error(error, { toastId: error });
     }
   };
-
+  const fileType = [
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ];
+  const handleFile = (e) => {
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
+        reader.onload = (e) => {
+          setExcelFileError(null);
+          if (e.target.result !== null) {
+            const workbook = XLSX.read(e.target.result, { type: "buffer" });
+            const worksheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[worksheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+            const existingStudents = new Set();
+            eligible.forEach((student) => {
+              if (student) existingStudents.add(student.rollnumber);
+            });
+            var res = [];
+            let studentList = [];
+            data.forEach((x) => {
+              if (
+                x &&
+                x["Roll Number"] &&
+                !existingStudents.has(x["Roll Number"])
+              )
+                res.push({
+                  name: x["Name"] ? x["Name"] : "N/A",
+                  branch: x["Branch"] ? x["Branch"] : "N/A",
+                  rollnumber: x["Roll Number"] ? x["Roll Number"] : "N/A",
+                  email: x["Email"] ? x["Email"] : "N/A",
+                  phone: x["Phone"] ? x["Phone"] : "N/A",
+                  status: {
+                    applied: null,
+                    roles: [],
+                  },
+                });
+            });
+            const newEligible = [...eligible, ...res].filter((x) => x !== null);
+            setEligible(newEligible);
+          } else {
+            setEligible([]);
+          }
+        };
+      } else {
+        setExcelFileError("Please select only excel file types");
+        setExcelFile(null);
+      }
+    } else {
+      console.log("please select your file");
+    }
+  };
   const addNewRound = (num) => {
     if (num < rounds.length) {
       let newRounds = [...rounds];
@@ -240,8 +287,6 @@ const JobAdd = ({ user }) => {
       for (let i = 0; i < number; i++) newRounds.push(newRound);
       setRounds([...newRounds]);
     }
-
-    console.log(rounds);
   };
 
   const checkFileType = (filename) => {
@@ -259,9 +304,10 @@ const JobAdd = ({ user }) => {
   const handleRoundChange = (fieldName, updatedValue, index) => {
     let newRounds = [...rounds];
     if (fieldName == "date-from" || fieldName == "date-to") {
-      if (fieldName == "date-from")
+      if (fieldName == "date-from") {
         newRounds[index]["date"]["from"] = updatedValue;
-      else newRounds[index]["date"]["to"] = updatedValue;
+        newRounds[index]["date"]["to"] = updatedValue;
+      } else newRounds[index]["date"]["to"] = updatedValue;
     } else {
       newRounds[index][fieldName] = updatedValue;
     }
@@ -1147,9 +1193,7 @@ const JobAdd = ({ user }) => {
                               type="file"
                               name="image"
                               id="profileImg"
-                              onChange={(e) =>
-                                handleFile(e, setEligible, setExcelFileError)
-                              }
+                              onChange={handleFile}
                             />
                             {excelFileError &&
                               toast.error(excelFileError, {

@@ -104,6 +104,7 @@ export const handleFile = (e, setData, setError) => {
               },
             };
           });
+
           setData(res);
         } else {
           setData([]);

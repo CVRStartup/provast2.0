@@ -14,6 +14,7 @@ import { useState } from "react";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 const StudentJobSlug = ({ id }) => {
   const { job } = useJob(id);
   const user = useUser();
