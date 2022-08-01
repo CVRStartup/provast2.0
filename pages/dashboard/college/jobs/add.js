@@ -253,21 +253,21 @@ const JobAdd = ({ user }) => {
       setRounds([...newRounds]);
     } else {
       let number = num - rounds.length;
-      let newRound = {
-        name: "",
-        description: "",
-        completed: false,
-        date: {
-          from: from ? from : null,
-          to: to ? to : null,
-        },
-        status: "Yet to start",
-        attendees: [],
-        shortlisted: [],
-        result: [],
-      };
       let newRounds = [...rounds];
-      for (let i = 0; i < number; i++) newRounds.push(newRound);
+      for (let i = 0; i < number; i++)
+        newRounds.push({
+          name: "",
+          description: "",
+          completed: false,
+          date: {
+            from: from ? from : null,
+            to: to ? to : null,
+          },
+          status: "Yet to start",
+          attendees: [],
+          shortlisted: [],
+          result: [],
+        });
       setRounds([...newRounds]);
     }
   };
@@ -286,15 +286,17 @@ const JobAdd = ({ user }) => {
   };
   const handleRoundChange = (fieldName, updatedValue, index) => {
     let newRounds = [...rounds];
+    console.log(newRounds);
     if (fieldName == "date-from" || fieldName == "date-to") {
       if (fieldName == "date-from") {
         newRounds[index]["date"]["from"] = updatedValue;
         newRounds[index]["date"]["to"] = updatedValue;
       } else newRounds[index]["date"]["to"] = updatedValue;
     } else {
+      console.log("hello ", index, fieldName);
       newRounds[index][fieldName] = updatedValue;
     }
-
+    console.log(newRounds);
     if (fieldName == "completed") newRounds[index].shortlisted = [];
     setRounds([...newRounds]);
   };
