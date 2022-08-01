@@ -5,7 +5,12 @@ import React, { useEffect, useState } from "react";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
 import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
-import { branches, degrees, typeOfEducation, typeOfEducationGrade } from "../../../src/lib/helper";
+import {
+  btechBranches,
+  degrees,
+  typeOfEducation,
+  typeOfEducationGrade,
+} from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 import { findUser } from "../../../src/lib/user";
 
@@ -15,7 +20,7 @@ const Academics = () => {
   const [loading, setLoading] = useState(false);
 
   const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
-  const [selectedBranch, setSelectedBranch] = useState(branches[0]);
+  const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
   const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
     typeOfEducationGrade[0]
@@ -102,7 +107,7 @@ const Academics = () => {
     setLoading(false);
     if (data.message === "Details Created") {
       if (updatedUserData && personalDetails) {
-        router.push("/");
+        router.push("/dashboard/student");
       }
     } else {
       alert(data.message);
@@ -148,14 +153,19 @@ const Academics = () => {
                       name='school'
                       id='school'
                       value={academics.institution}
-                      onChange={(e) => setAcademics({ ...academics, institution: e.target.value })}
+                      onChange={(e) =>
+                        setAcademics({
+                          ...academics,
+                          institution: e.target.value,
+                        })
+                      }
                       required
                       className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
 
-                  <div className='relative mb-20 grid grid-cols-6 gap-6 mt-4'>
-                    <div className='col-span-6 sm:col-span-3 absolute left-0 w-[48%]'>
+                  <div className='grid grid-cols-6 gap-4'>
+                    <div className='col-span-6 sm:col-span-3'>
                       <DropDown
                         title={"Program / Degree"}
                         isRequired
@@ -164,19 +174,18 @@ const Academics = () => {
                         setSelectedOption={setSelectedDegree}
                       />
                     </div>
-                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                    <div className='col-span-6 sm:col-span-3'>
                       <DropDown
                         title={"Branch / Specialization"}
                         isRequired
-                        options={branches}
+                        options={btechBranches}
                         selectedOption={selectedBranch}
                         setSelectedOption={setSelectedBranch}
                       />
                     </div>
                   </div>
-
-                  <div className='relative grid grid-cols-6 gap-6'>
-                    <div className='col-span-6 sm:col-span-3 '>
+                  <div className='grid grid-cols-6 gap-4 mt-10'>
+                    <div className='col-span-6 sm:col-span-3'>
                       <div className='flex'>
                         <label htmlFor='board' className='block text-sm font-medium text-gray-700'>
                           Board / University
@@ -193,7 +202,7 @@ const Academics = () => {
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
-                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                    <div className='col-span-6 sm:col-span-3 relative -top-[23px]'>
                       <DropDown
                         title={"Education Type"}
                         isRequired
@@ -210,7 +219,7 @@ const Academics = () => {
                     </label>
                     <span className='ml-1 text-red-600 font-semibold'>*</span>
                   </div>
-                  <div className='relative grid grid-cols-6 gap-6'>
+                  <div className='grid grid-cols-6 gap-4'>
                     <div className='col-span-6 sm:col-span-3 '>
                       <input
                         type='text'
@@ -221,14 +230,19 @@ const Academics = () => {
                         onChange={(e) =>
                           setAcademics({
                             ...academics,
-                            score: { ...academics.score, grade: e.target.value },
+                            score: {
+                              ...academics.score,
+                              grade: e.target.value,
+                            },
                           })
                         }
                         className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
-                    <div className='col-span-6 sm:col-span-3 absolute right-0 w-[48%]'>
+                    <div className='col-span-6 sm:col-span-3 relative -top-[45px]'>
                       <DropDown
+                        title={"Grade"}
+                        isRequired
                         options={typeOfEducationGrade}
                         selectedOption={selectedTypeOfEducationGrade}
                         setSelectedOption={setSelectedTypeOfEducationGrade}
@@ -236,7 +250,7 @@ const Academics = () => {
                     </div>
                   </div>
 
-                  <div className='flex mt-4'>
+                  <div className='flex'>
                     <label htmlFor='duration' className='block text-sm font-medium text-gray-700'>
                       Duration
                     </label>

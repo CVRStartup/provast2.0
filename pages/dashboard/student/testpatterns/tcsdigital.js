@@ -47,7 +47,7 @@ const people = [
 
 const tcsdigital = () => {
   return (
-    <div className="w-3/4 mx-auto pt-10 px-4 sm:px-6 lg:px-8">
+    <div className="w-3/4 mx-auto pt-10 px-4 sm:px-6 lg:px-8 mt-[10vh]">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-xl font-semibold text-gray-900">TCS Digital Test Pattern</h1>

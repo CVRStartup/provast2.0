@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { MailIcon, PhoneIcon } from "@heroicons/react/solid";
-// import { StudentResume } from "./StudentResume";
+import { MdEdit } from "react-icons/md";
+import { StudentResume } from "./StudentResume";
 import { rename } from "../../lib/helper";
+import { StudentProfileDetails } from "../Layout/StudentProfileDetails";
+import { usePersonal } from "../../hooks/usePersonal";
+import Link from "next/link";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -10,11 +14,12 @@ function classNames(...classes) {
 
 export const StudentProfile = ({ student }) => {
   const [tab, setTab] = useState("Profile");
+  const { personal } = usePersonal(student?._id);
 
   const tabs = [
     { name: "Profile", current: tab === "Profile" },
     { name: "Resume", current: tab === "Resume" },
-    { name: "Jobs", current: tab === "Jobs" },
+    // { name: "Jobs", current: tab === "Jobs" },
   ];
   return (
     <main>
@@ -67,6 +72,17 @@ export const StudentProfile = ({ student }) => {
                     <PhoneIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
                     <span>Call</span>
                   </a>
+                  <div className='mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
+                    <Link href={`/dashboard/college/students/profile/edit/${student._id}`}>
+                      <button
+                        type='button'
+                        className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50'
+                      >
+                        <MdEdit className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
+                        <span>Edit Profile</span>
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
               <div className='hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1'>
@@ -102,40 +118,15 @@ export const StudentProfile = ({ student }) => {
             </div>
           </div>
 
-          {tab === "Profile" && (
-            <div className='mt-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden'>
-              <dl className='grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2'>
-                <div className='sm:col-span-1'>
-                  <dt className='capitalize text-md font-medium text-gray-500'>First Name</dt>
-                  <dd className=' text-md font-semibold text-gray-900'>
-                    {rename(student.profile?.firstName)}
-                  </dd>
-                </div>
-                <div className='sm:col-span-1'>
-                  <dt className='capitalize text-md font-medium text-gray-500'>Last Name</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>
-                    {rename(student.profile?.lastName)}
-                  </dd>
-                </div>
-                <div className='sm:col-span-1'>
-                  <dt className='text-md font-medium text-gray-500'>Given Email</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>{student?.email}</dd>
-                </div>
-                <div className='sm:col-span-1'>
-                  <dt className='text-md font-medium text-gray-500'>Mobile Number</dt>
-                  <dd className=' font-semibold text-md text-gray-900'>{student?.phone?.value}</dd>
-                </div>
-              </dl>
-            </div>
-          )}
+          {tab === "Profile" && <StudentProfileDetails student={student} personal={personal} />}
 
-          {/* {tab === "Resume" && <StudentResume userId={profile.user} />} */}
+          {tab === "Resume" && <StudentResume userId={student._id} />}
 
-          {tab === "Jobs" && (
+          {/* {tab === "Jobs" && (
             <>
               <h1>Jobs</h1>
             </>
-          )}
+          )} */}
         </div>
       </div>
     </main>

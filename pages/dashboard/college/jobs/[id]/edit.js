@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { Loader } from "../../../../../src/components/Layout/Loader";
 import {
-  branches,
+  btechBranches,
   ctcRange,
   generateYearsBetween,
   jobPostingLocationOptions,
@@ -27,6 +27,8 @@ import { CheckBox } from "../../../../../src/components/Reusables/CheckBox";
 import { Loading } from "../../../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
+import { Round } from "../../../../../src/components/Jobs/Round";
+import { Question } from "../../../../../src/components/Jobs/Question";
 
 const getSelected = (options, value) => {
   if (!value) return options[0];
@@ -81,10 +83,6 @@ const JobAdd = ({ job, user }) => {
     getSelected(typeOfGrade, job?.eligibility?.btech?.typeOfGrade)
   );
 
-  console.log(getSelectedGrade(Percentages, job?.eligibility?.tenth?.grade));
-  console.log(job?.eligibility?.inter?.grade);
-  console.log(job?.eligibility?.btech?.grade);
-
   const [selectedXthGrade, setSelectedXthGrade] = useState(
     getSelectedGrade(Percentages, job?.eligibility?.tenth?.grade)
   );
@@ -94,6 +92,9 @@ const JobAdd = ({ job, user }) => {
   const [selectedBtechGrade, setSelectedBtechGrade] = useState(
     getSelectedGrade(Percentages, job?.eligibility?.btech?.grade)
   );
+
+  const [rounds, setRounds] = useState(job?.rounds);
+  const [questionnaire, setQuestionnaire] = useState(job?.questionnaire);
 
   useEffect(() => {
     if (selectedXthTypeOfGrade.name === "CGPA")
@@ -142,6 +143,7 @@ const JobAdd = ({ job, user }) => {
               if (student) existingStudents.add(student.rollnumber);
             });
             var res = [];
+            let studentList = [];
             data.forEach((x) => {
               if (x && x["Roll Number"] && !existingStudents.has(x["Roll Number"]))
                 res.push({
@@ -224,6 +226,8 @@ const JobAdd = ({ job, user }) => {
       from,
       to,
       eligible,
+      rounds,
+      questionnaire,
     });
 
     setLoading({ type: "edit", status: false });
@@ -255,9 +259,165 @@ const JobAdd = ({ job, user }) => {
       toast.error(error, { toastId: error });
     }
   };
+  const addNewRound = (num) => {
+    if (num < rounds.length) {
+      let newRounds = [...rounds];
+      for (let i = rounds.length - num; i > 0; i--) newRounds.pop();
+      setRounds([...newRounds]);
+    } else {
+      let number = num - rounds.length;
+      let newRound = {
+        name: "",
+        description: "",
+        completed: false,
+        date: {
+          from: from ? from : null,
+          to: to ? to : null,
+        },
+        status: "Yet to start",
+        attendees: [],
+        shortlisted: [],
+        result: [],
+      };
+      let newRounds = [...rounds];
+      for (let i = 0; i < number; i++) newRounds.push(newRound);
+      setRounds([...newRounds]);
+    }
+  };
 
-  console.log(from);
-  console.log(to);
+  const checkFileType = (filename) => {
+    let parts = filename.split(".");
+    let extension = parts[parts.length - 1];
+    switch (extension) {
+      case "xls":
+      case "xlsx":
+      case "csv":
+        return true;
+      default:
+        return false;
+    }
+  };
+  const handleRoundChange = (fieldName, updatedValue, index) => {
+    let newRounds = [...rounds];
+    if (fieldName == "date-from" || fieldName == "date-to") {
+      if (fieldName == "date-from") newRounds[index]["date"]["from"] = updatedValue;
+      else newRounds[index]["date"]["to"] = updatedValue;
+    } else {
+      newRounds[index][fieldName] = updatedValue;
+    }
+
+    if (fieldName == "completed") newRounds[index].shortlisted = [];
+    setRounds([...newRounds]);
+  };
+
+  const handleShortlistFile = (e, field, index) => {
+    let selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      if (checkFileType(selectedFile.name)) {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
+        reader.onload = (e) => {
+          if (e.target.result !== null) {
+            const workbook = XLSX.read(e.target.result, { type: "buffer" });
+            const worksheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[worksheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+
+            toast.success("File uploaded successfully!", {
+              toastId: 21,
+            });
+
+            let studentList = [];
+            if (field === "result") {
+              studentList = data.map((student) => {
+                return {
+                  rollNumber: student["Roll Number"],
+                  role: student["Role"],
+                  status: student["Result"],
+                };
+              });
+            } else {
+              studentList = data.map((student) => {
+                return {
+                  rollNumber: student["Roll Number"],
+                  role: student["Role"],
+                };
+              });
+            }
+
+            let newRounds = [...rounds];
+            newRounds[index][field].push(...studentList);
+            setRounds([...newRounds]);
+          }
+        };
+      } else {
+        setFileError("Upload Failed: Please select only Excel files!");
+        toast.error("Upload Failed: Please select only Excel files!", {
+          toastId: 23,
+        });
+      }
+    } else {
+      toast.error("Upload Failed: No file selected", {
+        toastId: 22,
+      });
+    }
+  };
+
+  const addNewQuestion = () => {
+    let newQuestions = [...questionnaire];
+    newQuestions.push({
+      question: {
+        questionName: "",
+        required: false,
+        options: [],
+      },
+    });
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const handleQuestionChange = (fieldName, updatedValue, index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question[fieldName] = updatedValue;
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const clearOptions = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options = [];
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const handleOptionChange = (value, optionIndex, index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options[optionIndex] = value;
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const removeOption = (index, optionIndex) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options.splice(optionIndex, 1);
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const addOption = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions[index].question.options.push("");
+    setQuestionnaire([...newQuestions]);
+  };
+
+  const removeQuestion = (index) => {
+    let newQuestions = [...questionnaire];
+    if (newQuestions.length == 0) return;
+    newQuestions.splice(index, 1);
+    setQuestionnaire([...newQuestions]);
+  };
+
   return (
     <main className='bg-gray-50 mt-[10vh]'>
       {loading.type === "edit" && loading.status === true ? <Loading /> : ""}
@@ -394,7 +554,6 @@ const JobAdd = ({ job, user }) => {
                     id='startDate'
                     value={from?.substring(0, 16)}
                     onChange={(e) => {
-                      console.log(from);
                       setFrom(e.target.value);
                     }}
                     required
@@ -419,7 +578,21 @@ const JobAdd = ({ job, user }) => {
                   />
                 </div>
               </div>
-
+              <div className=''>
+                <label htmlFor='roundNumber' className='block text-sm font-medium text-gray-700'>
+                  Enter number of rounds
+                </label>
+                <input
+                  type='number'
+                  name='roundNumber'
+                  id='roundNumber'
+                  min='1'
+                  value={rounds.length}
+                  onChange={(e) => addNewRound(e.target.value)}
+                  autoComplete='off'
+                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                />
+              </div>
               <div className='sm:col-span-6 relative -top-[22px]'>
                 <DropDown
                   title={"Role"}
@@ -435,7 +608,10 @@ const JobAdd = ({ job, user }) => {
                     <MultiInput
                       title='Designation'
                       handleExtraOptions={(extra) =>
-                        setDesignation({ ...designation, roles: [...designation.roles, extra] })
+                        setDesignation({
+                          ...designation,
+                          roles: [...designation.roles, extra],
+                        })
                       }
                       deleteOption={(option) =>
                         setDesignation({
@@ -460,7 +636,10 @@ const JobAdd = ({ job, user }) => {
                       id='name'
                       value={designation.max}
                       onChange={(e) =>
-                        setDesignation({ ...designation, max: parseInt(e.target.value) })
+                        setDesignation({
+                          ...designation,
+                          max: parseInt(e.target.value),
+                        })
                       }
                       autoComplete='off'
                       className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
@@ -595,12 +774,52 @@ const JobAdd = ({ job, user }) => {
               <div className='sm:col-span-6 rounded border'>
                 <CheckBox
                   title={"Eligible Branches"}
-                  options={branches}
+                  options={btechBranches}
                   setCheckedOptions={setBranchOptions}
                   checkedOptions={branchOptions}
                 />
               </div>
+              <div className='sm:col-span-6 rounded border bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>
+                <div>
+                  {rounds &&
+                    rounds.map((round, roundIndex) => {
+                      return (
+                        <>
+                          <Round
+                            type={"edit"}
+                            round={round}
+                            roundIndex={roundIndex}
+                            handleRoundChange={handleRoundChange}
+                            handleShortlistFile={handleShortlistFile}
+                          />
+                          {roundIndex == 0 && typeOfPost === "Shortlisted Students" && (
+                            <div className='sm:col-span-3'>
+                              <label
+                                htmlFor='photo'
+                                className='block text-sm font-medium text-gray-700'
+                              >
+                                Upload Spreadsheet
+                              </label>
 
+                              <input
+                                className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                                label='Choose File'
+                                type='file'
+                                name='image'
+                                id='profileImg'
+                                onChange={handleFile}
+                              />
+                              {excelFileError &&
+                                toast.error(excelFileError, {
+                                  toastId: excelFileError,
+                                })}
+                            </div>
+                          )}
+                        </>
+                      );
+                    })}
+                </div>
+              </div>
               <div className='sm:col-span-3 relative -top-[22px]'>
                 <DropDown
                   title={"Xth Type Of Grade"}
@@ -690,8 +909,8 @@ const JobAdd = ({ job, user }) => {
                   </div>
                 </fieldset>
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
-                {placed && (
+              {placed && (
+                <div className='sm:col-span-3 relative -top-[22px]'>
                   <div className='flex flex-col mt-5'>
                     <div className='flex items-center justify-between'>
                       <p className='text-base font-medium text-gray-900'>Maximum salary ?</p>
@@ -716,7 +935,15 @@ const JobAdd = ({ job, user }) => {
                       ></input>
                     </div>
                   </div>
-                )}
+                </div>
+              )}
+              <div className='sm:col-span-3 relative -top-[22px]'>
+                <DropDown
+                  title={"Status"}
+                  options={status}
+                  selectedOption={selectedStatus}
+                  setSelectedOption={setSelectedStatus}
+                />
               </div>
               <div className='sm:col-span-3'>
                 <label className='text-base font-medium text-gray-900'>Type Of Job Posting</label>
@@ -756,26 +983,29 @@ const JobAdd = ({ job, user }) => {
                 </div>
               </div>
 
-              {typeOfPost === "Shortlisted Students" && (
-                <div className='sm:col-span-3'>
-                  <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
-                    Upload Spreadsheet
-                  </label>
+              <div className='sm:col-span-6 rounded border bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>
+                <h3>Questionnaire</h3>
 
-                  <input
-                    className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-                    label='Choose File'
-                    type='file'
-                    name='image'
-                    id='profileImg'
-                    onChange={handleFile}
-                  />
-                  {excelFileError &&
-                    toast.error(excelFileError, {
-                      toastId: excelFileError,
-                    })}
-                </div>
-              )}
+                {questionnaire &&
+                  questionnaire.map((questionObj, questionIndex) => {
+                    return (
+                      <Question
+                        question={questionObj.question}
+                        type={
+                          questionObj.question.options && questionObj.question.options.length > 0
+                        }
+                        index={questionIndex}
+                        handleQuestionChange={handleQuestionChange}
+                        clearOptions={clearOptions}
+                        handleOptionChange={handleOptionChange}
+                        removeOption={removeOption}
+                        addOption={addOption}
+                        removeQuestion={removeQuestion}
+                      />
+                    );
+                  })}
+                <div onClick={addNewQuestion}>Add question</div>
+              </div>
             </form>
           </div>
         </div>

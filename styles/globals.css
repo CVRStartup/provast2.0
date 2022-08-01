@@ -1,100 +1,99 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 * {
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 /* Markdown styles */
 .markdown > ul {
-    list-style: disc;
-    margin-bottom: 5px;
-  }
-  
-  .markdown > ul > li {
-    margin-left: 10px;
-  }
-  
-  .markdown > ul > li > ul {
-    list-style: circle;
-    margin-left: 10px;
-  }
-  
-  .markdown > ul > p {
-    margin-left: 0 !important;
-  }
-  
-  ::-webkit-scrollbar {
-    width: 7px;
-    height: 5px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 20px;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 20px;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-  
-  #one-cc-loader {
-    position: relative !important;
-  }
-  
-  .blur {
-    color: transparent;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
-  }
-  
-  .ck-editor__editable_inline {
-    min-height: 180px;
-  }
-  
-  .ck-content > ul {
-    list-style-type: disc !important;
-    margin-left: 15px;
-  }
-  
-  .ck-content > ol {
-    list-style-type: decimal !important;
-    margin-left: 15px;
-  }
-  
-  .react-pdf__Page__textContent {
-    border: 1px solid darkgrey;
-    box-shadow: 5px 5px 5px 1px #ccc;
-    border-radius: 5px;
-  }
-  
-  /* SPLIT.JS STYLES */
-  
-  .gutter {
-    background-color: #e5e7eb;
-    background-repeat: no-repeat;
-    background-position: 50%;
-  }
-  
-  .gutter.gutter-horizontal {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
-    cursor: col-resize;
-  }
-  
-  .gutter.gutter-vertical {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
-    cursor: row-resize;
-  }
+  list-style: disc;
+  margin-bottom: 5px;
+}
+
+.markdown > ul > li {
+  margin-left: 10px;
+}
+
+.markdown > ul > li > ul {
+  list-style: circle;
+  margin-left: 10px;
+}
+
+.markdown > ul > p {
+  margin-left: 0 !important;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#one-cc-loader {
+  position: relative !important;
+}
+
+.blur {
+  color: transparent;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+.ck-editor__editable_inline {
+  min-height: 180px;
+}
+
+.ck-content > ul {
+  list-style-type: disc !important;
+  margin-left: 15px;
+}
+
+.ck-content > ol {
+  list-style-type: decimal !important;
+  margin-left: 15px;
+}
+
+.react-pdf__Page__textContent {
+  border: 1px solid darkgrey;
+  box-shadow: 5px 5px 5px 1px #ccc;
+  border-radius: 5px;
+}
+
+/* SPLIT.JS STYLES */
+
+.gutter {
+  background-color: #e5e7eb;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
+  cursor: col-resize;
+}
+
+.gutter.gutter-vertical {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
+  cursor: row-resize;
+}

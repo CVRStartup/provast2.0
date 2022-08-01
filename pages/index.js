@@ -12,9 +12,9 @@ const Index = () => {
   return (
     <>
       <NextSeo
-        title="Provast"
-        description="This example uses more of the available config options."
-        canonical="https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png"
+        title='Provast'
+        description='This example uses more of the available config options.'
+        canonical='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
         openGraph={{
           url: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png",
           title: "Open Graph Title",
@@ -49,9 +49,9 @@ const Index = () => {
           cardType: "summary_large_image",
         }}
       />
-      <div className="bg-white">
+      <div className='bg-white'>
         <Navbar />
-        <main className="mt-[10vh] mb-10">
+        <main className='mt-[10vh] mb-10'>
           <Slider />
           <Guide />
           <Testimonials />
@@ -63,18 +63,11 @@ const Index = () => {
   );
 };
 
-export const getServerSideProps = async ({ req, res }) => {
+export const getServerSideProps = async ({ req, res, query }) => {
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/auth/login",
-        permanent: false,
-      },
-    };
-  }
-  if (!user.detailsAvailable) {
+
+  if (user && !user.detailsAvailable) {
     return {
       redirect: {
         destination: "/auth/user/details",
@@ -82,7 +75,8 @@ export const getServerSideProps = async ({ req, res }) => {
       },
     };
   }
-  if (user.category === "student" && !user.academicsAvailable) {
+
+  if (user?.category === "student" && !user?.academicsAvailable) {
     return {
       redirect: {
         destination: "/auth/user/academics",
@@ -90,6 +84,7 @@ export const getServerSideProps = async ({ req, res }) => {
       },
     };
   }
+
   return {
     props: {},
   };

@@ -25,7 +25,7 @@ export const Navbar = () => {
     },
     {
       name: "Open Jobs",
-      href: "/dashboard/student/openjobs",
+      href: "/openjobs",
     },
   ];
   const adminNavigation = [
@@ -47,14 +47,10 @@ export const Navbar = () => {
       name: "Jobs",
       href: "/dashboard/college/jobs",
     },
-    {
-      name: "Assessments",
-      href: "/dashboard/college/assessments",
-    },
-    {
-      name: "Learn",
-      href: "/dashboard/college/learn",
-    },
+    // {
+    //   name: "Assessments",
+    //   href: "/dashboard/college/assessments",
+    // },
   ];
 
   const studentNavigation = [
@@ -66,10 +62,10 @@ export const Navbar = () => {
       name: "Resumes",
       href: "/dashboard/student/resumes",
     },
-    {
-      name: "Assessments",
-      href: "/dashboard/student/assessments",
-    },
+    // {
+    //   name: "Assessments",
+    //   href: "/dashboard/student/assessments",
+    // },
     {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",
@@ -98,57 +94,57 @@ export const Navbar = () => {
     return <></>;
 
   return (
-    <Popover className='fixed top-0 left-0 z-40 w-full bg-gray-100 h-[10vh]'>
-      <div className='flex justify-between items-center px-4 sm:px-6 md:justify-start md:space-x-10'>
-        <div className='flex justify-start lg:w-0 lg:flex-1 '>
+    <Popover className="fixed top-0 left-0 z-40 w-full bg-gray-100 h-[10vh]">
+      <div className="flex justify-between items-center px-4 sm:px-6 md:justify-start md:space-x-10">
+        <div className="flex justify-start lg:w-0 lg:flex-1 ">
           <Link href={"/"} passHref>
-            <div className='w-44 h-[10vh] flex items-center p-2'>
-              <div className='relative h-full w-full object-cover rounded-md cursor-pointer'>
+            <div className="w-44 h-[10vh] flex items-center p-2">
+              <div className="relative h-full w-full object-cover rounded-md cursor-pointer">
                 <Image
-                  placeholder='blur'
-                  blurDataURL='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
-                  layout='fill'
-                  objectFit='contain'
-                  className=''
-                  src='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
-                  alt=''
+                  placeholder="blur"
+                  blurDataURL="https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png"
+                  layout="fill"
+                  objectFit="contain"
+                  className=""
+                  src="https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png"
+                  alt=""
                 />
               </div>
             </div>
           </Link>
         </div>
-        <div className='-mr-2 -my-2 md:hidden'>
-          <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500'>
-            <span className='sr-only'>Open menu</span>
-            <MenuIcon className='h-6 w-6' aria-hidden='true' />
+        <div className="-mr-2 -my-2 md:hidden">
+          <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+            <span className="sr-only">Open menu</span>
+            <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </Popover.Button>
         </div>
-        <Popover.Group as='nav' className='hidden md:flex space-x-5'>
+        <Popover.Group as="nav" className="hidden md:flex space-x-5">
           {navigation.map((option, index) => (
             <Link key={index} href={option.href}>
               <a
                 key={option.name}
                 href={option.href}
-                className='text-gray-900 hover:text-orange-400
-                  rounded-md py-2 px-3 inline-flex options-center text-[15px] font-medium'
+                className="text-gray-900 hover:text-orange-400
+                  rounded-md py-2 px-3 inline-flex options-center text-[15px] font-medium"
               >
                 {option.name}
               </a>
             </Link>
           ))}
         </Popover.Group>
-        <div className='hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
+        <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
           {session?.profile?.image && (
-            <div className='hidden sm:ml-6 sm:flex sm:items-center'>
-              <div className='relative h-10 w-10'>
+            <div className="hidden sm:ml-6 sm:flex sm:items-center">
+              <div className="relative h-10 w-10">
                 <Image
-                  placeholder='blur'
+                  placeholder="blur"
                   blurDataURL={session?.profile?.image}
-                  layout='fill'
-                  objectFit='fill'
-                  className='rounded-full'
+                  layout="fill"
+                  objectFit="fill"
+                  className="rounded-full"
                   src={session?.profile?.image}
-                  alt=''
+                  alt=""
                 />
               </div>
             </div>
@@ -159,13 +155,13 @@ export const Navbar = () => {
             </>
           ) : (
             <>
-              <Link href='/auth/login' passHref>
-                <a className='ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md font-medium text-gray-900 bg-gray-100 hover:border-gray-400'>
+              <Link href="/auth/login" passHref>
+                <a className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md font-medium text-gray-900 bg-gray-100 hover:border-gray-400">
                   Log in
                 </a>
               </Link>
-              <Link href='/auth/signup' passHref>
-                <a className='ml-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md font-medium text-black bg-gray-200 hover:bg-gray-300'>
+              <Link href="/auth/signup" passHref>
+                <a className="ml-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md font-medium text-black bg-gray-200 hover:bg-gray-300">
                   Sign up
                 </a>
               </Link>
@@ -176,56 +172,56 @@ export const Navbar = () => {
 
       <Transition
         as={Fragment}
-        enter='duration-200 ease-out'
-        enterFrom='opacity-0 scale-95'
-        enterTo='opacity-100 scale-100'
-        leave='duration-100 ease-in'
-        leaveFrom='opacity-100 scale-100'
-        leaveTo='opacity-0 scale-95'
+        enter="duration-200 ease-out"
+        enterFrom="opacity-0 scale-95"
+        enterTo="opacity-100 scale-100"
+        leave="duration-100 ease-in"
+        leaveFrom="opacity-100 scale-100"
+        leaveTo="opacity-0 scale-95"
       >
         <Popover.Panel
           focus
-          className='absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden'
+          className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
         >
-          <div className='rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50'>
-            <div className='pt-5 pb-6 px-5'>
-              <div className='flex items-center justify-between'>
+          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
+            <div className="pt-5 pb-6 px-5">
+              <div className="flex items-center justify-between">
                 <Link href={"/"} passHref>
-                  <div className='w-40 h-[10vh] p-4'>
-                    <div className='relative h-full w-full object-cover rounded-md cursor-pointer'>
+                  <div className="w-40 h-[10vh] p-4">
+                    <div className="relative h-full w-full object-cover rounded-md cursor-pointer">
                       <Image
-                        placeholder='blur'
-                        blurDataURL='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
-                        layout='fill'
-                        objectFit='contain'
-                        className=''
-                        src='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
-                        alt=''
+                        placeholder="blur"
+                        blurDataURL="https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png"
+                        layout="fill"
+                        objectFit="contain"
+                        className=""
+                        src="https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png"
+                        alt=""
                       />
                     </div>
                   </div>
                 </Link>
-                <div className='-mr-2'>
-                  <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500'>
-                    <span className='sr-only'>Close menu</span>
-                    <XIcon className='h-6 w-6' aria-hidden='true' />
+                <div className="-mr-2">
+                  <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                    <span className="sr-only">Close menu</span>
+                    <XIcon className="h-6 w-6" aria-hidden="true" />
                   </Popover.Button>
                 </div>
               </div>
             </div>
-            <div className='py-6 px-5'>
-              <div className='grid grid-cols-2 gap-4'>
+            <div className="py-6 px-5">
+              <div className="grid grid-cols-2 gap-4">
                 {navigation.map((option, index) => (
                   <Link key={index} href={option.href} passHref>
-                    <a className='text-base font-medium text-gray-900 hover:text-gray-700'>
+                    <a className="text-base font-medium text-gray-900 hover:text-gray-700">
                       {option.name}
                     </a>
                   </Link>
                 ))}
               </div>
-              <div className='mt-6'>
+              <div className="mt-6">
                 <Link href={"/auth/signup"} passHref>
-                  <a className='w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700'>
+                  <a className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700">
                     Sign In
                   </a>
                 </Link>
