@@ -59,7 +59,7 @@ export const DropDown = ({
                           <span
                             className={classNames(
                               selected ? "font-semibold" : "font-normal",
-                              "block truncate"
+                              "block break-words"
                             )}
                           >
                             {option.name}

@@ -349,7 +349,7 @@ export const btechBranches = [
   { name: "Instrumentation and Control", code: "IC" },
 ];
 
-export const mbaSrmBranches = [
+export const mbaBranches = [
   { name: "Waste Management And Social Entrepreneurship" },
   { name: "Business Administration - Business Analytics" },
   { name: "Business Administration - Finance And Marketing" },
@@ -383,7 +383,7 @@ export const mbaSrmBranches = [
   { name: "Business Administration" },
 ];
 
-export const mbaBranches = [
+export const mbaSrmBranches = [
   {
     name: "Artificial Intelligence and Data Science",
     code: "Artificial Intelligence and Data Science",

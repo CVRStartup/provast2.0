@@ -1,4 +1,3 @@
-import axios from "axios";
 import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
@@ -19,7 +18,6 @@ const Students = ({ user }) => {
   const { setIsOpen, setForm } = useModelContext();
   const { downloadOpen, setDownloadOpen, setFilter } = useDownloadResumeFilterContext();
   const [profile, setProfile] = useState(null);
-  const { personal } = usePersonal(profile?._id);
   const [directory, setDirectory] = useState({});
   const [keyword, setKeyword] = useState("");
   const [filteredStudents, setFilteredStudents] = useState(students);

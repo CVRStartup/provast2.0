@@ -18,13 +18,9 @@ export default async function handler(req, res) {
 const updateUserDetails = async (req, res) => {
   try {
     await connectDB();
-    const { user } = req.query;
+    const { rollNumber } = req.query;
 
-    if (!user) {
-      return res.status(400).json({ message: "Invalid Credentials" });
-    }
-
-    const academics = await Academic.findOne({ user: user });
+    const academics = await Academic.findOne({ rollNumber });
     const newEducation = [];
     const bodyAcademics = req.body.academics;
     console.log("123", bodyAcademics);
@@ -38,7 +34,7 @@ const updateUserDetails = async (req, res) => {
       });
       console.log(academics._id, newEducation);
       const newAcademics = {
-        user,
+        rollNumber,
         education: newEducation,
       };
       const updated = await Academic.findByIdAndUpdate(academics._id, newAcademics, { new: true });
@@ -75,11 +71,6 @@ const searchAcademics = async (req, res) => {
 const createUserAcademics = async (req, res) => {
   try {
     await connectDB();
-    const { user } = req.query;
-
-    // if (!user) {
-    //   return res.status(400).json({ message: "Invalid Credentials" });
-    // }
 
     const details = await Academic.findOne({ rollNumber: req.body.rollNumber });
 
