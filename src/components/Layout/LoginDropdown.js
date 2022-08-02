@@ -37,38 +37,24 @@ export const LoginDropdown = ({ session }) => {
             </Menu.Item>
           </div>
 
-          {session?.category === "student" && (
-            <Menu.Item>
-              <Link href='/packages'>
-                <a className='flex items-left text-left w-full px-4 py-2 text-sm hover:bg-gray-50 '>
-                  <span className='mr-2'>
-                    <FaCrown size={18} color='orange' />
-                  </span>
-                  <span className=''>Upgrade</span>
-                </a>
-              </Link>
-            </Menu.Item>
-          )}
-
-          {session?.category === "student" && (
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  href='/dashboard/student/profile
-              '
+          <Menu.Item>
+            {({ active }) => (
+              <Link
+                href={`/dashboard/${
+                  session?.category === "student" ? "student" : "college"
+                }/profile`}
+              >
+                <span
+                  className={classNames(
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm cursor-pointer hover:bg-gray-50"
+                  )}
                 >
-                  <span
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-sm cursor-pointer hover:bg-gray-50"
-                    )}
-                  >
-                    Profile
-                  </span>
-                </Link>
-              )}
-            </Menu.Item>
-          )}
+                  Profile
+                </span>
+              </Link>
+            )}
+          </Menu.Item>
 
           <Menu.Item>
             <a

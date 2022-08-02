@@ -1,7 +1,16 @@
 import { Dialog } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import { useModelContext } from "../../../context/ModalContext";
-import { btechBranches, degrees, typeOfEducation, typeOfEducationGrade } from "../../../lib/helper";
+import {
+  academicDegrees,
+  btechBranches,
+  degreeBranches,
+  degrees,
+  mbaBranches,
+  mbaSrmBranches,
+  typeOfEducation,
+  typeOfEducationGrade,
+} from "../../../lib/helper";
 import { useUser } from "../../../lib/hooks";
 import { DropDown } from "../../Reusables/Dropdown";
 import { mutate } from "swr";
@@ -10,15 +19,26 @@ import { toast } from "react-toastify";
 
 export const AcademicForm = () => {
   const session = useUser();
-  console.log(session);
   const [loading, setLoading] = useState(false);
-
-  const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
+  const { closeModal } = useModelContext();
+  const [selectedDegree, setSelectedDegree] = useState(academicDegrees[0]);
   const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
   const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
     typeOfEducationGrade[0]
   );
+
+  useEffect(() => {
+    setSelectedBranch(
+      selectedDegree.name == "MBA"
+        ? mbaBranches[0]
+        : selectedDegree.name == "B.Tech"
+        ? btechBranches[0]
+        : selectedDegree.name == "Degree"
+        ? degreeBranches[0]
+        : btechBranches[0]
+    );
+  }, [selectedDegree]);
 
   const [academics, setAcademics] = useState({
     institution: "",
@@ -43,7 +63,10 @@ export const AcademicForm = () => {
     setAcademics({
       ...academics,
       program: selectedDegree.name,
-      branch: selectedBranch.name,
+      branch:
+        selectedDegree.name !== "Class Xth" && selectedDegree.name !== "Class XIIth"
+          ? selectedBranch.name
+          : "",
       educationType: selectedTypeOfEducation.name,
       score: {
         ...academics.score,
@@ -56,12 +79,15 @@ export const AcademicForm = () => {
     e.preventDefault();
     setLoading(true);
     const { data } = await axios.put(
-      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/academics?user=${session?._id}`,
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/academics?rollNumber=${session?.rollNumber?.value}`,
       { academics }
     );
-    await mutate(`/api/auth/user/academics?user=${session?._id}`);
+    await mutate(`/api/auth/user/academics?rollNumber=${session?.rollNumber?.value}`);
     setLoading(false);
     if (data.message === "Academic Details Updated") {
+      toast.success("Education details Added", {
+        toastId: "Education details Added",
+      });
       closeModal();
     } else {
       toast.error(data.message, {
@@ -69,7 +95,6 @@ export const AcademicForm = () => {
       });
     }
   };
-  const { closeModal, isEdit, editId } = useModelContext();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -104,26 +129,42 @@ export const AcademicForm = () => {
           </div>
 
           <div className='grid grid-cols-6 gap-4'>
-            <div className='col-span-6 sm:col-span-3'>
+            <div
+              className={`col-span-6 ${
+                !(selectedDegree.name === "Class Xth" || selectedDegree.name === "Class XIIth")
+                  ? "sm:col-span-3"
+                  : "col-span-6"
+              }`}
+            >
               <DropDown
                 title={"Program / Degree"}
                 isRequired
                 isDark
-                options={degrees}
+                options={academicDegrees}
                 selectedOption={selectedDegree}
                 setSelectedOption={setSelectedDegree}
               />
             </div>
-            <div className='col-span-6 sm:col-span-3'>
-              <DropDown
-                title={"Branch / Specialization"}
-                isRequired
-                isDark
-                options={btechBranches}
-                selectedOption={selectedBranch}
-                setSelectedOption={setSelectedBranch}
-              />
-            </div>
+            {!(selectedDegree.name === "Class Xth" || selectedDegree.name === "Class XIIth") && (
+              <div className='col-span-6 sm:col-span-3'>
+                <DropDown
+                  title={"Branch / Specialization"}
+                  isRequired
+                  isDark
+                  options={
+                    selectedDegree.name == "MBA"
+                      ? mbaBranches
+                      : selectedDegree.name == "B.Tech"
+                      ? btechBranches
+                      : selectedDegree.name == "Degree"
+                      ? degreeBranches
+                      : btechBranches
+                  }
+                  selectedOption={selectedBranch}
+                  setSelectedOption={setSelectedBranch}
+                />
+              </div>
+            )}
           </div>
           <div className='grid grid-cols-6 gap-4 mt-10'>
             <div className='col-span-6 sm:col-span-3'>
@@ -218,24 +259,25 @@ export const AcademicForm = () => {
                 className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
               />
             </div>
-            <div className='col-span-6 sm:col-span-3'>
-              <input
-                type='number'
-                placeholder='YYYY'
-                min='2001'
-                max='2100'
-                name='duration'
-                id='duration'
-                onChange={(e) =>
-                  setAcademics({
-                    ...academics,
-                    batch: { ...academics.batch, to: e.target.value },
-                  })
-                }
-                required
-                className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-              />
-            </div>
+            {selectedDegree.name !== "Class Xth" && (
+              <div className='col-span-6 sm:col-span-3'>
+                <input
+                  type='number'
+                  placeholder='YYYY'
+                  min='2001'
+                  max='2100'
+                  name='duration'
+                  id='duration'
+                  onChange={(e) =>
+                    setAcademics({
+                      ...academics,
+                      batch: { ...academics.batch, to: e.target.value },
+                    })
+                  }
+                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                />
+              </div>
+            )}
           </div>
         </React.Fragment>
       </div>
