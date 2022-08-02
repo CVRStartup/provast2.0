@@ -22,12 +22,12 @@ const ProfileEdit = ({ userDetails }) => {
   const [rollNumber, setRollNumber] = useState({
     value: user?.rollNumber?.value,
     verified: false,
-    frozen: false,
+    frozen: user?.rollNumber?.frozen,
   });
   const [phone, setPhone] = useState({
     value: user?.phone?.value,
     verified: false,
-    frozen: false,
+    frozen: user?.phone?.frozen,
   });
   const [profile, setProfile] = useState({
     firstName: user?.profile?.firstName,
@@ -36,7 +36,7 @@ const ProfileEdit = ({ userDetails }) => {
     gender: user?.profile?.gender,
     dob: user?.profile?.dob,
     verified: false,
-    frozen: false,
+    frozen: user?.profile?.frozen,
   });
   const [contact, setContact] = useState({
     parents: {
@@ -61,7 +61,7 @@ const ProfileEdit = ({ userDetails }) => {
     linkedin: personal?.contact?.linkedin,
     website: personal?.contact?.website,
     verified: false,
-    frozen: false,
+    frozen: personal?.contact?.frozen,
   });
   const [college, setCollege] = useState({
     name: user?.college?.name,
@@ -154,6 +154,7 @@ const ProfileEdit = ({ userDetails }) => {
                           id="first-name"
                           autoComplete="given-name"
                           value={profile.firstName}
+                          disabled={profile.frozen}
                           onChange={(e) =>
                             setProfile({
                               ...profile,
@@ -177,6 +178,7 @@ const ProfileEdit = ({ userDetails }) => {
                           id="last-name"
                           autoComplete="family-name"
                           value={profile.lastName}
+                          disabled={profile.frozen}
                           onChange={(e) =>
                             setProfile({
                               ...profile,
@@ -230,6 +232,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="dob"
                           id="dob"
                           value={profile?.dob?.substring(0, 10)}
+                          disabled={profile.frozen}
                           onChange={(e) =>
                             setProfile({
                               ...profile,
@@ -250,6 +253,7 @@ const ProfileEdit = ({ userDetails }) => {
                           id="phone"
                           autoComplete="tel"
                           value={phone?.value}
+                          disabled={phone.frozen}
                           onChange={(e) => setPhone({ ...phone, value: e.target.value })}
                           className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100"
                         />
@@ -285,6 +289,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="fathers-name"
                           id="fathers-name"
                           value={contact?.parents?.father?.name}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -313,6 +318,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="mothers-name"
                           id="mothers-name"
                           value={contact?.parents?.mother?.name}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -341,6 +347,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="fathers-email-address"
                           id="fathers-email-address"
                           value={contact?.parents?.father?.email}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -369,6 +376,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="fathers-phone"
                           id="fathers-phone"
                           value={contact?.parents?.father?.phone}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -397,6 +405,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="fathers-occupation"
                           id="fathers-occupation"
                           value={contact?.parents?.father?.occupation}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -425,6 +434,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="mothers-email-address"
                           id="mothers-email-address"
                           value={contact?.parents?.mother?.email}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -453,6 +463,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="mothers-phone"
                           id="mothers-phone"
                           value={contact?.parents?.mother?.phone}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -481,6 +492,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="mothers-occupation"
                           id="mothers-occupation"
                           value={contact?.parents?.mother?.occupation}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -511,6 +523,7 @@ const ProfileEdit = ({ userDetails }) => {
                             autoComplete="country-name"
                             className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block text-sm w-full sm:text-md border-gray-300 rounded-md"
                             value={contact.address.country}
+                            disabled={contact.frozen}
                             onChange={(e) =>
                               setContact({
                                 ...contact,
@@ -542,6 +555,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="city"
                           id="city"
                           value={contact.address.city}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -565,6 +579,7 @@ const ProfileEdit = ({ userDetails }) => {
                           name="region"
                           id="region"
                           value={contact.address.state}
+                          disabled={contact.frozen}
                           onChange={(e) =>
                             setContact({
                               ...contact,
@@ -627,6 +642,7 @@ const ProfileEdit = ({ userDetails }) => {
                                 website: e.target.value,
                               })
                             }
+                            disabled={contact.frozen}
                             placeholder="https://www.example.com"
                           />
                         </div>
@@ -652,6 +668,7 @@ const ProfileEdit = ({ userDetails }) => {
                                 linkedin: e.target.value,
                               })
                             }
+                            disabled={contact.frozen}
                             className="focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
                             placeholder="https://www.linkedin.com/in/username/"
                           />
@@ -715,6 +732,7 @@ const ProfileEdit = ({ userDetails }) => {
                             <input
                               className="cursor-pointer w-16 h-16 left-0 rounded-full -top-0 opacity-1 border-0 outline-none hover:bg-gray-800"
                               label="Choose File"
+                              disabled={profile.frozen}
                               type="file"
                               readOnly={true}
                               onChange={uploadFileHandler}

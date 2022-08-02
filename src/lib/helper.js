@@ -362,16 +362,48 @@ export const btechBranches = [
 
 export const mbaBranches = [
   {
-    name: "Human Resource Management",
-    code: "HR",
+    name: "Artificial Intelligence and Data Science",
+    code: "Artificial Intelligence and Data Science",
+  },
+  {
+    name: "Banking and Financial Services",
+    code: "Banking and Financial Services",
+  },
+  {
+    name: "Business Analytics",
+    code: "Business Analytics",
+  },
+  {
+    name: "Digital Marketing",
+    code: "Digital Marketing",
   },
   {
     name: "Finance",
     code: "Finance",
   },
   {
-    name: "Banking",
-    code: "Banking",
+    name: "Hospital Management",
+    code: "Hospital Management",
+  },
+  {
+    name: "Human Resources",
+    code: "Human Resources",
+  },
+  {
+    name: "Management Information Systems",
+    code: "Management Information Systems",
+  },
+  {
+    name: "Marketing",
+    code: "Marketing",
+  },
+  {
+    name: "Operations",
+    code: "Operations",
+  },
+  {
+    name: "Strategy",
+    code: "Strategy",
   },
 ];
 
