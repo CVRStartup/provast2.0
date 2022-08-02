@@ -6,9 +6,8 @@ export const EducationCard = ({ education }) => {
       <div className='flex justify-between'>
         <div>
           <h3 className='text-2xl text-gray-500 font-semibold'>{education.program}</h3>
-          <p className='text-sm mb-2'>
-            Board: {education.board}, Type: {education.educationType}
-          </p>
+          {education.board && <p className='text-sm mb-2'>Board: {education.board},</p>}
+          Type: {education.educationType}
         </div>
         <div className='flex flex-col items-center'>
           <h3 className='text-2xl font-semibold text-gray-500'>{education.score.grade}</h3>
@@ -17,13 +16,13 @@ export const EducationCard = ({ education }) => {
       </div>
 
       <h3 className='flex items-center mt-4'>
-        <span className='text-gray-400 text-sm font-semibold'>
-          {education.institution} &middot;{" "}
-        </span>
+        <span className='text-gray-400 text-sm font-semibold'>{education.institution} </span>
         {"  "}
-        <span className='text-xs text-gray-400 ml-2'>
-          ({education.batch.from} - {education.batch.to})
-        </span>
+        {education?.batch?.from && education?.batch?.to && (
+          <span className='text-xs text-gray-400 ml-2'>
+            &middot; ({education.batch.from} - {education.batch.to})
+          </span>
+        )}
       </h3>
       <div className='flex justify-between'>
         <div className='italic'>

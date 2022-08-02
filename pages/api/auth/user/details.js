@@ -65,7 +65,7 @@ const updateUserDetails = async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
-    if (req.body.rollNumber) {
+    if (req.body.category === "student" && req.body.rollNumber) {
       const oldRollnumberEntry = await User.findOne({
         "rollNumber.value": req.body.rollNumber.value,
       });

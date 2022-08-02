@@ -1,0 +1,38 @@
+[{
+  "_id": {
+    "$oid": "62e919c2ff7b3398c7fe3a03"
+  },
+  "email": "provastcvr@gmail.com",
+  "hash": "7e0ddc140c69660b177bf318c727ecde5a76ba82310072f3899b57f58cba19534982aeee78a511d4f51e2d1eec743c1972975f3a5ec0e8f7a59f8ed189b82899",
+  "salt": "d97462c1f857b937a8ca38fe8e5c0253",
+  "detailsAvailable": true,
+  "academicsAvailable": false,
+  "profile": {
+    "firstName": "Provast",
+    "lastName": "CVR",
+    "image": "http://res.cloudinary.com/dj7nomqfd/image/upload/v1647117869/uploads/bphhxvmlcyyu2pntbikm.png",
+    "gender": "Male",
+    "dob": null,
+    "verified": false,
+    "frozen": false
+  },
+  "phone": {
+    "value": null,
+    "verified": false,
+    "frozen": false
+  },
+  "category": "admin",
+  "rollNumber": {
+    "value": "",
+    "verified": false,
+    "frozen": false
+  },
+  "createdAt": {
+    "$date": "2022-08-02T12:34:10.986Z"
+  },
+  "updatedAt": {
+    "$date": "2022-08-02T12:56:30.795Z"
+  },
+  "__v": 0,
+  "approved": false
+}]

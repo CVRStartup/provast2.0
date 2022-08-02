@@ -54,13 +54,13 @@ const updateUserDetails = async (req, res) => {
 const searchAcademics = async (req, res) => {
   try {
     await connectDB();
-    const { user } = req.query;
+    const { rollNumber } = req.query;
 
-    if (!user) {
+    if (!rollNumber) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
-    const academics = await Academic.findOne({ user: user });
+    const academics = await Academic.findOne({ rollNumber });
 
     if (academics) {
       return res.status(200).json({ message: "Academic Details Found", academics });
@@ -77,26 +77,26 @@ const createUserAcademics = async (req, res) => {
     await connectDB();
     const { user } = req.query;
 
-    if (!user) {
-      return res.status(400).json({ message: "Invalid Credentials" });
-    }
+    // if (!user) {
+    //   return res.status(400).json({ message: "Invalid Credentials" });
+    // }
 
-    const details = await Academic.findOne({ _id: user });
+    const details = await Academic.findOne({ rollNumber: req.body.rollNumber });
 
     if (details) {
-      return res.status(200).json({ message: "Details Already Exists" });
+      return res.status(500).json({ message: "Details Already Exists" });
     } else {
-      const { academics } = req.body;
+      const { education } = req.body;
       const newAcademic = new Academic({
-        user,
-        education: [academics],
+        rollNumber: req.body.rollNumber,
+        education: [education],
       });
 
       await newAcademic.save();
 
       return res.status(200).json({
         message: "Details Created",
-        academics,
+        education,
       });
     }
   } catch (error) {

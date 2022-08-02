@@ -29,7 +29,7 @@ const Students = ({ user }) => {
     setProfile(students[0]);
     const newstate = {};
     students.forEach((student) => {
-      const key = student.profile.firstName[0].toUpperCase();
+      const key = student.profile.firstName[0]?.toUpperCase();
       if (!newstate[key]) newstate[key] = [];
       newstate[key].push(student);
     });
@@ -73,7 +73,7 @@ const Students = ({ user }) => {
   return (
     <>
       {students && profile ? (
-        <div className='relative max-h-[100vh] flex'>
+        <div className={`relative flex sm:mt-[10vh] lg:mt-0`}>
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog
               as='div'
@@ -150,7 +150,7 @@ const Students = ({ user }) => {
                                   id='search'
                                   value={keyword}
                                   onChange={(e) => setKeyword(e.target.value)}
-                                  className='focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md'
+                                  className='focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md'
                                   placeholder='Search'
                                 />
                               </div>
@@ -160,8 +160,8 @@ const Students = ({ user }) => {
                               disabled={filteredStudents.length === 0}
                               className={
                                 filteredStudents.length === 0
-                                  ? "cursor-not-allowed inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                                  : "inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                                  ? "cursor-not-allowed inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                                  : "inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                               }
                             >
                               <FilterIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
@@ -184,7 +184,7 @@ const Students = ({ user }) => {
                                       <li key={student._id}>
                                         <div
                                           onClick={() => setProfile(student)}
-                                          className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500'
+                                          className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500'
                                         >
                                           <div className='relative flex-shrink-0 h-10 w-10 rounded-full'>
                                             <Image
@@ -225,7 +225,7 @@ const Students = ({ user }) => {
                                 <div key={student._id}>
                                   <div
                                     onClick={() => setProfile(student)}
-                                    className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500'
+                                    className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500'
                                   >
                                     <div className='relative flex-shrink-0 h-10 w-10 rounded-full'>
                                       <Image
@@ -315,7 +315,7 @@ const Students = ({ user }) => {
                             autoComplete='off'
                             value={keyword}
                             onChange={(e) => setKeyword(e.target.value)}
-                            className='focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md'
+                            className='focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md'
                             placeholder='Search'
                           />
                         </div>
@@ -325,8 +325,8 @@ const Students = ({ user }) => {
                         disabled={filteredStudents.length === 0}
                         className={
                           filteredStudents.length === 0
-                            ? "cursor-not-allowed inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                            : "inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                            ? "cursor-not-allowed inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                            : "inline-flex justify-center px-3.5 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                         }
                       >
                         <FilterIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
@@ -349,7 +349,7 @@ const Students = ({ user }) => {
                                 <li key={student._id}>
                                   <div
                                     onClick={() => setProfile(student)}
-                                    className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500'
+                                    className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500'
                                   >
                                     <div className='flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden'>
                                       <Image
@@ -387,7 +387,7 @@ const Students = ({ user }) => {
                           <div key={student._id}>
                             <div
                               onClick={() => setProfile(student)}
-                              className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500'
+                              className='relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-orange-500'
                             >
                               <div className='flex-shrink-0 relative h-10 w-10 rounded-full overflow-hidden'>
                                 <Image
@@ -447,7 +447,7 @@ const Students = ({ user }) => {
                 <div>
                   <button
                     type='button'
-                    className='-mr-3 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-600'
+                    className='-mr-3 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-600'
                     onClick={() => setSidebarOpen(true)}
                   >
                     <span className='sr-only'>Open sidebar</span>

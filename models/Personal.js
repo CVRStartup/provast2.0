@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const personalSchema = new mongoose.Schema({
   user: String,
+  rollNumber: { type: String },
   contact: {
     parents: {
       father: {
