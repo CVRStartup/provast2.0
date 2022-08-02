@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,9 +6,8 @@ import { MdEdit } from "react-icons/md";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
 import { usePersonal } from "../../../../src/hooks/usePersonal";
-import { StudentProfileDetails } from "../../../../src/components/Layout/StudentProfileDetails";
-
-const tabs = [{ name: "Profile", href: "#", current: true }];
+import { StudentProfileDetails } from "../../../../src/components/Student/StudentProfileDetails";
+import { StudentAcademicDetails } from "../../../../src/components/Student/StudentAcademicDetails";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -17,6 +16,13 @@ function classNames(...classes) {
 const Profile = ({ userDetails }) => {
   const user = JSON.parse(userDetails);
   const { personal, isError, isLoading } = usePersonal(user?._id);
+
+  const [tabState, setTabState] = useState("Profile");
+
+  const tabs = [
+    { name: "Profile", current: tabState === "Profile" },
+    { name: "Education", current: tabState === "Education" },
+  ];
 
   return (
     <React.Fragment>
@@ -39,7 +45,7 @@ const Profile = ({ userDetails }) => {
                   alt='cover-image'
                 />
               </div>
-              <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'>
+              <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
                 <div className='-mt-24 sm:-mt-24 sm:flex sm:items-end sm:space-x-5'>
                   <div className='relative flex h-48 w-48 rounded-full ring-4 ring-white sm:h-48 sm:w-48 overflow-hidden'>
                     <Image
@@ -79,18 +85,19 @@ const Profile = ({ userDetails }) => {
             </div>
 
             {/* Tabs */}
-            <div className='max-w-6xl mx-auto mt-6 sm:mt-2 2xl:mt-5'>
+            <div className='max-w-7xl mx-auto mt-6 sm:mt-2 2xl:mt-5'>
               <div className='border-b border-gray-200'>
-                <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'>
+                <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
                   <nav className='-mb-px flex space-x-8' aria-label='Tabs'>
                     {tabs.map((tab) => (
                       <div
                         key={tab.name}
+                        onClick={() => setTabState(tab.name)}
                         className={classNames(
                           tab.current
-                            ? "border-pink-500 text-gray-900"
+                            ? "border-orange-500 text-gray-900"
                             : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
-                          "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md"
+                          "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md cursor-pointer"
                         )}
                         aria-current={tab.current ? "page" : undefined}
                       >
@@ -102,7 +109,8 @@ const Profile = ({ userDetails }) => {
               </div>
             </div>
 
-            <StudentProfileDetails student={user} personal={personal} />
+            {tabState === "Profile" && <StudentProfileDetails student={user} personal={personal} />}
+            {tabState === "Education" && <StudentAcademicDetails student={user} />}
           </div>
         </div>
       </main>

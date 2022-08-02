@@ -4,14 +4,14 @@ import Academic from "../../../../models/Academic";
 export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
-      await searchUserAcademics(req, res);
+      await searchAcademics(req, res);
       break;
     case "POST":
       await createUserAcademics(req, res);
       break;
-    // case "PUT":
-    //   await updateUserDetails(req, res);
-    //   break;
+    case "PUT":
+      await updateUserDetails(req, res);
+      break;
   }
 }
 const searchUserAcademics = async (req, res) => {
@@ -25,19 +25,66 @@ const searchUserAcademics = async (req, res) => {
 
     const academics = await Academic.findOne({ user: user });
 
+const updateUserDetails = async (req, res) => {
+  try {
+    await connectDB();
+    const { user } = req.query;
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
+
+    const academics = await Academic.findOne({ user: user });
+    const newEducation = [];
+    const bodyAcademics = req.body.academics;
+    console.log("123", bodyAcademics);
+
     if (academics) {
-      return res
-        .status(200)
-        .json({ message: "Academic details found", academics });
+      academics.education.forEach((x) => {
+        if (x) {
+          newEducation.push(x);
+          if (bodyAcademics) newEducation.push(bodyAcademics);
+        }
+      });
+      console.log(academics._id, newEducation);
+      const newAcademics = {
+        user,
+        education: newEducation,
+      };
+      const updated = await Academic.findByIdAndUpdate(academics._id, newAcademics, { new: true });
+      return res.status(200).json({ message: "Academic Details Updated", updated });
     } else {
-      return res
-        .status(200)
-        .json({ message: "Academic details not found", academics: undefined });
+      return res.status(200).json({ message: "Academic Details Not Found", updated });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
+
+const searchAcademics = async (req, res) => {
+  try {
+    await connectDB();
+    const { user } = req.query;
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
+
+    const academics = await Academic.findOne({ user: user });
+
+    if (academics) {
+      return res.status(200).json({ message: "Academic Details Found", academics });
+    } else {
+      return res.status(200).json({ message: "Academic Details Not Found", academics: [] });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+<<<<<<< HEAD
+=======
+
+>>>>>>> 651eee7c8e6ca8667e49f6909b99f059cb69b3d2
 const createUserAcademics = async (req, res) => {
   try {
     await connectDB();

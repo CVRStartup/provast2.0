@@ -10,6 +10,30 @@ const academicSchema = new mongoose.Schema(
         board: String,
         branch: String,
         educationType: String,
+        sem: [
+          {
+            number: Number,
+            onGoingBacklogs: Number,
+            result: {
+              typeOfGrade: String,
+              current: {
+                type: Number,
+              },
+              cummulative: {
+                type: Number,
+              },
+              totalBacklogs: {
+                type: Number,
+              },
+              onGoingBacklogs: {
+                type: Number,
+              },
+            },
+            sheet: String,
+            verified: Boolean,
+            frozen: Boolean,
+          },
+        ],
         score: {
           typeOfGrade: String,
           grade: Number,

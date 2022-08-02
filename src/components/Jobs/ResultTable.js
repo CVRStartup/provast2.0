@@ -7,7 +7,7 @@ import { useStudents } from "../../hooks/useStudents";
 import { useUser } from "../../lib/hooks";
 import Paginate from "../Layout/Paginate";
 
-export const EligibleTable = ({ eligible, heading, tagline }) => {
+export const ResultTable = ({ eligible, heading, tagline }) => {
   const { setIsOpen, setForm } = useModelContext();
   const [keyword, setKeyword] = useState("");
   const [filteredStudents, setFilteredStudents] = useState(eligible);
@@ -44,7 +44,6 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
         if (x?.name?.indexOf(keywords[i].trim(" ")) !== -1) return true;
         if (x?.email?.indexOf(keywords[i].trim(" ")) !== -1) return true;
         if (x?.phone?.indexOf(keywords[i].trim(" ")) !== -1) return true;
-        if (x?.branch?.indexOf(keywords[i].trim(" ")) !== -1) return true;
       }
       return false;
     });
@@ -125,25 +124,13 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
                     >
-                      Branch
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
-                    >
                       Status
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
                     >
-                      Time Stamp
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
-                    >
-                      Applied Roles
+                      Role
                     </th>
                   </tr>
                 </thead>
@@ -170,35 +157,18 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.phone}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {option?.branch}
-                            </td>
 
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {option?.status?.applied === null ? (
+                              {option?.status === null ? (
                                 <MdPendingActions size={25} color={"#ff9800"} />
-                              ) : option?.status?.applied === false ? (
+                              ) : option?.status === "Rejected" ? (
                                 <MdCancel size={28} color={"red"} />
                               ) : (
                                 <FaCheckCircle size={24} color={"green"} />
                               )}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {option?.status?.updatedAt
-                                ? moment(
-                                    new Date(option?.status?.updatedAt)
-                                  ).format("YYYY-MM-DD HH:mm:ss")
-                                : "N/A"}
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {option?.status?.roles.map((role, index) => (
-                                <span key={index}>
-                                  {role +
-                                    (index === option?.status?.roles.length - 1
-                                      ? "."
-                                      : ", ")}
-                                </span>
-                              ))}
+                              {option?.role}
                             </td>
                           </tr>
                         );
@@ -226,35 +196,19 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.phone}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {option?.branch}
-                            </td>
 
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {option?.status?.applied === null ? (
+                              {option?.status === null ? (
                                 <MdPendingActions size={25} color={"#ff9800"} />
-                              ) : option?.status?.applied === false ? (
+                              ) : option?.status === "Rejected" ? (
                                 <MdCancel size={28} color={"red"} />
                               ) : (
                                 <FaCheckCircle size={24} color={"green"} />
                               )}
                             </td>
+
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {option?.status?.updatedAt
-                                ? moment(
-                                    new Date(option?.status?.updatedAt)
-                                  ).format("YYYY-MM-DD HH:mm:ss")
-                                : "N/A"}
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {option?.status?.roles.map((role, index) => (
-                                <span key={index}>
-                                  {role +
-                                    (index === option.status.roles.length - 1
-                                      ? ""
-                                      : ", ")}
-                                </span>
-                              ))}
+                              {option?.role}
                             </td>
                           </tr>
                         );

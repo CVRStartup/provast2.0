@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { GrClose } from "react-icons/gr";
 import { useModelContext } from "../../context/ModalContext";
+import { AcademicForm } from "./ModalForms/AcademicForm";
 import { ApplyJobForm } from "./ModalForms/ApplyJobForm";
 import { AwardForm } from "./ModalForms/Awards";
 import { CertificationsForm } from "./ModalForms/Certifications";
@@ -103,6 +104,7 @@ export const Modal = () => {
                 {form === "downloadResumeFilter" && <DownloadResumeFilter />}
                 {form === "ApplyJobForm" && <ApplyJobForm />}
                 {form === "deleteForm" && <DeleteJobForm />}
+                {form === "academic" && <AcademicForm />}
               </div>
             </Transition.Child>
           </div>
