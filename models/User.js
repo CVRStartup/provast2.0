@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
         type: String,
         trim: true,
       },
+      middleName: {
+        type: String,
+        trim: true,
+      },
       image: {
         type: String,
         default:

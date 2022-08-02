@@ -1,0 +1,107 @@
+[{
+  "_id": {
+    "$oid": "62e77a11b146258335b4ac92"
+  },
+  "email": "democollegevast@gmail.com",
+  "hash": "1e42d222ce7f80fdbeb472fd308319af3727a3c27fd6ac251cc65dcbc6c44d7e53a47ea25264edb3441008463280b25231748577b353fc593a04b175c164119c",
+  "salt": "1d48066c66a06fc282d679ad0e710037",
+  "detailsAvailable": true,
+  "academicsAvailable": false,
+  "profile": {
+    "firstName": "Demo",
+    "lastName": "CVR",
+    "gender": "Male",
+    "dob": null,
+    "verified": false,
+    "frozen": false
+  },
+  "phone": {
+    "value": null,
+    "verified": false,
+    "frozen": false
+  },
+  "category": "college",
+  "rollNumber": {
+    "value": "",
+    "verified": false,
+    "frozen": false
+  },
+  "college": {
+    "name": "CVR College of Engineering",
+    "code": "6284cf15d8d9d1ae5aeec7c5",
+    "passphrase": "CVR123",
+    "website": "https://www.cvr.ac.in",
+    "placement": {
+      "designation": "Dean",
+      "email": "adilshaik2121@gmail.com",
+      "phone": 7660028303
+    },
+    "principal": {
+      "email": "adilshaik2121@gmail.com",
+      "phone": 7660028303
+    },
+    "verified": false,
+    "frozen": false
+  },
+  "createdAt": {
+    "$date": "2022-08-01T07:00:33.804Z"
+  },
+  "updatedAt": {
+    "$date": "2022-08-01T15:10:35.333Z"
+  },
+  "__v": 0,
+  "approved": true
+},{
+  "_id": {
+    "$oid": "62e91c3fff7b3398c7fe3a16"
+  },
+  "email": "director.careercentre@srmist.edu.in",
+  "hash": "cda7eda9086913aa556c1924dd3b39407beda1a12c44ebda32d7d9427ced1910df06aff1badcf19e83851dfdd00f09a917120d39941e48f5d4a7f6e42205e9fd",
+  "salt": "8a16079a88c711b1b947ad7db7f2bdcf",
+  "detailsAvailable": true,
+  "academicsAvailable": false,
+  "profile": {
+    "firstName": "SRM",
+    "lastName": "College",
+    "gender": "Male",
+    "dob": null,
+    "verified": false,
+    "frozen": false
+  },
+  "phone": {
+    "value": null,
+    "verified": false,
+    "frozen": false
+  },
+  "category": "college",
+  "rollNumber": {
+    "value": "",
+    "verified": false,
+    "frozen": false
+  },
+  "college": {
+    "name": "SRM Institute of Science and Technology",
+    "code": "6284cf15d8d9d1ae5aeec7b4",
+    "passphrase": "SRM@2022",
+    "website": "https://www.srmist.edu.in/",
+    "placement": {
+      "designation": "Director",
+      "email": "director.careercentre@srmist.edu.in",
+      "phone": 8852412365
+    },
+    "principal": {
+      "email": "director.careercentre@srmist.edu.in",
+      "phone": 8852412365
+    },
+    "verified": false,
+    "frozen": false
+  },
+  "createdAt": {
+    "$date": "2022-08-02T12:44:47.878Z"
+  },
+  "updatedAt": {
+    "$date": "2022-08-02T12:57:29.195Z"
+  },
+  "__v": 0,
+  "approved": true
+}]

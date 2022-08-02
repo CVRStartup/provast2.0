@@ -7,7 +7,7 @@ import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
 import {
   btechBranches,
-  degrees,
+  academicDegrees,
   typeOfEducation,
   typeOfEducationGrade,
 } from "../../../src/lib/helper";
@@ -19,7 +19,7 @@ const Academics = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
+  const [selectedDegree, setSelectedDegree] = useState(academicDegrees[0]);
   const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
   const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
@@ -169,7 +169,7 @@ const Academics = () => {
                       <DropDown
                         title={"Program / Degree"}
                         isRequired
-                        options={degrees}
+                        options={academicDegrees}
                         selectedOption={selectedDegree}
                         setSelectedOption={setSelectedDegree}
                       />
