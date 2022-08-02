@@ -30,29 +30,29 @@ export const Question = ({
   };
 
   return (
-    <div key={index} className='relative bg-gray-100 p-5 rounded-md mb-4'>
-      <button onClick={(e) => removeQuestion(index)} className='absolute text-red-600 right-5'>
+    <div key={index} className="relative bg-gray-100 p-5 rounded-md mb-4">
+      <button onClick={(e) => removeQuestion(index)} className="absolute text-red-600 right-5">
         <AiFillDelete size={20} />
       </button>
-      <h3 className='text-sm text-center font-medium underline'>Question {index + 1}</h3>
+      <h3 className="text-sm text-center font-medium underline">Question {index + 1}</h3>
 
-      <div className='grid grid-cols-2 gap-4 mt-5'>
+      <div className="grid grid-cols-2 gap-4 mt-5">
         <div>
-          <label htmlFor='questionName' className='block text-sm font-medium text-gray-700'>
+          <label htmlFor="questionName" className="block text-sm font-medium text-gray-700">
             Question
           </label>
           <input
-            type='text'
-            name='questionName'
-            id='questionName'
+            type="text"
+            name="questionName"
+            id="questionName"
             value={question?.questionName}
             onChange={(e) => handleQuestionChange("questionName", e.target.value, index)}
-            autoComplete='off'
-            className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            autoComplete="off"
+            className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             required
           ></input>
         </div>
-        <div className='relative -top-[23px]'>
+        <div className="relative -top-[23px]">
           <DropDown
             title={"Question Type"}
             options={types}
@@ -67,27 +67,27 @@ export const Question = ({
             question.options &&
             question.options.map((option, optionIndex) => {
               return (
-                <div key={index + "-" + optionIndex} className='my-2'>
+                <div key={index + "-" + optionIndex} className="my-2">
                   <label
                     htmlFor={index + "-" + optionIndex}
-                    className='block text-xs font-bold text-gray-700'
+                    className="block text-xs font-bold text-gray-700"
                   >
                     Option {optionIndex + 1}
                   </label>
-                  <div className='flex items-center'>
+                  <div className="flex items-center">
                     <input
-                      type='text'
-                      name='option'
+                      type="text"
+                      name="option"
                       id={index + "-" + optionIndex}
                       value={option}
                       onChange={(e) => handleOptionChange(e.target.value, optionIndex, index)}
-                      autoComplete='off'
-                      className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      autoComplete="off"
+                      className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       required
                     />
                     <button
                       onClick={(e) => removeOption(index, optionIndex)}
-                      className='ml-5 text-red-600 right-5'
+                      className="ml-5 text-red-600 right-5"
                     >
                       <AiFillDelete size={20} />
                     </button>
@@ -96,24 +96,25 @@ export const Question = ({
               );
             })}
           <div
-            className='cursor-pointer mt-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-semibold rounded text-orange-600 bg-orange-100'
+            className="cursor-pointer mt-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-semibold rounded text-orange-600 bg-orange-100"
             onClick={(e) => addOption(index)}
           >
             Add option
           </div>
         </div>
       )}
-      <div className='flex mt-3'>
+      <div className="flex mt-3">
         <input
-          type='checkbox'
-          name='questionRequired'
-          id='questionRequired'
+          type="checkbox"
+          name="questionRequired"
+          id="questionRequired"
+          checked={question.required}
           onChange={(e) => handleQuestionChange("required", e.target.checked, index)}
-          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block shadow-sm sm:text-sm border-gray-300 rounded'
+          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block shadow-sm sm:text-sm border-gray-300 rounded"
         />
         <label
-          htmlFor='questionRequired'
-          className='ml-2 mt-[3px] text-sm font-medium text-gray-700'
+          htmlFor="questionRequired"
+          className="ml-2 mt-[3px] text-sm font-medium text-gray-700"
         >
           Required?
         </label>

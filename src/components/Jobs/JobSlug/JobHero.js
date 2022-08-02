@@ -21,6 +21,7 @@ export const JobHero = ({ job }) => {
     const res = job?.eligible?.filter((x) => {
       return x?.email === user?.email;
     })[0];
+    console.log(res);
     setShowOptions(
       !user ||
         res?.status?.applied === null ||
@@ -39,25 +40,34 @@ export const JobHero = ({ job }) => {
 
   const checkUserResult = () => {
     let email = user?.email;
-    let completedRounds = job?.rounds?.filter((round) => round.result && round.result.length > 0);
-
-    if (completedRounds.length == 0) return false;
-    console.log(completedRounds);
-    let flag = false;
-
-    console.log(completedRounds[completedRounds.length - 1].result, email);
-    completedRounds[completedRounds.length - 1].result.some((res) => {
-      if (res.email === email) {
-        flag = true;
+    let completedRounds = job?.rounds?.filter(
+      (round) => round.status === "Partially completed" || round.status === "Completed"
+    );
+    if (completedRounds.length === 0) return false;
+    let flag = completedRounds[completedRounds.length - 1].result.some((res) => {
+      if (res.email === email && res.status === "Selected") {
         return true;
       }
     });
-    return flag;
+    console.log(flag);
+    if (flag) return true;
+    if (completedRounds[completedRounds.length - 1].status === "Partially completed") {
+      if (completedRounds.length === 1) return null;
+      else {
+        completedRounds[completedRounds.length - 2].result.some((res) => {
+          if (res.email === email && res.status === "Selected") {
+            return null;
+          }
+        });
+        return false;
+      }
+    }
+    return false;
   };
 
   const getLastCompletedRoundIndex = () => {
     let completedRounds = job?.rounds?.filter((round) => round.result && round.result.length > 0);
-    return completedRounds.length;
+    return completedRounds.length + 1;
   };
 
   return (
@@ -80,6 +90,7 @@ export const JobHero = ({ job }) => {
           )}
         </div>
         <div>
+          {console.log(job?.rounds?.length)}
           <h1 className="text-2xl uppercase tracking-wide font-bold text-gray-900">
             {job?.company}{" "}
             {job.eligible.filter((x, index) => {
@@ -88,9 +99,17 @@ export const JobHero = ({ job }) => {
             }).length > 0 && (
               <div className="text-lg font-bold text-gray-600 inline-flex items-center">
                 <span className="mr-1">
-                  {job?.rounds?.filter((round) => round.result.length > 0).length > 0
-                    ? checkUserResult()
-                      ? "(Selected for Round " + getLastCompletedRoundIndex()
+                  {job?.rounds?.filter(
+                    (round) =>
+                      round.status === "Partially completed" || round.status === "Completed"
+                  ).length > 0
+                    ? checkUserResult() === null
+                      ? "(The Result is pending)"
+                      : checkUserResult()
+                      ? "(Selected" +
+                        (getLastCompletedRoundIndex() - 1 < job?.rounds?.length
+                          ? " for Round " + getLastCompletedRoundIndex()
+                          : "")
                       : "(Not selected for further rounds"
                     : job?.eligible?.filter((x) => x?.email === user?.email)[0]?.status?.applied ===
                       false
@@ -101,8 +120,13 @@ export const JobHero = ({ job }) => {
                     : "(Applied"}
                 </span>
                 <span>
-                  {job?.rounds?.filter((round) => round.result.length > 0).length > 0 ? (
-                    checkUserResult(job?.email) ? (
+                  {job?.rounds?.filter(
+                    (round) =>
+                      round.status === "Partially completed" || round.status === "Completed"
+                  ).length > 0 ? (
+                    checkUserResult(job?.email) === null ? (
+                      ""
+                    ) : checkUserResult(job?.email) ? (
                       <span className="flex items-center">
                         <FaCheckCircle size={15} color={"green"} /> )
                       </span>

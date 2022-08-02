@@ -19,6 +19,9 @@ import {
   CGPAs,
   typeOfPlacedStatus,
   typeOfJobProgram,
+  mtechBranches,
+  degreeBranches,
+  mbaBranches,
 } from "../../../../../src/lib/helper";
 
 import Link from "next/link";
@@ -100,26 +103,26 @@ const JobAdd = ({ job, user }) => {
   const [typeOfProgram, setTypeOfProgram] = useState(job?.program);
 
   useEffect(() => {
-    if (selectedXthTypeOfGrade.name === "CGPA")
-      setSelectedXthGrade(getSelectedGrade(CGPAs, job?.eligibility?.tenth?.grade));
-    else if (selectedXthTypeOfGrade.name === "Percentage")
-      setSelectedXthGrade(getSelectedGrade(Percentages, job?.eligibility?.tenth?.grade));
+    if (selectedXthTypeOfGrade.name === "CGPA") {
+      setSelectedXthGrade(getSelected(CGPAs, job?.eligibility?.tenth?.grade));
+    } else if (selectedXthTypeOfGrade.name === "Percentage")
+      setSelectedXthGrade(getSelected(Percentages, job?.eligibility?.tenth?.grade));
     else setSelectedXthGrade({ id: 11, name: 0 });
   }, [selectedXthTypeOfGrade]);
 
   useEffect(() => {
     if (selectedXIIthTypeOfGrade.name === "CGPA")
-      setSelectedXthGrade(getSelectedGrade(CGPAs, job?.eligibility?.inter?.grade));
+      setSelectedXIIthGrade(getSelected(CGPAs, job?.eligibility?.inter?.grade));
     else if (selectedXIIthTypeOfGrade.name === "Percentage")
-      setSelectedXthGrade(getSelectedGrade(Percentages, job?.eligibility?.inter?.grade));
+      setSelectedXIIthGrade(getSelected(Percentages, job?.eligibility?.inter?.grade));
     else setSelectedXIIthGrade({ id: 11, name: 0 });
   }, [selectedXIIthTypeOfGrade]);
 
   useEffect(() => {
     if (selectedBtechTypeOfGrade.name === "CGPA")
-      setSelectedXthGrade(getSelectedGrade(CGPAs, job?.eligibility?.btech?.grade));
+      setSelectedBtechGrade(getSelected(CGPAs, job?.eligibility?.btech?.grade));
     else if (selectedBtechTypeOfGrade.name === "Percentage")
-      setSelectedXthGrade(getSelectedGrade(Percentages, job?.eligibility?.btech?.grade));
+      setSelectedBtechGrade(getSelected(Percentages, job?.eligibility?.btech?.grade));
     else setSelectedBtechGrade({ id: 11, name: 0 });
   }, [selectedBtechTypeOfGrade]);
 
@@ -428,68 +431,68 @@ const JobAdd = ({ job, user }) => {
     );
   };
   return (
-    <main className='bg-gray-50 mt-[10vh]'>
+    <main className="bg-gray-50 mt-[10vh]">
       {loading.type === "edit" && loading.status === true ? <Loading /> : ""}
-      <div className='space-y-6 max-w-6xl mx-auto py-8'>
-        <div className='bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>
-          <div className='mb-5 md:col-span-1'>
-            <h3 className='text-lg font-medium leading-6 text-gray-900'>Job Infomation</h3>
-            <p className='mt-1 text-sm text-gray-500'>
+      <div className="space-y-6 max-w-6xl mx-auto py-8">
+        <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+          <div className="mb-5 md:col-span-1">
+            <h3 className="text-lg font-medium leading-6 text-gray-900">Job Infomation</h3>
+            <p className="mt-1 text-sm text-gray-500">
               This information will be displayed publicly so be careful what you share.
             </p>
           </div>
           <div>
-            <form className='mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6' method='POST'>
-              <div className='sm:col-span-3'>
-                <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+            <form className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6" method="POST">
+              <div className="sm:col-span-3">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Company Name
                 </label>
                 <input
-                  type='text'
-                  name='name'
-                  id='name'
+                  type="text"
+                  name="name"
+                  id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  autoComplete='off'
-                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                  autoComplete="off"
+                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />
               </div>
-              <div className='sm:col-span-3'>
-                <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Website
                 </label>
                 <input
-                  type='text'
-                  name='name'
-                  id='name'
+                  type="text"
+                  name="name"
+                  id="name"
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  autoComplete='off'
-                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                  autoComplete="off"
+                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />
               </div>
-              <div className='sm:col-span-6'>
-                <label className='text-base font-medium text-gray-900'>Job Program</label>
-                <p className='text-sm leading-5 text-gray-500'>
+              <div className="sm:col-span-6">
+                <label className="text-base font-medium text-gray-900">Job Program</label>
+                <p className="text-sm leading-5 text-gray-500">
                   Whom would you like to show this job posting?
                 </p>
-                <fieldset className='mt-4'>
-                  <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10'>
+                <fieldset className="mt-4">
+                  <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                     {typeOfJobProgram.map((option) => (
-                      <div key={option.id} className='flex items-center'>
+                      <div key={option.id} className="flex items-center">
                         <input
                           id={option.id}
-                          name='notification-method'
-                          type='radio'
+                          name="notification-method"
+                          type="radio"
                           value={option.name}
                           defaultChecked={option.id === "btech"}
                           checked={option.name === typeOfProgram}
                           onChange={(e) => setTypeOfProgram(e.target.value)}
-                          className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
+                          className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
                         />
                         <label
                           htmlFor={option.id}
-                          className='ml-3 block text-sm font-medium text-gray-700'
+                          className="ml-3 block text-sm font-medium text-gray-700"
                         >
                           {option.name}
                         </label>
@@ -498,45 +501,45 @@ const JobAdd = ({ job, user }) => {
                   </div>
                 </fieldset>
               </div>
-              <div className='sm:col-span-6'>
-                <label htmlFor='purpose' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-6">
+                <label htmlFor="purpose" className="block text-sm font-medium text-gray-700">
                   Description
                 </label>
                 <Editor input={description} dataCallBack={handleCallBack} />
-                <p className='mt-2 text-sm text-gray-500'>Few lines to describe the job role.</p>
+                <p className="mt-2 text-sm text-gray-500">Few lines to describe the job role.</p>
               </div>
 
-              <div className='sm:col-span-3'>
-                <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
                   Logo
                 </label>
-                <div className='mt-1'>
-                  <div className='sm:mt-0 sm:col-span-2'>
+                <div className="mt-1">
+                  <div className="sm:mt-0 sm:col-span-2">
                     {loading.type === "logo" && loading.status ? (
-                      <div className='animate-pulse'>
-                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
+                      <div className="animate-pulse">
+                        <input className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10"></input>
                       </div>
                     ) : (
                       <input
-                        type='text'
+                        type="text"
                         value={logo}
                         disabled={true}
                         onChange={(e) => setLogo(e.target.value)}
-                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       />
                     )}
                     {loading.type === "logo" && loading.status ? (
-                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
-                        <Loader size={8} color='gray' />
+                      <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed">
+                        <Loader size={8} color="gray" />
                         Please Wait...
                       </div>
                     ) : (
                       <input
-                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-                        label='Choose File'
-                        type='file'
-                        name='image'
-                        id='profileImg'
+                        className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        label="Choose File"
+                        type="file"
+                        name="image"
+                        id="profileImg"
                         onChange={(e) => uploadFileHandler(e, "logo")}
                       />
                     )}
@@ -544,37 +547,37 @@ const JobAdd = ({ job, user }) => {
                 </div>
               </div>
 
-              <div className='sm:col-span-3'>
-                <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
                   Banner
                 </label>
-                <div className='mt-1'>
-                  <div className='sm:mt-0 sm:col-span-2'>
+                <div className="mt-1">
+                  <div className="sm:mt-0 sm:col-span-2">
                     {loading.type === "banner" && loading.status ? (
-                      <div className='animate-pulse'>
-                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
+                      <div className="animate-pulse">
+                        <input className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10"></input>
                       </div>
                     ) : (
                       <input
-                        type='text'
+                        type="text"
                         value={image}
                         disabled={true}
                         onChange={(e) => setImage(e.target.value)}
-                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       />
                     )}
                     {loading.type === "banner" && loading.status ? (
-                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
-                        <Loader size={8} color='gray' />
+                      <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed">
+                        <Loader size={8} color="gray" />
                         Please Wait...
                       </div>
                     ) : (
                       <input
-                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-                        label='Choose File'
-                        type='file'
-                        name='image'
-                        id='profileImg'
+                        className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        label="Choose File"
+                        type="file"
+                        name="image"
+                        id="profileImg"
                         onChange={(e) => uploadFileHandler(e, "banner")}
                       />
                     )}
@@ -582,42 +585,42 @@ const JobAdd = ({ job, user }) => {
                 </div>
               </div>
 
-              <div className='sm:col-span-3'>
-                <label htmlFor='startDate' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
                   Start Date
                 </label>
-                <div className='mt-1'>
+                <div className="mt-1">
                   <input
-                    type='datetime-local'
-                    name='startDate'
-                    id='startDate'
+                    type="datetime-local"
+                    name="startDate"
+                    id="startDate"
                     value={moment(new Date(from)).format("YYYY-MM-DD HH:mm:ss")}
                     onChange={(e) => {
                       setFrom(e.target.value);
                     }}
                     required
-                    className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                    className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
               </div>
 
-              <div className='sm:col-span-3'>
-                <label htmlFor='endDate' className='block text-sm font-medium text-gray-700'>
+              <div className="sm:col-span-3">
+                <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
                   End Date
                 </label>
-                <div className='mt-1'>
+                <div className="mt-1">
                   <input
-                    type='datetime-local'
-                    name='endDate'
-                    id='endDate'
+                    type="datetime-local"
+                    name="endDate"
+                    id="endDate"
                     required
                     value={moment(new Date(to)).format("YYYY-MM-DD HH:mm:ss")}
                     onChange={(e) => setTo(e.target.value)}
-                    className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                    className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
               </div>
-              <div className='sm:col-span-6 relative -top-[22px]'>
+              <div className="sm:col-span-6 relative -top-[22px]">
                 <DropDown
                   title={"Role"}
                   options={role}
@@ -626,11 +629,11 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
 
-              <div className='sm:col-span-6'>
-                <div className='flex items-start justify-between'>
-                  <div className='w-[49%] '>
+              <div className="sm:col-span-6">
+                <div className="flex items-start justify-between">
+                  <div className="w-[49%] ">
                     <MultiInput
-                      title='Designation'
+                      title="Designation"
                       handleExtraOptions={(extra) =>
                         setDesignation({
                           ...designation,
@@ -647,17 +650,17 @@ const JobAdd = ({ job, user }) => {
                     />
                   </div>
 
-                  <div className='w-[49%]'>
+                  <div className="w-[49%]">
                     <label
-                      htmlFor='name'
-                      className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                     >
                       Max Roles That can be applied
                     </label>
                     <input
-                      type='number'
-                      name='name'
-                      id='name'
+                      type="number"
+                      name="name"
+                      id="name"
                       value={designation.max}
                       onChange={(e) =>
                         setDesignation({
@@ -665,17 +668,17 @@ const JobAdd = ({ job, user }) => {
                           max: parseInt(e.target.value),
                         })
                       }
-                      autoComplete='off'
-                      className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      autoComplete="off"
+                      className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className='sm:col-span-6'>
+              <div className="sm:col-span-6">
                 {selectedRole.name === "Internship" ? (
-                  <div className='grid grid-cols-2 gap-4'>
-                    <div className='relative -top-[22px]'>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="relative -top-[22px]">
                       <DropDown
                         title={"Stipend Range"}
                         options={stipendRange}
@@ -683,24 +686,24 @@ const JobAdd = ({ job, user }) => {
                         setSelectedOption={setSelectedStipendRange}
                       />
                     </div>
-                    <div className=''>
-                      <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                    <div className="">
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                         Exact Stipend
                       </label>
                       <input
-                        type='number'
-                        name='name'
-                        id='name'
+                        type="number"
+                        name="name"
+                        id="name"
                         value={stipend}
                         onChange={(e) => setStipend(e.target.value)}
-                        autoComplete='off'
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        autoComplete="off"
+                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                   </div>
                 ) : selectedRole.name === "Full Time" ? (
-                  <div className='grid grid-cols-2 gap-4'>
-                    <div className='relative -top-[22px]'>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="relative -top-[22px]">
                       <DropDown
                         title={"CTC Range"}
                         options={ctcRange}
@@ -708,25 +711,25 @@ const JobAdd = ({ job, user }) => {
                         setSelectedOption={setSelectedCTCRange}
                       />
                     </div>
-                    <div className=''>
-                      <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                    <div className="">
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                         Exact CTC
                       </label>
                       <input
-                        type='number'
-                        name='name'
-                        id='name'
+                        type="number"
+                        name="name"
+                        id="name"
                         value={ctc}
                         onChange={(e) => setCtc(e.target.value)}
-                        autoComplete='off'
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        autoComplete="off"
+                        className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                   </div>
                 ) : selectedRole.name === "Internship and Full Time" ? (
-                  <div className='grid grid-cols-2 gap-4'>
-                    <div className='grid grid-cols-2 gap-4'>
-                      <div className='relative -top-[22px]'>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="relative -top-[22px]">
                         <DropDown
                           title={"Stipend Range"}
                           options={stipendRange}
@@ -734,23 +737,23 @@ const JobAdd = ({ job, user }) => {
                           setSelectedOption={setSelectedStipendRange}
                         />
                       </div>
-                      <div className=''>
-                        <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                      <div className="">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                           Exact Stipend
                         </label>
                         <input
-                          type='number'
-                          name='name'
-                          id='name'
+                          type="number"
+                          name="name"
+                          id="name"
                           value={stipend}
                           onChange={(e) => setStipend(e.target.value)}
-                          autoComplete='off'
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          autoComplete="off"
+                          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-4'>
-                      <div className='relative -top-[22px]'>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="relative -top-[22px]">
                         <DropDown
                           title={"CTC Range"}
                           options={ctcRange}
@@ -758,18 +761,18 @@ const JobAdd = ({ job, user }) => {
                           setSelectedOption={setSelectedCTCRange}
                         />
                       </div>
-                      <div className=''>
-                        <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                      <div className="">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                           Exact CTC
                         </label>
                         <input
-                          type='number'
-                          name='name'
-                          id='name'
+                          type="number"
+                          name="name"
+                          id="name"
                           value={ctc}
                           onChange={(e) => setCtc(e.target.value)}
-                          autoComplete='off'
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          autoComplete="off"
+                          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                     </div>
@@ -779,13 +782,13 @@ const JobAdd = ({ job, user }) => {
                 )}
               </div>
 
-              <div className='sm:col-span-6 rounded border'>
-                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+              <div className="sm:col-span-6 rounded border">
+                <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
                   <p>{"Job Posting Location"}</p>
-                  <div className='ml-3 flex items-center font-normal'>
+                  <div className="ml-3 flex items-center font-normal">
                     <input
-                      type='checkbox'
-                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      type="checkbox"
+                      className="h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none"
                       checked={jobPostingLocation.includes("PAN India")}
                       onChange={(e) => {
                         const id = jobPostingLocation.indexOf("PAN India");
@@ -807,13 +810,13 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={jobPostingLocation}
                 />
               </div>
-              <div className='sm:col-span-6 rounded border'>
-                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+              <div className="sm:col-span-6 rounded border">
+                <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
                   <p>{"Year Of Passing"}</p>
-                  <div className='ml-3 flex items-center font-normal'>
+                  <div className="ml-3 flex items-center font-normal">
                     <input
-                      type='checkbox'
-                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      type="checkbox"
+                      className="h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none"
                       checked={yearofPassing.length === generateYearsBetween().length}
                       onChange={() => {
                         if (yearofPassing.length === generateYearsBetween().length)
@@ -831,13 +834,13 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={yearofPassing}
                 />
               </div>
-              <div className='sm:col-span-6 rounded border'>
-                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+              <div className="sm:col-span-6 rounded border">
+                <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
                   <p>{"Eligible Branches"}</p>
-                  <div className='ml-3 flex items-center font-normal'>
+                  <div className="ml-3 flex items-center font-normal">
                     <input
-                      type='checkbox'
-                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      type="checkbox"
+                      className="h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none"
                       checked={
                         branchOptions.length ===
                         (typeOfProgram === "B.Tech"
@@ -882,7 +885,7 @@ const JobAdd = ({ job, user }) => {
                   checkedOptions={branchOptions}
                 />
               </div>
-              <div className='sm:col-span-1 relative -top-[22px]'>
+              <div className="sm:col-span-1 relative -top-[22px]">
                 <DropDown
                   title={"Xth Type Of Grade"}
                   options={typeOfGrade}
@@ -891,7 +894,7 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
               {selectedXthTypeOfGrade.name !== "Not Applicable" && (
-                <div className='sm:col-span-1 relative -top-[22px]'>
+                <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"Xth Grade"}
                     options={selectedXthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
@@ -900,7 +903,7 @@ const JobAdd = ({ job, user }) => {
                   />
                 </div>
               )}
-              <div className='sm:col-span-1 relative -top-[22px]'>
+              <div className="sm:col-span-1 relative -top-[22px]">
                 <DropDown
                   title={"XIIth Type Of Grade"}
                   options={typeOfGrade}
@@ -909,7 +912,7 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
               {selectedXIIthTypeOfGrade.name !== "Not Applicable" && (
-                <div className='sm:col-span-1 relative -top-[22px]'>
+                <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"XIIth Grade"}
                     options={selectedXIIthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
@@ -918,7 +921,7 @@ const JobAdd = ({ job, user }) => {
                   />
                 </div>
               )}
-              <div className='sm:col-span-1 relative -top-[22px]'>
+              <div className="sm:col-span-1 relative -top-[22px]">
                 <DropDown
                   title={"Btech Type Of Grade"}
                   options={typeOfGrade}
@@ -927,7 +930,7 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
               {selectedBtechTypeOfGrade.name !== "Not Applicable" && (
-                <div className='sm:col-span-1 relative -top-[22px]'>
+                <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"Btech Grade"}
                     options={selectedBtechTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
@@ -936,21 +939,21 @@ const JobAdd = ({ job, user }) => {
                   />
                 </div>
               )}
-              <div className='sm:col-span-3'>
-                <label className='text-base font-medium text-gray-900'>
+              <div className="sm:col-span-3">
+                <label className="text-base font-medium text-gray-900">
                   What students are eligible ?
                 </label>
-                <p className='text-sm leading-5 text-gray-500'>
+                <p className="text-sm leading-5 text-gray-500">
                   Who should be able to apply to this job ?
                 </p>
-                <fieldset className='mt-4'>
-                  <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10'>
+                <fieldset className="mt-4">
+                  <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                     {typeOfPlacedStatus.map((option) => (
-                      <div key={option.id} className='flex items-center'>
+                      <div key={option.id} className="flex items-center">
                         <input
                           id={option.id}
-                          name='placed'
-                          type='radio'
+                          name="placed"
+                          type="radio"
                           value={option.name}
                           defaultChecked={option.id === "everyone"}
                           onChange={(e) =>
@@ -958,11 +961,11 @@ const JobAdd = ({ job, user }) => {
                               e.target.value === "Everyone" ? null : e.target.value === "Placed"
                             )
                           }
-                          className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
+                          className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
                         />
                         <label
                           htmlFor={option.id}
-                          className='ml-3 block text-sm font-medium text-gray-700'
+                          className="ml-3 block text-sm font-medium text-gray-700"
                         >
                           {option.name}
                         </label>
@@ -972,21 +975,21 @@ const JobAdd = ({ job, user }) => {
                 </fieldset>
               </div>
               {placed && (
-                <div className='sm:col-span-3 relative -top-[22px]'>
-                  <div className='flex flex-col mt-5'>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-base font-medium text-gray-900'>Maximum salary ?</p>
-                      <p className='text-sm font-light'>
+                <div className="sm:col-span-3 relative -top-[22px]">
+                  <div className="flex flex-col mt-5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-base font-medium text-gray-900">Maximum salary ?</p>
+                      <p className="text-sm font-light">
                         {"₹" + Number(salary).toLocaleString("en-IN")}
                       </p>
                     </div>
-                    <div className='p-1 mt-1'>
+                    <div className="p-1 mt-1">
                       <input
-                        type='range'
+                        type="range"
                         min={0}
-                        max={500000}
+                        max={5000000}
                         step={5000}
-                        className='w-full '
+                        className="w-full "
                         value={salary}
                         onInput={(ev) => {
                           setSalary(ev.target.value);
@@ -1000,27 +1003,27 @@ const JobAdd = ({ job, user }) => {
                 </div>
               )}
 
-              <div className='sm:col-span-3'>
-                <label className='text-base font-medium text-gray-900'>Type Of Job Posting</label>
-                <p className='text-sm leading-5 text-gray-500'>
+              <div className="sm:col-span-3">
+                <label className="text-base font-medium text-gray-900">Type Of Job Posting</label>
+                <p className="text-sm leading-5 text-gray-500">
                   How would you like to show this job posting?
                 </p>
-                <fieldset className='mt-4'>
-                  <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10'>
+                <fieldset className="mt-4">
+                  <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                     {typeOfPosting.map((option) => (
-                      <div key={option.id} className='flex items-center'>
+                      <div key={option.id} className="flex items-center">
                         <input
                           id={option.id}
-                          name='notification-method'
-                          type='radio'
+                          name="notification-method"
+                          type="radio"
                           value={option.name}
                           defaultChecked={option.id === "shortlisted"}
                           onChange={(e) => setTypeOfPost(e.target.value)}
-                          className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
+                          className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
                         />
                         <label
                           htmlFor={option.id}
-                          className='ml-3 block text-sm font-medium text-gray-700'
+                          className="ml-3 block text-sm font-medium text-gray-700"
                         >
                           {option.name}
                         </label>
@@ -1029,7 +1032,7 @@ const JobAdd = ({ job, user }) => {
                   </div>
                 </fieldset>
               </div>
-              <div className='sm:col-span-3 relative -top-[22px]'>
+              <div className="sm:col-span-3 relative -top-[22px]">
                 <DropDown
                   title={"Status"}
                   options={status}
@@ -1041,62 +1044,68 @@ const JobAdd = ({ job, user }) => {
           </div>
         </div>
 
-        <div className='space-y-6 max-w-6xl mx-auto py-8'>
-          <div className='bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>
-            <div className='mb-5 md:col-span-1'>
-              <h3 className='text-lg font-medium leading-6 text-gray-900'>Drive Infomation</h3>
-              <p className='mt-1 text-sm text-gray-500'>
+        <div className="space-y-6 max-w-6xl mx-auto py-8">
+          <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+            <div className="mb-5 md:col-span-1">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">Drive Infomation</h3>
+              <p className="mt-1 text-sm text-gray-500">
                 This information will be displayed publicly so be careful what you share.
               </p>
             </div>
             <div>
-              <form className='mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6' method='POST'>
-                <div className='sm:col-span-6'>
-                  <label htmlFor='roundNumber' className='block text-sm font-medium text-gray-700'>
+              <form className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6" method="POST">
+                <div className="sm:col-span-6">
+                  <label htmlFor="roundNumber" className="block text-sm font-medium text-gray-700">
                     Enter number of rounds
                   </label>
                   <input
-                    type='number'
-                    name='roundNumber'
-                    id='roundNumber'
-                    min='1'
+                    type="number"
+                    name="roundNumber"
+                    id="roundNumber"
+                    min="1"
                     value={rounds.length}
                     onChange={(e) => addNewRound(e.target.value)}
-                    autoComplete='off'
-                    className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                    autoComplete="off"
+                    className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
-                <div className='sm:col-span-6 rounded border bg-white shadow sm:rounded-lg'>
-                  <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+                <div className="sm:col-span-6 rounded border bg-white shadow sm:rounded-lg">
+                  <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
                     <p>Rounds</p>
                   </h4>
-                  <div className='px-5 pb-5'>
+                  <div className="px-5 pb-5">
                     {rounds?.map((round, roundIndex) => (
                       <>
                         <Round
-                          type={"add"}
+                          type={"edit"}
                           isPrevComplete={true}
                           round={round}
                           roundIndex={roundIndex}
                           handleRoundChange={handleRoundChange}
                           handleShortlistFile={handleShortlistFile}
+                          shouldBlock={(() => {
+                            if (roundIndex === 0) return false;
+                            else {
+                              return rounds[roundIndex - 1].status !== "Completed";
+                            }
+                          })()}
                         />
                         {roundIndex == 0 && typeOfPost === "Shortlisted Students" && (
-                          <div className='sm:col-span-3'>
+                          <div className="sm:col-span-3">
                             <label
-                              htmlFor='photo'
-                              className='block text-sm font-medium text-gray-700'
+                              htmlFor="photo"
+                              className="block text-sm font-medium text-gray-700"
                             >
                               Upload Spreadsheet
                             </label>
 
                             <input
-                              className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-                              label='Choose File'
-                              type='file'
-                              name='image'
-                              id='profileImg'
+                              className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                              label="Choose File"
+                              type="file"
+                              name="image"
+                              id="profileImg"
                               onChange={handleFile}
                             />
                             {excelFileError &&
@@ -1110,11 +1119,11 @@ const JobAdd = ({ job, user }) => {
                   </div>
                 </div>
 
-                <div className='sm:col-span-6 rounded border bg-white shadow sm:rounded-lg'>
-                  <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
+                <div className="sm:col-span-6 rounded border bg-white shadow sm:rounded-lg">
+                  <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
                     <p>Questionaire</p>
                   </h4>
-                  <div className='p-5'>
+                  <div className="p-5">
                     {questionnaire?.map((questionObj, questionIndex) => (
                       <Question
                         question={questionObj.question}
@@ -1131,7 +1140,7 @@ const JobAdd = ({ job, user }) => {
                       />
                     ))}
                     <div
-                      className='cursor-pointer mt-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-semibold rounded text-orange-600 bg-orange-100'
+                      className="cursor-pointer mt-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-semibold rounded text-orange-600 bg-orange-100"
                       onClick={addNewQuestion}
                     >
                       Add question
@@ -1142,11 +1151,11 @@ const JobAdd = ({ job, user }) => {
             </div>
           </div>
 
-          <div className='flex justify-end'>
+          <div className="flex justify-end">
             <Link href={`/dashboard/college/jobs`}>
               <button
-                type='button'
-                className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                type="button"
+                className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Cancel
               </button>

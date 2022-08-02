@@ -15,6 +15,7 @@ export const QuestionnareForm = () => {
   const [checkedRoles, setCheckRoles] = useState([]);
   const [checkedOptions, setCheckedOptions] = useState([]);
   const [blankInputQuestions, setBlankInputQuestions] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
   const checkOptionHandler = (e, questionId) => {
     const newCheckedOptions = [...checkedOptions];
     let questionPresent = false;
@@ -31,8 +32,22 @@ export const QuestionnareForm = () => {
     if (questionPresent) setCheckedOptions(newCheckedOptions);
     else setCheckedOptions([...newCheckedOptions, { answer: option, questionId }]);
   };
+  const handleQuestionnareSubmit = async (e) => {
+    e.preventDefault();
+    if (modalJob.designation.roles.length === 1) {
+      await handleJobResponse(modalJob, user, "Apply", modalJob.designation.roles, [
+        ...checkedOptions,
+        ...blankInputQuestions,
+      ]);
+      await mutate(`/api/jobs/${modalJob._id}`);
+      closeModal();
+    } else {
+      setModalJobQuestionnare([...checkedOptions, ...blankInputQuestions]);
+      setForm("ApplyJobForm");
+    }
+  };
   return (
-    <form>
+    <form onSubmit={handleQuestionnareSubmit}>
       <div className="mt-5 w-full text-white">
         <fieldset className="space-y-5">
           <div className="relative">
@@ -40,7 +55,10 @@ export const QuestionnareForm = () => {
               return (
                 <div key={index}>
                   <div>
-                    <span>Question: {question.question.questionName}</span>
+                    <span>
+                      Question: {question.question.questionName}
+                      {question.question.required ? <span className="text-red-100">*</span> : ""}
+                    </span>
                     <span>
                       {question?.question?.options?.length > 0 ? (
                         question?.question?.options?.map((option, newIndex) => (
@@ -65,6 +83,7 @@ export const QuestionnareForm = () => {
                           blankInputQuestions={blankInputQuestions}
                           setBlankInputQuestions={setBlankInputQuestions}
                           questionId={question._id}
+                          required={question?.question?.required}
                         />
                       )}
                     </span>
@@ -87,32 +106,14 @@ export const QuestionnareForm = () => {
             Cancel
           </button>
           <button
-            type="button"
-            onClick={async () => {
-              if (checkedRoles.length > 0) {
-                if (modalJob.designation.roles.length === 1) {
-                  await handleJobResponse(modalJob, user, "Apply", modalJob.designation.roles, [
-                    ...checkedOptions,
-                    ...blankInputQuestions,
-                  ]);
-                  await mutate(`/api/jobs/${modalJob._id}`);
-                  closeModal();
-                } else {
-                  setModalJobQuestionnare([...checkedOptions, ...blankInputQuestions]);
-                  setForm("ApplyJobForm");
-                }
-              } else {
-                toast.error("Please select any one role", {
-                  toastId: "Please select any one role",
-                });
-              }
-            }}
+            type="submit"
             className="ml-3  inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             Apply
           </button>
         </div>
       </div>
+      <p className="text-red text-sm">{errorMsg}</p>
     </form>
   );
 };
