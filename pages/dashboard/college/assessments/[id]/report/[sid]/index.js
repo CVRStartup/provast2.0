@@ -4,13 +4,13 @@ import { findUser } from "../../../../../../../src/lib/user";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import binarySearch from "../../../../../../../src/components/binarySearch";
+import { binarySearch } from "../../../../../../../src/lib/helper";
 import { MdDoubleArrow } from "react-icons/md";
 import { BiTimeFive } from "react-icons/bi";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
-import { Chart } from "react-chartjs-2";
-import { CategoryRounded } from "@material-ui/icons";
+// import { Chart } from "react-chartjs-2";
+// import { CategoryRounded } from "@material-ui/icons";
 
 function diff_minutes(dt2, dt1) {
   let diff = (new Date(dt2).getTime() - new Date(dt1).getTime()) / 1000;
@@ -44,20 +44,12 @@ const ReportSlug = ({
     Array.from(assessmentStatusSet),
     currentAssessmentStatus.marks.scored
   );
-  console.log("===========");
-  console.log(currentAssessmentStatus.marks.scored);
-  console.log(marksIndex);
-  console.log(Array.from(assessmentStatusSet));
 
   const rank = marksIndex + 1;
 
   if (!currentAssessmentStatus) {
     return <div>Not Found</div>;
   }
-
-  console.log(assessmentDetails);
-  console.log(studentDetails);
-  console.log(currentAssessmentStatus);
 
   const {
     marks: { total: totalMarks, scored },
@@ -71,8 +63,12 @@ const ReportSlug = ({
 
   const { sections } = assessmentDetails;
 
-  const { firstName, lastName, phone, emailList, designation, category } =
-    studentDetails;
+  // const { firstName, lastName, phone, email, designation, category } =
+  //   studentDetails;
+  const firstName = studentDetails?.profile?.firstName;
+  const lastName = studentDetails?.profile?.lastName;
+  const email = studentDetails?.email;
+  const phone = studentDetails?.phone?.value;
 
   const percentage = Math.ceil((scored / totalMarks) * 100);
 
@@ -101,7 +97,7 @@ const ReportSlug = ({
       attemptedQuestions,
     });
   });
-  console.log(responses);
+
   // sections.forEach((section) => {
   //   let attemptedQuestions = 0;
   //   section.questions.forEach((question) => {
@@ -150,12 +146,9 @@ const ReportSlug = ({
       },
     ],
   };
-
-  // console.log(assessmentStatuses);
-  // console.log(assessmentDetails);
-
+  console.log(studentDetails);
   return (
-    <div>
+    <div className="mt-[10vh]">
       <div>
         <div className="flex flex-row flex-wrap w-full bg-blue-100 min-h-[300px] border-2 border-solid border-blue-200">
           <div className="md:w-1/2 w-full m-5 md:m-0 flex flex-col items-center justify-center">
@@ -164,7 +157,7 @@ const ReportSlug = ({
             </div>
             <div className="text-base flex justify-between items-center md:w-1/2 py-1">
               {" "}
-              <span>Email :</span> {emailList[0]}{" "}
+              <span>Email :</span> {email}{" "}
             </div>
             <div className="text-base flex justify-between items-center md:w-1/2 py-1">
               {" "}
@@ -175,7 +168,7 @@ const ReportSlug = ({
               <span>College:</span> {collegeName}{" "}
             </div>
             <Link
-              href={`/dashboard/college/assessment/${assessmentDetails["_id"]}/report/${studentDetails["user"]}/responses`}
+              href={`/dashboard/college/assessments/${assessmentDetails["_id"]}/report/${studentDetails["_id"]}/responses`}
             >
               <div className="text-blue-500 cursor-pointer md:w-1/2 my-2 hover:text-blue-400 ">
                 View Responses
@@ -333,7 +326,6 @@ const ReportSlug = ({
 
         <h2 className="font-lg font-bold  text-center">Sectional Report</h2>
         <div className="w-3/4  mx-auto mt-5">
-          {console.log(max_len)}
           <Bar
             data={categoryData}
             width={600}
@@ -396,7 +388,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
-
+  console.log(assessmentStatuses);
   const {
     data: { assessment },
   } = await axios.get(`${process.env.HOST_URL}/api/assessments/${query.id}`);

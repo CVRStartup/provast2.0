@@ -15,7 +15,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
   const [fullscreen, setFullscreen] = useState(false);
   const [firstWarning, setFirstWarning] = useState(false);
-
+  const [tabChanged, setTabChanged] = useState(false);
   const [assessment, setAssessment] = useState(assessmentDetails);
   const [status, setStatus] = useState(assessmentStatus);
   const [disable, setDisable] = useState(
@@ -28,12 +28,13 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
   const reportChange = useCallback(
     (state, handle) => {
       if (!fullscreen) return;
-      if (!state) handleFullscreenInterrupt(true);
+      if (!state) handleFullscreenInterrupt();
     },
     [handle]
   );
-  const handleFullscreenInterrupt = (flag) => {
-    if (!flag) return;
+  const handleFullscreenInterrupt = () => {
+    if (tabChanged) return;
+
     setFullscreen(false);
     if (firstWarning) {
       submitHandler();
@@ -76,15 +77,26 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
 
       setStatus(newStatus);
     };
-
-    if (!status && user && fullscreen && !firstWarning) getAssessmentStatus();
+    if (!status && assessment.mode === "Practice") getAssessmentStatus();
+    else if (!status && user && fullscreen && !firstWarning)
+      getAssessmentStatus();
     //fullscreen is true but firstwarning is false implies new test
 
     const handleWindowChange = (e) => {
-      if (!assessment || assessment.mode === "Practice" || !status) return;
+      if (
+        !assessment ||
+        assessment.mode === "Practice" ||
+        !status ||
+        !fullscreen
+      )
+        return;
+      setTabChanged(!tabChanged);
       setFullscreen(false);
-      submitHandler();
+      if (firstWarning) {
+        submitHandler();
+      } else setFirstWarning(true);
     };
+
     if (fullscreen) window.addEventListener("blur", handleWindowChange);
 
     return () => {
@@ -311,7 +323,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
         {assessment?.mode === "Test" &&
         status?.finishedAt == null &&
         fullscreen == false ? (
-          <div className="p-10 grid grid-cols-6">
+          <div className="mt-[15vh] p-10 grid grid-cols-6">
             {firstWarning ? (
               <div className="m-5 col-start-2 col-span-4 flex flex-col items-center">
                 <div className="border rounded bg-red-300 text-red-700 p-10">
@@ -357,7 +369,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
           (assessment?.mode == "Practice" ||
             assessment?.mode === "Test" ||
             status?.finishedAt) && (
-            <div className="p-10 grid grid-cols-6 bg-white">
+            <div className="mt-[15vh] p-10 grid grid-cols-6 bg-white">
               <div className="col-start-2 col-span-4 flex justify-between items-center">
                 {assessment && (
                   <div className=" flex flex-col justify-start text-3xl font-bold  mt-15 ml-10">
@@ -514,7 +526,6 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                               </div>
                               {status && (
                                 <>
-                                  {console.log("something")}
                                   <div>
                                     <AssessmentOptions
                                       question={item}

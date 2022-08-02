@@ -7,7 +7,7 @@ import { EmptyState } from "../../../../src/components/Layout/EmptyState";
 import { AssessmentCard } from "../../../../src/components/Student/Assessments/AssessmentCard";
 const Index = ({ assessments, academics, user }) => {
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4">
+    <div className="mt-[15vh] max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4">
       <h2 className="text-center text-2xl font-bold leading-7 text-gray-800 sm:text-4xl sm:truncate">
         Assessments
       </h2>

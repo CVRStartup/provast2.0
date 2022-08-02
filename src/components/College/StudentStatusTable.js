@@ -22,7 +22,6 @@ const StudentStatusTable = ({
   useEffect(() => {
     const keywords = keyword.split(",").map((x) => x.toUpperCase());
     const newstate = students.filter((x) => {
-      console.log(x);
       const name = x.name.split(" ");
       const firstName = name[0].toUpperCase();
       const lastName = name[1].toUpperCase();
@@ -34,6 +33,7 @@ const StudentStatusTable = ({
       return false;
     });
     setFilteredStudents([...newstate]);
+    console.log(filteredStudents);
   }, [keyword, students]);
 
   const searchHandler = (e) => {
@@ -138,7 +138,7 @@ const StudentStatusTable = ({
                         >
                           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                             <Link
-                              href={`/dashboard/college/assessment/${assessmentId}/report/${option.userID}`}
+                              href={`/dashboard/college/assessments/${assessmentId}/report/${option.userID}`}
                             >
                               <div className="hover:text-orange-500 cursor-pointer">
                                 {option.name}
@@ -181,7 +181,7 @@ const StudentStatusTable = ({
                         >
                           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                             <Link
-                              href={`/dashboard/college/assessment/${assessmentId}/report/${option.userID}`}
+                              href={`/dashboard/college/assessments/${assessmentId}/report/${option.userID}`}
                             >
                               <div className="hover:text-orange-500 cursor-pointer">
                                 {option.name}

@@ -9,7 +9,7 @@ import { EmptyState } from "../../../../src/components/Layout/EmptyState";
 
 const Index = ({ assessments, user }) => {
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4">
+    <div className="mt-[15vh] max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4">
       <div className="rounded-md h-16 px-10 bg-gray-800 flex items-center justify-between">
         <div className="flex-1 min-w-0">
           <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">

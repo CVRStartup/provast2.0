@@ -12,11 +12,7 @@ export default async function handler(req, res) {
 const getUserDetailsByStudentId = async (req, res) => {
   try {
     await connectDB();
-    const userId = req.query.id;
-
-    let student = await User.findOne({
-      user: userId,
-    });
+    let student = await User.findById(req.query.id);
 
     if (student) {
       return res.status(200).json({ message: "student Found", student });

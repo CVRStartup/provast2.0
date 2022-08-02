@@ -15,6 +15,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
   const [tab, setTab] = useState(false);
   const { setForm, setIsOpen } = useModelContext();
   const { setQuestion, assessment, setAssessment } = useAssessmentContext();
+  // const [studentStatuses, setStudentStatuses] = useState([]);
   const [currentStatuses, setCurrentStatuses] = useState(null);
   // const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
@@ -27,8 +28,6 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
 
     setCurrentStatuses(newStatuses.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(newStatuses.length / itemsPerPage));
-
-    console.log(studentStatuses);
   }, [itemOffset, itemsPerPage]);
 
   const handlePageClick = (event) => {
@@ -68,8 +67,6 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
 
   let dataArr;
 
-  // console.log(assessment);
-
   if (assessment) dataArr = assessment.sections;
 
   const editButtonClickHandler = (e, question, questionIndex, sectionIndex) => {
@@ -85,7 +82,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
 
   return tab ? (
     // grid grid-cols-8
-    <div className="p-10 flex flex-col justify-center item-center w-full">
+    <div className="mt-[10vh] p-10 flex flex-col justify-center item-center w-full">
       {assessment && (
         <div className=" flex flex-col justify-start text-3xl font-bold my-15 ml-10 col-start-2">
           {assessment.name}
@@ -132,19 +129,24 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
           </div>
         </div>
       </div>
-
-      <StudentStatusTable
-        currentStudentStatuses={currentStatuses}
-        studentStatuses={studentStatuses}
-        assessmentId={assessment["_id"]}
-      />
-      <Paginate pageCount={pageCount} handlePageClick={handlePageClick} />
+      {/* {studentStatuses?.length > 0 && currentStatuses ? ( */}
+      <div>
+        <StudentStatusTable
+          currentStudentStatuses={currentStatuses}
+          studentStatuses={studentStatuses}
+          assessmentId={assessment["_id"]}
+        />
+        <Paginate pageCount={pageCount} handlePageClick={handlePageClick} />
+      </div>
+      {/* ) : (
+        <Loading />
+      )} */}
     </div>
   ) : (
     <>
       {/* <Timer /> */}
       {/* grid grid-cols-6 */}
-      <div className="p-10 flex flex-col justify-center items-center w-full">
+      <div className="mt-[10vh] p-10 flex flex-col justify-center items-center w-full">
         {assessment && (
           <div className=" flex flex-col justify-start items-start w-full text-3xl font-bold my-15 ml-20 col-start-2">
             {assessment.name}
@@ -337,7 +339,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
     };
   }
 
-  // code property on status.college was undefined, check later
+  //code property on status.college was undefined, check later
   let statuses = assessmentStatuses.filter(
     (status) => user.college.code === status?.college?.code
   );
@@ -355,21 +357,20 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
-  console.log(students);
 
   let studentStatuses = [];
   students.forEach((student) => {
-    let name = student.firstName + " " + student.lastName;
-    let rollNumber = student.rollNumber;
-    let email = student.emailList[0];
-    let phone = student.phone;
-    let userID = student.user;
+    let name = student.profile?.firstName + " " + student.profile?.lastName;
+    let rollNumber = student?.rollNumber.value;
+    let email = student.email;
+    let phone = student.phone?.value;
+    let userID = student._id;
 
     let status = null;
     let marks = null;
 
     for (let studentStatus of statuses) {
-      if (studentStatus.user == student.user) {
+      if (studentStatus.user == student._id) {
         if (studentStatus.finishedAt != null) {
           status = true;
           marks = studentStatus.marks.scored + "/" + studentStatus.marks.total;

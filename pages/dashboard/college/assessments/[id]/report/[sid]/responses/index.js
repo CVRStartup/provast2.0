@@ -143,11 +143,23 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
+  const {
+    data: { assessment },
+  } = await axios.get(`${process.env.HOST_URL}/api/assessments/${query.id}`);
+
+  if (!assessment) {
+    return {
+      redirect: {
+        destination: `/dashboard/${user.category}`,
+        permanent: false,
+      },
+    };
+  }
 
   const {
     data: { assessmentStatus },
   } = await axios.get(
-    `${process.env.HOST_URL}/api/assessments/status/${assessment._id}?userId=${query.sid}`
+    `${process.env.HOST_URL}/api/assessments/status/${query.id}?userId=${query.sid}`
   );
 
   if (!assessmentStatus) {

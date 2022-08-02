@@ -52,10 +52,14 @@ const getUserDetailsByCollege = async (req, res) => {
       }
     }
 
-    filter.college = { name: collegename, code: collegecode };
-    filter.category = "student";
+    // filter.college = { name: collegename, code: collegecode };
+    // filter.category = "student";
 
-    console.log(filter);
+    filter = {
+      "college.name": collegename,
+      "college.code": collegecode,
+      category: "student",
+    };
 
     let students = User.find(filter).sort({ firstName: 1 });
 

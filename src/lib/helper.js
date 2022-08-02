@@ -118,6 +118,17 @@ export const handleFile = (e, setData, setError) => {
   }
 };
 
+export const binarySearch = (arr, ele) => {
+  let st = 0;
+  let en = arr.length - 1;
+  while (st <= en) {
+    let mid = Math.floor((st + en) / 2);
+    if (arr[mid] == ele) return mid;
+    else if (arr[mid] > ele) st = mid + 1;
+    else en = mid - 1;
+  }
+};
+
 export const applyFilters = (filter, jobs, setJobs) => {
   if (!jobs) return;
   let updatedJobs = jobs;
