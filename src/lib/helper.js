@@ -62,8 +62,8 @@ export const handleJobResponse = async (job, user, op, roles, questionnaire) => 
 };
 
 const fileType = [
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 ];
 
 export const handleFile = (e, setData, setError) => {
