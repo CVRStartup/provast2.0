@@ -75,7 +75,7 @@ const createUserAcademics = async (req, res) => {
     const details = await Academic.findOne({ rollNumber: req.body.rollNumber });
 
     if (details) {
-      return res.status(500).json({ message: "Details Already Exists" });
+      return res.status(500).json({ message: "Details Already Exists", details });
     } else {
       const { education } = req.body;
       const newAcademic = new Academic({
