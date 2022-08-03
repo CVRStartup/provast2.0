@@ -145,20 +145,76 @@ const Index = ({ id }) => {
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
               return {
-                rollNumber: x["Roll No"] ?? null,
-                education: {
-                  institution: college.collegeName,
-                  program: x["Program"] ?? null,
-                  branch: x["Current Course"] ? rename(x["Current Course"]).trim() : null,
-                  educationType: "Full Time",
-                  score: {
-                    typeOfGrade: "CGPA",
-                    grade: x["Current course CGPa"],
+                rollNumber: x["Roll No"] ?? "",
+                education: [
+                  {
+                    institution: college.collegeName,
+                    program: x["Program"] ?? "",
+                    branch: x["Current Course"] ? rename(x["Current Course"]).trim() : "",
+                    educationType: "Full Time",
+                    score: {
+                      typeOfGrade: "CGPA",
+                      grade: x["Current course CGPa"] ?? 0,
+                    },
+                    current: true,
+                    verified: false,
+                    frozen: false,
                   },
-                  current: true,
-                  verified: false,
-                  frozen: false,
-                },
+                  {
+                    institution: x["UG School/College"],
+                    program: x["UG Program"] ?? "",
+                    board: x["UG Board/University"] ?? "",
+                    branch: x["UG Branch/Specialization"]
+                      ? rename(x["UG Branch/Specialization"]).trim()
+                      : "",
+                    educationType: "Full Time",
+                    score: {
+                      typeOfGrade: "Percentage",
+                      grade: x["UG percentage"] ?? 0,
+                    },
+                    batch: {
+                      from: 0,
+                      to: x["UG End Year"] ?? 0,
+                    },
+                    current: false,
+                    verified: false,
+                    frozen: false,
+                  },
+                  {
+                    institution: x["Class 12 School"],
+                    program: "Class XIIth",
+                    board: x["Class 12 Board"] ?? "",
+                    educationType: "Full Time",
+                    score: {
+                      typeOfGrade: "Percentage",
+                      grade: x["Class 12 %"] ?? 0,
+                    },
+                    batch: {
+                      from: 0,
+                      to: x["12th YOP"] ?? 0,
+                    },
+                    current: false,
+                    verified: false,
+                    frozen: false,
+                  },
+                  {
+                    institution: x["Class 10 School"],
+                    program: "Class Xth",
+                    board: x["Class 10 Board"] ?? "",
+                    educationType: "Full Time",
+                    score: {
+                      typeOfGrade: "Percentage",
+                      grade: x["Class 10 %"] ?? 0,
+                    },
+                    batch: {
+                      from: 0,
+                      to: x["10th YOP"] ?? 0,
+                    },
+                    current: false,
+                    verified: false,
+                    frozen: false,
+                  },
+                ],
               };
             });
             console.log(res);
@@ -189,10 +245,12 @@ const Index = ({ id }) => {
         createdCount += 1;
         branch.add(s.education.branch);
       } catch (e) {
-        failedAccounts.push({
-          account: s,
-          reason: e.response.data.message,
-        });
+        if (e.response.data.message !== "Details Already Exists") {
+          failedAccounts.push({
+            account: s,
+            reason: e.response.data.message,
+          });
+        }
       }
     }
     if (total === createdCount) {

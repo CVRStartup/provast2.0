@@ -80,7 +80,7 @@ const createUserAcademics = async (req, res) => {
       const { education } = req.body;
       const newAcademic = new Academic({
         rollNumber: req.body.rollNumber,
-        education: [education],
+        education: education,
       });
 
       await newAcademic.save();
