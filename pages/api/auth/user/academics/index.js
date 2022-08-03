@@ -1,5 +1,5 @@
-import connectDB from "../../../../src/lib/connectDB";
-import Academic from "../../../../models/Academic";
+import connectDB from "../../../../../src/lib/connectDB";
+import Academic from "../../../../../models/Academic";
 
 export default async function handler(req, res) {
   switch (req.method) {
@@ -75,7 +75,7 @@ const createUserAcademics = async (req, res) => {
     const details = await Academic.findOne({ rollNumber: req.body.rollNumber });
 
     if (details) {
-      return res.status(500).json({ message: "Details Already Exists" });
+      return res.status(500).json({ message: "Details Already Exists", details });
     } else {
       const { education } = req.body;
       const newAcademic = new Academic({

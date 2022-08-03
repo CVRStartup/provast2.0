@@ -1,11 +1,23 @@
 import React from "react";
+import { MdSentimentDissatisfied } from "react-icons/md";
+import { useModelContext } from "../../context/ModalContext";
 
 export const EducationCard = ({ education }) => {
+  const { setIsOpen, setForm, setEditId } = useModelContext();
   return (
     <div className='relative my-4 px-4 border-l-2 border-gray-200'>
       <div className='flex justify-between'>
         <div>
           <h3 className='text-2xl text-gray-500 font-semibold'>{education.program}</h3>
+          {/* <button
+            onClick={() => {
+              setIsOpen(true);
+              setForm("academic");
+              setEditId(education?._id);
+            }}
+          >
+            Edit
+          </button> */}
           <div className='text-sm'>
             {education.board && <span>Board: {education.board},</span>}
             <span>Type: {education.educationType}</span>
