@@ -13,6 +13,7 @@ export function ModelContextProvider({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [modalJob, setModalJob] = useState(null);
+  const [modalJobResume, setModalJobResume] = useState(null);
   const [modalJobQuestionnnare, setModalJobQuestionnare] = useState([]);
 
   function closeModal() {
@@ -46,6 +47,8 @@ export function ModelContextProvider({ children }) {
     setModalJobQuestionnare,
     setDeleteName,
     deleteName,
+    modalJobResume,
+    setModalJobResume,
   };
   return <ModelContext.Provider value={state}>{children}</ModelContext.Provider>;
 }

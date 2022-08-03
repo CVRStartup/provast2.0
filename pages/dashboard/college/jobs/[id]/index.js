@@ -20,6 +20,7 @@ function classNames(...classes) {
 
 const CollegeJobSlug = ({ id }) => {
   const { job, isLoading } = useJob(id);
+  console.log(job?.eligible);
   const [tab, setTab] = useState("Job Information");
   const user = useUser();
   const students = useStudents(user);
@@ -46,14 +47,12 @@ const CollegeJobSlug = ({ id }) => {
         students.students.some((studentDetail) => {
           if (studentDetail.email == student.email) {
             studentDetails = {
-              name:
-                studentDetail.profile.firstName +
-                " " +
-                studentDetail.profile.lastName,
+              name: studentDetail.profile.firstName + " " + studentDetail.profile.lastName,
               email: studentDetail.email,
               phone: studentDetail.phone?.value,
               rollnumber: studentDetail.rollNumber?.value,
               status: student.status,
+              resume: student.resume,
             };
             return true;
           }
@@ -61,28 +60,26 @@ const CollegeJobSlug = ({ id }) => {
         return studentDetails;
       });
 
-      newFilteredStudents = newFilteredStudents.filter(
-        (x) => x && x.name != null
-      );
+      newFilteredStudents = newFilteredStudents.filter((x) => x && x.name != null);
       return newFilteredStudents;
     }
     return eligible;
   };
 
   return (
-    <div className="min-h-full bg-gray-100 mt-[10vh]">
+    <div className='min-h-full bg-gray-100 mt-[10vh]'>
       <JobHeader />
-      <main className="py-10">
+      <main className='py-10'>
         <JobHero job={job} />
-        <div className="max-w-7xl mx-auto mt-5">
-          <div className="sm:hidden">
-            <label htmlFor="tabs" className="sr-only">
+        <div className='max-w-7xl mx-auto mt-5'>
+          <div className='sm:hidden'>
+            <label htmlFor='tabs' className='sr-only'>
               Select a tab
             </label>
             <select
-              id="tabs"
-              name="tabs"
-              className="block w-full focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
+              id='tabs'
+              name='tabs'
+              className='block w-full focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md'
               value={tabs.find((tab) => tab.current).name}
               onChange={(e) => setTab(e.target.value)}
             >
@@ -91,9 +88,9 @@ const CollegeJobSlug = ({ id }) => {
               ))}
             </select>
           </div>
-          <div className="hidden sm:block">
-            <div className="border-b border-gray-200">
-              <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+          <div className='hidden sm:block'>
+            <div className='border-b border-gray-200'>
+              <nav className='-mb-px flex space-x-8' aria-label='Tabs'>
                 {tabs.map((tab) => (
                   <a
                     key={tab.name}
@@ -108,12 +105,10 @@ const CollegeJobSlug = ({ id }) => {
                   >
                     <tab.icon
                       className={classNames(
-                        tab.current
-                          ? "text-orange-500"
-                          : "text-gray-400 group-hover:text-gray-500",
+                        tab.current ? "text-orange-500" : "text-gray-400 group-hover:text-gray-500",
                         "-ml-0.5 mr-2 h-5 w-5"
                       )}
-                      aria-hidden="true"
+                      aria-hidden='true'
                     />
                     <span>{tab.name}</span>
                   </a>
@@ -124,18 +119,16 @@ const CollegeJobSlug = ({ id }) => {
         </div>
 
         {tab === "Job Information" && (
-          <div data-aos="fade-up">
+          <div data-aos='fade-up'>
             <JobInfo job={job} />
           </div>
         )}
 
         {tab === "Analytics" && (
-          <div data-aos="fade-up">
+          <div data-aos='fade-up'>
             <EligibleTable
               heading={
-                job.typeOfPost === "Shortlisted Students"
-                  ? "Eligible Students"
-                  : "Applied Students"
+                job.typeOfPost === "Shortlisted Students" ? "Eligible Students" : "Applied Students"
               }
               tagline={
                 job.typeOfPost === "Shortlisted Students"
@@ -147,12 +140,12 @@ const CollegeJobSlug = ({ id }) => {
           </div>
         )}
         {tab === "Questionnaire" && (
-          <div data-aos="fade-up">
+          <div data-aos='fade-up'>
             <Questionnaire job={job} />
           </div>
         )}
         {tab === "Rounds" && (
-          <div data-aos="fade-up">
+          <div data-aos='fade-up'>
             <RoundInfo job={job} />
           </div>
         )}

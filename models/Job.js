@@ -104,6 +104,7 @@ const JobSchema = mongoose.Schema(
         rollnumber: String,
         email: String,
         phone: String,
+        resume: String,
         status: {
           applied: {
             type: Boolean,

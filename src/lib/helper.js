@@ -14,8 +14,9 @@ import axios from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
 import * as XLSX from "xlsx";
+import { useModelContext } from "../context/ModalContext";
 
-export const handleJobResponse = async (job, user, op, roles, questionnaire) => {
+export const handleJobResponse = async (job, user, op, roles, questionnaire, resume) => {
   if (!user) return;
   let data = null;
   if (job.typeOfPost === "Shortlisted Students") {
@@ -27,6 +28,7 @@ export const handleJobResponse = async (job, user, op, roles, questionnaire) => 
       {
         newstatus: {
           ...newstatus,
+          resume,
           status: {
             applied: op === "Apply",
             roles: roles,
@@ -42,6 +44,7 @@ export const handleJobResponse = async (job, user, op, roles, questionnaire) => 
       {
         newstatus: {
           email: user?.email,
+          resume,
           status: {
             applied: op === "Apply",
             roles: roles,
