@@ -11,7 +11,8 @@ import JobQuestionInput from "../../Student/JobQuestionInput";
 
 export const QuestionnareForm = () => {
   const user = useUser();
-  const { closeModal, modalJob, setForm, setModalJobQuestionnare } = useModelContext();
+  const { closeModal, modalJob, setForm, setModalJobQuestionnare } =
+    useModelContext();
   const [checkedRoles, setCheckRoles] = useState([]);
   const [checkedOptions, setCheckedOptions] = useState([]);
   const [blankInputQuestions, setBlankInputQuestions] = useState([]);
@@ -30,15 +31,26 @@ export const QuestionnareForm = () => {
     });
 
     if (questionPresent) setCheckedOptions(newCheckedOptions);
-    else setCheckedOptions([...newCheckedOptions, { answer: option, questionId }]);
+    else
+      setCheckedOptions([...newCheckedOptions, { answer: option, questionId }]);
+
+    [...e.target?.parentElement?.parentElement?.children].forEach((child) => {
+      if (child.firstChild != e) {
+        child.firstChild.required = false;
+      }
+    });
   };
+
   const handleQuestionnareSubmit = async (e) => {
     e.preventDefault();
     if (modalJob.designation.roles.length === 1) {
-      await handleJobResponse(modalJob, user, "Apply", modalJob.designation.roles, [
-        ...checkedOptions,
-        ...blankInputQuestions,
-      ]);
+      await handleJobResponse(
+        modalJob,
+        user,
+        "Apply",
+        modalJob.designation.roles,
+        [...checkedOptions, ...blankInputQuestions]
+      );
       await mutate(`/api/jobs/${modalJob._id}`);
       closeModal();
     } else {
@@ -57,7 +69,11 @@ export const QuestionnareForm = () => {
                   <div>
                     <span>
                       Question: {question.question.questionName}
-                      {question.question.required ? <span className="text-red-100">*</span> : ""}
+                      {question.question.required ? (
+                        <span className="text-red-100">*</span>
+                      ) : (
+                        ""
+                      )}
                     </span>
                     <span>
                       {question?.question?.options?.length > 0 ? (
@@ -65,15 +81,22 @@ export const QuestionnareForm = () => {
                           <div key={newIndex}>
                             <input
                               checked={checkedOptions.some(
-                                (questionObj) => questionObj["answer"] === option
+                                (questionObj) =>
+                                  questionObj["answer"] === option
                               )}
                               type="checkbox"
                               name={option}
                               id={option}
-                              onChange={(e) => checkOptionHandler(e, question._id)}
+                              onChange={(e) =>
+                                checkOptionHandler(e, question._id)
+                              }
                               value={option}
+                              required={question?.question?.required}
                             />
-                            <label htmlFor={option} className="font-medium text-white">
+                            <label
+                              htmlFor={option}
+                              className="font-medium text-white"
+                            >
                               {option}
                             </label>
                           </div>
