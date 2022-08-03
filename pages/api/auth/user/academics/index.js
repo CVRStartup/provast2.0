@@ -1,5 +1,5 @@
-import connectDB from "../../../../src/lib/connectDB";
-import Academic from "../../../../models/Academic";
+import connectDB from "../../../../../src/lib/connectDB";
+import Academic from "../../../../../models/Academic";
 
 export default async function handler(req, res) {
   switch (req.method) {
