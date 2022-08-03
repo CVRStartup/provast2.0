@@ -30,8 +30,7 @@ export const EducationCard = ({ education }) => {
       </div>
 
       <h3 className='flex items-center mt-4 text-sm text-gray-400 font-semibold'>
-        <span className=' '>{education?.institution} </span>
-
+        <span>{education?.institution} </span>
         {education?.batch && (
           <span className='ml-1 text-xs'>
             &middot; ({education?.batch?.from !== 0 && <span>{education?.batch?.from}</span>}
