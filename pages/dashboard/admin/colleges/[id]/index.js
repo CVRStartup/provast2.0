@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { useCollege } from "../../../../../src/hooks/useCollege";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { rename } from "../../../../../src/lib/helper";
 
 const Index = ({ id }) => {
   const { college, isError, isLoading } = useCollege(id);
@@ -13,6 +14,32 @@ const Index = ({ id }) => {
     "application/vnd.ms-excel",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   ];
+
+  const getName = (name) => {
+    let studentName = {
+      firstName: "",
+      middleName: "",
+      lastName: "",
+    };
+    if (name.length === 1) {
+      studentName.firstName = name[0];
+    } else if (name.length === 2) {
+      studentName.firstName = name[0];
+      studentName.lastName = name[1];
+    } else if (name.length === 3) {
+      studentName.firstName = name[0];
+      studentName.middleName = name[1];
+      studentName.lastName = name[2];
+    } else {
+      studentName.firstName = name[0];
+      studentName.middleName = name[2];
+      for (let i = 2; i < name.length; i++) {
+        studentName.lastName += name[i];
+      }
+    }
+    return studentName;
+  };
+
   const handleFile = (e) => {
     if (!college) return;
     let selectedFile = e.target.files[0];
@@ -28,13 +55,14 @@ const Index = ({ id }) => {
             const worksheet = workbook.Sheets[worksheetName];
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
+              const name = x["Name of Student"].split(" ");
+              const studentName = getName(name);
               return {
                 email: x["Email Id"] ?? null,
                 detailsAvailable: true,
                 academicsAvailable: false,
                 profile: {
-                  firstName: x["First Name"] ?? null,
-                  lastName: x["Last Name"] ?? null,
+                  ...studentName,
                   gender: x["Gender"] ?? null,
                   verified: false,
                   frozen: false,
@@ -57,6 +85,7 @@ const Index = ({ id }) => {
                 },
               };
             });
+            console.log(res);
             setStudents(res);
           } else {
             setStudents([]);
@@ -99,27 +128,125 @@ const Index = ({ id }) => {
       console.log(failedAccounts);
     }
   };
-  return (
-    <div className="mt-[10vh]">
-      <div className="sm:col-span-3">
-        <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
-          Upload Spreadsheet
-        </label>
 
-        <input
-          className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          label="Choose File"
-          type="file"
-          name="image"
-          id="profileImg"
-          onChange={handleFile}
-        />
-        {excelFileError &&
-          toast.error(excelFileError, {
-            toastId: excelFileError,
-          })}
+  const handleEducation = (e) => {
+    if (!college) return;
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
+        reader.onload = (e) => {
+          setExcelFileError(null);
+          if (e.target.result !== null) {
+            const workbook = XLSX.read(e.target.result, { type: "buffer" });
+            const worksheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[worksheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+            const res = data.map((x) => {
+              return {
+                rollNumber: x["Roll No"] ?? null,
+                education: {
+                  institution: college.collegeName,
+                  program: x["Program"] ?? null,
+                  branch: x["Current Course"] ? rename(x["Current Course"]).trim() : null,
+                  educationType: "Full Time",
+                  score: {
+                    typeOfGrade: "CGPA",
+                    grade: x["Current course CGPa"],
+                  },
+                  current: true,
+                  verified: false,
+                  frozen: false,
+                },
+              };
+            });
+            console.log(res);
+            setStudents(res);
+          } else {
+            setStudents([]);
+          }
+        };
+      } else {
+        setExcelFileError("Please select only excel file types");
+        setExcelFile(null);
+      }
+    } else {
+      console.log("please select your file");
+    }
+  };
+  const handleEducationCreate = async () => {
+    let total = students.length,
+      createdCount = 0;
+    const branch = new Set();
+    const failedAccounts = [];
+    for (let i = 0; i < students.length; i++) {
+      const s = students[i];
+      try {
+        await axios.post("/api/auth/user/academics", {
+          ...s,
+        });
+        createdCount += 1;
+        branch.add(s.education.branch);
+      } catch (e) {
+        failedAccounts.push({
+          account: s,
+          reason: e.response.data.message,
+        });
+      }
+    }
+    if (total === createdCount) {
+      toast.success("All Users Are Successfully Created!");
+    } else {
+      toast.error("Account creation failed for " + failedAccounts.length + " Students.");
+      console.log(failedAccounts);
+    }
+    console.log(branch);
+  };
+  return (
+    <div className='mt-[10vh]'>
+      <div>
+        <div className='sm:col-span-3'>
+          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+            Upload Spreadsheet
+          </label>
+
+          <input
+            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+            label='Choose File'
+            type='file'
+            name='image'
+            id='profileImg'
+            onChange={handleFile}
+          />
+          {excelFileError &&
+            toast.error(excelFileError, {
+              toastId: excelFileError,
+            })}
+        </div>
+        <button onClick={handleCreate}>Create</button>
       </div>
-      <button onClick={handleCreate}>Create</button>
+      <div className='mt-[10vh]'>
+        <div className='sm:col-span-3'>
+          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+            Upload Spreadsheet
+          </label>
+
+          <input
+            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+            label='Choose File'
+            type='file'
+            name='image'
+            id='profileImg'
+            onChange={handleEducation}
+          />
+          {excelFileError &&
+            toast.error(excelFileError, {
+              toastId: excelFileError,
+            })}
+        </div>
+        <button onClick={handleEducationCreate}>Create Education</button>
+      </div>
     </div>
   );
 };

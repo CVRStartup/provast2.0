@@ -14,6 +14,7 @@ const JobSchema = mongoose.Schema(
     company: {
       type: String,
     },
+    program: String,
     website: {
       type: String,
     },

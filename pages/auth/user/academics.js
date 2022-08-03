@@ -7,7 +7,7 @@ import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
 import {
   btechBranches,
-  degrees,
+  academicDegrees,
   typeOfEducation,
   typeOfEducationGrade,
 } from "../../../src/lib/helper";
@@ -19,7 +19,7 @@ const Academics = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const [selectedDegree, setSelectedDegree] = useState(degrees[0]);
+  const [selectedDegree, setSelectedDegree] = useState(academicDegrees[0]);
   const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
   const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
@@ -169,7 +169,7 @@ const Academics = () => {
                       <DropDown
                         title={"Program / Degree"}
                         isRequired
-                        options={degrees}
+                        options={academicDegrees}
                         selectedOption={selectedDegree}
                         setSelectedOption={setSelectedDegree}
                       />
@@ -305,22 +305,6 @@ const Academics = () => {
             </div>
           </div>
         </div>
-
-        <style jsx>{`
-          .background {
-            background-image: url("https://qsf.fs.quoracdn.net/-4-ans_frontend_assets.images.home_page_bg_desktop.png-26-4770753d59b970e1.png");
-            width: 100%;
-            position: absolute;
-            min-height: 100%;
-            box-shadow: rgb(0 0 0 / 5%) 0px 0px 0px 1px inset;
-            transition-property: background-image;
-            transition-duration: 180ms;
-            transition-timing-function: ease-in-out;
-            background-position: center center;
-            background-size: cover;
-            background-repeat: no-repeat;
-          }
-        `}</style>
       </main>
     </React.Fragment>
   );

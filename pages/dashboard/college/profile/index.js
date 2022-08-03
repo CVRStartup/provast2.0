@@ -5,9 +5,7 @@ import Link from "next/link";
 import { MdEdit } from "react-icons/md";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
-import { usePersonal } from "../../../../src/hooks/usePersonal";
 import { StudentProfileDetails } from "../../../../src/components/Student/StudentProfileDetails";
-import { StudentAcademicDetails } from "../../../../src/components/Student/StudentAcademicDetails";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -15,14 +13,9 @@ function classNames(...classes) {
 
 const Profile = ({ userDetails }) => {
   const user = JSON.parse(userDetails);
-  const { personal, isError, isLoading } = usePersonal(user?._id);
-
   const [tabState, setTabState] = useState("Profile");
 
-  const tabs = [
-    { name: "Profile", current: tabState === "Profile" },
-    { name: "Education", current: tabState === "Education" },
-  ];
+  const tabs = [{ name: "Profile", current: tabState === "Profile" }];
 
   return (
     <React.Fragment>
@@ -64,7 +57,7 @@ const Profile = ({ userDetails }) => {
                       </h1>
                     </div>
                     <div className='mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
-                      <Link href='/dashboard/student/profile/edit'>
+                      <Link href='/dashboard/college/profile/edit'>
                         <button
                           type='button'
                           className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50'
@@ -109,8 +102,7 @@ const Profile = ({ userDetails }) => {
               </div>
             </div>
 
-            {tabState === "Profile" && <StudentProfileDetails student={user} personal={personal} />}
-            {tabState === "Education" && <StudentAcademicDetails student={user} />}
+            {tabState === "Profile" && <StudentProfileDetails student={user} />}
           </div>
         </div>
       </main>
@@ -138,7 +130,7 @@ export const getServerSideProps = async ({ req, res }) => {
     };
   }
 
-  if (user.category !== "student") {
+  if (user.category !== "college") {
     return {
       redirect: {
         destination: `/dashboard/${user.category}`,
@@ -147,14 +139,6 @@ export const getServerSideProps = async ({ req, res }) => {
     };
   }
 
-  if (user.category === "student" && !user.academicsAvailable) {
-    return {
-      redirect: {
-        destination: "/auth/user/academics",
-        permanent: false,
-      },
-    };
-  }
   return {
     props: { userDetails: JSON.stringify(user) },
   };

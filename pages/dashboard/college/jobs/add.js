@@ -61,20 +61,12 @@ const JobAdd = ({ user }) => {
 
   const [selectedRole, setSelectedRole] = useState(role[0]);
   const [selectedStatus, setSelectedStatus] = useState(status[0]);
-  const [selectedStipendRange, setSelectedStipendRange] = useState(
-    stipendRange[0]
-  );
+  const [selectedStipendRange, setSelectedStipendRange] = useState(stipendRange[0]);
   const [selectedCTCRange, setSelectedCTCRange] = useState(ctcRange[0]);
 
-  const [selectedXthTypeOfGrade, setSelectedXthTypeOfGrade] = useState(
-    typeOfGrade[0]
-  );
-  const [selectedXIIthTypeOfGrade, setSelectedXIIthTypeOfGrade] = useState(
-    typeOfGrade[0]
-  );
-  const [selectedBtechTypeOfGrade, setSelectedBtechTypeOfGrade] = useState(
-    typeOfGrade[0]
-  );
+  const [selectedXthTypeOfGrade, setSelectedXthTypeOfGrade] = useState(typeOfGrade[0]);
+  const [selectedXIIthTypeOfGrade, setSelectedXIIthTypeOfGrade] = useState(typeOfGrade[0]);
+  const [selectedBtechTypeOfGrade, setSelectedBtechTypeOfGrade] = useState(typeOfGrade[0]);
 
   const [selectedXthGrade, setSelectedXthGrade] = useState(CGPAs[0]);
   const [selectedXIIthGrade, setSelectedXIIthGrade] = useState(CGPAs[0]);
@@ -98,24 +90,19 @@ const JobAdd = ({ user }) => {
 
   useEffect(() => {
     if (selectedXthTypeOfGrade.name === "CGPA") setSelectedXthGrade(CGPAs[0]);
-    else if (selectedXthTypeOfGrade.name === "Percentage")
-      setSelectedXthGrade(Percentages[0]);
+    else if (selectedXthTypeOfGrade.name === "Percentage") setSelectedXthGrade(Percentages[0]);
     else setSelectedXthGrade({ id: 11, name: 0 });
   }, [selectedXthTypeOfGrade]);
 
   useEffect(() => {
-    if (selectedXIIthTypeOfGrade.name === "CGPA")
-      setSelectedXIIthGrade(CGPAs[0]);
-    else if (selectedXIIthTypeOfGrade.name === "Percentage")
-      setSelectedXIIthGrade(Percentages[0]);
+    if (selectedXIIthTypeOfGrade.name === "CGPA") setSelectedXIIthGrade(CGPAs[0]);
+    else if (selectedXIIthTypeOfGrade.name === "Percentage") setSelectedXIIthGrade(Percentages[0]);
     else setSelectedXIIthGrade({ id: 11, name: 0 });
   }, [selectedXIIthTypeOfGrade]);
 
   useEffect(() => {
-    if (selectedBtechTypeOfGrade.name === "CGPA")
-      setSelectedBtechGrade(CGPAs[0]);
-    else if (selectedBtechTypeOfGrade.name === "Percentage")
-      setSelectedBtechGrade(Percentages[0]);
+    if (selectedBtechTypeOfGrade.name === "CGPA") setSelectedBtechGrade(CGPAs[0]);
+    else if (selectedBtechTypeOfGrade.name === "Percentage") setSelectedBtechGrade(Percentages[0]);
     else setSelectedBtechGrade({ id: 11, name: 0 });
   }, [selectedBtechTypeOfGrade]);
 
@@ -139,6 +126,7 @@ const JobAdd = ({ user }) => {
         code: user.college.code,
       },
       company: name,
+      program: typeOfProgram,
       website,
       eligibility: {
         tenth: {
@@ -425,24 +413,15 @@ const JobAdd = ({ user }) => {
       <div className="space-y-6 max-w-6xl mx-auto py-8">
         <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
           <div className="mb-5 md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Job Infomation
-            </h3>
+            <h3 className="text-lg font-medium leading-6 text-gray-900">Job Infomation</h3>
             <p className="mt-1 text-sm text-gray-500">
-              This information will be displayed publicly so be careful what you
-              share.
+              This information will be displayed publicly so be careful what you share.
             </p>
           </div>
           <div>
-            <form
-              className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
-              method="POST"
-            >
+            <form className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6" method="POST">
               <div className="sm:col-span-3">
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Company Name
                 </label>
                 <input
@@ -456,10 +435,7 @@ const JobAdd = ({ user }) => {
                 />
               </div>
               <div className="sm:col-span-3">
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700  "
-                >
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700  ">
                   Website
                 </label>
                 <input
@@ -474,9 +450,7 @@ const JobAdd = ({ user }) => {
               </div>
 
               <div className="sm:col-span-6">
-                <label className="text-base font-medium text-gray-900">
-                  Job Program
-                </label>
+                <label className="text-base font-medium text-gray-900">Job Program</label>
                 <p className="text-sm leading-5 text-gray-500">
                   Whom would you like to show this job posting?
                 </p>
@@ -506,23 +480,15 @@ const JobAdd = ({ user }) => {
                 </fieldset>
               </div>
               <div className="sm:col-span-6">
-                <label
-                  htmlFor="purpose"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="purpose" className="block text-sm font-medium text-gray-700">
                   Description
                 </label>
                 <Editor input={description} dataCallBack={handleCallBack} />
-                <p className="mt-2 text-sm text-gray-500">
-                  Few lines to describe the job role.
-                </p>
+                <p className="mt-2 text-sm text-gray-500">Few lines to describe the job role.</p>
               </div>
 
               <div className="sm:col-span-3">
-                <label
-                  htmlFor="photo"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
                   Logo
                 </label>
                 <div className="mt-1">
@@ -560,10 +526,7 @@ const JobAdd = ({ user }) => {
               </div>
 
               <div className="sm:col-span-3">
-                <label
-                  htmlFor="photo"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
                   Banner
                 </label>
                 <div className="mt-1">
@@ -601,10 +564,7 @@ const JobAdd = ({ user }) => {
               </div>
 
               <div className="sm:col-span-3">
-                <label
-                  htmlFor="startDate"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
                   Start Date
                 </label>
                 <div className="mt-1">
@@ -621,10 +581,7 @@ const JobAdd = ({ user }) => {
               </div>
 
               <div className="sm:col-span-3">
-                <label
-                  htmlFor="endDate"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
                   End Date
                 </label>
                 <div className="mt-1">
@@ -663,9 +620,7 @@ const JobAdd = ({ user }) => {
                       deleteOption={(option) =>
                         setDesignation({
                           ...designation,
-                          roles: [
-                            ...designation.roles.filter((x) => x !== option),
-                          ],
+                          roles: [...designation.roles.filter((x) => x !== option)],
                         })
                       }
                       extraOptions={designation.roles}
@@ -709,10 +664,7 @@ const JobAdd = ({ user }) => {
                       />
                     </div>
                     <div className="">
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                         Exact Stipend
                       </label>
                       <input
@@ -737,10 +689,7 @@ const JobAdd = ({ user }) => {
                       />
                     </div>
                     <div className="">
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                         Exact CTC
                       </label>
                       <input
@@ -766,10 +715,7 @@ const JobAdd = ({ user }) => {
                         />
                       </div>
                       <div className="">
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                           Exact Stipend
                         </label>
                         <input
@@ -793,10 +739,7 @@ const JobAdd = ({ user }) => {
                         />
                       </div>
                       <div className="">
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-700"
-                        >
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                           Exact CTC
                         </label>
                         <input
@@ -826,11 +769,7 @@ const JobAdd = ({ user }) => {
                       checked={jobPostingLocation.includes("PAN India")}
                       onChange={(e) => {
                         const id = jobPostingLocation.indexOf("PAN India");
-                        if (id == -1)
-                          setJobPostingLocation([
-                            ...jobPostingLocation,
-                            "PAN India",
-                          ]);
+                        if (id == -1) setJobPostingLocation([...jobPostingLocation, "PAN India"]);
                         else {
                           const cat = jobPostingLocation;
                           cat.splice(id, 1);
@@ -855,18 +794,11 @@ const JobAdd = ({ user }) => {
                     <input
                       type="checkbox"
                       className="h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none"
-                      checked={
-                        yearofPassing.length === generateYearsBetween().length
-                      }
+                      checked={yearofPassing.length === generateYearsBetween().length}
                       onChange={() => {
-                        if (
-                          yearofPassing.length === generateYearsBetween().length
-                        )
+                        if (yearofPassing.length === generateYearsBetween().length)
                           setYearofPassing([]);
-                        else
-                          setYearofPassing([
-                            ...generateYearsBetween().map((x) => x.name),
-                          ]);
+                        else setYearofPassing([...generateYearsBetween().map((x) => x.name)]);
                       }}
                     />
                     <label>All Years</label>
@@ -898,33 +830,17 @@ const JobAdd = ({ user }) => {
                       }
                       onChange={() => {
                         if (typeOfProgram === "B.Tech") {
-                          if (branchOptions.length === btechBranches.length)
-                            setBranchOptions([]);
-                          else
-                            setBranchOptions([
-                              ...btechBranches.map((x) => x.name),
-                            ]);
+                          if (branchOptions.length === btechBranches.length) setBranchOptions([]);
+                          else setBranchOptions([...btechBranches.map((x) => x.name)]);
                         } else if (typeOfProgram === "M.Tech") {
-                          if (branchOptions.length === mtechBranches.length)
-                            setBranchOptions([]);
-                          else
-                            setBranchOptions([
-                              ...mtechBranches.map((x) => x.name),
-                            ]);
+                          if (branchOptions.length === mtechBranches.length) setBranchOptions([]);
+                          else setBranchOptions([...mtechBranches.map((x) => x.name)]);
                         } else if (typeOfProgram === "MBA") {
-                          if (branchOptions.length === mbaBranches.length)
-                            setBranchOptions([]);
-                          else
-                            setBranchOptions([
-                              ...mbaBranches.map((x) => x.name),
-                            ]);
+                          if (branchOptions.length === mbaBranches.length) setBranchOptions([]);
+                          else setBranchOptions([...mbaBranches.map((x) => x.name)]);
                         } else {
-                          if (branchOptions.length === degreeBranches.length)
-                            setBranchOptions([]);
-                          else
-                            setBranchOptions([
-                              ...degreeBranches.map((x) => x.name),
-                            ]);
+                          if (branchOptions.length === degreeBranches.length) setBranchOptions([]);
+                          else setBranchOptions([...degreeBranches.map((x) => x.name)]);
                         }
                       }}
                     />
@@ -958,11 +874,7 @@ const JobAdd = ({ user }) => {
                 <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"Xth Grade"}
-                    options={
-                      selectedXthTypeOfGrade.name === "CGPA"
-                        ? CGPAs
-                        : Percentages
-                    }
+                    options={selectedXthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
                     selectedOption={selectedXthGrade}
                     setSelectedOption={setSelectedXthGrade}
                   />
@@ -980,11 +892,7 @@ const JobAdd = ({ user }) => {
                 <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"XIIth Grade"}
-                    options={
-                      selectedXIIthTypeOfGrade.name === "CGPA"
-                        ? CGPAs
-                        : Percentages
-                    }
+                    options={selectedXIIthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
                     selectedOption={selectedXIIthGrade}
                     setSelectedOption={setSelectedXIIthGrade}
                   />
@@ -1002,11 +910,7 @@ const JobAdd = ({ user }) => {
                 <div className="sm:col-span-1 relative -top-[22px]">
                   <DropDown
                     title={"Btech Grade"}
-                    options={
-                      selectedBtechTypeOfGrade.name === "CGPA"
-                        ? CGPAs
-                        : Percentages
-                    }
+                    options={selectedBtechTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
                     selectedOption={selectedBtechGrade}
                     setSelectedOption={setSelectedBtechGrade}
                   />
@@ -1031,9 +935,7 @@ const JobAdd = ({ user }) => {
                           defaultChecked={option.id === "everyone"}
                           onChange={(e) =>
                             setPlaced(
-                              e.target.value === "Everyone"
-                                ? null
-                                : e.target.value === "Placed"
+                              e.target.value === "Everyone" ? null : e.target.value === "Placed"
                             )
                           }
                           className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
@@ -1054,9 +956,7 @@ const JobAdd = ({ user }) => {
                 <div className="sm:col-span-3 relative -top-[22px]">
                   <div className="flex flex-col mt-5">
                     <div className="flex items-center justify-between">
-                      <p className="text-base font-medium text-gray-900">
-                        Maximum salary ?
-                      </p>
+                      <p className="text-base font-medium text-gray-900">Maximum salary ?</p>
                       <p className="text-sm font-light">
                         {"₹" + Number(salary).toLocaleString("en-IN")}
                       </p>
@@ -1065,7 +965,7 @@ const JobAdd = ({ user }) => {
                       <input
                         type="range"
                         min={0}
-                        max={500000}
+                        max={5000000}
                         step={5000}
                         className="w-full "
                         value={salary}
@@ -1082,9 +982,7 @@ const JobAdd = ({ user }) => {
               )}
 
               <div className="sm:col-span-3">
-                <label className="text-base font-medium text-gray-900">
-                  Type Of Job Posting
-                </label>
+                <label className="text-base font-medium text-gray-900">Type Of Job Posting</label>
                 <p className="text-sm leading-5 text-gray-500">
                   How would you like to show this job posting?
                 </p>
@@ -1128,24 +1026,15 @@ const JobAdd = ({ user }) => {
       <div className="space-y-6 max-w-6xl mx-auto py-8">
         <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
           <div className="mb-5 md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Drive Infomation
-            </h3>
+            <h3 className="text-lg font-medium leading-6 text-gray-900">Drive Infomation</h3>
             <p className="mt-1 text-sm text-gray-500">
-              This information will be displayed publicly so be careful what you
-              share.
+              This information will be displayed publicly so be careful what you share.
             </p>
           </div>
           <div>
-            <form
-              className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
-              method="POST"
-            >
+            <form className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6" method="POST">
               <div className="sm:col-span-6">
-                <label
-                  htmlFor="roundNumber"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="roundNumber" className="block text-sm font-medium text-gray-700">
                   Enter number of rounds
                 </label>
                 <input
@@ -1175,30 +1064,29 @@ const JobAdd = ({ user }) => {
                         handleRoundChange={handleRoundChange}
                         handleShortlistFile={handleShortlistFile}
                       />
-                      {roundIndex == 0 &&
-                        typeOfPost === "Shortlisted Students" && (
-                          <div className="sm:col-span-3">
-                            <label
-                              htmlFor="photo"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Upload Spreadsheet
-                            </label>
+                      {roundIndex == 0 && typeOfPost === "Shortlisted Students" && (
+                        <div className="sm:col-span-3">
+                          <label
+                            htmlFor="photo"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Upload Spreadsheet
+                          </label>
 
-                            <input
-                              className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                              label="Choose File"
-                              type="file"
-                              name="image"
-                              id="profileImg"
-                              onChange={handleFile}
-                            />
-                            {excelFileError &&
-                              toast.error(excelFileError, {
-                                toastId: excelFileError,
-                              })}
-                          </div>
-                        )}
+                          <input
+                            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            label="Choose File"
+                            type="file"
+                            name="image"
+                            id="profileImg"
+                            onChange={handleFile}
+                          />
+                          {excelFileError &&
+                            toast.error(excelFileError, {
+                              toastId: excelFileError,
+                            })}
+                        </div>
+                      )}
                     </>
                   ))}
                 </div>
@@ -1212,10 +1100,7 @@ const JobAdd = ({ user }) => {
                   {questionnaire?.map((questionObj, questionIndex) => (
                     <Question
                       question={questionObj.question}
-                      type={
-                        questionObj.question.options &&
-                        questionObj.question.options.length > 0
-                      }
+                      type={questionObj.question.options && questionObj.question.options.length > 0}
                       index={questionIndex}
                       handleQuestionChange={handleQuestionChange}
                       clearOptions={clearOptions}

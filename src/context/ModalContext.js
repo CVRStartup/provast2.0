@@ -13,6 +13,7 @@ export function ModelContextProvider({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [modalJob, setModalJob] = useState(null);
+  const [modalJobQuestionnnare, setModalJobQuestionnare] = useState([]);
 
   function closeModal() {
     setIsOpen(false);
@@ -41,6 +42,8 @@ export function ModelContextProvider({ children }) {
     setRightOpen,
     modalJob,
     setModalJob,
+    modalJobQuestionnnare,
+    setModalJobQuestionnare,
     setDeleteName,
     deleteName,
   };

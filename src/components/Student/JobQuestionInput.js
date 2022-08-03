@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const JobQuestionInput = ({
   blankInputQuestions,
   setBlankInputQuestions,
   questionId,
+  required,
 }) => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   const inputValueHandler = (e) => {
     let newBlankInputQuestions = [...blankInputQuestions];
@@ -14,24 +15,22 @@ const JobQuestionInput = ({
     setInputValue(answer);
 
     newBlankInputQuestions.forEach((blankInputQuestion) => {
-      if (blankInputQuestion['questionId'] === questionId) {
-        blankInputQuestion['answer'] = answer;
+      if (blankInputQuestion["questionId"] === questionId) {
+        blankInputQuestion["answer"] = answer;
         questionPresent = true;
       }
     });
 
     if (questionPresent) setBlankInputQuestions(newBlankInputQuestions);
     else
-      setBlankInputQuestions([
-        ...newBlankInputQuestions,
-        { answer: e.target.value, questionId },
-      ]);
+      setBlankInputQuestions([...newBlankInputQuestions, { answer: e.target.value, questionId }]);
   };
 
   return (
     <input
-      type='text'
-      className='inline p-2 text-sm border-0 border-b-2 border-gray-400 outline-none bg-transparent focus:outline-none'
+      type="text"
+      className="inline p-2 text-sm border-0 border-b-2 border-gray-400 outline-none bg-transparent focus:outline-none"
+      required={required}
       value={inputValue}
       onChange={inputValueHandler}
     />

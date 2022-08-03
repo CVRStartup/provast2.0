@@ -1,9 +1,10 @@
 import React from "react";
 
 export const StudentProfileDetails = ({ student, personal }) => {
+  console.log(student);
   return (
-    <div className='my-7 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden'>
-      <dl className='grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2'>
+    <div className='my-7 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden'>
+      <dl className='grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3'>
         <div className='sm:col-span-1'>
           <dt className='capitalize text-md font-medium text-gray-500'>First Name</dt>
           <dd className=' text-md font-semibold text-gray-900'>{student?.profile?.firstName}</dd>
@@ -27,15 +28,60 @@ export const StudentProfileDetails = ({ student, personal }) => {
             <dd className=' font-semibold text-md text-gray-900'>{student?.college?.name}</dd>
           </div>
         )}
-        <div className='sm:col-span-1'>
-          <dt className='text-md font-medium text-gray-500'>Roll Number</dt>
-          <dd className=' font-semibold text-md text-gray-900'>{student?.rollNumber?.value}</dd>
-        </div>
+
+        {student?.college?.placement?.designation && student.category === "college" && (
+          <div className='sm:col-span-1'>
+            <dt className='text-md font-medium text-gray-500'>College Designation</dt>
+            <dd className=' font-semibold text-md text-gray-900'>
+              {student?.college?.placement?.designation}
+            </dd>
+          </div>
+        )}
+        {student?.rollNumber?.value && (
+          <div className='sm:col-span-1'>
+            <dt className='text-md font-medium text-gray-500'>Roll Number</dt>
+            <dd className=' font-semibold text-md text-gray-900'>{student?.rollNumber?.value}</dd>
+          </div>
+        )}
 
         {student?.profile?.gender && (
           <div className='sm:col-span-1'>
             <dt className='text-md font-medium text-gray-500'>Gender</dt>
             <dd className=' font-semibold text-md text-gray-900'>{student?.profile?.gender}</dd>
+          </div>
+        )}
+        {student?.college?.placement?.email && (
+          <div className='sm:col-span-1'>
+            <dt className='text-md font-medium text-gray-500'>Placement Email</dt>
+
+            <dd className=' font-semibold text-md text-gray-900'>
+              {student?.college?.placement?.email}
+            </dd>
+          </div>
+        )}
+        {student?.college?.placement?.phone && (
+          <div className='sm:col-span-1'>
+            <dt className='text-md font-medium text-gray-500'>Placement Phone</dt>
+
+            <dd className=' font-semibold text-md text-gray-900'>
+              {student?.college?.placement?.phone}
+            </dd>
+          </div>
+        )}
+        {student?.college?.principal?.email && (
+          <div className='sm:col-span-1'>
+            <dt className='text-md font-medium text-gray-500'>Principal Email</dt>
+            <dd className=' font-semibold text-md text-gray-900'>
+              {student?.college?.principal?.email}
+            </dd>
+          </div>
+        )}
+        {student?.college?.principal?.phone && (
+          <div className='sm:col-span-1'>
+            <dt className='text-md font-medium text-gray-500'>Principal Phone</dt>
+            <dd className=' font-semibold text-md text-gray-900'>
+              {student?.college?.principal?.phone}
+            </dd>
           </div>
         )}
         {student?.profile?.dob && (

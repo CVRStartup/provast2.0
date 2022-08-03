@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { GrClose } from "react-icons/gr";
 import { useModelContext } from "../../context/ModalContext";
+import { AcademicForm } from "./ModalForms/AcademicForm";
 import { ApplyJobForm } from "./ModalForms/ApplyJobForm";
 import { AwardForm } from "./ModalForms/Awards";
 import { CertificationsForm } from "./ModalForms/Certifications";
@@ -15,6 +16,7 @@ import { EducationForm } from "./ModalForms/Education";
 import { HobbiesForm } from "./ModalForms/Hobbies";
 import { LanguageForm } from "./ModalForms/Languages";
 import { ProjectForm } from "./ModalForms/Projects";
+import { QuestionnareForm } from "./ModalForms/QuestionnareForm";
 import { ResumeForm } from "./ModalForms/ResumeForm";
 import { SkillForm } from "./ModalForms/Skills";
 import { SocialForm } from "./ModalForms/Social";
@@ -98,6 +100,8 @@ export const Modal = () => {
                 {form === "downloadResumeFilter" && <DownloadResumeFilter />}
                 {form === "ApplyJobForm" && <ApplyJobForm />}
                 {form === "deleteForm" && <DeleteJobForm />}
+                {form === "academic" && <AcademicForm />}
+                {form === "questionnareForm" && <QuestionnareForm />}
               </div>
             </Transition.Child>
           </div>
