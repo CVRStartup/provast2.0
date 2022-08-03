@@ -170,7 +170,7 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.resume ? (
                                 <Link
-                                  href={`${process.env.NEXT_PUBLIC_HOST_URL}/viewresumes/${option.resume}`}
+                                  href={`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option.resume}`}
                                 >
                                   <a className='text-blue-800 underline'>{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
                                 </Link>
@@ -228,7 +228,7 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.resume ? (
                                 <Link
-                                  href={`${process.env.NEXT_PUBLIC_HOST_URL}/viewresumes/${option.resume}`}
+                                  href={`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option.resume}`}
                                 >
                                   <a className='text-blue-800 underline'>{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
                                 </Link>

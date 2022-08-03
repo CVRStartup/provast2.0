@@ -20,7 +20,6 @@ function classNames(...classes) {
 
 const CollegeJobSlug = ({ id }) => {
   const { job, isLoading } = useJob(id);
-  console.log(job?.eligible);
   const [tab, setTab] = useState("Job Information");
   const user = useUser();
   const students = useStudents(user);

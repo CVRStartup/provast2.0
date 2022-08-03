@@ -41,12 +41,15 @@ const ViewResume = ({ id }) => {
     setResume(resume);
   }, [resume]);
 
-  if (!resume) return <Loader size='20' />;
   return (
     <div className='flex justify-between bg-gray-800 overflow-auto'>
-      <section className='mx-auto h-screen overflow-auto py-5 w-full'>
-        <Template componentRef={componentRef} />
-      </section>
+      {resume ? (
+        <section className='mx-auto h-screen overflow-auto py-5 w-full'>
+          <Template componentRef={componentRef} />
+        </section>
+      ) : (
+        <Loader size={"16"} color={"white"} />
+      )}
     </div>
   );
 };
