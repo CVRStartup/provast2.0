@@ -3,7 +3,7 @@ import { MdSentimentDissatisfied } from "react-icons/md";
 import { useModelContext } from "../../context/ModalContext";
 
 export const EducationCard = ({ education }) => {
-  const { setIsOpen, setForm, setEditId } = useModelContext();
+  // const { setIsOpen, setForm, setEditId } = useModelContext();
   return (
     <div className='relative my-4 px-4 border-l-2 border-gray-200'>
       <div className='flex justify-between'>
