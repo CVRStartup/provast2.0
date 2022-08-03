@@ -49,7 +49,14 @@ export const QuestionnareForm = () => {
 
     if (questionPresent) setCheckedOptions(newCheckedOptions);
     else setCheckedOptions([...newCheckedOptions, { answer: option, questionId }]);
+
+    [...e.target?.parentElement?.parentElement?.children].forEach((child) => {
+      if (child.firstChild != e) {
+        child.firstChild.required = false;
+      }
+    });
   };
+
   const handleQuestionnareSubmit = async (e) => {
     e.preventDefault();
     if (modalJob.designation.roles.length === 1) {
@@ -95,6 +102,7 @@ export const QuestionnareForm = () => {
                               id={option}
                               onChange={(e) => checkOptionHandler(e, question._id)}
                               value={option}
+                              required={question?.question?.required}
                             />
                             <label htmlFor={option} className='font-medium text-white'>
                               {option}
