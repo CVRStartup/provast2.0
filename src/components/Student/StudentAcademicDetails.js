@@ -5,7 +5,7 @@ import { useModelContext } from "../../context/ModalContext";
 
 export const StudentAcademicDetails = ({ student }) => {
   const { setIsOpen, setForm } = useModelContext();
-  const { academics } = useAcademic(student?._id);
+  const { academics } = useAcademic(student?.rollNumber?.value);
   return (
     <div className='my-7 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden'>
       <div className='mb-10'>

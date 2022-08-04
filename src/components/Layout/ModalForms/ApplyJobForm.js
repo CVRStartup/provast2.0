@@ -11,45 +11,26 @@ import JobQuestionInput from "../../Student/JobQuestionInput";
 
 export const ApplyJobForm = () => {
   const user = useUser();
-  const { closeModal, modalJob, loading } = useModelContext();
+  const { closeModal, modalJob, loading, modalJobQuestionnare, modalJobResume } = useModelContext();
   const [checkedRoles, setCheckRoles] = useState([]);
-  const [checkedOptions, setCheckedOptions] = useState([]);
-  const [blankInputQuestions, setBlankInputQuestions] = useState([]);
-  const checkOptionHandler = (e, questionId) => {
-    const newCheckedOptions = [...checkedOptions];
-    let questionPresent = false;
-
-    const option = e.target.value;
-
-    newCheckedOptions.forEach((checkedOption) => {
-      if (checkedOption["questionId"] === questionId) {
-        checkedOption["answer"] = option;
-        questionPresent = true;
-      }
-    });
-
-    if (questionPresent) setCheckedOptions(newCheckedOptions);
-    else
-      setCheckedOptions([...newCheckedOptions, { answer: option, questionId }]);
-  };
   return (
     <form>
-      <div className="flex items-center justify-between">
-        <h3 className="text-2xl font-medium leading-6 text-white">
+      <div className='flex items-center justify-between'>
+        <h3 className='text-2xl font-medium leading-6 text-white'>
           For which role do you want to apply?
         </h3>
       </div>
-      <div className="mt-5 w-full">
-        <fieldset className="space-y-5">
-          <div className="relative">
+      <div className='mt-5 w-full'>
+        <fieldset className='space-y-5'>
+          <div className='relative'>
             {modalJob?.designation?.roles?.map((role, index) => {
               return (
-                <div key={index} className="mb-2 flex mr-4">
-                  <div className="flex items-center h-5 w-6">
+                <div key={index} className='mb-2 flex mr-4'>
+                  <div className='flex items-center h-5 w-6'>
                     <input
                       id={role}
                       name={role}
-                      type="checkbox"
+                      type='checkbox'
                       checked={checkedRoles.includes(role)}
                       onChange={(e) => {
                         const id = checkedRoles.indexOf(role);
@@ -68,90 +49,46 @@ export const ApplyJobForm = () => {
                           setCheckRoles([...cat]);
                         }
                       }}
-                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                      className='h-4 w-4 text-blue-600 border-gray-300 rounded'
                     />
                   </div>
-                  <div className="ml-1 text-sm">
-                    <label htmlFor={role} className="font-medium text-white">
+                  <div className='ml-1 text-sm'>
+                    <label htmlFor={role} className='font-medium text-white'>
                       {role}
                     </label>
                   </div>
                 </div>
               );
             })}
-            <p className="text-red-500 font-semibold text-sm">
+            <p className='text-red-500 font-semibold text-sm'>
               You can apply to any {modalJob?.designation?.max} of the roles
             </p>
           </div>
         </fieldset>
       </div>
-      <div className="mt-5 w-full text-white">
-        <fieldset className="space-y-5">
-          <div className="relative">
-            {modalJob?.questionnaire?.map((question, index) => {
-              return (
-                <div key={index}>
-                  <div>
-                    <span>Question: {question.question.questionName}</span>
-                    <span>
-                      {question?.question?.options?.length > 0 ? (
-                        question?.question?.options?.map((option, newIndex) => (
-                          <div key={newIndex}>
-                            <input
-                              checked={checkedOptions.some(
-                                (questionObj) =>
-                                  questionObj["answer"] === option
-                              )}
-                              type="checkbox"
-                              name={option}
-                              id={option}
-                              onChange={(e) =>
-                                checkOptionHandler(e, question._id)
-                              }
-                              value={option}
-                            />
-                            <label
-                              htmlFor={option}
-                              className="font-medium text-white"
-                            >
-                              {option}
-                            </label>
-                          </div>
-                        ))
-                      ) : (
-                        <JobQuestionInput
-                          blankInputQuestions={blankInputQuestions}
-                          setBlankInputQuestions={setBlankInputQuestions}
-                          questionId={question._id}
-                        />
-                      )}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </fieldset>
-      </div>
       <div>
-        <div className="flex justify-end">
+        <div className='flex justify-end'>
           <button
-            type="button"
+            type='button'
             onClick={() => {
               closeModal();
             }}
-            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
           >
             Cancel
           </button>
           <button
-            type="button"
+            type='button'
             onClick={async () => {
               if (checkedRoles.length > 0) {
-                await handleJobResponse(modalJob, user, "Apply", checkedRoles, [
-                  ...checkedOptions,
-                  ...blankInputQuestions,
-                ]);
+                await handleJobResponse(
+                  modalJob,
+                  user,
+                  "Apply",
+                  checkedRoles,
+                  modalJobQuestionnare,
+                  modalJobResume
+                );
                 await mutate(`/api/jobs/${modalJob._id}`);
                 closeModal();
               } else {
@@ -160,7 +97,7 @@ export const ApplyJobForm = () => {
                 });
               }
             }}
-            className="ml-3  inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className='ml-3  inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
           >
             Apply
           </button>

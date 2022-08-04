@@ -16,6 +16,7 @@ import { EducationForm } from "./ModalForms/Education";
 import { HobbiesForm } from "./ModalForms/Hobbies";
 import { LanguageForm } from "./ModalForms/Languages";
 import { ProjectForm } from "./ModalForms/Projects";
+import { QuestionnareForm } from "./ModalForms/QuestionnareForm";
 import { ResumeForm } from "./ModalForms/ResumeForm";
 import { SkillForm } from "./ModalForms/Skills";
 import { SocialForm } from "./ModalForms/Social";
@@ -105,6 +106,7 @@ export const Modal = () => {
                 {form === "ApplyJobForm" && <ApplyJobForm />}
                 {form === "deleteForm" && <DeleteJobForm />}
                 {form === "academic" && <AcademicForm />}
+                {form === "questionnareForm" && <QuestionnareForm />}
               </div>
             </Transition.Child>
           </div>

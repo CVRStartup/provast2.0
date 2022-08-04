@@ -14,6 +14,7 @@ const JobSchema = mongoose.Schema(
     company: {
       type: String,
     },
+    program: String,
     website: {
       type: String,
     },
@@ -99,6 +100,8 @@ const JobSchema = mongoose.Schema(
     eligible: [
       {
         email: String,
+        phone: String,
+        resume: String,
         status: {
           applied: {
             type: Boolean,

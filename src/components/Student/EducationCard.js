@@ -1,52 +1,73 @@
 import React from "react";
+import { MdSentimentDissatisfied } from "react-icons/md";
+import { useModelContext } from "../../context/ModalContext";
 
 export const EducationCard = ({ education }) => {
+  // const { setIsOpen, setForm, setEditId } = useModelContext();
   return (
-    <div className='my-4 px-4 border-l-2 border-gray-200'>
+    <div className='relative my-4 px-4 border-l-2 border-gray-200'>
       <div className='flex justify-between'>
         <div>
-          <h3 className='text-2xl text-gray-500 font-semibold'>{education.program}</h3>
-          <p className='text-sm mb-2'>
-            Board: {education.board}, Type: {education.educationType}
-          </p>
+          <h3 className='text-2xl text-gray-500 font-semibold'>{education?.program}</h3>
+          {/* <button
+            onClick={() => {
+              setIsOpen(true);
+              setForm("academic");
+              setEditId(education?._id);
+            }}
+          >
+            Edit
+          </button> */}
+          <div className='text-sm'>
+            {education?.board && <span>Board: {education?.board},</span>}
+            <span>Type: {education?.educationType}</span>
+          </div>
         </div>
         <div className='flex flex-col items-center'>
-          <h3 className='text-2xl font-semibold text-gray-500'>{education.score.grade}</h3>
-          <p className='text-md text-orange-500'>{education.score.typeOfGrade}</p>
+          <h3 className='text-2xl font-semibold text-gray-500'>{education?.score?.grade}</h3>
+          <p className='text-md text-orange-500'>{education?.score?.typeOfGrade}</p>
         </div>
       </div>
 
-      <h3 className='flex items-center mt-4'>
-        <span className='text-gray-400 text-sm font-semibold'>
-          {education.institution} &middot;{" "}
-        </span>
-        {"  "}
-        <span className='text-xs text-gray-400 ml-2'>
-          ({education.batch.from} - {education.batch.to})
-        </span>
+      <h3 className='flex items-center mt-4 text-sm text-gray-400 font-semibold'>
+        <span>{education?.institution} </span>
+        {education?.batch && (
+          <span className='ml-1 text-xs'>
+            &middot; ({education?.batch?.from !== 0 && <span>{education?.batch?.from}</span>}
+            {education?.batch?.to !== 0 && (
+              <span>
+                {education?.batch?.from && education?.branch?.to ? " - " : ""}
+                {education?.batch?.to}
+              </span>
+            )}
+            )
+          </span>
+        )}
       </h3>
-      <div className='flex justify-between'>
+
+      {education.branch && (
         <div className='italic'>
           <h3>{education.branch}</h3>
         </div>
-        <div className='grid text-sm grid-cols-2 gap-4'>
+      )}
+
+      <div className={`absolute right-2 bottom-2 flex`}>
+        {education.verified && (
           <button
             type='button'
-            className={`${
-              education.verified ? "text-green-700 bg-green-100" : "text-red-700 bg-red-100 "
-            } inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded`}
+            className={`text-green-700 bg-green-100 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded mr-1`}
           >
             Verified
           </button>
+        )}
+        {education.frozen && (
           <button
             type='button'
-            className={`${
-              education.frozen ? "text-green-700 bg-green-100" : "text-red-700 bg-red-100 "
-            } inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded`}
+            className={`ml-1 text-green-700 bg-green-100 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded`}
           >
             Frozen
           </button>
-        </div>
+        )}
       </div>
     </div>
   );

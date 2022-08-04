@@ -14,8 +14,9 @@ import axios from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
 import * as XLSX from "xlsx";
+import { useModelContext } from "../context/ModalContext";
 
-export const handleJobResponse = async (job, user, op, roles, questionnaire) => {
+export const handleJobResponse = async (job, user, op, roles, questionnaire, resume) => {
   if (!user) return;
   let data = null;
   if (job.typeOfPost === "Shortlisted Students") {
@@ -27,6 +28,7 @@ export const handleJobResponse = async (job, user, op, roles, questionnaire) => 
       {
         newstatus: {
           ...newstatus,
+          resume,
           status: {
             applied: op === "Apply",
             roles: roles,
@@ -42,6 +44,7 @@ export const handleJobResponse = async (job, user, op, roles, questionnaire) => 
       {
         newstatus: {
           email: user?.email,
+          resume,
           status: {
             applied: op === "Apply",
             roles: roles,
@@ -361,6 +364,40 @@ export const btechBranches = [
 ];
 
 export const mbaBranches = [
+  { name: "Waste Management And Social Entrepreneurship" },
+  { name: "Business Administration - Business Analytics" },
+  { name: "Business Administration - Finance And Marketing" },
+  { name: "Business Administration - Human Resource And Business Analytics" },
+  { name: "Buisness Administration - Operation And Buisness Analytics" },
+  { name: "Artificial Intelligence And Data Science" },
+  { name: "Digital Marketing" },
+  { name: "Banking And Financial Services" },
+  { name: "Business Administration - Business Analytics And Operation" },
+  { name: "Business Administration - Human Resource And Marketing" },
+  { name: "Business Administration - Finance And Business Analytics" },
+  { name: "Business Administration - Human Resource And Finance" },
+  { name: "Hospital Management" },
+  { name: "Business Administration - Human Resource And Operations" },
+  { name: "Business Administration - Marketing And Business Analytics" },
+  { name: "Buisness Administration - Operations And Marketing" },
+  { name: "Business Administration - Finance And Human Resource Management" },
+  { name: "Business Administration - Business Analytics And Marketing" },
+  { name: "Business Administration- Business Analytics And Operations" },
+  { name: "Business Administration- Business Analytics-operations Management" },
+  { name: "Business Administration -finance And Operation Management" },
+  { name: "Business Administration/ Operations Managements And Marketing Management" },
+  { name: "Human Resources Management / Organisational Behaviour & Business Analytics" },
+  { name: "Marketing Management & Human Resources Management / Organisational Behaviour" },
+  { name: "Marketing Management & Strategy" },
+  { name: "Marketing Management & Business Analytics" },
+  { name: "Finance & Human Resources Management / Organisational Behaviour" },
+  { name: "Human Resources Management/ Organisational Behaviour & Marketing Management" },
+  { name: "Human Resources Management / Organisational Behaviour & Strategy" },
+  { name: "Finance & Strategy" },
+  { name: "Business Administration" },
+];
+
+export const mbaSrmBranches = [
   {
     name: "Artificial Intelligence and Data Science",
     code: "Artificial Intelligence and Data Science",
@@ -941,9 +978,16 @@ export const createResumeMessages = [
   "Create your professional resume today",
 ];
 
-export const degrees = [
+export const academicDegrees = [
   { name: "Class Xth" },
   { name: "Class XIIth" },
+  { name: "MBA" },
+  { name: "B.Tech" },
+  { name: "M.Tech" },
+  { name: "Degree" },
+];
+
+export const degrees = [
   { name: "Associate Degree in Administration of Justice" },
   { name: "Associate Degree in Animal Management" },
   { name: "Associate Degree in Architectural Building Engineering Technology" },

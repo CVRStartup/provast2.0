@@ -1,5 +1,5 @@
-import connectDB from "../../../../src/lib/connectDB";
-import Academic from "../../../../models/Academic";
+import connectDB from "../../../../../src/lib/connectDB";
+import Academic from "../../../../../models/Academic";
 
 export default async function handler(req, res) {
   switch (req.method) {
@@ -18,13 +18,9 @@ export default async function handler(req, res) {
 const updateUserDetails = async (req, res) => {
   try {
     await connectDB();
-    const { user } = req.query;
+    const { rollNumber } = req.query;
 
-    if (!user) {
-      return res.status(400).json({ message: "Invalid Credentials" });
-    }
-
-    const academics = await Academic.findOne({ user: user });
+    const academics = await Academic.findOne({ rollNumber });
     const newEducation = [];
     const bodyAcademics = req.body.academics;
     console.log("123", bodyAcademics);
@@ -38,7 +34,7 @@ const updateUserDetails = async (req, res) => {
       });
       console.log(academics._id, newEducation);
       const newAcademics = {
-        user,
+        rollNumber,
         education: newEducation,
       };
       const updated = await Academic.findByIdAndUpdate(
@@ -62,13 +58,13 @@ const updateUserDetails = async (req, res) => {
 const searchAcademics = async (req, res) => {
   try {
     await connectDB();
-    const { user } = req.query;
+    const { rollNumber } = req.query;
 
-    if (!user) {
+    if (!rollNumber) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
-    const academics = await Academic.findOne({ user: user });
+    const academics = await Academic.findOne({ rollNumber });
 
     if (academics) {
       return res
@@ -86,28 +82,23 @@ const searchAcademics = async (req, res) => {
 const createUserAcademics = async (req, res) => {
   try {
     await connectDB();
-    const { user } = req.query;
 
-    if (!user) {
-      return res.status(400).json({ message: "Invalid Credentials" });
-    }
-
-    const details = await Academic.findOne({ _id: user });
+    const details = await Academic.findOne({ rollNumber: req.body.rollNumber });
 
     if (details) {
-      return res.status(200).json({ message: "Details Already Exists" });
+      return res.status(500).json({ message: "Details Already Exists", details });
     } else {
-      const { academics } = req.body;
+      const { education } = req.body;
       const newAcademic = new Academic({
-        user,
-        education: [academics],
+        rollNumber: req.body.rollNumber,
+        education: education,
       });
 
       await newAcademic.save();
 
       return res.status(200).json({
         message: "Details Created",
-        academics,
+        education,
       });
     }
   } catch (error) {

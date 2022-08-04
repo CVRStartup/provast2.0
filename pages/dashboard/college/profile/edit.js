@@ -15,15 +15,11 @@ import { usePersonal } from "../../../../src/hooks/usePersonal";
 
 const ProfileEdit = ({ userDetails }) => {
   const user = JSON.parse(userDetails);
-  const { personal, isError, isLoading } = usePersonal(user._id);
+  console.log(user);
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [rollNumber, setRollNumber] = useState({
-    value: user?.rollNumber?.value,
-    verified: false,
-    frozen: user?.rollNumber?.frozen,
-  });
+
   const [phone, setPhone] = useState({
     value: user?.phone?.value,
     verified: false,
@@ -35,36 +31,22 @@ const ProfileEdit = ({ userDetails }) => {
     image: user?.profile?.image,
     gender: user?.profile?.gender,
     dob: user?.profile?.dob,
-    verified: false,
     frozen: user?.profile?.frozen,
-  });
-  const [contact, setContact] = useState({
-    parents: {
-      father: {
-        name: personal?.contact?.parents?.father?.name,
-        email: personal?.contact?.parents?.father?.email,
-        phone: personal?.contact?.parents?.father?.phone,
-        occupation: personal?.contact?.parents?.father?.occupation,
-      },
-      mother: {
-        name: personal?.contact?.parents?.mother?.name,
-        email: personal?.contact?.parents?.mother?.email,
-        phone: personal?.contact?.parents?.mother?.phone,
-        occupation: personal?.contact?.parents?.mother?.occupation,
-      },
-    },
-    address: {
-      city: personal?.contact?.address?.city,
-      country: personal?.contact?.address?.country,
-      state: personal?.contact?.address?.state,
-    },
-    linkedin: personal?.contact?.linkedin,
-    website: personal?.contact?.website,
     verified: false,
-    frozen: personal?.contact?.frozen,
   });
   const [college, setCollege] = useState({
     name: user?.college?.name,
+    code: user?.college?.code,
+    placement: {
+      designation: user?.college?.placement?.designation,
+      email: user?.college?.placement?.email,
+      phone: user?.college?.placement?.phone,
+    },
+    principal: {
+      email: user?.college?.principal?.email,
+      phone: user?.college?.principal?.phone,
+    },
+    website: user?.college?.website,
   });
 
   const uploadFileHandler = async (e) => {
@@ -95,21 +77,14 @@ const ProfileEdit = ({ userDetails }) => {
       {
         profile,
         phone,
+        college,
       }
     );
-    const {
-      data: { message: personalMessage },
-    } = await axios.put(
-      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/personal?userId=${user._id}`,
-      {
-        contact,
-      }
-    );
-    if (message == "Details Updated" && personalMessage == "Personal Details Updated") {
+
+    if (message == "Details Updated") {
       toast.success(message, { toastId: message });
-      router.push("/dashboard/student/profile");
+      router.push("/dashboard/college/profile");
       await mutate("/api/user");
-      await mutate(`/api/auth/user/personal?userId=${user?._id}`);
     } else {
       toast.error(message, { toastId: message });
     }
@@ -208,64 +183,7 @@ const ProfileEdit = ({ userDetails }) => {
                         />
                       </div>
 
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-3'>
-                        <label
-                          htmlFor='rollNumber'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Roll Number
-                        </label>
-                        <input
-                          type='text'
-                          name='rollNumber'
-                          id='rollNumber'
-                          disabled
-                          value={rollNumber.value}
-                          onChnage={(e) => setRollNumber({ ...rollNumber, value: e.target.value })}
-                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100'
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
-                        <label htmlFor='dob' className='block text-sm font-medium text-gray-700'>
-                          Date Of Birth
-                        </label>
-                        <input
-                          type='date'
-                          name='dob'
-                          id='dob'
-                          value={profile?.dob?.substring(0, 10)}
-                          disabled={profile.frozen}
-                          onChange={(e) =>
-                            setProfile({
-                              ...profile,
-                              dob: e.target.value,
-                            })
-                          }
-                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          }`}
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
-                        <label htmlFor='phone' className='block text-sm font-medium text-gray-700'>
-                          Phone Number
-                        </label>
-                        <input
-                          type='text'
-                          name='phone'
-                          id='phone'
-                          value={phone?.value}
-                          disabled={phone.frozen}
-                          onChange={(e) => setPhone({ ...phone, value: e.target.value })}
-                          className={`${
-                            profile.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          } mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md hover:cursor-not-allowed bg-gray-100`}
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                      <div className='col-span-6 sm:col-span-3'>
                         <label
                           htmlFor='registered-email-address'
                           className='block text-sm font-medium text-gray-700'
@@ -282,340 +200,164 @@ const ProfileEdit = ({ userDetails }) => {
                         />
                       </div>
 
-                      <div className='col-span-6 sm:col-span-3'>
-                        <label
-                          htmlFor='fathers-name'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Father&apos;s Name
+                      <div className='col-span-6 sm:col-span-3 lg:sm:col-span-2'>
+                        <label htmlFor='phone' className='block text-sm font-medium text-gray-700'>
+                          Phone Number
                         </label>
                         <input
                           type='text'
-                          name='fathers-name'
-                          id='fathers-name'
-                          value={contact?.parents?.father?.name}
-                          disabled={contact.frozen}
-                          onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              parents: {
-                                ...contact.parents,
-                                father: {
-                                  ...contact.parents.father,
-                                  name: e.target.value,
-                                },
-                              },
-                            })
-                          }
-                          className={`${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          } mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
+                          name='phone'
+                          id='phone'
+                          autoComplete='tel'
+                          value={phone?.value}
+                          onChange={(e) => setPhone({ ...phone, value: e.target.value })}
+                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
                         />
                       </div>
 
-                      <div className='col-span-6 sm:col-span-3'>
+                      <div className='col-span-6 sm:col-span-3 lg:sm:col-span-2'>
                         <label
-                          htmlFor='mothers-name'
+                          htmlFor='designation'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Mother&apos;s Name
+                          Designation
                         </label>
                         <input
                           type='text'
-                          name='mothers-name'
-                          id='mothers-name'
-                          value={contact?.parents?.mother?.name}
-                          disabled={contact.frozen}
+                          name='designation'
+                          id='designation'
+                          value={college?.placement?.designation}
                           onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              parents: {
-                                ...contact.parents,
-                                mother: {
-                                  ...contact.parents.mother,
-                                  name: e.target.value,
-                                },
+                            setCollege({
+                              ...college,
+                              placement: {
+                                ...college.placement,
+                                designation: e.target.value,
                               },
                             })
                           }
-                          className={`${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          } mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
+                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
                         />
                       </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                      <div className='col-span-6 sm:col-span-3  lg:sm:col-span-2'>
                         <label
-                          htmlFor='fathers-email-address'
+                          htmlFor='website'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Father&apos;s Email address
+                          Website
+                        </label>
+                        <input
+                          type='text'
+                          name='website'
+                          id='website'
+                          value={college?.website}
+                          onChange={(e) =>
+                            setCollege({
+                              ...college,
+                              website: e.target.value,
+                            })
+                          }
+                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
+                        />
+                      </div>
+                      <div className='col-span-6 sm:col-span-3'>
+                        <label
+                          htmlFor='princiapl-email'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Principal Email
                         </label>
                         <input
                           type='email'
-                          name='fathers-email-address'
-                          id='fathers-email-address'
-                          value={contact?.parents?.father?.email}
-                          disabled={contact.frozen}
+                          name='princiapl-email'
+                          id='princiapl-email'
+                          autoComplete='email'
+                          value={college?.principal?.email}
                           onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              parents: {
-                                ...contact.parents,
-                                father: {
-                                  ...contact.parents.father,
-                                  email: e.target.value,
-                                },
+                            setCollege({
+                              ...college,
+                              principal: {
+                                ...college.principal,
+                                email: e.target.value,
                               },
                             })
                           }
-                          className={`${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          } mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
+                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
                         />
                       </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                      <div className='col-span-6 sm:col-span-3'>
                         <label
-                          htmlFor='fathers-phone'
+                          htmlFor='principal-phone'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Father&apos;s Phone Number
+                          Principal Phone Number
                         </label>
                         <input
                           type='text'
-                          name='fathers-phone'
-                          id='fathers-phone'
-                          value={contact?.parents?.father?.phone}
-                          disabled={contact.frozen}
+                          name='principal-phone'
+                          id='principal-phone'
+                          autoComplete='tel'
+                          value={college?.principal?.phone}
                           onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              parents: {
-                                ...contact.parents,
-                                father: {
-                                  ...contact.parents.father,
-                                  phone: e.target.value,
-                                },
+                            setCollege({
+                              ...college,
+                              principal: {
+                                ...college.principal,
+                                phone: e.target.value,
                               },
                             })
                           }
-                          className={`${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          } mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
+                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
                         />
                       </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                      <div className='col-span-6 sm:col-span-3'>
                         <label
-                          htmlFor='fathers-occupation'
+                          htmlFor='placement-email'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Father&apos;s Occupation
+                          Placement Email
                         </label>
                         <input
                           type='text'
-                          name='fathers-occupation'
-                          id='fathers-occupation'
-                          value={contact?.parents?.father?.occupation}
-                          disabled={contact.frozen}
+                          name='placement-email'
+                          id='placement-email'
+                          autoComplete='email'
+                          value={college?.placement?.email}
                           onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              parents: {
-                                ...contact.parents,
-                                father: {
-                                  ...contact.parents.father,
-                                  occupation: e.target.value,
-                                },
+                            setCollege({
+                              ...college,
+                              placement: {
+                                ...college.placement,
+                                email: e.target.value,
                               },
                             })
                           }
-                          className={`${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          } mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
+                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
                         />
                       </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
+                      <div className='col-span-6 sm:col-span-3'>
                         <label
-                          htmlFor='mothers-email-address'
+                          htmlFor='placement-phone'
                           className='block text-sm font-medium text-gray-700'
                         >
-                          Mother&apos;s Email address
-                        </label>
-                        <input
-                          type='email'
-                          name='mothers-email-address'
-                          id='mothers-email-address'
-                          value={contact?.parents?.mother?.email}
-                          disabled={contact.frozen}
-                          onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              parents: {
-                                ...contact.parents,
-                                mother: {
-                                  ...contact.parents.mother,
-                                  email: e.target.value,
-                                },
-                              },
-                            })
-                          }
-                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          }`}
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
-                        <label
-                          htmlFor='mothers-phone'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Mother&apos;s Phone Number
+                          Placement Phone Number
                         </label>
                         <input
                           type='text'
-                          name='mothers-phone'
-                          id='mothers-phone'
-                          value={contact?.parents?.mother?.phone}
-                          disabled={contact.frozen}
+                          name='placement-phone'
+                          id='placement-phone'
+                          autoComplete='tel'
+                          value={college?.placement?.phone}
                           onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              parents: {
-                                ...contact.parents,
-                                mother: {
-                                  ...contact.parents.mother,
-                                  phone: e.target.value,
-                                },
+                            setCollege({
+                              ...college,
+                              placement: {
+                                ...college.placement,
+                                phone: e.target.value,
                               },
                             })
                           }
-                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          }`}
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
-                        <label
-                          htmlFor='mothers-occupation'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Mother&apos;s Occupation
-                        </label>
-                        <input
-                          type='text'
-                          name='mothers-occupation'
-                          id='mothers-occupation'
-                          value={contact?.parents?.mother?.occupation}
-                          disabled={contact.frozen}
-                          onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              parents: {
-                                ...contact.parents,
-                                mother: {
-                                  ...contact.parents.mother,
-                                  occupation: e.target.value,
-                                },
-                              },
-                            })
-                          }
-                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          }`}
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
-                        <label
-                          htmlFor='country'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Country
-                        </label>
-                        <div className='mt-1'>
-                          <select
-                            id='country'
-                            name='country'
-                            autoComplete='country-name'
-                            className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block text-sm w-full sm:text-md border-gray-300 rounded-md'
-                            value={contact.address.country}
-                            disabled={contact.frozen}
-                            onChange={(e) =>
-                              setContact({
-                                ...contact,
-                                address: {
-                                  ...contact.address,
-                                  country: e.target.value,
-                                },
-                              })
-                            }
-                          >
-                            <>
-                              <option selected disabled>
-                                Select A Country
-                              </option>
-                              {countries?.map((country) => (
-                                <option key={country.code}>{country.name}</option>
-                              ))}
-                            </>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-6 lg:col-span-2'>
-                        <label htmlFor='city' className='block text-sm font-medium text-gray-700'>
-                          City
-                        </label>
-                        <input
-                          type='text'
-                          name='city'
-                          id='city'
-                          value={contact.address.city}
-                          disabled={contact.frozen}
-                          onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              address: {
-                                ...contact.address,
-                                city: e.target.value,
-                              },
-                            })
-                          }
-                          autoComplete='address-level2'
-                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          }`}
-                        />
-                      </div>
-
-                      <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
-                        <label htmlFor='region' className='block text-sm font-medium text-gray-700'>
-                          State / Province
-                        </label>
-                        <input
-                          type='text'
-                          name='region'
-                          id='region'
-                          value={contact.address.state}
-                          disabled={contact.frozen}
-                          onChange={(e) =>
-                            setContact({
-                              ...contact,
-                              address: {
-                                ...contact.address,
-                                state: e.target.value,
-                              },
-                            })
-                          }
-                          autoComplete='address-level1'
-                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                            contact.frozen ? "bg-gray-100 cursor-not-allowed" : ""
-                          }`}
+                          className={`mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
                         />
                       </div>
                     </div>
@@ -646,61 +388,6 @@ const ProfileEdit = ({ userDetails }) => {
               <div>
                 <div className='shadow sm:rounded-md sm:overflow-hidden'>
                   <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
-                    <div className='grid grid-cols-3 gap-6'>
-                      <div className='col-span-3 sm:col-span-6'>
-                        <label
-                          htmlFor='company-website'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Website
-                        </label>
-                        <div className='mt-1 flex rounded-md shadow-sm'>
-                          <input
-                            type='text'
-                            name='company-website'
-                            id='company-website'
-                            className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
-                            value={contact.website}
-                            onChange={(e) =>
-                              setContact({
-                                ...contact,
-                                website: e.target.value,
-                              })
-                            }
-                            disabled={contact.frozen}
-                            placeholder='https://www.example.com'
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='grid grid-cols-3 gap-6'>
-                      <div className='col-span-3 sm:col-span-6'>
-                        <label
-                          htmlFor='linkedin'
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Linkedin URL
-                        </label>
-                        <div className='mt-1 flex rounded-md shadow-sm'>
-                          <input
-                            type='text'
-                            name='linkedin'
-                            id='linkedin'
-                            value={contact.linkedin}
-                            onChange={(e) =>
-                              setContact({
-                                ...contact,
-                                linkedin: e.target.value,
-                              })
-                            }
-                            disabled={contact.frozen}
-                            className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
-                            placeholder='https://www.linkedin.com/in/username/'
-                          />
-                        </div>
-                      </div>
-                    </div>
-
                     <div className='sm:col-span-6 mt-3'>
                       <label
                         htmlFor='profileImg'
@@ -1024,23 +711,6 @@ export const getServerSideProps = async ({ req, res }) => {
     };
   }
 
-  if (user.category !== "student") {
-    return {
-      redirect: {
-        destination: `/dashboard/${user.category}`,
-        permanent: false,
-      },
-    };
-  }
-
-  if (user.category === "student" && !user.academicsAvailable) {
-    return {
-      redirect: {
-        destination: "/auth/user/academics",
-        permanent: false,
-      },
-    };
-  }
   return {
     props: {
       userDetails: JSON.stringify(user),
