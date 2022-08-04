@@ -1,4 +1,5 @@
 import { AssessmentCore } from "./AssessmentCore";
+import { QuestionsCard } from "./QuestionsCard";
 import { useState, useEffect } from "react";
 export const AssessmentSection = ({
   section,
@@ -19,23 +20,19 @@ export const AssessmentSection = ({
     visitQuestion();
   }, [questionIndex]);
 
-  const changeQuestionHandler = (e) => {
+  const changeQuestionHandler = (e, qIndex) => {
     if (e.target.id === "prev-question-btn") {
-      if (section && section.questions && questionIndex == 0) return;
-      setQuestionIndex(questionIndex - 1);
+      if (section && section.questions && qIndex == -1) return;
+      setQuestionIndex(qIndex);
     } else {
-      if (
-        section &&
-        section.questions &&
-        questionIndex == section.questions.length - 1
-      )
+      if (section && section.questions && qIndex == section.questions.length)
         return;
-      setQuestionIndex(questionIndex + 1);
+      setQuestionIndex(qIndex);
     }
   };
 
   return (
-    <div key={sectionIndex} className="col-start-2 col-span-4">
+    <div key={sectionIndex}>
       <div className="border-2 shadow border-blue-400 flex items-center justify-between rounded p-2 my-4 font-semibold">
         <button
           id="prev-section-btn"
@@ -65,22 +62,33 @@ export const AssessmentSection = ({
           Next
         </button>
       </div>
-      {section.questions && section.questions[questionIndex] && (
-        <div>
-          <AssessmentCore
-            item={section.questions[questionIndex]}
-            index={questionIndex}
-            lastIndex={section.questions.length - 1}
-            sectionIndex={sectionIndex}
-            status={status}
-            optionSelectHandler={optionSelectHandler}
-            clearOption={clearOption}
-            changeQuestionHandler={changeQuestionHandler}
-            questionAttemptHandler={questionAttemptHandler}
-            disable={disable}
-          />
-        </div>
-      )}
+      <div className="grid grid-cols-8">
+        {section.questions && section.questions[questionIndex] && (
+          <div className="col-start-1 col-span-7 h-max">
+            <AssessmentCore
+              item={section.questions[questionIndex]}
+              index={questionIndex}
+              lastIndex={section.questions.length - 1}
+              sectionIndex={sectionIndex}
+              status={status}
+              optionSelectHandler={optionSelectHandler}
+              clearOption={clearOption}
+              changeQuestionHandler={changeQuestionHandler}
+              questionAttemptHandler={questionAttemptHandler}
+              disable={disable}
+            />
+          </div>
+        )}
+        {section.questions && (
+          <div className="col-start-8 col-span-1">
+            <QuestionsCard
+              questions={section.questions}
+              changeQuestionHandler={changeQuestionHandler}
+              status={status}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

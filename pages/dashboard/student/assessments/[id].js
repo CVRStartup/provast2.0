@@ -375,7 +375,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
         {assessment?.mode === "Test" &&
         status?.finishedAt == null &&
         fullscreen == false ? (
-          <div className="mt-[15vh] p-10 grid grid-cols-6">
+          <div className="mt-[10vh] p-10 grid grid-cols-6">
             {firstWarning ? (
               <div className="m-5 col-start-2 col-span-4 flex flex-col items-center">
                 <div className="border rounded bg-red-300 text-red-700 p-10">
@@ -421,7 +421,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
           (assessment?.mode == "Practice" ||
             assessment?.mode === "Test" ||
             status?.finishedAt) && (
-            <div className="mt-[15vh] p-10 grid grid-cols-6 bg-white">
+            <div className="mt-[10vh] p-10 grid grid-cols-6 bg-white">
               <div className="col-start-2 col-span-4 flex justify-between items-center">
                 {assessment && (
                   <div className=" flex flex-col justify-start text-3xl font-bold  mt-15 ml-10">
@@ -526,7 +526,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                   No. of attempts: {status.attempts}
                 </div>
               )}
-              <div className="col-start-2 col-span-4 my-20">
+              <div className="col-start-1 col-span-6 my-10">
                 {assessment && assessment.sections && (
                   <div>
                     <AssessmentSection
