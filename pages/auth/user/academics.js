@@ -21,10 +21,11 @@ const Academics = () => {
 
   const [selectedDegree, setSelectedDegree] = useState(academicDegrees[0]);
   const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
-  const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
-  const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
-    typeOfEducationGrade[0]
+  const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(
+    typeOfEducation[0]
   );
+  const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] =
+    useState(typeOfEducationGrade[0]);
 
   const [academics, setAcademics] = useState({
     institution: "",
@@ -82,14 +83,19 @@ const Academics = () => {
         typeOfGrade: selectedTypeOfEducationGrade.name,
       },
     });
-  }, [selectedDegree, selectedBranch, selectedTypeOfEducation, selectedTypeOfEducationGrade]);
+  }, [
+    selectedDegree,
+    selectedBranch,
+    selectedTypeOfEducation,
+    selectedTypeOfEducationGrade,
+  ]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/academics?rollNumber=${session.rollNumber.value}`,
-      { education: [...academics], rollNumber: session.rollNumber.value }
+      { education: [academics], rollNumber: session.rollNumber.value }
     );
 
     const { data: personalDetails } = await axios.post(
@@ -128,7 +134,9 @@ const Academics = () => {
               <div className="my-6 flex justify-between items-center">
                 <div className="">
                   <span className="text-xs font-semibold">Signed In As : </span>
-                  <span className="text-sm font-bold text-gray-600">{session?.email}</span>
+                  <span className="text-sm font-bold text-gray-600">
+                    {session?.email}
+                  </span>
                 </div>
                 <button className="font-semibold text-blue-600 text-sm underline hover:text-blue-800">
                   <a href="/api/auth/logout">Logout</a>
@@ -143,7 +151,10 @@ const Academics = () => {
                 <React.Fragment>
                   <div className="col-span-6 sm:col-span-6 mt-2">
                     <div className="flex">
-                      <label htmlFor="school" className="block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="school"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         School / Institution
                       </label>
                       <span className="ml-1 text-red-600 font-semibold">*</span>
@@ -187,10 +198,15 @@ const Academics = () => {
                   <div className="grid grid-cols-6 gap-4 mt-10">
                     <div className="col-span-6 sm:col-span-3">
                       <div className="flex">
-                        <label htmlFor="board" className="block text-sm font-medium text-gray-700">
+                        <label
+                          htmlFor="board"
+                          className="block text-sm font-medium text-gray-700"
+                        >
                           Board / University
                         </label>
-                        <span className="ml-1 text-red-600 font-semibold">*</span>
+                        <span className="ml-1 text-red-600 font-semibold">
+                          *
+                        </span>
                       </div>
                       <input
                         type="text"
@@ -198,7 +214,9 @@ const Academics = () => {
                         id="board"
                         required
                         value={academics.board}
-                        onChange={(e) => setAcademics({ ...academics, board: e.target.value })}
+                        onChange={(e) =>
+                          setAcademics({ ...academics, board: e.target.value })
+                        }
                         className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -214,7 +232,10 @@ const Academics = () => {
                   </div>
 
                   <div className="flex mt-4">
-                    <label htmlFor="score" className="block text-sm font-medium text-gray-700">
+                    <label
+                      htmlFor="score"
+                      className="block text-sm font-medium text-gray-700"
+                    >
                       Score
                     </label>
                     <span className="ml-1 text-red-600 font-semibold">*</span>
@@ -251,7 +272,10 @@ const Academics = () => {
                   </div>
 
                   <div className="flex">
-                    <label htmlFor="duration" className="block text-sm font-medium text-gray-700">
+                    <label
+                      htmlFor="duration"
+                      className="block text-sm font-medium text-gray-700"
+                    >
                       Duration
                     </label>
                     <span className="ml-1 text-red-600 font-semibold">*</span>
