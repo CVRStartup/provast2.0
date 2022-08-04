@@ -18,6 +18,15 @@ const assessmentStatusSchema = new mongoose.Schema(
         response: String,
       },
     ],
+    attemptStatus: [
+      {
+        questions: [
+          {
+            questionStatus: Number,
+          },
+        ],
+      },
+    ],
     marks: {
       total: Number,
       scored: Number,

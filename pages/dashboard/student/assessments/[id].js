@@ -11,6 +11,7 @@ import AssessmentOptions from "../../../../src/components/Student/Assessments/As
 import Timer from "../../../../src/components/Student/Assessments/Timer";
 import { debounce, first } from "lodash";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import { AssessmentSection } from "../../../../src/components/Student/Assessments/AssessmentSection";
 
 const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
   const [fullscreen, setFullscreen] = useState(false);
@@ -24,6 +25,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
   const [responses, setResponses] = useState(
     assessmentStatus ? assessmentStatus.responses : []
   );
+  const [sectionIndex, setSectionIndex] = useState(0);
   const handle = useFullScreenHandle();
   const reportChange = useCallback(
     (state, handle) => {
@@ -57,10 +59,11 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
         } = await axios.post(
           `${process.env.NEXT_PUBLIC_HOST_URL}/api/assessments/status`,
           {
-            user: user._id,
+            user: user?._id,
             assessment: assessment._id,
             college: user.college,
             responses: [],
+            attemptStatus: getAttemptStatus(assessment),
             marks: {
               total: assessmentSize,
               scored: 0,
@@ -183,6 +186,55 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
     }
   };
 
+  const changeSectionHandler = (e) => {
+    if (e.target.id === "prev-section-btn") {
+      if (assessment && assessment.sections && sectionIndex == 0) return;
+      setSectionIndex(sectionIndex - 1);
+    } else {
+      if (
+        assessment &&
+        assessment.sections &&
+        sectionIndex == assessment.sections.length - 1
+      )
+        return;
+      setSectionIndex(sectionIndex + 1);
+    }
+  };
+
+  const questionAttemptHandler = (
+    sectionIndex,
+    questionIndex,
+    newQuestionStatus
+  ) => {
+    if (!status || !status.attemptStatus || status.attemptStatus.length == 0)
+      return;
+
+    let newStatus = status;
+    newStatus.attemptStatus[sectionIndex].questions[
+      questionIndex
+    ].questionStatus = newQuestionStatus;
+    setStatus(newStatus);
+    debounceUpdateStatus(newStatus);
+  };
+
+  const getAttemptStatus = (assessment) => {
+    let attemptStatus = [];
+    assessment.sections?.forEach((section) => {
+      let questionsArr = [];
+      section.questions?.forEach((question) => {
+        questionsArr.push({
+          questionStatus: -1,
+        });
+      });
+
+      let sectionObj = {
+        questions: questionsArr,
+      };
+      attemptStatus.push(sectionObj);
+    });
+
+    return attemptStatus;
+  };
   const optionSelectHandler = async (optionId, questionId) => {
     let newResponses = [...responses];
 
@@ -475,118 +527,21 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                 </div>
               )}
               <div className="col-start-2 col-span-4 my-20">
-                {assessment &&
-                  assessment.sections.map((section, oldIndex) => {
-                    return (
-                      <div key={oldIndex} className="col-start-2 col-span-4">
-                        <div className="border-2 shadow border-blue-400 flex items-center justify-center rounded p-2 my-4 font-semibold">
-                          {section.name}
-                        </div>
-                        {section.questions.map((item, index) => {
-                          flag = false;
-                          return (
-                            <div
-                              key={index}
-                              className="rounded-lg shadow border hover:shadow-md p-3 group relative m-5 "
-                            >
-                              <div className="flex justify-between items-center">
-                                <div className="text-xl flex gap-2">
-                                  <div className="font-semibold">
-                                    {index + 1}.{" "}
-                                  </div>{" "}
-                                  <div>
-                                    {item.question.data
-                                      .split("\n")
-                                      .map((line, index) => (
-                                        <div key={index}>{line}</div>
-                                      ))}
-                                  </div>
-                                </div>
-                                {item.difficulty &&
-                                  (item.difficulty.charAt(0) == "E" ||
-                                    item.difficulty.charAt(0) == "e") && (
-                                    <div className="w-20 text-center rounded-lg text-green-600 border border-green-300 text-l ml-5 p-2">
-                                      Easy
-                                    </div>
-                                  )}
-                                {item.difficulty &&
-                                  (item.difficulty.charAt(0) == "M" ||
-                                    item.difficulty.charAt(0) == "m") && (
-                                    <div className="w-20 text-center rounded-lg text-amber-500 border text-l ml-5 p-2 border-amber-400">
-                                      Medium
-                                    </div>
-                                  )}
-                                {item.difficulty &&
-                                  (item.difficulty.charAt(0) == "H" ||
-                                    item.difficulty.charAt(0) == "h") && (
-                                    <div className="w-20 text-center rounded-lg text-red-600  border text-l ml-5  p-2 border-red-300">
-                                      Hard
-                                    </div>
-                                  )}
-                              </div>
-                              {status && (
-                                <>
-                                  <div>
-                                    <AssessmentOptions
-                                      question={item}
-                                      optionSelectHandler={optionSelectHandler}
-                                      clearOption={clearOption}
-                                      responses={status ? status.responses : []}
-                                      disable={disable}
-                                    />
-                                  </div>
-                                </>
-                              )}
-                              {status && status.finishedAt && (
-                                <div>
-                                  {status.responses.length == 0 ? (
-                                    <div className="border border-red-600 p-2 text-red-600 rounded m-2 mt-4">
-                                      ❌ Correct Answer: {item.answer}
-                                    </div>
-                                  ) : (
-                                    status.responses.map((response, index) => {
-                                      if (
-                                        !flag &&
-                                        response.question == item._id
-                                      ) {
-                                        item.options.forEach((option) => {
-                                          if (option.value == item.answer) {
-                                            ans = option._id;
-                                            return;
-                                          }
-                                        });
-                                        flag = response.response == ans;
-                                      }
-                                      if (
-                                        status.responses.length ==
-                                        index + 1
-                                      ) {
-                                        return flag ? (
-                                          <div
-                                            key={index}
-                                            className="border border-green-600 font-semibold p-2 text-green-600 rounded m-2 mt-4"
-                                          >
-                                            ✅ Correct Answer: {item.answer}
-                                          </div>
-                                        ) : (
-                                          <div
-                                            key={index}
-                                            className="border border-red-600 p-2 text-red-600 rounded m-2 mt-4"
-                                          >
-                                            ❌ Correct Answer: {item.answer}
-                                          </div>
-                                        );
-                                      }
-                                    })
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  })}
+                {assessment && assessment.sections && (
+                  <div>
+                    <AssessmentSection
+                      section={assessment.sections[sectionIndex]}
+                      sectionIndex={sectionIndex}
+                      lastSectionIndex={assessment.sections.length - 1}
+                      status={status}
+                      optionSelectHandler={optionSelectHandler}
+                      changeSectionHandler={changeSectionHandler}
+                      clearOption={clearOption}
+                      questionAttemptHandler={questionAttemptHandler}
+                      disable={disable}
+                    />
+                  </div>
+                )}
               </div>
 
               <div

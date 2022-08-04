@@ -64,6 +64,14 @@ export const getServerSideProps = async ({ req, res, query }) => {
     };
   }
 
+  if (user.category === "student" && !user.academicsAvailable) {
+    return {
+      redirect: {
+        destination: "/auth/user/academics",
+        permanent: false,
+      },
+    };
+  }
   const {
     data: { assessments },
   } = await axios.get(
@@ -73,10 +81,9 @@ export const getServerSideProps = async ({ req, res, query }) => {
   const {
     data: { academics },
   } = await axios.get(
-    `${process.env.HOST_URL}/api/auth/user/academics?user=${user._id}`
+    `${process.env.HOST_URL}/api/auth/user/academics?rollNumber=${user.rollNumber?.value}`
   );
-  console.log(assessments);
-  console.log(academics);
+
   return {
     props: {
       assessments,

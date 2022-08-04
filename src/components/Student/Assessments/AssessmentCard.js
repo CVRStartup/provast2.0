@@ -24,7 +24,7 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
     if (assessment.allowedBranches.includes(bBranch.code)) return bBranch.name;
   });
 
-  //console.log(allowedBranches);
+  console.log(allowedBranches);
   if (!allowedBranches.includes(studentDetails?.branch))
     isDisabledForBranches = true;
 
