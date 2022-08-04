@@ -89,7 +89,7 @@ const Academics = () => {
     setLoading(true);
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/academics?rollNumber=${session.rollNumber.value}`,
-      { ...academics, rollNumber: session.rollNumber.value }
+      { education: [...academics], rollNumber: session.rollNumber.value }
     );
 
     const { data: personalDetails } = await axios.post(
