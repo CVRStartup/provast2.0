@@ -22,7 +22,7 @@ const assessmentStatusSchema = new mongoose.Schema(
       {
         questions: [
           {
-            questionStatus: Number,
+            questionStatus: String,
           },
         ],
       },

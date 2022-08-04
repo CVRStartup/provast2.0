@@ -199,6 +199,8 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
         return;
       setSectionIndex(sectionIndex + 1);
     }
+
+    questionAttemptHandler(sectionIndex, 0, "visited");
   };
 
   const questionAttemptHandler = (
@@ -210,6 +212,13 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
       return;
 
     let newStatus = status;
+    if (
+      newQuestionStatus ===
+      newStatus?.attemptStatus[sectionIndex]?.questions[questionIndex]
+        ?.questionStatus
+    )
+      return;
+
     newStatus.attemptStatus[sectionIndex].questions[
       questionIndex
     ].questionStatus = newQuestionStatus;
@@ -219,11 +228,11 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
 
   const getAttemptStatus = (assessment) => {
     let attemptStatus = [];
-    assessment.sections?.forEach((section) => {
+    assessment.sections?.forEach((section, secIdx) => {
       let questionsArr = [];
-      section.questions?.forEach((question) => {
+      section.questions?.forEach((question, qIdx) => {
         questionsArr.push({
-          questionStatus: -1,
+          questionStatus: "not visited",
         });
       });
 
@@ -232,7 +241,8 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
       };
       attemptStatus.push(sectionObj);
     });
-
+    if (attemptStatus.length > 0 && attemptStatus[0].questions.length > 0)
+      attemptStatus[0].questions[0].questionStatus = "visited";
     return attemptStatus;
   };
   const optionSelectHandler = async (optionId, questionId) => {
@@ -297,6 +307,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
         total: assessmentSize,
         scored: 0,
       },
+      attemptStatus: getAttemptStatus(assessment),
       attempts: status.attempts,
       openedAt: new Date(),
       finishedAt: null,

@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useState } from "react";
+import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
 import Split from "react-split";
 import AssessmentOptions from "./AssessmentOptions";
 
 export const AssessmentCore = ({
   item,
   index,
-  lastIndex,
   sectionIndex,
+  lastIndex,
   status,
   optionSelectHandler,
   clearOption,
@@ -14,16 +15,39 @@ export const AssessmentCore = ({
   changeQuestionHandler,
   questionAttemptHandler,
 }) => {
+  const markForReview = (e) => {
+    if (!status || !status.attemptStatus) return;
+    if (
+      status?.attemptStatus[sectionIndex]?.questions[index]?.questionStatus ===
+      "marked"
+    )
+      questionAttemptHandler(sectionIndex, index, "visited");
+    else questionAttemptHandler(sectionIndex, index, "marked");
+  };
+
   let flag = false;
+  let ans = "";
   return (
     <div
       key={index}
-      className="rounded-lg shadow border hover:shadow-md p-3 relative m-5 h-3/4"
+      className="rounded-lg shadow border hover:shadow-md p-3 relative m-5 h-3/4 "
     >
       <Split sizes={[40, 60]} minSize={[100, 200]} className="flex">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center top">
           <div className="text-xl flex gap-2">
-            <div className="font-semibold">{index + 1}. </div>{" "}
+            <div className="font-semibold flex flex-col items-center">
+              {index + 1}.{" "}
+              <div className="m-1 cursor-pointer" onClick={markForReview}>
+                {status &&
+                status.attemptStatus &&
+                status?.attemptStatus[sectionIndex]?.questions[index]
+                  ?.questionStatus === "marked" ? (
+                  <BsFillBookmarkFill />
+                ) : (
+                  <BsBookmark />
+                )}
+              </div>
+            </div>{" "}
             <div>
               {item.question.data.split("\n").map((line, index) => (
                 <div key={index}>{line}</div>
@@ -62,24 +86,28 @@ export const AssessmentCore = ({
                 responses={status ? status.responses : []}
                 disable={disable}
               />
-              <button
-                id="prev-question-btn"
-                className={`border-2 p-2 rounded ${
-                  index == 0 ? "cursor-not-allowed text-slate-200" : ""
-                }`}
-                onClick={(e) => changeQuestionHandler(e, index - 1)}
-              >
-                Back
-              </button>
-              <button
-                id="next-question-btn"
-                className={`border-2 p-2 rounded ${
-                  index == lastIndex ? "cursor-not-allowed text-slate-200" : ""
-                }`}
-                onClick={(e) => changeQuestionHandler(e, index + 1)}
-              >
-                Next
-              </button>
+              <div className="flex justify-between items-center">
+                <button
+                  id="prev-question-btn"
+                  className={`border-2 p-2 rounded ml-10 ${
+                    index == 0 ? "cursor-not-allowed text-slate-200" : ""
+                  }`}
+                  onClick={(e) => changeQuestionHandler(e, index - 1)}
+                >
+                  Back
+                </button>
+                <button
+                  id="next-question-btn"
+                  className={`border-2 p-2 rounded mr-10 ${
+                    index == lastIndex
+                      ? "cursor-not-allowed text-slate-200"
+                      : ""
+                  }`}
+                  onClick={(e) => changeQuestionHandler(e, index + 1)}
+                >
+                  Next
+                </button>
+              </div>
             </div>
           )}
           {status && status.finishedAt && (

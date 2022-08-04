@@ -13,11 +13,17 @@ export const AssessmentSection = ({
   disable,
 }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
+
   useEffect(() => {
+    if (!status || !status.attemptStatus) return;
     const visitQuestion = () => {
-      questionAttemptHandler(sectionIndex, questionIndex, 0);
+      questionAttemptHandler(sectionIndex, questionIndex, "visited");
     };
-    visitQuestion();
+    if (
+      status?.attemptStatus[sectionIndex]?.questions[questionIndex]
+        ?.questionStatus === "not visited"
+    )
+      visitQuestion();
   }, [questionIndex]);
 
   const changeQuestionHandler = (e, qIndex) => {
@@ -85,6 +91,7 @@ export const AssessmentSection = ({
               questions={section.questions}
               changeQuestionHandler={changeQuestionHandler}
               status={status}
+              sectionIndex={sectionIndex}
             />
           </div>
         )}
