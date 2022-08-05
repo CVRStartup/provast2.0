@@ -1,14 +1,13 @@
-import Image from "next/image";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import Link from "next/link";
+import Image from "next/image";
 
 const sliderData = [
   {
     id: 1,
-    heading: "Online Resume Builder",
-
-    image: "/resume/hero-img.png",
+    image:
+      "https://res.cloudinary.com/dj7nomqfd/image/upload/v1659730273/visual-0c7080adf17f1f207276f613447c924f667dab34b7ac415cd7ef653172defd0b_samnyr.svg",
     title: "Only 2% of resumes make it past the first round. Be in the top 2%.",
     description:
       "Use professional field-tested resume templates that follow the exact ‘resume rules’employers look for. Easy to use and done within minutes - try now for free!",
@@ -17,8 +16,6 @@ const sliderData = [
   },
   {
     id: 2,
-    heading: "Online Job Viewer",
-
     image: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1653392484/amazon_wx1wek.webp",
     title: "Find your dream job now on Provast.",
     description: "Be a Priority Applicant & increase your chance of getting a call.",
@@ -28,23 +25,22 @@ const sliderData = [
 ];
 
 export const Slider = () => {
-  const [blogs, setBlogs] = useState(sliderData);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const lastIndex = blogs.length - 1;
+    const lastIndex = sliderData.length - 1;
     if (index < 0) {
       setIndex(lastIndex);
     }
     if (index > lastIndex) {
       setIndex(0);
     }
-  }, [index, blogs]);
+  }, [index, sliderData]);
 
   useEffect(() => {
     let slider = setInterval(() => {
       setIndex(index + 1);
-    }, 5000);
+    }, 10000);
 
     return () => {
       clearInterval(slider);
@@ -53,66 +49,72 @@ export const Slider = () => {
 
   return (
     <div>
-      <section className='pt-4 relative w-full mx-auto overflow-hidden min-h-screen bg-gray-100'>
-        {blogs.map((blog, blogIndex) => {
-          const { id, image, description, title, heading, buttonLink, button } = blog;
+      <section className='relative w-full mx-auto overflow-hidden h-screen lg:h-96 mb-5'>
+        {sliderData.map((blog, blogIndex) => {
+          const { id, image, description, title, button, buttonLink } = blog;
 
           let position = "nextSlide";
           if (blogIndex === index) {
             position = "activeSlide";
           }
 
-          if (blogIndex === index - 1 || (index === 0 && blogIndex === blogs.length - 1)) {
+          if (blogIndex === index - 1 || (index === 0 && blogIndex === sliderData.length - 1)) {
             position = "lastSlide";
           }
 
           return (
             <article
               key={id}
-              className={`flex flex-col justify-between items-center absolute w-full activeSlide transition duration-1000 ease-in-out ${position} `}
+              className={`flex flex-col h-full justify-between items-center absolute w-full activeSlide transition duration-1000 ease-in-out ${position} lg:flex-row`}
             >
-              <div className='overflow-hidden w-full bg-gray-100 flex flex-col justify-center items-center text-center'>
-                <h1 className='text-xs uppercase text-orange-800 font-semibold tracking-widest'>
-                  {heading}
-                </h1>
-                <h6 className='text-2xl lg:text-4xl px-10 w-full my-4 font-bold lg:w-1/2 lg:px-0'>
-                  {title}
-                </h6>
-                <p className='w-full px-10 text-center lg:px-0 lg:w-1/2'>{description}</p>
-                <Link href={buttonLink} passHref>
-                  <button className='p-3 my-5 lg:p-5 bg-orange-500 rounded text-white font-bold text-xl tracking-wider hover:bg-orange-600'>
-                    {button}
-                  </button>
-                </Link>
-                <div className='heroImg'>
-                  <Image
-                    className='rounded-t-xl'
-                    src={image}
-                    alt='Hero Image'
-                    width={770}
-                    height={350}
-                  />
+              <div className='text-center grid content-between h-full order-2 md:order-1  md:text-left lg:w-[40%]'>
+                <div className='md:p-5'>
+                  <div className='my-6 flex items-end justify-center font-semibold text-gray-500 w-full md:justify-start md:my-0'>
+                    <span className='text-4xl'>0{id}</span>
+                    <span className='mx-1 text-lg'>/</span>
+                    <span className='text-xl'>0{sliderData.length}</span>
+                  </div>
+
+                  <h1 className='text-3xl font-semibold my-4'>{title}</h1>
+
+                  <p className='mb-4 text-gray-500'>{description}</p>
+                  <Link href={buttonLink}>
+                    <button
+                      type='button'
+                      className='inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+                    >
+                      {button}
+                    </button>
+                  </Link>
                 </div>
+                <div className='flex items-end justify-between'>
+                  <button
+                    onClick={() => setIndex(index - 1)}
+                    className='text-5xl text-gray-500 hover:text-gray-700'
+                  >
+                    <FiChevronLeft />
+                  </button>
+                  <button
+                    onClick={() => setIndex(index + 1)}
+                    className='text-5xl text-gray-500 hover:text-gray-700'
+                  >
+                    <FiChevronRight />
+                  </button>
+                </div>
+              </div>
+              <div className='relative w-full lg:w-[60%] h-full'>
+                <Image
+                  placeholder='blur'
+                  blurDataURL={image}
+                  layout='fill'
+                  objectFit='fill'
+                  src={image}
+                  alt=''
+                />
               </div>
             </article>
           );
         })}
-        <div className='absolute top-[50%] md:top-[40%] left-0'>
-          <button
-            onClick={() => setIndex(index - 1)}
-            className='text-4xl md:text-[100px] text-gray-500 hover:text-gray-700'
-          >
-            <FiChevronLeft />
-          </button>
-        </div>
-        <div className='absolute top-[50%] md:top-[40%] right-0'>
-          <button
-            onClick={() => setIndex(index + 1)}
-            className='text-4xl md:text-[100px] text-gray-500 hover:text-gray-700'
-          >
-            <FiChevronRight />
-          </button>
-        </div>
       </section>
 
       <style jsx>{`
