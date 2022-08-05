@@ -87,8 +87,7 @@ export const Navbar = () => {
 
   if (
     router.pathname.split("/").indexOf("auth") !== -1 ||
-    (router.pathname.split("/")[3] === "resumes" &&
-      router.pathname.split("/")[4] === "[id]") ||
+    (router.pathname.split("/")[3] === "resumes" && router.pathname.split("/")[4] === "[id]") ||
     router.pathname.indexOf("approvalpending") !== -1 ||
     router.pathname.indexOf("viewresume") !== -1 ||
     router.pathname.indexOf("checkout") !== -1
@@ -116,7 +115,7 @@ export const Navbar = () => {
           </Link>
         </div>
         <div className='-mr-2 -my-2 md:hidden'>
-          <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500'>
+          <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500'>
             <span className='sr-only'>Open menu</span>
             <MenuIcon className='h-6 w-6' aria-hidden='true' />
           </Popover.Button>
@@ -204,7 +203,7 @@ export const Navbar = () => {
                   </div>
                 </Link>
                 <div className='-mr-2'>
-                  <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500'>
+                  <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500'>
                     <span className='sr-only'>Close menu</span>
                     <XIcon className='h-6 w-6' aria-hidden='true' />
                   </Popover.Button>
@@ -223,7 +222,7 @@ export const Navbar = () => {
               </div>
               <div className='mt-6'>
                 <Link href={"/auth/signup"} passHref>
-                  <a className='w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700'>
+                  <a className='w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-orange-600 hover:bg-orange-700'>
                     Sign In
                   </a>
                 </Link>

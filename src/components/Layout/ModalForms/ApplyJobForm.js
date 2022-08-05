@@ -49,7 +49,7 @@ export const ApplyJobForm = () => {
                           setCheckRoles([...cat]);
                         }
                       }}
-                      className='h-4 w-4 text-blue-600 border-gray-300 rounded'
+                      className='h-4 w-4 text-orange-600 border-gray-300 rounded'
                     />
                   </div>
                   <div className='ml-1 text-sm'>

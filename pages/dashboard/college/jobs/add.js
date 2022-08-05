@@ -438,7 +438,7 @@ const JobAdd = ({ user }) => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   autoComplete='off'
-                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
               <div className='sm:col-span-3'>
@@ -452,7 +452,7 @@ const JobAdd = ({ user }) => {
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
                   autoComplete='off'
-                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
 
@@ -510,7 +510,7 @@ const JobAdd = ({ user }) => {
                         value={logo}
                         disabled={true}
                         onChange={(e) => setLogo(e.target.value)}
-                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                       />
                     )}
                     {loading.type === "logo" && loading.status ? (
@@ -520,7 +520,7 @@ const JobAdd = ({ user }) => {
                       </div>
                     ) : (
                       <input
-                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                         label='Choose File'
                         type='file'
                         name='image'
@@ -548,7 +548,7 @@ const JobAdd = ({ user }) => {
                         value={image}
                         disabled={true}
                         onChange={(e) => setImage(e.target.value)}
-                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                       />
                     )}
                     {loading.type === "banner" && loading.status ? (
@@ -558,7 +558,7 @@ const JobAdd = ({ user }) => {
                       </div>
                     ) : (
                       <input
-                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                         label='Choose File'
                         type='file'
                         name='image'
@@ -653,7 +653,7 @@ const JobAdd = ({ user }) => {
                         })
                       }
                       autoComplete='off'
-                      className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
                 </div>
@@ -681,7 +681,7 @@ const JobAdd = ({ user }) => {
                         value={stipend}
                         onChange={(e) => setStipend(e.target.value)}
                         autoComplete='off'
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
                   </div>
@@ -706,7 +706,7 @@ const JobAdd = ({ user }) => {
                         value={ctc}
                         onChange={(e) => setCtc(e.target.value)}
                         autoComplete='off'
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
                   </div>
@@ -732,7 +732,7 @@ const JobAdd = ({ user }) => {
                           value={stipend}
                           onChange={(e) => setStipend(e.target.value)}
                           autoComplete='off'
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
@@ -756,7 +756,7 @@ const JobAdd = ({ user }) => {
                           value={ctc}
                           onChange={(e) => setCtc(e.target.value)}
                           autoComplete='off'
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
@@ -772,7 +772,7 @@ const JobAdd = ({ user }) => {
                   <div className='ml-3 flex items-center font-normal'>
                     <input
                       type='checkbox'
-                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      className='h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none'
                       checked={jobPostingLocation.includes("PAN India")}
                       onChange={(e) => {
                         const id = jobPostingLocation.indexOf("PAN India");
@@ -800,7 +800,7 @@ const JobAdd = ({ user }) => {
                   <div className='ml-3 flex items-center font-normal'>
                     <input
                       type='checkbox'
-                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      className='h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none'
                       checked={yearofPassing.length === generateYearsBetween().length}
                       onChange={() => {
                         if (yearofPassing.length === generateYearsBetween().length)
@@ -824,7 +824,7 @@ const JobAdd = ({ user }) => {
                   <div className='ml-3 flex items-center font-normal'>
                     <input
                       type='checkbox'
-                      className='h-4 w-4 mr-1 text-blue-600 border-gray-300 rounded outline-none'
+                      className='h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none'
                       checked={
                         branchOptions.length ===
                         (typeOfProgram === "B.Tech"
@@ -1054,7 +1054,7 @@ const JobAdd = ({ user }) => {
                   value={rounds.length}
                   onChange={(e) => addNewRound(e.target.value)}
                   autoComplete='off'
-                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
 
@@ -1083,7 +1083,7 @@ const JobAdd = ({ user }) => {
                           </label>
 
                           <input
-                            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                             label='Choose File'
                             type='file'
                             name='image'
@@ -1135,7 +1135,7 @@ const JobAdd = ({ user }) => {
           <Link href={`/dashboard/college/jobs`}>
             <button
               type='button'
-              className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+              className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
             >
               Cancel
             </button>
@@ -1144,8 +1144,8 @@ const JobAdd = ({ user }) => {
             disabled={loading.status}
             onClick={onSubmitHandler}
             className={`${
-              loading.status ? "cursor-not-allowed" : "hover:bg-blue-700 "
-            } ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600`}
+              loading.status ? "cursor-not-allowed" : "hover:bg-orange-700 "
+            } ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600`}
           >
             Save
           </button>

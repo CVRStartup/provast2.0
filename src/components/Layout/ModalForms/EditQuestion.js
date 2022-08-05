@@ -12,15 +12,11 @@ const EditQuestion = () => {
 
   // console.log(assessmentQuestion, editFormSubmitHandler);
 
-  const [question, setQuestion] = useState(
-    assessmentQuestion?.question?.question?.data
-  );
+  const [question, setQuestion] = useState(assessmentQuestion?.question?.question?.data);
   const [options, setOptions] = useState(
     assessmentQuestion?.question?.options?.map((option) => option?.value)
   );
-  const [correctAnswer, setCorrectAnswer] = useState(
-    assessmentQuestion?.question?.answer
-  );
+  const [correctAnswer, setCorrectAnswer] = useState(assessmentQuestion?.question?.answer);
   const [error, setError] = useState(false);
 
   const submitHandler = (e) => {
@@ -29,8 +25,7 @@ const EditQuestion = () => {
     e.preventDefault();
 
     options.forEach((option) => {
-      if (correctAnswer.toLowerCase().trim() === option.toLowerCase().trim())
-        isCorrectFlag = true;
+      if (correctAnswer.toLowerCase().trim() === option.toLowerCase().trim()) isCorrectFlag = true;
     });
 
     if (!isCorrectFlag) {
@@ -43,15 +38,11 @@ const EditQuestion = () => {
 
     // console.log(newQuestions);
 
-    const newQuestions = [
-      ...newSections[assessmentQuestion?.sectionIndex].questions,
-    ];
+    const newQuestions = [...newSections[assessmentQuestion?.sectionIndex].questions];
 
     if (newQuestions[assessmentQuestion?.questionIndex]?.question) {
       newQuestions[assessmentQuestion?.questionIndex].question.data = question;
-      const newOptionsArr = [
-        ...newQuestions[assessmentQuestion?.questionIndex]?.options,
-      ];
+      const newOptionsArr = [...newQuestions[assessmentQuestion?.questionIndex]?.options];
       newOptionsArr.forEach((option, index) => {
         option.value = options[index];
       });
@@ -82,39 +73,37 @@ const EditQuestion = () => {
       {/* <div className='w-[95%] mx-auto'> */}
       {/* <div className="flex items-center justify-center"> */}
       {/* <div className="bg-white p-10 rounded-lg shadow"> */}
-      <h2 className="text-center font-bold text-blue-300 text-lg">
-        Edit Question
-      </h2>
+      <h2 className='text-center font-bold text-orange-300 text-lg'>Edit Question</h2>
       <form>
-        <div className="mb-5">
-          <label htmlFor="name" className="block mb-2 font-bold text-white">
+        <div className='mb-5'>
+          <label htmlFor='name' className='block mb-2 font-bold text-white'>
             Question
           </label>
           <textarea
             // type="text"
-            id="name"
-            name="name"
+            id='name'
+            name='name'
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            className="border border-gray-300 shadow p-3 w-full h-24 rounded mb-"
+            className='border border-gray-300 shadow p-3 w-full h-24 rounded mb-'
           />
         </div>
 
-        <div className="block mb-2 font-bold text-white">Options</div>
-        <div className="mb-5">
+        <div className='block mb-2 font-bold text-white'>Options</div>
+        <div className='mb-5'>
           {assessmentQuestion &&
             assessmentQuestion.question.options.map((option, index) => {
               return (
-                <div key={index} className="flex justify-center items-center">
-                  <span className="mr-2 text-white">{option.key}.</span>
+                <div key={index} className='flex justify-center items-center'>
+                  <span className='mr-2 text-white'>{option.key}.</span>
                   <input
-                    type="text"
-                    id="twitter"
-                    name="twitter"
+                    type='text'
+                    id='twitter'
+                    name='twitter'
                     // defaultValue={option.value}
                     value={options[index]}
                     onChange={(e) => optionsUpdateHandler(e, index)}
-                    className="border border-gray-300 shadow p-3 w-full rounded my-1"
+                    className='border border-gray-300 shadow p-3 w-full rounded my-1'
                   />
                 </div>
               );
@@ -122,26 +111,25 @@ const EditQuestion = () => {
         </div>
 
         <div>
-          <span className="inline-block mb-2 font-bold text-white">Answer</span>
-          :{" "}
+          <span className='inline-block mb-2 font-bold text-white'>Answer</span>:{" "}
           <input
-            type="text"
-            id="twitter"
-            name="twitter"
+            type='text'
+            id='twitter'
+            name='twitter'
             value={correctAnswer}
             onChange={(e) => setCorrectAnswer(e.target.value)}
-            className="border border-gray-300 shadow p-3 w-full rounded mb-"
+            className='border border-gray-300 shadow p-3 w-full rounded mb-'
           />
         </div>
 
         <button
-          className="block w-full transition-all bg-blue-500 text-white font-bold p-4 rounded-lg hover:bg-blue-600 mt-10"
+          className='block w-full transition-all bg-orange-500 text-white font-bold p-4 rounded-lg hover:bg-orange-600 mt-10'
           onClick={submitHandler}
         >
           Submit
         </button>
         {error && (
-          <span className="text-red-500 text-sm">
+          <span className='text-red-500 text-sm'>
             Please enter an answer from the options only !
           </span>
         )}

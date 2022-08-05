@@ -289,11 +289,11 @@ const ResumeIndex = ({ user }) => {
                       <div
                         key={resume._id}
                         className={`relative box ${
-                          resume.public ? "border-4 border-blue-500" : ""
+                          resume.public ? "border-4 border-orange-500" : ""
                         }`}
                       >
                         {resume.public && (
-                          <div className='absolute z-20 -top-7 rounded-t-md right-0 bg-blue-600 px-4 font-semibold text-white'>
+                          <div className='absolute z-20 -top-7 rounded-t-md right-0 bg-orange-600 px-4 font-semibold text-white'>
                             Public
                           </div>
                         )}

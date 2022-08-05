@@ -22,9 +22,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
   const [disable, setDisable] = useState(
     assessmentStatus ? assessmentStatus.finishedAt != null : false
   );
-  const [responses, setResponses] = useState(
-    assessmentStatus ? assessmentStatus.responses : []
-  );
+  const [responses, setResponses] = useState(assessmentStatus ? assessmentStatus.responses : []);
   const [sectionIndex, setSectionIndex] = useState(0);
   const handle = useFullScreenHandle();
   const reportChange = useCallback(
@@ -56,23 +54,20 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
       if (!assessmentStatus) {
         const {
           data: { AssessmentStatus },
-        } = await axios.post(
-          `${process.env.NEXT_PUBLIC_HOST_URL}/api/assessments/status`,
-          {
-            user: user?._id,
-            assessment: assessment._id,
-            college: user.college,
-            responses: [],
-            attemptStatus: getAttemptStatus(assessment),
-            marks: {
-              total: assessmentSize,
-              scored: 0,
-            },
-            attempts: 0,
-            openedAt: new Date(),
-            finishedAt: null,
-          }
-        );
+        } = await axios.post(`${process.env.NEXT_PUBLIC_HOST_URL}/api/assessments/status`, {
+          user: user?._id,
+          assessment: assessment._id,
+          college: user.college,
+          responses: [],
+          attemptStatus: getAttemptStatus(assessment),
+          marks: {
+            total: assessmentSize,
+            scored: 0,
+          },
+          attempts: 0,
+          openedAt: new Date(),
+          finishedAt: null,
+        });
         setStatus(AssessmentStatus);
         return;
       }
@@ -81,18 +76,11 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
       setStatus(newStatus);
     };
     if (!status && assessment.mode === "Practice") getAssessmentStatus();
-    else if (!status && user && fullscreen && !firstWarning)
-      getAssessmentStatus();
+    else if (!status && user && fullscreen && !firstWarning) getAssessmentStatus();
     //fullscreen is true but firstwarning is false implies new test
 
     const handleWindowChange = (e) => {
-      if (
-        !assessment ||
-        assessment.mode === "Practice" ||
-        !status ||
-        !fullscreen
-      )
-        return;
+      if (!assessment || assessment.mode === "Practice" || !status || !fullscreen) return;
       setTabChanged(!tabChanged);
       setFullscreen(false);
       if (firstWarning) {
@@ -120,12 +108,9 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
     return debounce(async (newStatus) => {
       const {
         data: { assessmentStatus },
-      } = await axios.put(
-        `${process.env.NEXT_PUBLIC_HOST_URL}/api/assessments/status`,
-        {
-          ...newStatus,
-        }
-      );
+      } = await axios.put(`${process.env.NEXT_PUBLIC_HOST_URL}/api/assessments/status`, {
+        ...newStatus,
+      });
       setStatus(assessmentStatus);
     }, 100);
   }, [status]);
@@ -146,10 +131,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
           section.questions.forEach((question) => {
             if (question._id == response.question) {
               question.options.forEach((option) => {
-                if (
-                  option._id == response.response &&
-                  question.answer == option.value
-                ) {
+                if (option._id == response.response && question.answer == option.value) {
                   flag = true;
                   return;
                 }
@@ -160,8 +142,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
         if (flag) score++;
       });
 
-      let finishedAt =
-        status && status.finishedAt ? status.finishedAt : new Date();
+      let finishedAt = status && status.finishedAt ? status.finishedAt : new Date();
 
       debounceUpdateStatus({
         ...status,
@@ -175,19 +156,13 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
 
       if (!timer) {
         setDisable(true);
-        toast.success(
-          `Submission successful! You scored ${score}/${status.marks.total} marks`,
-          {
-            toastId: 1337,
-          }
-        );
+        toast.success(`Submission successful! You scored ${score}/${status.marks.total} marks`, {
+          toastId: 1337,
+        });
       } else {
-        toast.success(
-          `You ran out of time! You scored ${score}/${status.marks.total} marks`,
-          {
-            toastId: 1317,
-          }
-        );
+        toast.success(`You ran out of time! You scored ${score}/${status.marks.total} marks`, {
+          toastId: 1317,
+        });
       }
     } catch (e) {
       toast.error(`Failed to submit, please try later`, {
@@ -202,11 +177,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
       if (assessment && assessment.sections && sectionIndex == 0) return;
       setSectionIndex(sectionIndex - 1);
     } else {
-      if (
-        assessment &&
-        assessment.sections &&
-        sectionIndex == assessment.sections.length - 1
-      )
+      if (assessment && assessment.sections && sectionIndex == assessment.sections.length - 1)
         return;
       setSectionIndex(sectionIndex + 1);
     }
@@ -214,25 +185,18 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
     questionAttemptHandler(sectionIndex, 0, "visited");
   };
 
-  const questionAttemptHandler = (
-    sectionIndex,
-    questionIndex,
-    newQuestionStatus
-  ) => {
-    if (!status || !status.attemptStatus || status.attemptStatus.length == 0)
-      return;
+  const questionAttemptHandler = (sectionIndex, questionIndex, newQuestionStatus) => {
+    if (!status || !status.attemptStatus || status.attemptStatus.length == 0) return;
 
     let newStatus = status;
     if (
       newQuestionStatus ===
-      newStatus?.attemptStatus[sectionIndex]?.questions[questionIndex]
-        ?.questionStatus
+      newStatus?.attemptStatus[sectionIndex]?.questions[questionIndex]?.questionStatus
     )
       return;
 
-    newStatus.attemptStatus[sectionIndex].questions[
-      questionIndex
-    ].questionStatus = newQuestionStatus;
+    newStatus.attemptStatus[sectionIndex].questions[questionIndex].questionStatus =
+      newQuestionStatus;
     setStatus(newStatus);
     debounceUpdateStatus(newStatus);
   };
@@ -389,41 +353,34 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
 
   return (
     <>
-      <FullScreen
-        handle={handle}
-        onChange={reportChange}
-        className="bg-white overflow-y-auto"
-      >
-        {assessment?.mode === "Test" &&
-        status?.finishedAt == null &&
-        fullscreen == false ? (
-          <div className="mt-[10vh] p-10 grid grid-cols-6">
+      <FullScreen handle={handle} onChange={reportChange} className='bg-white overflow-y-auto'>
+        {assessment?.mode === "Test" && status?.finishedAt == null && fullscreen == false ? (
+          <div className='mt-[10vh] p-10 grid grid-cols-6'>
             {firstWarning ? (
-              <div className="m-5 col-start-2 col-span-4 flex flex-col items-center">
-                <div className="border rounded bg-red-300 text-red-700 p-10">
-                  Warning! You have tried to switch the tab or change the
-                  window. Attempting to do this again will result in
-                  auto-submission of the test.
+              <div className='m-5 col-start-2 col-span-4 flex flex-col items-center'>
+                <div className='border rounded bg-red-300 text-red-700 p-10'>
+                  Warning! You have tried to switch the tab or change the window. Attempting to do
+                  this again will result in auto-submission of the test.
                 </div>
                 <button
                   onClick={() => {
                     handle.enter();
                     setFullscreen(true);
                   }}
-                  className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
+                  className='bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded'
                 >
                   Resume Test
                 </button>
               </div>
             ) : (
-              <div className="m-5 col-start-2 col-span-4 flex flex-col items-center">
-                <div className="border rounded bg-yellow-300 text-orange-700 p-10">
-                  <h3 className="font-bold">Rules</h3>
+              <div className='m-5 col-start-2 col-span-4 flex flex-col items-center'>
+                <div className='border rounded bg-yellow-300 text-orange-700 p-10'>
+                  <h3 className='font-bold'>Rules</h3>
                   <ul>
                     <li>• Timer starts as soon as button is clicked</li>
                     <li>
-                      • Attempting to exit fullscreen, change tabs or change
-                      window will result in auto-submission of test
+                      • Attempting to exit fullscreen, change tabs or change window will result in
+                      auto-submission of test
                     </li>
                   </ul>
                 </div>
@@ -432,7 +389,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                     handle.enter();
                     setFullscreen(true);
                   }}
-                  className="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded"
+                  className='bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded'
                 >
                   Start Test
                 </button>
@@ -440,19 +397,16 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
             )}
           </div>
         ) : (
-          (assessment?.mode == "Practice" ||
-            assessment?.mode === "Test" ||
-            status?.finishedAt) && (
-            <div className="mt-[10vh] p-10 grid grid-cols-6 bg-white">
-              <div className="col-start-2 col-span-4 flex justify-between items-center">
+          (assessment?.mode == "Practice" || assessment?.mode === "Test" || status?.finishedAt) && (
+            <div className='mt-[10vh] p-10 grid grid-cols-6 bg-white'>
+              <div className='col-start-2 col-span-4 flex justify-between items-center'>
                 {assessment && (
-                  <div className=" flex flex-col justify-start text-3xl font-bold  mt-15 ml-10">
+                  <div className=' flex flex-col justify-start text-3xl font-bold  mt-15 ml-10'>
                     {assessment.name}
                     <span
                       className={
-                        (assessment.mode === "Practice"
-                          ? "text-yellow-600"
-                          : "text-red-500") + " text-sm my-2"
+                        (assessment.mode === "Practice" ? "text-yellow-600" : "text-red-500") +
+                        " text-sm my-2"
                       }
                     >
                       {assessment.mode}
@@ -460,35 +414,24 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                   </div>
                 )}
                 {status && status.finishedAt && (
-                  <div className="p-2 border rounded text-center text-blue-700 text-xl border-blue-600">
+                  <div className='p-2 border rounded text-center text-orange-700 text-xl border-orange-600'>
                     Score : {status.marks?.scored}/{status.marks?.total}
                   </div>
                 )}
                 {assessment?.mode == "Practice" ? (
                   status && !status.finishedAt ? (
-                    <Timer
-                      startTime={getStartTime(
-                        moment(status.openedAt),
-                        moment()
-                      )}
-                    />
+                    <Timer startTime={getStartTime(moment(status.openedAt), moment())} />
                   ) : (
-                    <div className="mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500">
-                      <AiOutlineClockCircle size="1.5em" className="mr-1" />
+                    <div className='mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500'>
+                      <AiOutlineClockCircle size='1.5em' className='mr-1' />
                       {" " +
                         (finish.days < 10 ? "0" + finish.days : finish.days) +
                         ":" +
-                        (finish.hours < 10
-                          ? "0" + finish.hours
-                          : finish.hours) +
+                        (finish.hours < 10 ? "0" + finish.hours : finish.hours) +
                         ":" +
-                        (finish.minutes < 10
-                          ? "0" + finish.minutes
-                          : finish.minutes) +
+                        (finish.minutes < 10 ? "0" + finish.minutes : finish.minutes) +
                         ":" +
-                        (finish.seconds < 10
-                          ? "0" + finish.seconds
-                          : finish.seconds)}
+                        (finish.seconds < 10 ? "0" + finish.seconds : finish.seconds)}
                     </div>
                   )
                 ) : (
@@ -503,22 +446,16 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                       submitAssessmentFromTimer={submitHandler}
                     />
                   ) : (
-                    <div className="mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500">
-                      <AiOutlineClockCircle size="1.5em" className="mr-1" />
+                    <div className='mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500'>
+                      <AiOutlineClockCircle size='1.5em' className='mr-1' />
                       {" " +
                         (finish.days < 10 ? "0" + finish.days : finish.days) +
                         ":" +
-                        (finish.hours < 10
-                          ? "0" + finish.hours
-                          : finish.hours) +
+                        (finish.hours < 10 ? "0" + finish.hours : finish.hours) +
                         ":" +
-                        (finish.minutes < 10
-                          ? "0" + finish.minutes
-                          : finish.minutes) +
+                        (finish.minutes < 10 ? "0" + finish.minutes : finish.minutes) +
                         ":" +
-                        (finish.seconds < 10
-                          ? "0" + finish.seconds
-                          : finish.seconds)}
+                        (finish.seconds < 10 ? "0" + finish.seconds : finish.seconds)}
                     </div>
                   ))
                 )}
@@ -540,15 +477,13 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                 )}
               </div>
               {status?.finishedAt == null ? (
-                <div className="col-start-2 col-span-4 ml-10">
-                  Total score: {assessmentSize}
-                </div>
+                <div className='col-start-2 col-span-4 ml-10'>Total score: {assessmentSize}</div>
               ) : (
-                <div className="col-start-2 col-span-4 ml-10">
+                <div className='col-start-2 col-span-4 ml-10'>
                   No. of attempts: {status.attempts}
                 </div>
               )}
-              <div className="col-start-1 col-span-6 my-10">
+              <div className='col-start-1 col-span-6 my-10'>
                 {assessment && assessment.sections && (
                   <div>
                     <AssessmentSection

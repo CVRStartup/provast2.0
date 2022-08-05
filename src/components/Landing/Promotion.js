@@ -23,7 +23,7 @@ export const Promotion = () => {
 
       <button
         type='submit'
-        className='my-5 py-4 px-5 bg-blue-500 rounded text-white font-bold text-md tracking-wider hover:bg-blue-600'
+        className='my-5 py-4 px-5 bg-orange-500 rounded text-white font-bold text-md tracking-wider hover:bg-orange-600'
       >
         Create My Resume
       </button>

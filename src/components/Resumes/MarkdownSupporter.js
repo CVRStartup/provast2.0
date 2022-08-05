@@ -9,7 +9,7 @@ export const MarkdownSupporter = () => {
           rel='noreferrer'
           target={"_blank"}
           href='https://www.markdownguide.org/basic-syntax/'
-          className='text-blue-500 underline cursor-pointer hover:text-blue-800'
+          className='text-orange-500 underline cursor-pointer hover:text-orange-800'
         >
           markdown
         </a>

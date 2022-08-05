@@ -72,7 +72,7 @@ export const Slider = () => {
               className={`flex flex-col justify-between items-center absolute w-full activeSlide transition duration-1000 ease-in-out ${position} `}
             >
               <div className='overflow-hidden w-full bg-gray-100 flex flex-col justify-center items-center text-center'>
-                <h1 className='text-xs uppercase text-blue-800 font-semibold tracking-widest'>
+                <h1 className='text-xs uppercase text-orange-800 font-semibold tracking-widest'>
                   {heading}
                 </h1>
                 <h6 className='text-2xl lg:text-4xl px-10 w-full my-4 font-bold lg:w-1/2 lg:px-0'>
@@ -80,7 +80,7 @@ export const Slider = () => {
                 </h6>
                 <p className='w-full px-10 text-center lg:px-0 lg:w-1/2'>{description}</p>
                 <Link href={buttonLink} passHref>
-                  <button className='p-3 my-5 lg:p-5 bg-blue-500 rounded text-white font-bold text-xl tracking-wider hover:bg-blue-600'>
+                  <button className='p-3 my-5 lg:p-5 bg-orange-500 rounded text-white font-bold text-xl tracking-wider hover:bg-orange-600'>
                     {button}
                   </button>
                 </Link>

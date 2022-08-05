@@ -36,20 +36,19 @@ const AssessmentOptions = ({
 
   return (
     <>
-      <div className="text-xl m-10">
+      <div className='text-xl m-10'>
         {question.options.map((option, index) => {
           return (
-            <div key={index} className="flex gap-3 items-center my-3">
+            <div key={index} className='flex gap-3 items-center my-3'>
               <input
                 onChange={(e) => {
-                  if (!disable)
-                    changeOptionHandler(e, option._id, question._id);
+                  if (!disable) changeOptionHandler(e, option._id, question._id);
                 }}
-                type="radio"
+                type='radio'
                 checked={selectedOption === option._id}
                 value={option._id}
                 name={option._id}
-                className={`cursor-pointer scale-125 opacity-60 hover:border hover:border-blue-500 hover:opacity-100 ${
+                className={`cursor-pointer scale-125 opacity-60 hover:border hover:border-orange-500 hover:opacity-100 ${
                   disable ? `cursor-not-allowed` : ``
                 }`}
               />
@@ -58,7 +57,7 @@ const AssessmentOptions = ({
           );
         })}
       </div>
-      <div className="flex justify-start m-10 mt-5">
+      <div className='flex justify-start m-10 mt-5'>
         {/* <div className="grid grid-cols-1"> */}
         <div
           className={`col-start-3 col-span-2 text-sm text-center cursor-pointer bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded ${

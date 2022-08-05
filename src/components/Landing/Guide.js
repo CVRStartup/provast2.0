@@ -21,26 +21,26 @@ function classNames(...classes) {
 
 export const Guide = () => {
   return (
-    <div className='bg-gradient-to-b from-blue-50 via-white to-white'>
+    <div className='bg-gradient-to-b from-orange-50 via-white to-white'>
       {/* Pricing section with single price and feature list */}
       <div className='max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8'>
         <div className='pb-16 xl:flex xl:items-center xl:justify-between'>
           <div>
             <h1 className='text-4xl font-extrabold sm:text-5xl sm:tracking-tight'>
               <span className='text-gray-900'>Everything you need from </span>
-              <span className='text-blue-600'>Provast</span>
+              <span className='text-orange-600'>Provast</span>
             </h1>
             <p className='mt-5 text-xl text-gray-500'>Includes every feature we offer.</p>
           </div>
           <Link href={"/auth/signin"}>
-            <a className='mt-8 w-full bg-blue-600 border border-transparent rounded-md py-3 px-5 inline-flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 sm:mt-10 sm:w-auto xl:mt-0'>
+            <a className='mt-8 w-full bg-orange-600 border border-transparent rounded-md py-3 px-5 inline-flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 sm:mt-10 sm:w-auto xl:mt-0'>
               Get started today
             </a>
           </Link>
         </div>
         <div className='border-t border-gray-200 pt-16 xl:grid xl:grid-cols-3 xl:gap-x-8'>
           <div>
-            <h2 className='text-base font-semibold text-blue-600 uppercase tracking-wide'>
+            <h2 className='text-base font-semibold text-orange-600 uppercase tracking-wide'>
               Everything you need
             </h2>
             <p className='mt-2 text-3xl font-extrabold text-gray-900'>All-in-one platform</p>

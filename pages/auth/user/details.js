@@ -137,7 +137,7 @@ const Details = ({ colleges, user }) => {
                   <span className='text-xs font-semibold'>Signed In As : </span>
                   <span className='text-sm font-bold text-gray-600'>{session?.email}</span>
                 </div>
-                <button className='font-semibold text-blue-600 text-sm underline hover:text-blue-800'>
+                <button className='font-semibold text-orange-600 text-sm underline hover:text-orange-800'>
                   <a href='/api/auth/logout'>Logout</a>
                 </button>
               </div>
@@ -195,7 +195,7 @@ const Details = ({ colleges, user }) => {
                             setCollege({ ...college, passphrase: e.target.value });
                           if (category === "student") setPassphrase(e.target.value);
                         }}
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                       {category === "student" && (
                         <div>
@@ -239,7 +239,7 @@ const Details = ({ colleges, user }) => {
                         required
                         value={profile.firstName}
                         onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
 
@@ -262,7 +262,7 @@ const Details = ({ colleges, user }) => {
                         required
                         value={profile.lastName}
                         onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
 
@@ -299,7 +299,7 @@ const Details = ({ colleges, user }) => {
                           required
                           value={rollNumber.value}
                           onChange={(e) => setRollNumber({ ...rollNumber, value: e.target.value })}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                       <div className='col-span-6 sm:col-span-3 mt-4'>
@@ -325,7 +325,7 @@ const Details = ({ colleges, user }) => {
                           onChange={(e) => {
                             setPhone({ ...phone, value: e.target.value });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
@@ -397,7 +397,7 @@ const Details = ({ colleges, user }) => {
                               placement: { ...college.placement, designation: e.target.value },
                             })
                           }
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                       <div className='col-span-6 sm:col-span-3 mt-4'>
@@ -418,7 +418,7 @@ const Details = ({ colleges, user }) => {
                           required
                           value={college.website}
                           onChange={(e) => setCollege({ ...college, website: e.target.value })}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                       <div className='col-span-6 sm:col-span-3 mt-4'>
@@ -445,7 +445,7 @@ const Details = ({ colleges, user }) => {
                               placement: { ...college.placement, email: e.target.value },
                             });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                       <div className='col-span-6 sm:col-span-3 mt-4'>
@@ -474,7 +474,7 @@ const Details = ({ colleges, user }) => {
                               placement: { ...college.placement, phone: e.target.value },
                             });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
@@ -507,7 +507,7 @@ const Details = ({ colleges, user }) => {
                                 principal: { ...college.principal, email: e.target.value },
                               });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
@@ -537,13 +537,13 @@ const Details = ({ colleges, user }) => {
                                 principal: { ...college.principal, phone: e.target.value },
                               });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
                   )}
                   <div className='mt-4'>
-                    <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 '>
+                    <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 '>
                       Submit
                     </button>
                   </div>

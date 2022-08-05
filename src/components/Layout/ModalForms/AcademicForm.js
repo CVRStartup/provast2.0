@@ -124,7 +124,7 @@ export const AcademicForm = () => {
                 })
               }
               required
-              className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+              className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             />
           </div>
 
@@ -181,7 +181,7 @@ export const AcademicForm = () => {
                 required
                 value={academics.board}
                 onChange={(e) => setAcademics({ ...academics, board: e.target.value })}
-                className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
               />
             </div>
             <div className='col-span-6 sm:col-span-3 relative -top-[23px]'>
@@ -219,7 +219,7 @@ export const AcademicForm = () => {
                     },
                   })
                 }
-                className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
               />
             </div>
             <div className='col-span-6 sm:col-span-3 relative -top-[45px]'>
@@ -256,7 +256,7 @@ export const AcademicForm = () => {
                   })
                 }
                 required
-                className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
               />
             </div>
             {selectedDegree.name !== "Class Xth" && (
@@ -274,7 +274,7 @@ export const AcademicForm = () => {
                       batch: { ...academics.batch, to: e.target.value },
                     })
                   }
-                  className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
             )}

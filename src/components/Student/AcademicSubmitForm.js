@@ -23,7 +23,7 @@ export const AcademicSubmitForm = ({ submitHandler }) => {
               })
             }
             required
-            className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
           />
         </div>
 
@@ -62,7 +62,7 @@ export const AcademicSubmitForm = ({ submitHandler }) => {
               required
               value={academics.board}
               onChange={(e) => setAcademics({ ...academics, board: e.target.value })}
-              className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+              className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             />
           </div>
           <div className='col-span-6 sm:col-span-3 relative -top-[23px]'>
@@ -99,7 +99,7 @@ export const AcademicSubmitForm = ({ submitHandler }) => {
                   },
                 })
               }
-              className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+              className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             />
           </div>
           <div className='col-span-6 sm:col-span-3 relative -top-[45px]'>
@@ -135,7 +135,7 @@ export const AcademicSubmitForm = ({ submitHandler }) => {
                 })
               }
               required
-              className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+              className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             />
           </div>
           <div className='col-span-6 sm:col-span-3'>
@@ -153,13 +153,13 @@ export const AcademicSubmitForm = ({ submitHandler }) => {
                 })
               }
               required
-              className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+              className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             />
           </div>
         </div>
 
         <div className='mt-4'>
-          <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 '>
+          <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 '>
             Submit
           </button>
         </div>
