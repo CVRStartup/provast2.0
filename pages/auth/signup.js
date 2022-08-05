@@ -6,7 +6,7 @@ import { useModelContext } from "../../src/context/ModalContext";
 import { Loading } from "../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../src/lib/auth";
 import { findUser } from "../../src/lib/user";
-import mutate from "swr";
+import { mutate } from "swr";
 
 const Signup = () => {
   useUser({ redirectTo: "/", redirectIfFound: true });
@@ -43,9 +43,9 @@ const Signup = () => {
           body: JSON.stringify(body),
         });
         if (res.status === 200) {
-          Router.push("/dashboard/student");
-          // mutate("/api/user");
+          await mutate("/api/user");
           setLoading(false);
+          Router.push("/dashboard/student");
         } else {
           setLoading(false);
           throw new Error(await res.text());

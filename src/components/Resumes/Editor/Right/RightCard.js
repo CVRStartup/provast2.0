@@ -74,13 +74,13 @@ export const RightCard = React.forwardRef(function RightCard({
     e.target.value = "";
   };
   return (
-    <div className="p-2 my-5 w-[95%] rounded mx-auto bg-gray-700 text-white">
+    <div className='p-2 my-5 w-[95%] rounded mx-auto bg-gray-700 text-white'>
       {loading && <Loading />}
-      <h4 className="text-sm font-semibold">{heading}</h4>
-      <p className="my-2 text-xs">{description}</p>
+      <h4 className='text-sm font-semibold'>{heading}</h4>
+      <p className='my-2 text-xs'>{description}</p>
       {button === "Download Your Resume" ? (
         <Menu
-          as="div"
+          as='div'
           onClick={() => {
             if (!checkPlan) {
               setForm("paymentForm");
@@ -88,9 +88,9 @@ export const RightCard = React.forwardRef(function RightCard({
               return;
             }
           }}
-          className="z-40 relative inline-block cursor-pointer"
+          className='z-40 relative inline-block cursor-pointer'
         >
-          <div className="flex flex-col items-center">
+          <div className='flex flex-col items-center'>
             <Menu.Button
               className={`bg-white my-1 text-gray-800 text-xs px-2 py-1 rounded-sm font-bold hover:bg-gray-300 ${
                 !checkPlan ? "pointer-events-none opacity-40 relative" : ""
@@ -99,23 +99,23 @@ export const RightCard = React.forwardRef(function RightCard({
               {button}
             </Menu.Button>
             {!checkPlan && (
-              <div className="absolute z-10 top-[4px] right-[43%] flex items-center justify-center h-6 w-6 bg-gray-900 bg-opacity-70 rounded-full p-1 ">
-                <VscLock size={14} color="white" />
+              <div className='absolute z-10 top-[4px] right-[43%] flex items-center justify-center h-6 w-6 bg-gray-900 bg-opacity-70 rounded-full p-1 '>
+                <VscLock size={14} color='white' />
               </div>
             )}
           </div>
 
           <Transition
             as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
+            enter='transition ease-out duration-100'
+            enterFrom='transform opacity-0 scale-95'
+            enterTo='transform opacity-100 scale-100'
+            leave='transition ease-in duration-75'
+            leaveFrom='transform opacity-100 scale-100'
+            leaveTo='transform opacity-0 scale-95'
           >
-            <Menu.Items className="origin-top-right absolute right-0 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="py-1">
+            <Menu.Items className='origin-top-right absolute right-0 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
+              <div className='py-1'>
                 <Menu.Item>
                   {({ active }) => (
                     <button
@@ -177,14 +177,14 @@ export const RightCard = React.forwardRef(function RightCard({
           </Transition>
         </Menu>
       ) : button === "Import Your Resume" ? (
-        <div className="relative">
-          <button className="w-[73%] bg-white z-20 my-1 opacity-1 text-gray-800 text-xs px-2 py-1 rounded-sm font-bold hover:bg-gray-300 overflow-hidden">
+        <div className='relative'>
+          <button className='w-[73%] bg-white z-20 my-1 opacity-1 text-gray-800 text-xs px-2 py-1 rounded-sm font-bold hover:bg-gray-300 overflow-hidden'>
             Import Your Resume
           </button>
           <input
-            className="absolute z-10 opacity-0 w-[73%] left-0 "
-            label="Choose File"
-            type="file"
+            className='absolute z-10 opacity-0 w-[73%] left-0 '
+            label='Choose File'
+            type='file'
             onChange={handleImportAsJson}
           />
         </div>
@@ -203,7 +203,7 @@ export const RightCard = React.forwardRef(function RightCard({
               ? handlePickTemplate
               : ""
           }
-          className="bg-white my-1 text-gray-800 text-xs px-2 py-1 rounded-sm font-bold hover:bg-gray-300"
+          className='bg-white my-1 text-gray-800 text-xs px-2 py-1 rounded-sm font-bold hover:bg-gray-300'
         >
           {button}
         </button>

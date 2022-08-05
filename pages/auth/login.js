@@ -28,8 +28,8 @@ const Login = () => {
         body: JSON.stringify(body),
       });
       if (res.status === 200) {
+        await mutate("/api/user");
         setLoading(false);
-        mutate("/api/user");
         Router.push("/dashboard/student");
       } else {
         throw new Error(await res.text());

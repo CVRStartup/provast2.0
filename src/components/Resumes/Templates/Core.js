@@ -26,14 +26,12 @@ export const Core = ({ componentRef, filter = null }) => {
   const {
     profile,
     social,
-    objective,
     education,
     awards,
     certifications,
     projects,
     work,
     skills,
-    hobbies,
     languages,
     layout,
   } = useResumeContext();
@@ -69,7 +67,7 @@ export const Core = ({ componentRef, filter = null }) => {
                   >
                     <BiPhone size={20} />
                     <span className='ml-2 text-sm font-semibold text-gray-700'>
-                      {profile?.phone?.value}
+                      {profile?.phone}
                     </span>
                   </div>
                   <div
