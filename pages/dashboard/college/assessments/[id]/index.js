@@ -213,9 +213,19 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                       <div className="text-xl flex gap-2">
                         <div className="font-semibold">{index + 1}. </div>{" "}
                         <div>
-                          {item.question.data.split("\n").map((line, index) => (
-                            <div key={index}>{line}</div>
-                          ))}
+                          {item.question.data.split("\n").map((line, index) => {
+                            return line.length > 0 &&
+                              line.substring(0, 4) === "http" ? (
+                              <div key={index}>
+                                <img
+                                  src={line}
+                                  className="max-h-96 max-w-96"
+                                ></img>
+                              </div>
+                            ) : (
+                              <div key={index}>{line}</div>
+                            );
+                          })}
                         </div>
                       </div>
                       <div className="flex items-center justify-center ml-5">

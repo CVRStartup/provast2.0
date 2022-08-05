@@ -49,9 +49,15 @@ export const AssessmentCore = ({
               </div>
             </div>{" "}
             <div>
-              {item.question.data.split("\n").map((line, index) => (
-                <div key={index}>{line}</div>
-              ))}
+              {item.question.data.split("\n").map((line, index) => {
+                return line.length > 0 && line.substring(0, 4) === "http" ? (
+                  <div key={index}>
+                    <img src={line} className="max-h-96 max-w-96"></img>
+                  </div>
+                ) : (
+                  <div key={index}>{line}</div>
+                );
+              })}
             </div>
           </div>
           {item.difficulty &&
