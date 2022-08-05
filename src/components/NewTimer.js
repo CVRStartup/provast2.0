@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 
-const NewTimer = ({ startTime, submitAssignment }) => {
+const NewTimer = ({ startTime, submitAssessmentFromTimer }) => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
-
-  // console.log(startTime);
-  // console.log(seconds, minutes);
 
   useEffect(() => {
     setSeconds(startTime.seconds);
@@ -22,7 +19,8 @@ const NewTimer = ({ startTime, submitAssignment }) => {
       setSeconds((prevState) => --prevState);
 
       if (seconds === 0 && minutes === 0) {
-        submitAssignment();
+        submitAssessmentFromTimer(true);
+
         return clearInterval(timer);
       }
       if (seconds <= 0 && minutes > 0) {

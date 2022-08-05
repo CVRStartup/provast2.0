@@ -111,7 +111,7 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
           {assessment?.allowedBatches?.length > 0 ? (
             assessment.allowedBatches.map((batch) => (
               <span className="mr-1" key={batch}>
-                {batch - 4}
+                {batch}
               </span>
             ))
           ) : (

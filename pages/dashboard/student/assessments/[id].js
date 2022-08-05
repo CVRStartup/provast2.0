@@ -39,7 +39,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
 
     setFullscreen(false);
     if (firstWarning) {
-      submitHandler();
+      submitHandler(false);
     } else {
       setFirstWarning(true);
     }
@@ -96,11 +96,13 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
       setTabChanged(!tabChanged);
       setFullscreen(false);
       if (firstWarning) {
-        submitHandler();
+        submitHandler(false);
       } else setFirstWarning(true);
     };
 
     if (fullscreen) window.addEventListener("blur", handleWindowChange);
+
+    if (status && status.finishedAt && !disable) setDisable(true);
 
     return () => {
       window.removeEventListener("blur", handleWindowChange);
@@ -128,7 +130,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
     }, 100);
   }, [status]);
 
-  const submitHandler = (e) => {
+  const submitHandler = (timer) => {
     //e.preventDefault();
     try {
       // handle.exit();
@@ -171,13 +173,22 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
         attempts: status.attempts + 1,
       });
 
-      setDisable(true);
-      toast.success(
-        `Submission successful! You scored ${score}/${status.marks.total} marks`,
-        {
-          toastId: 1337,
-        }
-      );
+      if (!timer) {
+        setDisable(true);
+        toast.success(
+          `Submission successful! You scored ${score}/${status.marks.total} marks`,
+          {
+            toastId: 1337,
+          }
+        );
+      } else {
+        toast.success(
+          `You ran out of time! You scored ${score}/${status.marks.total} marks`,
+          {
+            toastId: 1317,
+          }
+        );
+      }
     } catch (e) {
       toast.error(`Failed to submit, please try later`, {
         toastId: 1338,
@@ -339,7 +350,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
   const getNewStartTime = (start, end, timePermitted) => {
     let seconds = end.diff(start, "seconds");
     if (seconds >= timePermitted * 60) {
-      submitHandler();
+      submitHandler(false);
       return {
         seconds: 0,
         minutes: 0,
@@ -489,7 +500,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                         moment(),
                         assessment.timePermitted
                       )}
-                      submitAssessment={submitHandler}
+                      submitAssessmentFromTimer={submitHandler}
                     />
                   ) : (
                     <div className="mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500">
@@ -561,7 +572,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                     ? null
                     : (e) => {
                         handle.exit();
-                        submitHandler();
+                        submitHandler(false);
                       }
                 }
                 className={`col-start-3 col-span-2 text-xl text-center cursor-pointer bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded ${
@@ -600,7 +611,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
   if (user.category === "college") {
     return {
       redirect: {
-        destination: "/dashbaord/college",
+        destination: "/dashboard/college",
         permanent: false,
       },
     };
@@ -621,7 +632,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
   if (!assessment) {
     return {
       redirect: {
-        destination: `/dashboard/${user.category}/assessment`,
+        destination: `/dashboard/${user.category}/assessments`,
         permanent: false,
       },
     };

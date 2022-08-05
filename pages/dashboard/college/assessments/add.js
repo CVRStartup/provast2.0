@@ -129,11 +129,9 @@ const AssessmentAdd = ({ user }) => {
             let sections = [];
             let section = {};
 
-            console.log(data);
-
             for (let i = 0; i < data.length; i++) {
               let obj = data[i];
-              console.log(obj);
+
               if (typeof obj["S.No."] != "number") {
                 section.questions = questions;
                 sections.push(section);
@@ -168,10 +166,6 @@ const AssessmentAdd = ({ user }) => {
                 }
               }
 
-              // console.log(options);
-
-              // let answer = obj.answer;
-
               questions.push({
                 //ID: i + 1,
                 question: question,
@@ -183,6 +177,7 @@ const AssessmentAdd = ({ user }) => {
             section.questions = questions;
             sections.push(section);
             sections.shift();
+
             setassessment({
               ...assessment,
               sections: [...sections],
@@ -226,8 +221,7 @@ const AssessmentAdd = ({ user }) => {
           },
         }
       );
-      console.log(data);
-      console.log(user.college);
+
       toast.success("Assessment created", {
         toastId: 1,
       });
@@ -244,7 +238,6 @@ const AssessmentAdd = ({ user }) => {
     new Array(batchesEndingYear.length).fill(false)
   );
   useEffect(() => {
-    console.log(checkedState);
     let tickedBatches = [];
     for (let i = 0; i < checkedState.length; i++) {
       if (checkedState[i] === true) tickedBatches.push(batchesEndingYear[i]);
@@ -253,7 +246,6 @@ const AssessmentAdd = ({ user }) => {
   }, [checkedState]);
 
   const handleOnBatchChange = (position) => {
-    console.log(position);
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
     );
@@ -261,7 +253,6 @@ const AssessmentAdd = ({ user }) => {
     setCheckedState(updatedCheckedState);
   };
   const handleOnAllBatchChange = (e) => {
-    console.log(e);
     let updatedCheckedBatch = checkedState.slice();
     if (e.target.checked) {
       setCheckAllBatches(true);
@@ -275,7 +266,6 @@ const AssessmentAdd = ({ user }) => {
     setCheckedState(updatedCheckedBatch);
   };
   useEffect(() => {
-    console.log(checkedBranch);
     let tickedBatches = [];
     for (let i = 0; i < checkedBranch.length; i++) {
       if (checkedBranch[i] === true) tickedBatches.push(branches[i]);
@@ -284,7 +274,6 @@ const AssessmentAdd = ({ user }) => {
   }, [checkedBranch]);
 
   const handleOnBranchChange = (position) => {
-    console.log(position);
     const updatedCheckedState = checkedBranch.map((item, index) =>
       index === position ? !item : item
     );
@@ -293,7 +282,6 @@ const AssessmentAdd = ({ user }) => {
   };
 
   const handleOnAllBranchChange = (e) => {
-    console.log(e);
     let updatedCheckedBranch = checkedBranch.slice();
     if (e.target.checked) {
       setCheckAllBranches(true);

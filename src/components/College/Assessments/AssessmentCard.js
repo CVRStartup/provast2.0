@@ -59,7 +59,7 @@ export default function AssessmentCard({ assessment }) {
               {assessment?.allowedBatches?.length > 0 ? (
                 assessment.allowedBatches.map((batch) => (
                   <p className="mr-1 inline mr-1" key={batch}>
-                    {batch - 4}
+                    {batch}
                   </p>
                 ))
               ) : (
