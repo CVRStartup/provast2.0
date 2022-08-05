@@ -11,6 +11,7 @@ import { findUser } from "../../../src/lib/user";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
 
 const typeOfCategory = [
+  { id: "individual", name: "individual" },
   { id: "student", name: "student" },
   { id: "college", name: "college" },
 ];
@@ -29,7 +30,7 @@ const Details = ({ colleges, user }) => {
   const [dropDownState, setDropDownState] = useState(false);
   const [selectedGender, setSelectedGender] = useState(genders[0]);
 
-  const [category, setCategory] = useState("student");
+  const [category, setCategory] = useState("individual");
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -94,7 +95,8 @@ const Details = ({ colleges, user }) => {
       setLoading(false);
       if (data.message === "Details Updated") {
         toast.success("User Details Created.", { toastId: "User Details Created." });
-        router.push("/dashboard/student");
+        if (category === "individual") router.push("/dashboard/individual/resumes");
+        else router.push("/dashboard/student");
       }
     } catch (e) {
       toast.error(e.response.data.message, { toastId: e.response.data.message });
@@ -137,7 +139,7 @@ const Details = ({ colleges, user }) => {
                   <span className='text-xs font-semibold'>Signed In As : </span>
                   <span className='text-sm font-bold text-gray-600'>{session?.email}</span>
                 </div>
-                <button className='font-semibold text-blue-600 text-sm underline hover:text-blue-800'>
+                <button className='font-semibold text-orange-600 text-sm underline hover:text-orange-800'>
                   <a href='/api/auth/logout'>Logout</a>
                 </button>
               </div>
@@ -156,7 +158,7 @@ const Details = ({ colleges, user }) => {
                           name='notification-method'
                           type='radio'
                           value={option.name}
-                          defaultChecked={option.id === "student"}
+                          defaultChecked={option.id === "individual"}
                           onChange={(e) => setCategory(e.target.value)}
                           className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
                         />
@@ -171,56 +173,60 @@ const Details = ({ colleges, user }) => {
                   </div>
                 </fieldset>
                 <React.Fragment>
-                  <div className='col-span-6 sm:col-span-4 mt-4'>
-                    <div className='flex'>
-                      <label
-                        htmlFor='paraphase'
-                        className='block text-sm font-medium text-gray-700'
-                      >
-                        {category === "student" ? "" : "Create"} Paraphase
-                      </label>
-                      <span className='ml-1 text-red-600 font-semibold'>*</span>
-                    </div>
+                  {(category === "student" || category === "college") && (
+                    <div className='col-span-6 sm:col-span-4 mt-4'>
+                      <div className='flex'>
+                        <label
+                          htmlFor='paraphase'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          {category === "student" ? "" : "Create"} Paraphase
+                        </label>
+                        <span className='ml-1 text-red-600 font-semibold'>*</span>
+                      </div>
 
-                    <div className='flex items-center'>
-                      <input
-                        type='text'
-                        name='rollnumber'
-                        id='rollnumber'
-                        autoComplete='roll-number'
-                        required
-                        value={category === "college" ? college.passphrase : passphrase}
-                        onChange={(e) => {
-                          if (category === "college")
-                            setCollege({ ...college, passphrase: e.target.value });
-                          if (category === "student") setPassphrase(e.target.value);
-                        }}
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                      />
-                      {category === "student" && (
-                        <div>
-                          <button
-                            type='button'
-                            onClick={verifyPassphrase}
-                            className='ml-3 mt-1 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                          >
-                            Verify
-                          </button>
-                        </div>
-                      )}
+                      <div className='flex items-center'>
+                        <input
+                          type='text'
+                          name='rollnumber'
+                          id='rollnumber'
+                          autoComplete='roll-number'
+                          required
+                          value={category === "college" ? college.passphrase : passphrase}
+                          onChange={(e) => {
+                            if (category === "college")
+                              setCollege({ ...college, passphrase: e.target.value });
+                            if (category === "student") setPassphrase(e.target.value);
+                          }}
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                        {category === "student" && (
+                          <div>
+                            <button
+                              type='button'
+                              onClick={verifyPassphrase}
+                              className='ml-3 mt-1 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                            >
+                              Verify
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      <p
+                        className='mt-1 text-xs tracking-wide text-gray-500'
+                        id='pharaphase-description'
+                      >
+                        {category === "college"
+                          ? "Create a passphrase through which your students can associate with the college"
+                          : "Enter a passphrase that associates with your college placement cell."}
+                      </p>
                     </div>
-                    <p
-                      className='mt-1 text-xs tracking-wide text-gray-500'
-                      id='pharaphase-description'
-                    >
-                      {category === "college"
-                        ? "Create a passphrase through which your students can associate with the college"
-                        : "Enter a passphrase that associates with your college placement cell."}
-                    </p>
-                  </div>
+                  )}
 
                   <div className='grid grid-cols-6 gap-6 mt-4'>
-                    <div className='col-span-6 sm:col-span-2'>
+                    <div
+                      className={`col-span-6 sm:col-span-${category === "individual" ? "3" : "2"} `}
+                    >
                       <div className='flex'>
                         <label
                           htmlFor='firstName'
@@ -239,11 +245,13 @@ const Details = ({ colleges, user }) => {
                         required
                         value={profile.firstName}
                         onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
 
-                    <div className='col-span-6 sm:col-span-2'>
+                    <div
+                      className={`col-span-6 sm:col-span-${category === "individual" ? "3" : "2"} `}
+                    >
                       <div className='flex'>
                         <label
                           htmlFor='lastName'
@@ -262,11 +270,43 @@ const Details = ({ colleges, user }) => {
                         required
                         value={profile.lastName}
                         onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
-                        className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
 
-                    <div className='col-span-6 sm:col-span-2 relative -top-[23px]'>
+                    {category === "individual" && (
+                      <div className='col-span-6 sm:col-span-3'>
+                        <div className='flex'>
+                          <label
+                            htmlFor='phone'
+                            className='block text-sm font-medium text-gray-700'
+                          >
+                            Phone Number
+                          </label>
+                          <span className='ml-1 text-red-600 font-semibold'>*</span>
+                        </div>
+
+                        <input
+                          type='tel'
+                          name='phone'
+                          id='phone'
+                          autoComplete='tel'
+                          required
+                          pattern='[6789][0-9]{9}'
+                          value={phone.value}
+                          onChange={(e) => {
+                            setPhone({ ...phone, value: e.target.value });
+                          }}
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        />
+                      </div>
+                    )}
+
+                    <div
+                      className={`col-span-6 sm:col-span-${
+                        category === "individual" ? "3" : "2"
+                      } relative -top-[23px]`}
+                    >
                       <DropDown
                         isRequired
                         title='Gender'
@@ -299,7 +339,7 @@ const Details = ({ colleges, user }) => {
                           required
                           value={rollNumber.value}
                           onChange={(e) => setRollNumber({ ...rollNumber, value: e.target.value })}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                       <div className='col-span-6 sm:col-span-3 mt-4'>
@@ -325,13 +365,13 @@ const Details = ({ colleges, user }) => {
                           onChange={(e) => {
                             setPhone({ ...phone, value: e.target.value });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
                   )}
 
-                  {colleges && (
+                  {category !== "individual" && colleges && (
                     <div className='relative'>
                       <div className='flex'>
                         <label className='mt-4 mb-2 block text-sm font-medium text-gray-700'>
@@ -397,7 +437,7 @@ const Details = ({ colleges, user }) => {
                               placement: { ...college.placement, designation: e.target.value },
                             })
                           }
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                       <div className='col-span-6 sm:col-span-3 mt-4'>
@@ -418,7 +458,7 @@ const Details = ({ colleges, user }) => {
                           required
                           value={college.website}
                           onChange={(e) => setCollege({ ...college, website: e.target.value })}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                       <div className='col-span-6 sm:col-span-3 mt-4'>
@@ -445,7 +485,7 @@ const Details = ({ colleges, user }) => {
                               placement: { ...college.placement, email: e.target.value },
                             });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                       <div className='col-span-6 sm:col-span-3 mt-4'>
@@ -474,7 +514,7 @@ const Details = ({ colleges, user }) => {
                               placement: { ...college.placement, phone: e.target.value },
                             });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
@@ -507,7 +547,7 @@ const Details = ({ colleges, user }) => {
                                 principal: { ...college.principal, email: e.target.value },
                               });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
 
@@ -537,13 +577,13 @@ const Details = ({ colleges, user }) => {
                                 principal: { ...college.principal, phone: e.target.value },
                               });
                           }}
-                          className='mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
                   )}
                   <div className='mt-4'>
-                    <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 '>
+                    <button className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 '>
                       Submit
                     </button>
                   </div>
