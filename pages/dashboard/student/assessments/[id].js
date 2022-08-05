@@ -605,6 +605,14 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
+  if (user.category === "student" && !user.academicsAvailable) {
+    return {
+      redirect: {
+        destination: "/auth/user/academics",
+        permanent: false,
+      },
+    };
+  }
 
   const {
     data: { assessment },
@@ -624,23 +632,6 @@ export const getServerSideProps = async ({ req, res, query }) => {
   } = await axios.get(
     `${process.env.HOST_URL}/api/assessments/status/${assessment._id}?userId=${user._id}&assessmentId=${query.id}`
   );
-
-  const {
-    data: { academics },
-  } = await axios.get(
-    `${process.env.HOST_URL}/api/assessments/status/${assessment._id}`
-  );
-  // if (
-  //   !assessment.allowedBatches.includes(user.batch.end) &&
-  //   !assessment.allowedBranches.includes(user.branch.code)
-  // ) {
-  //   return {
-  //     redirect: {
-  //       destination: `/dashboard/${user.category}/assessments`,
-  //       permanent: false,
-  //     },
-  //   };
-  // }
 
   return {
     props: {

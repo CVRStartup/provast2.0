@@ -1,4 +1,3 @@
-//display all assessments previously posted with "post new assignemnt" button on top right
 import axios from "axios";
 import React from "react";
 import { getLoginSession } from "../../../../src/lib/auth";
@@ -38,7 +37,7 @@ const Index = ({ assessments, academics, user }) => {
 export const getServerSideProps = async ({ req, res, query }) => {
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
-  console.log(user);
+
   if (!user) {
     return {
       redirect: {
@@ -83,6 +82,15 @@ export const getServerSideProps = async ({ req, res, query }) => {
   } = await axios.get(
     `${process.env.HOST_URL}/api/auth/user/academics?rollNumber=${user.rollNumber?.value}`
   );
+
+  if (!academics) {
+    return {
+      redirect: {
+        destination: "/auth/user/academics",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
