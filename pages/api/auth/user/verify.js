@@ -20,9 +20,8 @@ const verifyPassphrase = async (req, res) => {
     if (!pass) {
       return res.status(400).json({ message: "Invalid Passphrase" });
     }
-
     const college = await User.findOne({ "college.passphrase": pass });
-
+    console.log(college);
     if (college.approved) {
       return res.status(200).json({
         message: "College found",
