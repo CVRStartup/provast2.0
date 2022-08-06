@@ -99,9 +99,6 @@ const JobSchema = mongoose.Schema(
     },
     eligible: [
       {
-        name: String,
-        branch: String,
-        rollnumber: String,
         email: String,
         phone: String,
         resume: String,
@@ -149,6 +146,7 @@ const JobSchema = mongoose.Schema(
           {
             email: String,
             role: String,
+            // round1.shortlist==null, take from eligible
           },
         ],
         result: [

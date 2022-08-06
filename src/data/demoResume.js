@@ -3,11 +3,11 @@ export const demoResume = (user) => {
     personal: {
       firstName: user?.profile?.firstName,
       lastName: user?.profile?.lastName,
-      email: user?.profile?.email,
+      email: user?.email,
       role: "React Developer",
       image: user?.profile?.image,
       dob: "1985-11-01",
-      phone: user?.profile?.phone,
+      phone: user?.phone?.value,
     },
     social: [
       {

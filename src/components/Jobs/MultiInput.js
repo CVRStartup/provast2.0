@@ -11,7 +11,7 @@ export const MultiInput = ({ title, extraOptions, handleExtraOptions, deleteOpti
       <div>
         <div className='mt-1 flex items-center justify-between'>
           <input
-            className='mr-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md'
+            className='mr-2 block w-full shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm border-gray-300 rounded-md'
             type='text'
             placeholder='SDE'
             value={extra}
@@ -19,7 +19,7 @@ export const MultiInput = ({ title, extraOptions, handleExtraOptions, deleteOpti
             onChange={(e) => setExtra(e.target.value)}
           />
           <div
-            className='py-2 px-4 rounded-md shadow-sm text-sm font-medium hover:bg-blue-500 bg-blue-600 cursor-pointer text-white'
+            className='py-2 px-4 rounded-md shadow-sm text-sm font-medium hover:bg-orange-500 bg-orange-600 cursor-pointer text-white'
             onClick={(e) => {
               setExtra("");
               handleExtraOptions(extra);

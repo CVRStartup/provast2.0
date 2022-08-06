@@ -37,10 +37,18 @@ const updateUserDetails = async (req, res) => {
         rollNumber,
         education: newEducation,
       };
-      const updated = await Academic.findByIdAndUpdate(academics._id, newAcademics, { new: true });
-      return res.status(200).json({ message: "Academic Details Updated", updated });
+      const updated = await Academic.findByIdAndUpdate(
+        academics._id,
+        newAcademics,
+        { new: true }
+      );
+      return res
+        .status(200)
+        .json({ message: "Academic Details Updated", updated });
     } else {
-      return res.status(200).json({ message: "Academic Details Not Found", updated });
+      return res
+        .status(200)
+        .json({ message: "Academic Details Not Found", updated });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -59,15 +67,18 @@ const searchAcademics = async (req, res) => {
     const academics = await Academic.findOne({ rollNumber });
 
     if (academics) {
-      return res.status(200).json({ message: "Academic Details Found", academics });
+      return res
+        .status(200)
+        .json({ message: "Academic Details Found", academics });
     } else {
-      return res.status(200).json({ message: "Academic Details Not Found", academics: [] });
+      return res
+        .status(200)
+        .json({ message: "Academic Details Not Found", academics: [] });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
-
 const createUserAcademics = async (req, res) => {
   try {
     await connectDB();

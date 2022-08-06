@@ -68,11 +68,17 @@ const Details = ({ colleges, user }) => {
   const [passphrase, setPassphrase] = useState("");
 
   const verifyPassphrase = async () => {
-    const { data } = await axios.get(`/api/auth/user/verify?pass=${passphrase}`);
+    const { data } = await axios.get(`/api/auth/user/verify`, {
+      params: {
+        pass: passphrase,
+      },
+    });
     setVerified(data?.verified);
     if (data?.college) {
       setCollege({ ...college, name: data?.college?.name, code: data?.college?.code });
       setCollegeSearchValue(data?.college?.name);
+    } else {
+      toast.error(data?.message, { toastId: data?.message });
     }
   };
 
@@ -205,7 +211,7 @@ const Details = ({ colleges, user }) => {
                             <button
                               type='button'
                               onClick={verifyPassphrase}
-                              className='ml-3 mt-1 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                              className='ml-3 mt-1 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-orange-700 bg-orange-100 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
                             >
                               Verify
                             </button>

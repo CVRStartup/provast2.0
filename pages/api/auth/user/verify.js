@@ -15,15 +15,12 @@ const verifyPassphrase = async (req, res) => {
 
     const { pass } = req.query;
 
-    console.log(req.body);
-
     if (!pass) {
       return res.status(400).json({ message: "Invalid Passphrase" });
     }
+    const college = await User.findOne({ "college.passphrase": pass, approved: true });
 
-    const college = await User.findOne({ "college.passphrase": pass });
-
-    if (college.approved) {
+    if (college) {
       return res.status(200).json({
         message: "College found",
         verified: true,
@@ -33,9 +30,11 @@ const verifyPassphrase = async (req, res) => {
         },
       });
     } else {
-      return res
-        .status(200)
-        .json({ message: "Please try again!", verified: false, college: false });
+      return res.status(200).json({
+        message: "No college associates with entered passphrase!",
+        verified: false,
+        college: false,
+      });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });

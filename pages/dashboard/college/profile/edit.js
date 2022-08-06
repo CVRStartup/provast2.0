@@ -437,7 +437,7 @@ const ProfileEdit = ({ userDetails }) => {
                           </div>
                         ) : (
                           <input
-                            className='cursor-pointer ml-4 font-semibold h-10 appearance-none block w-full text-gray-500 px-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                            className='cursor-pointer ml-4 font-semibold h-10 appearance-none block w-full text-gray-500 px-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                             label='Choose File'
                             type='text'
                             name='image'
@@ -474,7 +474,7 @@ const ProfileEdit = ({ userDetails }) => {
             <button
               onClick={submitHandler}
               type='submit'
-              className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 '
+              className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 '
             >
               Save
             </button>
@@ -510,7 +510,7 @@ const ProfileEdit = ({ userDetails }) => {
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     autoComplete='given-name'
-                    className='max-w-lg block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md'
+                    className='max-w-lg block w-full shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md'
                   />
                 </div>
               </div>
@@ -530,7 +530,7 @@ const ProfileEdit = ({ userDetails }) => {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     autoComplete='family-name'
-                    className='max-w-lg block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md'
+                    className='max-w-lg block w-full shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md'
                   />
                 </div>
               </div>
@@ -550,7 +550,7 @@ const ProfileEdit = ({ userDetails }) => {
                     value={details?.phone || ""}
                     disabled={true}
                     autoComplete='tel'
-                    className='max-w-lg block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:max-w-xs sm:text-sm border-gray-300 cursor-not-allowed bg-gray-200 rounded-md'
+                    className='max-w-lg block w-full shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:max-w-xs sm:text-sm border-gray-300 cursor-not-allowed bg-gray-200 rounded-md'
                   />
                 </div>
               </div>
@@ -574,7 +574,7 @@ const ProfileEdit = ({ userDetails }) => {
                       type='email'
                       value={session?.user?.email || ""}
                       disabled={true}
-                      className='max-w-lg block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:max-w-xs sm:text-sm border-gray-300 cursor-not-allowed bg-gray-200 rounded-md'
+                      className='max-w-lg block w-full shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:max-w-xs sm:text-sm border-gray-300 cursor-not-allowed bg-gray-200 rounded-md'
                     />
                   )}
                 </div>
@@ -594,7 +594,7 @@ const ProfileEdit = ({ userDetails }) => {
                     autoComplete='email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className='max-w-lg block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md'
+                    className='max-w-lg block w-full shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md'
                   />
                 </div>
               </div>
@@ -625,7 +625,7 @@ const ProfileEdit = ({ userDetails }) => {
                         value={image}
                         disabled={true}
                         onChange={(e) => setImage(e.target.value)}
-                        className='appearance-none block w-3/4 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className='appearance-none block w-3/4 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                       />
                     )}
                     {loading ? (
@@ -635,7 +635,7 @@ const ProfileEdit = ({ userDetails }) => {
                       </div>
                     ) : (
                       <input
-                        className='mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                        className='mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                         label='Choose File'
                         type='file'
                         name='image'
@@ -662,7 +662,7 @@ const ProfileEdit = ({ userDetails }) => {
               <button
                 onClick={submitHandler}
                 type='submit'
-                className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 '
+                className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 '
               >
                 Save
               </button>

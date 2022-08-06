@@ -172,7 +172,7 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                                 <Link
                                   href={`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option.resume}`}
                                 >
-                                  <a className='text-blue-800 underline'>{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
+                                  <a className='text-orange-800 underline'>{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
                                 </Link>
                               ) : (
                                 "N/A"
@@ -230,7 +230,7 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                                 <Link
                                   href={`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option.resume}`}
                                 >
-                                  <a className='text-blue-800 underline'>{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
+                                  <a className='text-orange-800 underline'>{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
                                 </Link>
                               ) : (
                                 "N/A"

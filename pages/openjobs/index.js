@@ -14,11 +14,17 @@ const openjobs = [
     lastDate: "18th July 2022",
     href: "https://on.tcs.com/3xNXEdv",
   },
+  {
+    name: "Google Venkat Scholarship",
+    eligible: "2022-2023",
+    lastDate: "14th August 2022",
+    href: "https://docs.google.com/forms/d/e/1FAIpQLSdz8Ix_wb3OfV1EPwOnBG7bNCtERzCxG3KuVvf86LrfVB007w/viewform",
+  },
 ];
 
 const index = () => {
   return (
-    <div className='max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4'>
+    <div className='max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4 mt-[10vh]'>
       <h2 className='text-2xl font-bold leading-7 text-gray-800 text-center sm:text-4xl sm:truncate'>
         Open Jobs
       </h2>
@@ -68,7 +74,7 @@ const index = () => {
                         </td>
                         <td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
                           <Link href={job.href}>
-                            <a className='text-indigo-600 hover:text-indigo-900'>
+                            <a className='text-orange-600 hover:text-orange-900'>
                               Register<span className='sr-only'>, {job.name}</span>
                             </a>
                           </Link>

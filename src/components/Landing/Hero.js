@@ -5,7 +5,7 @@ import React from "react";
 export const Hero = () => {
   return (
     <div className='overflow-hidden bg-gray-100 flex flex-col justify-center items-center text-center pt-10'>
-      <h1 className='text-xs uppercase text-blue-800 font-semibold tracking-widest'>
+      <h1 className='text-xs uppercase text-orange-800 font-semibold tracking-widest'>
         Online resume builder
       </h1>
       <h6 className='text-4xl px-10 w-full my-4 lg:font-bold lg:w-1/2 lg:px-0'>
@@ -18,7 +18,7 @@ export const Hero = () => {
       <Link href='/dashboard/student/resumes'>
         <button
           type='submit'
-          className='my-5 py-5 px-5 bg-blue-500 rounded text-white font-bold text-xl tracking-wider hover:bg-blue-600'
+          className='my-5 py-5 px-5 bg-orange-500 rounded text-white font-bold text-xl tracking-wider hover:bg-orange-600'
         >
           Create Resume
         </button>

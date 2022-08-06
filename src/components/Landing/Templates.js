@@ -13,7 +13,7 @@ export const Templates = () => {
           </p>
           <button
             type='submit'
-            className='mb-5 py-4 px-4 bg-blue-500 rounded font-bold text-md tracking-wider hover:bg-blue-600'
+            className='mb-5 py-4 px-4 bg-orange-500 rounded font-bold text-md tracking-wider hover:bg-orange-600'
           >
             Select Template
           </button>
