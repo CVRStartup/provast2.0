@@ -42,7 +42,7 @@ const AdminIndex = () => {
         <div className='mt-4 sm:mt-0 sm:ml-16 sm:flex-none'>
           <button
             type='button'
-            className='inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto'
+            className='inline-flex items-center justify-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:w-auto'
           >
             Add user
           </button>
@@ -112,8 +112,8 @@ const AdminIndex = () => {
                           checked={college.approved}
                           onChange={(e) => handleChange(college._id, college.approved)}
                           className={classNames(
-                            college.approved ? "bg-indigo-600" : "bg-gray-200",
-                            "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            college.approved ? "bg-orange-600" : "bg-gray-200",
+                            "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                           )}
                         >
                           <span className='sr-only'>Use setting</span>
@@ -156,7 +156,7 @@ const AdminIndex = () => {
                               aria-hidden='true'
                             >
                               <svg
-                                className='h-3 w-3 text-indigo-600'
+                                className='h-3 w-3 text-orange-600'
                                 fill='currentColor'
                                 viewBox='0 0 12 12'
                               >

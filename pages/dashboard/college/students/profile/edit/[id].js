@@ -366,8 +366,8 @@ const ProfileEdit = ({ id }) => {
                               setProfile({ ...profile, verified: !profile?.verified })
                             }
                             className={classNames(
-                              profile?.verified ? "bg-indigo-600" : "bg-gray-200",
-                              "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                              profile?.verified ? "bg-orange-600" : "bg-gray-200",
+                              "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                             )}
                           >
                             <span className='sr-only'>Use setting</span>
@@ -410,7 +410,7 @@ const ProfileEdit = ({ id }) => {
                                 aria-hidden='true'
                               >
                                 <svg
-                                  className='h-3 w-3 text-indigo-600'
+                                  className='h-3 w-3 text-orange-600'
                                   fill='currentColor'
                                   viewBox='0 0 12 12'
                                 >
@@ -429,8 +429,8 @@ const ProfileEdit = ({ id }) => {
                             checked={profile?.frozen}
                             onChange={(e) => setProfile({ ...profile, frozen: !profile?.frozen })}
                             className={classNames(
-                              profile?.frozen ? "bg-indigo-600" : "bg-gray-200",
-                              "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                              profile?.frozen ? "bg-orange-600" : "bg-gray-200",
+                              "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                             )}
                           >
                             <span className='sr-only'>Use setting</span>
@@ -473,7 +473,7 @@ const ProfileEdit = ({ id }) => {
                                 aria-hidden='true'
                               >
                                 <svg
-                                  className='h-3 w-3 text-indigo-600'
+                                  className='h-3 w-3 text-orange-600'
                                   fill='currentColor'
                                   viewBox='0 0 12 12'
                                 >
@@ -575,8 +575,8 @@ const ProfileEdit = ({ id }) => {
                                 checked={phone?.verified}
                                 onChange={(e) => setPhone({ ...phone, verified: !phone?.verified })}
                                 className={classNames(
-                                  phone?.verified ? "bg-indigo-600" : "bg-gray-200",
-                                  "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                  phone?.verified ? "bg-orange-600" : "bg-gray-200",
+                                  "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                                 )}
                               >
                                 <span className='sr-only'>Use setting</span>
@@ -619,7 +619,7 @@ const ProfileEdit = ({ id }) => {
                                     aria-hidden='true'
                                   >
                                     <svg
-                                      className='h-3 w-3 text-indigo-600'
+                                      className='h-3 w-3 text-orange-600'
                                       fill='currentColor'
                                       viewBox='0 0 12 12'
                                     >
@@ -638,8 +638,8 @@ const ProfileEdit = ({ id }) => {
                                 checked={phone?.frozen}
                                 onChange={(e) => setPhone({ ...phone, frozen: !phone?.frozen })}
                                 className={classNames(
-                                  phone?.frozen ? "bg-indigo-600" : "bg-gray-200",
-                                  "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                  phone?.frozen ? "bg-orange-600" : "bg-gray-200",
+                                  "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                                 )}
                               >
                                 <span className='sr-only'>Use setting</span>
@@ -682,7 +682,7 @@ const ProfileEdit = ({ id }) => {
                                     aria-hidden='true'
                                   >
                                     <svg
-                                      className='h-3 w-3 text-indigo-600'
+                                      className='h-3 w-3 text-orange-600'
                                       fill='currentColor'
                                       viewBox='0 0 12 12'
                                     >
@@ -1079,8 +1079,8 @@ const ProfileEdit = ({ id }) => {
                                 setContact({ ...contact, verified: !contact?.verified })
                               }
                               className={classNames(
-                                contact?.verified ? "bg-indigo-600" : "bg-gray-200",
-                                "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                contact?.verified ? "bg-orange-600" : "bg-gray-200",
+                                "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                               )}
                             >
                               <span className='sr-only'>Use setting</span>
@@ -1123,7 +1123,7 @@ const ProfileEdit = ({ id }) => {
                                   aria-hidden='true'
                                 >
                                   <svg
-                                    className='h-3 w-3 text-indigo-600'
+                                    className='h-3 w-3 text-orange-600'
                                     fill='currentColor'
                                     viewBox='0 0 12 12'
                                   >
@@ -1142,8 +1142,8 @@ const ProfileEdit = ({ id }) => {
                               checked={contact?.frozen}
                               onChange={(e) => setContact({ ...contact, frozen: !contact?.frozen })}
                               className={classNames(
-                                contact?.frozen ? "bg-indigo-600" : "bg-gray-200",
-                                "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                contact?.frozen ? "bg-orange-600" : "bg-gray-200",
+                                "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                               )}
                             >
                               <span className='sr-only'>Use setting</span>
@@ -1186,7 +1186,7 @@ const ProfileEdit = ({ id }) => {
                                   aria-hidden='true'
                                 >
                                   <svg
-                                    className='h-3 w-3 text-indigo-600'
+                                    className='h-3 w-3 text-orange-600'
                                     fill='currentColor'
                                     viewBox='0 0 12 12'
                                   >
