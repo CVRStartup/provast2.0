@@ -54,10 +54,11 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
-  if (user.category === "college") {
+
+  if (user.category !== "student") {
     return {
       redirect: {
-        destination: "/dashboard/college",
+        destination: `/dashboard/${user.category}`,
         permanent: false,
       },
     };

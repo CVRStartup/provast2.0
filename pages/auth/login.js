@@ -54,7 +54,7 @@ export const getServerSideProps = async ({ req, res }) => {
   if (user) {
     return {
       redirect: {
-        destination: "/dashboard/" + user.category,
+        destination: `/dashboard/${user?.category}`,
         permanent: false,
       },
     };

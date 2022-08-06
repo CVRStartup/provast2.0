@@ -130,145 +130,145 @@ const ReportSlug = ({ assessmentStatuses, assessmentDetails, studentDetails, use
   };
   console.log(studentDetails);
   return (
-    <div className='mt-[10vh]'>
+    <div className="mt-[10vh]">
       <div>
-        <div className='flex flex-row flex-wrap w-full bg-orange-100 min-h-[300px] border-2 border-solid border-orange-200'>
-          <div className='md:w-1/2 w-full m-5 md:m-0 flex flex-col items-center justify-center'>
-            <div className='text-lg font-bold my-2'>{firstName + " " + lastName}</div>
-            <div className='text-base flex justify-between items-center md:w-1/2 py-1'>
+        <div className="flex flex-row flex-wrap w-full bg-orange-100 min-h-[300px] border-2 border-solid border-orange-200">
+          <div className="md:w-1/2 w-full m-5 md:m-0 flex flex-col items-center justify-center">
+            <div className="text-lg font-bold my-2">{firstName + " " + lastName}</div>
+            <div className="text-base flex justify-between items-center md:w-1/2 py-1">
               {" "}
               <span>Email :</span> {email}{" "}
             </div>
-            <div className='text-base flex justify-between items-center md:w-1/2 py-1'>
+            <div className="text-base flex justify-between items-center md:w-1/2 py-1">
               {" "}
               <span>Phone :</span> {phone}{" "}
             </div>
-            <div className='text-base flex justify-between items-center md:w-1/2 py-1'>
+            <div className="text-base flex justify-between items-center md:w-1/2 py-1">
               {" "}
               <span>College:</span> {collegeName}{" "}
             </div>
             <Link
               href={`/dashboard/college/assessments/${assessmentDetails["_id"]}/report/${studentDetails["_id"]}/responses`}
             >
-              <div className='text-orange-500 cursor-pointer md:w-1/2 my-2 hover:text-orange-400 '>
+              <div className="text-orange-500 cursor-pointer md:w-1/2 my-2 hover:text-orange-400 ">
                 View Responses
               </div>
             </Link>
           </div>
-          <div className='md:w-1/2 flex flex-row items-center justify-center flex-wrap w-full'>
-            <div className=' bg-green-100 flex flex-col justify-center items-center p-2 m-2 w-[150px] h-[150px] border-2 border-solid border-green-300 rounded shadow'>
-              <div className='text-lg font-semibold m-1'>Score secured</div>
-              <div className='text-4xl  text-green-900 m-1 font-light'>{scored}</div>
-              <div className='text-lg font-light m-1'> Out of {totalMarks} </div>
+          <div className="md:w-1/2 flex flex-row items-center justify-center flex-wrap w-full">
+            <div className=" bg-green-100 flex flex-col justify-center items-center p-2 m-2 w-[150px] h-[150px] border-2 border-solid border-green-300 rounded shadow">
+              <div className="text-lg font-semibold m-1">Score secured</div>
+              <div className="text-4xl  text-green-900 m-1 font-light">{scored}</div>
+              <div className="text-lg font-light m-1"> Out of {totalMarks} </div>
             </div>
-            <div className='bg-yellow-100 flex flex-col justify-center items-center p-2 m-2 w-[150px] h-[150px] border-yellow-200 border-solid rounded shadow'>
-              <div className='text-lg font-semibold m-1 '>Percentage </div>
-              <div className='text-4xl  text-orange-900 m-1 font-light'>{percentage}% </div>
-              <div className='text-lg font-light m-1'> Out of 100 </div>
+            <div className="bg-yellow-100 flex flex-col justify-center items-center p-2 m-2 w-[150px] h-[150px] border-yellow-200 border-solid rounded shadow">
+              <div className="text-lg font-semibold m-1 ">Percentage </div>
+              <div className="text-4xl  text-orange-900 m-1 font-light">{percentage}% </div>
+              <div className="text-lg font-light m-1"> Out of 100 </div>
             </div>
-            <div className='bg-red-200 flex flex-col justify-center items-center p-2 m-2 w-[150px] h-[150px] border-2 border-red-300 border-solid rounded shadow'>
-              <div className='text-lg font-semibold m-1'> Rank </div>
-              <div className='text-4xl  text-orange-900 m-1 font-light'>#{rank}</div>
-              <div className='text-lg font-light m-1'> Out of {assessmentStatusSet.size} </div>
+            <div className="bg-red-200 flex flex-col justify-center items-center p-2 m-2 w-[150px] h-[150px] border-2 border-red-300 border-solid rounded shadow">
+              <div className="text-lg font-semibold m-1"> Rank </div>
+              <div className="text-4xl  text-orange-900 m-1 font-light">#{rank}</div>
+              <div className="text-lg font-light m-1"> Out of {assessmentStatusSet.size} </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div className='flex flex-wrap justify-around items-start'>
-            <div className='md:w-1/2 flex flex-wrap items-center justify-center w-full'>
-              <h1 className='text-xl font-bold flex items-center  m-5 w-full'>
-                <span className='inline pt-1'>
+          <div className="flex flex-wrap justify-around items-start">
+            <div className="md:w-1/2 flex flex-wrap items-center justify-center w-full">
+              <h1 className="text-xl font-bold flex items-center  m-5 w-full">
+                <span className="inline pt-1">
                   <MdDoubleArrow />
                 </span>
                 Test details{" "}
               </h1>
-              <div className=' flex flex-row flex-wrap w-full md:items-start items-center md:justify-start justify-center'>
-                <div className='m-5 w-[200px]   flex flex-col border-2 border-solid border-gray-200 rounded shadow px-3 pb-3'>
-                  <div className='text-lg flex items-center ml-2 font-sm mt-3'>
-                    <span className='font-bold'>
+              <div className=" flex flex-row flex-wrap w-full md:items-start items-center md:justify-start justify-center">
+                <div className="m-5 w-[200px]   flex flex-col border-2 border-solid border-gray-200 rounded shadow px-3 pb-3">
+                  <div className="text-lg flex items-center ml-2 font-sm mt-3">
+                    <span className="font-bold">
                       <BiTimeFive />
                     </span>
                     Time Spent
                   </div>
-                  <div className='bg-gray-300 h-[3px] w-[75px] ml-3 mt-2'></div>
-                  <div className='flex items-end'>
-                    <div className='text-orange-500 text-5xl font-light mx-3 my-2'>
+                  <div className="bg-gray-300 h-[3px] w-[75px] ml-3 mt-2"></div>
+                  <div className="flex items-end">
+                    <div className="text-orange-500 text-5xl font-light mx-3 my-2">
                       {timeSpentInMinutes}
                     </div>
-                    <div className='text-orange-500 text-sm font-bold mx-2 my-2'>min</div>
+                    <div className="text-orange-500 text-sm font-bold mx-2 my-2">min</div>
                   </div>
                 </div>
 
-                <div className='m-5 w-[200px]  flex flex-col border-2 border-solid border-gray-200 rounded shadow px-3 pb-3'>
-                  <div className='text-lg flex items-center ml-2 font-sm mt-3'>
+                <div className="m-5 w-[200px]  flex flex-col border-2 border-solid border-gray-200 rounded shadow px-3 pb-3">
+                  <div className="text-lg flex items-center ml-2 font-sm mt-3">
                     {" "}
-                    <span className='font-bold'>
+                    <span className="font-bold">
                       {" "}
                       <BiTimeFive />
                     </span>{" "}
                     Attempted{" "}
                   </div>
-                  <div className='bg-gray-300 h-[3px] w-[75px] ml-3 mt-2'></div>
-                  <div className='flex items-end'>
-                    <div className='text-orange-500 text-5xl font-light mx-3 my-2'>
+                  <div className="bg-gray-300 h-[3px] w-[75px] ml-3 mt-2"></div>
+                  <div className="flex items-end">
+                    <div className="text-orange-500 text-5xl font-light mx-3 my-2">
                       {totalAttemptedQuestions}
                     </div>
-                    <div className='text-orange-500 text-sm font-bold mx-2 my-2'>
+                    <div className="text-orange-500 text-sm font-bold mx-2 my-2">
                       / {totalMarks}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className=' flex flex-row flex-wrap w-full md:items-start items-center  md:justify-start justify-center'>
-                <div className='m-5 w-[200px]  flex flex-col border-2 border-solid border-gray-200 rounded shadow px-3 pb-3'>
-                  <div className='text-lg flex items-center ml-2 font-sm mt-3'>
+              <div className=" flex flex-row flex-wrap w-full md:items-start items-center  md:justify-start justify-center">
+                <div className="m-5 w-[200px]  flex flex-col border-2 border-solid border-gray-200 rounded shadow px-3 pb-3">
+                  <div className="text-lg flex items-center ml-2 font-sm mt-3">
                     {" "}
-                    <span className='font-bold'>
+                    <span className="font-bold">
                       {" "}
                       <BiTimeFive />
                     </span>{" "}
                     Correct{" "}
                   </div>
-                  <div className='bg-gray-300 h-[3px] w-[75px] ml-3 mt-2'></div>
-                  <div className='flex items-end'>
-                    <div className='text-orange-500 text-5xl font-light mx-3 my-2'>{scored}</div>
-                    <div className='text-orange-500 text-sm font-bold mx-2 my-2'>
+                  <div className="bg-gray-300 h-[3px] w-[75px] ml-3 mt-2"></div>
+                  <div className="flex items-end">
+                    <div className="text-orange-500 text-5xl font-light mx-3 my-2">{scored}</div>
+                    <div className="text-orange-500 text-sm font-bold mx-2 my-2">
                       / {totalMarks}
                     </div>
                   </div>
                 </div>
-                <div className='m-5 w-[200px]  flex flex-col border-2 border-solid border-gray-200 rounded shadow px-3 pb-3'>
-                  <div className='text-lg flex items-center ml-2 font-sm mt-3'>
+                <div className="m-5 w-[200px]  flex flex-col border-2 border-solid border-gray-200 rounded shadow px-3 pb-3">
+                  <div className="text-lg flex items-center ml-2 font-sm mt-3">
                     {" "}
-                    <span className='font-bold'>
+                    <span className="font-bold">
                       {" "}
                       <BiTimeFive />
                     </span>{" "}
                     Incorrect{" "}
                   </div>
-                  <div className='bg-gray-300 h-[3px] w-[75px] ml-3 mt-2'></div>
-                  <div className='flex items-end'>
-                    <div className='text-orange-500 text-5xl font-light mx-3 my-2'>
+                  <div className="bg-gray-300 h-[3px] w-[75px] ml-3 mt-2"></div>
+                  <div className="flex items-end">
+                    <div className="text-orange-500 text-5xl font-light mx-3 my-2">
                       {totalAttemptedQuestions - scored}
                     </div>
-                    <div className='text-orange-500 text-sm font-bold mx-2 my-2'>
+                    <div className="text-orange-500 text-sm font-bold mx-2 my-2">
                       / {totalMarks}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className='md:w-1/3 flex flex-wrap items-center justify-center w-full'>
-              <h1 className='text-xl font-bold flex items-center  m-5 w-full'>
-                <span className='inline pt-1'>
+            <div className="md:w-1/3 flex flex-wrap items-center justify-center w-full">
+              <h1 className="text-xl font-bold flex items-center  m-5 w-full">
+                <span className="inline pt-1">
                   <MdDoubleArrow />
                 </span>
                 Report
               </h1>
 
-              <div className='max-h-[400px] p-5 flex flex-row flex-wrap w-full md:items-start items-center '>
+              <div className="max-h-[400px] p-5 flex flex-row flex-wrap w-full md:items-start items-center ">
                 <Bar
                   data={data}
                   width={100}
@@ -288,8 +288,8 @@ const ReportSlug = ({ assessmentStatuses, assessmentDetails, studentDetails, use
           </div>
         </div>
 
-        <h2 className='font-lg font-bold  text-center'>Sectional Report</h2>
-        <div className='w-3/4  mx-auto mt-5'>
+        <h2 className="font-lg font-bold  text-center">Sectional Report</h2>
+        <div className="w-3/4  mx-auto mt-5">
           <Bar
             data={categoryData}
             width={600}
@@ -330,10 +330,10 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
-  if (user.category === "student") {
+  if (user.category !== "college") {
     return {
       redirect: {
-        destination: "/dashbaord/student",
+        destination: "/dashbaord/" + user.category,
         permanent: false,
       },
     };

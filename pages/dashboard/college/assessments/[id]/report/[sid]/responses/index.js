@@ -11,13 +11,13 @@ const Responses = ({ status, assessment, studentDetails, user }) => {
   let flag = false;
   let ans = "";
   return (
-    <div className='p-10 grid grid-cols-6 bg-white'>
-      <div className='col-start-2 col-span-4 my-20'>
+    <div className="p-10 grid grid-cols-6 bg-white">
+      <div className="col-start-2 col-span-4 my-20">
         {assessment &&
           assessment.sections.map((section, oldIndex) => {
             return (
-              <div key={oldIndex} className='col-start-2 col-span-4'>
-                <div className='border-2 shadow border-orange-400 flex items-center justify-center rounded p-2 my-4 font-semibold'>
+              <div key={oldIndex} className="col-start-2 col-span-4">
+                <div className="border-2 shadow border-orange-400 flex items-center justify-center rounded p-2 my-4 font-semibold">
                   {section.name}
                 </div>
                 {section.questions.map((item, index) => {
@@ -25,16 +25,16 @@ const Responses = ({ status, assessment, studentDetails, user }) => {
                   return (
                     <div
                       key={index}
-                      className='rounded-lg shadow border hover:shadow-md p-3 group relative m-5 '
+                      className="rounded-lg shadow border hover:shadow-md p-3 group relative m-5 "
                     >
-                      <div className='flex justify-between items-center'>
-                        <div className='text-xl flex gap-2'>
-                          <div className='font-semibold'>{index + 1}. </div>{" "}
+                      <div className="flex justify-between items-center">
+                        <div className="text-xl flex gap-2">
+                          <div className="font-semibold">{index + 1}. </div>{" "}
                           <div>
                             {item.question.data.split("\n").map((line, index) => {
                               return line.length > 0 && line.substring(0, 4) === "http" ? (
                                 <div key={index}>
-                                  <img src={line} className='max-h-96 max-w-96'></img>
+                                  <img src={line} className="max-h-96 max-w-96"></img>
                                 </div>
                               ) : (
                                 <div key={index}>{line}</div>
@@ -45,21 +45,21 @@ const Responses = ({ status, assessment, studentDetails, user }) => {
                         {item.difficulty &&
                           (item.difficulty.charAt(0) == "E" ||
                             item.difficulty.charAt(0) == "e") && (
-                            <div className='w-20 text-center rounded-lg text-green-600 border border-green-300 text-l ml-5 p-2'>
+                            <div className="w-20 text-center rounded-lg text-green-600 border border-green-300 text-l ml-5 p-2">
                               Easy
                             </div>
                           )}
                         {item.difficulty &&
                           (item.difficulty.charAt(0) == "M" ||
                             item.difficulty.charAt(0) == "m") && (
-                            <div className='w-20 text-center rounded-lg text-amber-500 border text-l ml-5 p-2 border-amber-400'>
+                            <div className="w-20 text-center rounded-lg text-amber-500 border text-l ml-5 p-2 border-amber-400">
                               Medium
                             </div>
                           )}
                         {item.difficulty &&
                           (item.difficulty.charAt(0) == "H" ||
                             item.difficulty.charAt(0) == "h") && (
-                            <div className='w-20 text-center rounded-lg text-red-600  border text-l ml-5  p-2 border-red-300'>
+                            <div className="w-20 text-center rounded-lg text-red-600  border text-l ml-5  p-2 border-red-300">
                               Hard
                             </div>
                           )}
@@ -75,7 +75,7 @@ const Responses = ({ status, assessment, studentDetails, user }) => {
                       )}
                       <div>
                         {status.responses?.length == 0 ? (
-                          <div className='border border-red-600 p-2 text-red-600 rounded m-2 mt-4'>
+                          <div className="border border-red-600 p-2 text-red-600 rounded m-2 mt-4">
                             ❌ Correct Answer: {item.answer}
                           </div>
                         ) : (
@@ -93,14 +93,14 @@ const Responses = ({ status, assessment, studentDetails, user }) => {
                               return flag ? (
                                 <div
                                   key={index}
-                                  className='border border-green-600 font-semibold p-2 text-green-600 rounded m-2 mt-4'
+                                  className="border border-green-600 font-semibold p-2 text-green-600 rounded m-2 mt-4"
                                 >
                                   ✅ Correct Answer: {item.answer}
                                 </div>
                               ) : (
                                 <div
                                   key={index}
-                                  className='border border-red-600 p-2 text-red-600 rounded m-2 mt-4'
+                                  className="border border-red-600 p-2 text-red-600 rounded m-2 mt-4"
                                 >
                                   ❌ Correct Answer: {item.answer}
                                 </div>
@@ -139,10 +139,10 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
-  if (user.category === "student") {
+  if (user.category !== "college") {
     return {
       redirect: {
-        destination: "/dashbaord/student",
+        destination: "/dashbaord/" + user.category,
         permanent: false,
       },
     };

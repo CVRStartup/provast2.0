@@ -188,25 +188,11 @@ export const getServerSideProps = async ({ req, res }) => {
     };
   }
 
-  if (user.category !== "student") {
-    return {
-      redirect: {
-        destination: `/dashboard/${user.category}`,
-        permanent: false,
-      },
-    };
-  }
-
-  if (user.category === "student" && !user.academicsAvailable) {
-    return {
-      redirect: {
-        destination: "/auth/user/academics",
-        permanent: false,
-      },
-    };
-  }
   return {
-    props: {},
+    redirect: {
+      destination: "/dashboard/individual/resumes/",
+      permanent: false,
+    },
   };
 };
 
