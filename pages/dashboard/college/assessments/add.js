@@ -285,18 +285,18 @@ const AssessmentAdd = ({ user }) => {
   };
 
   return (
-    <div className="mt-[15vh] grid grid-cols-4 gap-4">
-      <form className="col-start-2 col-span-2" autoComplete="off" onSubmit={handleSubmit}>
-        <h1 className="text-start my-10 text-3xl font-bold text-gray-600">
+    <div className='mt-[15vh] grid grid-cols-4 gap-4'>
+      <form className='col-start-2 col-span-2' autoComplete='off' onSubmit={handleSubmit}>
+        <h1 className='text-start my-10 text-3xl font-bold text-gray-600'>
           Publish new assessment
         </h1>
-        <div className="col-span-6 sm:col-span-4 m-3">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+        <div className='col-span-6 sm:col-span-4 m-3'>
+          <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
             Assessment Name:{" "}
           </label>
           <input
-            type="text"
-            name="name"
+            type='text'
+            name='name'
             value={assessment.name}
             onChange={(e) => {
               setassessment({
@@ -304,17 +304,17 @@ const AssessmentAdd = ({ user }) => {
                 name: e.target.value,
               });
             }}
-            autoComplete="off"
-            className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            autoComplete='off'
+            className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
           />
         </div>
-        <div className="col-span-6 sm:col-span-4 m-3">
-          <label htmlFor="company" className="block text-sm font-medium text-gray-700">
+        <div className='col-span-6 sm:col-span-4 m-3'>
+          <label htmlFor='company' className='block text-sm font-medium text-gray-700'>
             Company:
           </label>
           <input
-            type="text"
-            id="company"
+            type='text'
+            id='company'
             value={assessment.company}
             onChange={(e) => {
               setassessment({
@@ -322,17 +322,17 @@ const AssessmentAdd = ({ user }) => {
                 company: e.target.value,
               });
             }}
-            autoComplete="off"
-            className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            autoComplete='off'
+            className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
           />
         </div>
-        <div className="col-span-6 sm:col-span-4 m-3">
-          <label htmlFor="expectedTime" className="block text-sm font-medium text-gray-700">
+        <div className='col-span-6 sm:col-span-4 m-3'>
+          <label htmlFor='expectedTime' className='block text-sm font-medium text-gray-700'>
             Expected Time:
           </label>
           <input
-            type="number"
-            name="expectedTime"
+            type='number'
+            name='expectedTime'
             value={assessment.expectedTime}
             onChange={(e) => {
               setassessment({
@@ -340,33 +340,33 @@ const AssessmentAdd = ({ user }) => {
                 expectedTime: e.target.value,
               });
             }}
-            autoComplete="off"
-            className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            autoComplete='off'
+            className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
           />
         </div>
-        <div className="relative top-2 left-3 mb-5">
+        <div className='relative top-2 left-3 mb-5'>
           <Listbox value={selectedMode} onChange={setSelectedMode}>
             {({ open }) => (
               <>
-                <Listbox.Label className="mb-2 flex items-center h-full text-sm font-medium text-gray-700">
+                <Listbox.Label className='mb-2 flex items-center h-full text-sm font-medium text-gray-700'>
                   Mode
                 </Listbox.Label>
-                <div className="relative left-0">
-                  <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                    <span className="block truncate">{selectedMode.name}</span>
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                <div className='relative left-0'>
+                  <Listbox.Button className='bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'>
+                    <span className='block truncate'>{selectedMode.name}</span>
+                    <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none'>
+                      <SelectorIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
                     </span>
                   </Listbox.Button>
 
                   <Transition
                     show={open}
                     as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+                    leave='transition ease-in duration-100'
+                    leaveFrom='opacity-100'
+                    leaveTo='opacity-0'
                   >
-                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                    <Listbox.Options className='absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm'>
                       {mode.map((person) => (
                         <Listbox.Option
                           key={person.id}
@@ -396,7 +396,7 @@ const AssessmentAdd = ({ user }) => {
                                     "absolute inset-y-0 right-0 flex items-center pr-4"
                                   )}
                                 >
-                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  <CheckIcon className='h-5 w-5' aria-hidden='true' />
                                 </span>
                               ) : null}
                             </>
@@ -411,29 +411,29 @@ const AssessmentAdd = ({ user }) => {
           </Listbox>
         </div>
         {selectedMode.name === "Test" && (
-          <div className="relative top-2 left-3 mb-5">
+          <div className='relative top-2 left-3 mb-5'>
             <Listbox value={selectedType} onChange={setSelectedType}>
               {({ open }) => (
                 <>
-                  <Listbox.Label className="mb-2 flex items-center h-full text-sm font-medium text-gray-700">
+                  <Listbox.Label className='mb-2 flex items-center h-full text-sm font-medium text-gray-700'>
                     Type of Test
                   </Listbox.Label>
-                  <div className="relative left-0">
-                    <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                      <span className="block truncate">{selectedType.name}</span>
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <div className='relative left-0'>
+                    <Listbox.Button className='bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm'>
+                      <span className='block truncate'>{selectedType.name}</span>
+                      <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none'>
+                        <SelectorIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
                       </span>
                     </Listbox.Button>
 
                     <Transition
                       show={open}
                       as={Fragment}
-                      leave="transition ease-in duration-100"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
+                      leave='transition ease-in duration-100'
+                      leaveFrom='opacity-100'
+                      leaveTo='opacity-0'
                     >
-                      <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                      <Listbox.Options className='absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm'>
                         {typeOfTest.map((person) => (
                           <Listbox.Option
                             key={person.id}
@@ -463,7 +463,7 @@ const AssessmentAdd = ({ user }) => {
                                       "absolute inset-y-0 right-0 flex items-center pr-4"
                                     )}
                                   >
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                    <CheckIcon className='h-5 w-5' aria-hidden='true' />
                                   </span>
                                 ) : null}
                               </>
@@ -479,13 +479,13 @@ const AssessmentAdd = ({ user }) => {
           </div>
         )}
         {selectedType.name === "Timed" && (
-          <div className="col-span-6 sm:col-span-4 m-3">
-            <label htmlFor="expectedTime" className="block text-sm font-medium text-gray-700">
+          <div className='col-span-6 sm:col-span-4 m-3'>
+            <label htmlFor='expectedTime' className='block text-sm font-medium text-gray-700'>
               Enter The Time: ( in mins )
             </label>
             <input
-              type="number"
-              name="timeOfTest"
+              type='number'
+              name='timeOfTest'
               value={assessment.timePermitted}
               onChange={(e) => {
                 setassessment({
@@ -493,32 +493,32 @@ const AssessmentAdd = ({ user }) => {
                   timePermitted: e.target.value,
                 });
               }}
-              autoComplete="off"
-              className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              autoComplete='off'
+              className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             />
           </div>
         )}
-        <div className="col-span-6 sm:col-span-4 m-3">
-          <label htmlFor="allowedBatches" className="block text-sm font-medium text-gray-700">
+        <div className='col-span-6 sm:col-span-4 m-3'>
+          <label htmlFor='allowedBatches' className='block text-sm font-medium text-gray-700'>
             Allowed Batches
           </label>
           <input
-            id="custom-checkbox-batch-all"
-            className="my-1"
-            type="checkbox"
-            value="ALL"
+            id='custom-checkbox-batch-all'
+            className='my-1'
+            type='checkbox'
+            value='ALL'
             onChange={(e) => handleOnAllBatchChange(e)}
           />
-          <label htmlFor="custom-checkbox-batch-all" className="mx-1">
+          <label htmlFor='custom-checkbox-batch-all' className='mx-1'>
             ALL
           </label>
-          <div className="flex flex-wrap">
+          <div className='flex flex-wrap'>
             {batchesEndingYear.map((batch, index) => {
               return (
-                <div className="w-[25%]" key={index}>
-                  <div className="mr-1">
+                <div className='w-[25%]' key={index}>
+                  <div className='mr-1'>
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       id={`custom-checkbox-${index}`}
                       name={batch}
                       value={batch}
@@ -527,7 +527,7 @@ const AssessmentAdd = ({ user }) => {
                       disabled={checkAllBatches}
                       onChange={() => handleOnBatchChange(index)}
                     />
-                    <label htmlFor={`custom-checkbox-${index}`} className="mx-1 ">
+                    <label htmlFor={`custom-checkbox-${index}`} className='mx-1 '>
                       {batch}
                     </label>
                   </div>
@@ -536,27 +536,27 @@ const AssessmentAdd = ({ user }) => {
             })}
           </div>
         </div>
-        <div className="col-span-6 sm:col-span-4 m-3">
-          <label htmlFor="allowedBranches" className="block text-sm font-medium text-gray-700">
+        <div className='col-span-6 sm:col-span-4 m-3'>
+          <label htmlFor='allowedBranches' className='block text-sm font-medium text-gray-700'>
             Allowed Branches
           </label>
           <input
-            id="custom-checkbox-branch-all"
-            className="my-1"
-            type="checkbox"
-            value="ALL"
+            id='custom-checkbox-branch-all'
+            className='my-1'
+            type='checkbox'
+            value='ALL'
             onChange={(e) => handleOnAllBranchChange(e)}
           />
-          <label htmlFor="custom-checkbox-branch-all" className="mx-1">
+          <label htmlFor='custom-checkbox-branch-all' className='mx-1'>
             ALL
           </label>
-          <div className="flex flex-wrap">
+          <div className='flex flex-wrap'>
             {branches.map((branch, index) => {
               return (
-                <div className="w-[25%]" key={branch}>
-                  <div className="mr-1">
+                <div className='w-[25%]' key={branch}>
+                  <div className='mr-1'>
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       id={`custom-checkbox-branch-${index}`}
                       name={branch}
                       value={branch}
@@ -565,7 +565,7 @@ const AssessmentAdd = ({ user }) => {
                       disabled={checkAllBranches}
                       onChange={() => handleOnBranchChange(index)}
                     />
-                    <label htmlFor={`custom-checkbox-branch-${index}`} className="mx-1">
+                    <label htmlFor={`custom-checkbox-branch-${index}`} className='mx-1'>
                       {branch}
                     </label>
                   </div>
@@ -574,7 +574,7 @@ const AssessmentAdd = ({ user }) => {
             })}
           </div>
         </div>
-        <div className="pt-4">
+        <div className='pt-4'>
           <DropDown
             title={"Status"}
             options={status}
@@ -582,23 +582,23 @@ const AssessmentAdd = ({ user }) => {
             setSelectedOption={setSelectedStatus}
           />
         </div>
-        <div className="m-3 mt-7">
-          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+        <div className='m-3 mt-7'>
+          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
             Upload Spreadsheet
           </label>
 
           <input
-            className="mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            label="Choose File"
-            type="file"
-            name="excelFile"
-            id="excelFile"
+            className='mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+            label='Choose File'
+            type='file'
+            name='excelFile'
+            id='excelFile'
             onChange={handleFile}
             required
           />
         </div>
-        <div className="m-3 mt-7">
-          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+        <div className='m-3 mt-7'>
+          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
             Upload List of Shortlisted Students
           </label>
 
@@ -606,24 +606,24 @@ const AssessmentAdd = ({ user }) => {
             className={`mt-2 appearance-none block w-3/4 p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm ${
               checkAllBranches || checkAllBatches ? "cursor-not-allowed" : ""
             }`}
-            label="Choose File"
-            type="file"
-            name="excelFile"
-            id="excelFile"
+            label='Choose File'
+            type='file'
+            name='excelFile'
+            id='excelFile'
             disabled={checkAllBranches || checkAllBatches}
             onChange={handleStudentFile}
           />
           {(checkAllBranches || checkAllBatches) && (
-            <div className="block text-sm font-medium text-gray-700">
+            <div className='block text-sm font-medium text-gray-700'>
               Disabled due to All Branches / All Batches being selected.
             </div>
           )}
         </div>
 
-        <div className="flex justify-center m-5">
+        <div className='flex justify-center m-5'>
           <button
-            type="submit"
-            className="bg-transparent hover:bg-orange-500 text-orange-700 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded"
+            type='submit'
+            className='bg-transparent hover:bg-orange-500 text-orange-700 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded'
           >
             Submit
           </button>
@@ -655,6 +655,14 @@ export const getServerSideProps = async ({ req, res, query }) => {
     return {
       redirect: {
         destination: "/dashbaord/" + user.category,
+        permanent: false,
+      },
+    };
+  }
+  if (!user.approved) {
+    return {
+      redirect: {
+        destination: "/approvalpending",
         permanent: false,
       },
     };

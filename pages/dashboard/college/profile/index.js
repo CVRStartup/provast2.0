@@ -138,6 +138,14 @@ export const getServerSideProps = async ({ req, res }) => {
       },
     };
   }
+  if (!user.approved) {
+    return {
+      redirect: {
+        destination: "/approvalpending",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: { userDetails: JSON.stringify(user) },

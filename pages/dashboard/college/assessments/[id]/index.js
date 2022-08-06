@@ -80,9 +80,9 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
 
   return tab ? (
     // grid grid-cols-8
-    <div className="mt-[10vh] p-10 flex flex-col justify-center item-center w-full">
+    <div className='mt-[10vh] p-10 flex flex-col justify-center item-center w-full'>
       {assessment && (
-        <div className=" flex flex-col justify-start text-3xl font-bold my-15 ml-10 col-start-2">
+        <div className=' flex flex-col justify-start text-3xl font-bold my-15 ml-10 col-start-2'>
           {assessment.name}
           <span
             className={
@@ -94,10 +94,10 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
           </span>
         </div>
       )}
-      <div className="col-start-3 col-span-4 max-w-6xl mx-auto mt-6 sm:mt-2 2xl:mt-5">
-        <div className="border-b border-gray-200">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+      <div className='col-start-3 col-span-4 max-w-6xl mx-auto mt-6 sm:mt-2 2xl:mt-5'>
+        <div className='border-b border-gray-200'>
+          <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'>
+            <nav className='-mb-px flex space-x-8' aria-label='Tabs'>
               <div
                 className={classNames(
                   !tab
@@ -105,7 +105,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                   "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md cursor-pointer"
                 )}
-                aria-current="page"
+                aria-current='page'
                 onClick={() => setTab(false)}
               >
                 Questions
@@ -117,7 +117,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                   "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md cursor-pointer"
                 )}
-                aria-current="page"
+                aria-current='page'
                 onClick={() => setTab(true)}
               >
                 Results
@@ -143,9 +143,9 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
     <>
       {/* <Timer /> */}
       {/* grid grid-cols-6 */}
-      <div className="mt-[10vh] p-10 flex flex-col justify-center items-center w-full">
+      <div className='mt-[10vh] p-10 flex flex-col justify-center items-center w-full'>
         {assessment && (
-          <div className=" flex flex-col justify-start items-start w-full text-3xl font-bold my-15 ml-20 col-start-2">
+          <div className=' flex flex-col justify-start items-start w-full text-3xl font-bold my-15 ml-20 col-start-2'>
             {assessment.name}
             <span
               className={
@@ -159,10 +159,10 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
         )}
 
         {/* Tabs */}
-        <div className="col-start-3 col-span-2 max-w-6xl mx-auto mt-6 sm:mt-2 2xl:mt-5">
-          <div className="border-b border-gray-200">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-              <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+        <div className='col-start-3 col-span-2 max-w-6xl mx-auto mt-6 sm:mt-2 2xl:mt-5'>
+          <div className='border-b border-gray-200'>
+            <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'>
+              <nav className='-mb-px flex space-x-8' aria-label='Tabs'>
                 <div
                   onClick={() => setTab(false)}
                   className={classNames(
@@ -171,7 +171,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                     "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md cursor-pointer"
                   )}
-                  aria-current="page"
+                  aria-current='page'
                 >
                   Questions
                 </div>
@@ -183,7 +183,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                     "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md  cursor-pointer"
                   )}
-                  aria-current="page"
+                  aria-current='page'
                 >
                   Results
                 </div>
@@ -196,23 +196,23 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
           dataArr &&
           dataArr.map((section, oldIndex) => {
             return (
-              <div key={oldIndex} className="w-[65%]">
-                <div className="border-2 shadow border-orange-400 flex items-center justify-center rounded p-2 my-4 font-semibold">
+              <div key={oldIndex} className='w-[65%]'>
+                <div className='border-2 shadow border-orange-400 flex items-center justify-center rounded p-2 my-4 font-semibold'>
                   {section.name}
                 </div>
                 {section.questions.map((item, index) => (
                   <div
                     key={item["_id"]}
-                    className="rounded-lg shadow border hover:shadow-md p-3 group relative m-5 col-start-2 col-span-4"
+                    className='rounded-lg shadow border hover:shadow-md p-3 group relative m-5 col-start-2 col-span-4'
                   >
-                    <div className="flex justify-between items-center">
-                      <div className="text-xl flex gap-2">
-                        <div className="font-semibold">{index + 1}. </div>{" "}
+                    <div className='flex justify-between items-center'>
+                      <div className='text-xl flex gap-2'>
+                        <div className='font-semibold'>{index + 1}. </div>{" "}
                         <div>
                           {item.question.data.split("\n").map((line, index) => {
                             return line.length > 0 && line.substring(0, 4) === "http" ? (
                               <div key={index}>
-                                <img src={line} className="max-h-96 max-w-96"></img>
+                                <img src={line} className='max-h-96 max-w-96'></img>
                               </div>
                             ) : (
                               <div key={index}>{line}</div>
@@ -220,41 +220,41 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                           })}
                         </div>
                       </div>
-                      <div className="flex items-center justify-center ml-5">
+                      <div className='flex items-center justify-center ml-5'>
                         <div
-                          className=" hover:cursor-pointer "
+                          className=' hover:cursor-pointer '
                           onClick={(e) => editButtonClickHandler(e, item, index, oldIndex)}
                         >
-                          {<FaEdit size="20" />}
+                          {<FaEdit size='20' />}
                         </div>
                         {item.difficulty &&
                           (item.difficulty.charAt(0) == "E" ||
                             item.difficulty.charAt(0) == "e") && (
-                            <div className="w-20 text-center rounded-lg text-green-600 border border-green-300 text-l ml-5 p-2">
+                            <div className='w-20 text-center rounded-lg text-green-600 border border-green-300 text-l ml-5 p-2'>
                               Easy
                             </div>
                           )}
                         {item.difficulty &&
                           (item.difficulty.charAt(0) == "M" ||
                             item.difficulty.charAt(0) == "m") && (
-                            <div className="w-20 text-center rounded-lg text-amber-500 border text-l ml-5 p-2 border-amber-400">
+                            <div className='w-20 text-center rounded-lg text-amber-500 border text-l ml-5 p-2 border-amber-400'>
                               Medium
                             </div>
                           )}
                         {item.difficulty &&
                           (item.difficulty.charAt(0) == "H" ||
                             item.difficulty.charAt(0) == "h") && (
-                            <div className="w-20 text-center rounded-lg text-red-600  border text-l ml-5  p-2 border-red-300">
+                            <div className='w-20 text-center rounded-lg text-red-600  border text-l ml-5  p-2 border-red-300'>
                               Hard
                             </div>
                           )}
                       </div>
                     </div>
 
-                    <div className=" text-xl mt-10">
+                    <div className=' text-xl mt-10'>
                       {item.options.map((option, index) => {
                         return (
-                          <div key={index} className="m-2">
+                          <div key={index} className='m-2'>
                             {/* <input
                           type="radio"
                           id={curr + option.key}
@@ -267,7 +267,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                       })}
                     </div>
 
-                    <div className="border border-green-600 font-semibold p-2 text-green-600 rounded m-2 mt-4">
+                    <div className='border border-green-600 font-semibold p-2 text-green-600 rounded m-2 mt-4'>
                       Correct answer:{" " + item.answer}
                     </div>
                   </div>
@@ -277,7 +277,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
           })}
         <div
           onClick={deleteAssessment}
-          className="col-start-3 col-span-2 text-xl text-center cursor-pointer bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+          className='col-start-3 col-span-2 text-xl text-center cursor-pointer bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded'
         >
           Delete Assessment
         </div>
@@ -308,6 +308,15 @@ export const getServerSideProps = async ({ req, res, query }) => {
     return {
       redirect: {
         destination: "/dashbaord/" + user.category,
+        permanent: false,
+      },
+    };
+  }
+
+  if (!user.approved) {
+    return {
+      redirect: {
+        destination: "/approvalpending",
         permanent: false,
       },
     };

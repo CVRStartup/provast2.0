@@ -24,55 +24,55 @@ const Index = ({ userDetails }) => {
     { label: "Total Jobs Posted", value: jobs?.length },
   ];
   return (
-    <div className="min-h-screen mt-[10vh] bg-gray-50">
-      <Popover as="header" className=" pt-10 pb-24 bg-gradient-to-r from-orange-600 to-orange-500">
+    <div className='min-h-screen mt-[10vh] bg-gray-50'>
+      <Popover as='header' className=' pt-10 pb-24 bg-gradient-to-r from-orange-600 to-orange-500'>
         {({ open }) => (
           <>
             <Transition.Root as={Fragment}>
-              <div className="lg:hidden">
+              <div className='lg:hidden'>
                 <Transition.Child
                   as={Fragment}
-                  enter="duration-150 ease-out"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="duration-150 ease-in"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
+                  enter='duration-150 ease-out'
+                  enterFrom='opacity-0'
+                  enterTo='opacity-100'
+                  leave='duration-150 ease-in'
+                  leaveFrom='opacity-100'
+                  leaveTo='opacity-0'
                 >
-                  <Popover.Overlay className="z-20 fixed inset-0 bg-black bg-opacity-25" />
+                  <Popover.Overlay className='z-20 fixed inset-0 bg-black bg-opacity-25' />
                 </Transition.Child>
 
                 <Transition.Child
                   as={Fragment}
-                  enter="duration-150 ease-out"
-                  enterFrom="opacity-0 scale-95"
-                  enterTo="opacity-100 scale-100"
-                  leave="duration-150 ease-in"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-95"
+                  enter='duration-150 ease-out'
+                  enterFrom='opacity-0 scale-95'
+                  enterTo='opacity-100 scale-100'
+                  leave='duration-150 ease-in'
+                  leaveFrom='opacity-100 scale-100'
+                  leaveTo='opacity-0 scale-95'
                 >
                   <Popover.Panel
                     focus
-                    className="z-30 absolute top-0 inset-x-0 max-w-3xl mx-auto w-full p-2 transition transform origin-top"
+                    className='z-30 absolute top-0 inset-x-0 max-w-3xl mx-auto w-full p-2 transition transform origin-top'
                   >
-                    <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y divide-gray-200">
-                      <div className="pt-3 pb-2">
-                        <div className="flex items-center justify-between px-4">
+                    <div className='rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y divide-gray-200'>
+                      <div className='pt-3 pb-2'>
+                        <div className='flex items-center justify-between px-4'>
                           <div>
                             <img
-                              className="h-8 w-auto"
-                              src="https://tailwindui.com/img/logos/workflow-mark-cyan-600.svg"
-                              alt="Workflow"
+                              className='h-8 w-auto'
+                              src='https://tailwindui.com/img/logos/workflow-mark-cyan-600.svg'
+                              alt='Workflow'
                             />
                           </div>
-                          <div className="-mr-2">
-                            <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500">
-                              <span className="sr-only">Close menu</span>
-                              <XIcon className="h-6 w-6" aria-hidden="true" />
+                          <div className='-mr-2'>
+                            <Popover.Button className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500'>
+                              <span className='sr-only'>Close menu</span>
+                              <XIcon className='h-6 w-6' aria-hidden='true' />
                             </Popover.Button>
                           </div>
                         </div>
-                        <div className="mt-3 px-2 space-y-1"></div>
+                        <div className='mt-3 px-2 space-y-1'></div>
                       </div>
                     </div>
                   </Popover.Panel>
@@ -82,48 +82,48 @@ const Index = ({ userDetails }) => {
           </>
         )}
       </Popover>
-      <main className="-mt-20 pb-8">
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-between">
-            <div className="w-[78%] grid grid-cols-1 lg:col-span-2">
-              <section aria-labelledby="profile-overview-title">
-                <div className="rounded-lg bg-white overflow-hidden shadow">
-                  <div className="bg-white p-6">
-                    <div className="sm:flex sm:items-center sm:justify-between">
-                      <div className="sm:flex sm:space-x-5">
-                        <div className="flex-shrink-0">
+      <main className='-mt-20 pb-8'>
+        <div className='px-4 sm:px-6 lg:px-8'>
+          <div className='flex flex-wrap justify-between'>
+            <div className='w-[78%] grid grid-cols-1 lg:col-span-2'>
+              <section aria-labelledby='profile-overview-title'>
+                <div className='rounded-lg bg-white overflow-hidden shadow'>
+                  <div className='bg-white p-6'>
+                    <div className='sm:flex sm:items-center sm:justify-between'>
+                      <div className='sm:flex sm:space-x-5'>
+                        <div className='flex-shrink-0'>
                           <img
-                            className="mx-auto h-20 w-20 rounded-full"
+                            className='mx-auto h-20 w-20 rounded-full'
                             src={user?.profile?.image}
-                            alt=""
+                            alt=''
                           />
                         </div>
-                        <div className="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
-                          <p className="text-sm font-medium text-gray-600">Welcome back,</p>
-                          <p className="text-xl font-bold text-gray-900 sm:text-2xl">
+                        <div className='mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left'>
+                          <p className='text-sm font-medium text-gray-600'>Welcome back,</p>
+                          <p className='text-xl font-bold text-gray-900 sm:text-2xl'>
                             {`${user?.profile?.firstName} ${user?.profile?.lastName}`}
                           </p>
-                          <p className="text-sm font-medium text-gray-600">
+                          <p className='text-sm font-medium text-gray-600'>
                             {rename(user?.college?.designation)}
                           </p>
                         </div>
                       </div>
-                      <div className="border rounded-md border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-2 sm:divide-y-0 sm:divide-x ">
+                      <div className='border rounded-md border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-2 sm:divide-y-0 sm:divide-x '>
                         {stats.map((stat) => (
                           <div
                             key={stat.label}
-                            className="px-6 py-5 text-sm font-medium text-center"
+                            className='px-6 py-5 text-sm font-medium text-center'
                           >
-                            <span className="text-gray-600">{stat.label}</span>
+                            <span className='text-gray-600'>{stat.label}</span>
                             {": "}
-                            <span className="text-gray-900">{stat.value}</span>
+                            <span className='text-gray-900'>{stat.value}</span>
                           </div>
                         ))}
                       </div>
-                      <div className="mt-5 flex justify-center sm:mt-0">
+                      <div className='mt-5 flex justify-center sm:mt-0'>
                         <a
-                          href="#"
-                          className="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                          href='#'
+                          className='flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50'
                         >
                           View profile
                         </a>
@@ -134,38 +134,38 @@ const Index = ({ userDetails }) => {
               </section>
 
               <section>
-                <div className="my-4"></div>
-                <div className="overflow-hidden divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-1 sm:gap-px">
+                <div className='my-4'></div>
+                <div className='overflow-hidden divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-1 sm:gap-px'>
                   {isLoading ? (
                     <JobCardSkeleton />
                   ) : filteredJobs?.length > 0 ? (
-                    <div className="flex flex-col">
+                    <div className='flex flex-col'>
                       {filteredJobs?.map((job, index) => (
                         <JobCard key={index} job={job} />
                       ))}
                     </div>
                   ) : (
-                    <div className="flex mt-10 flex-col justify-center items-center w-full">
-                      <div className="relative flex-shrink-0 flex justify-center h-72 w-full">
+                    <div className='flex mt-10 flex-col justify-center items-center w-full'>
+                      <div className='relative flex-shrink-0 flex justify-center h-72 w-full'>
                         <Image
-                          placeholder="blur"
-                          blurDataURL="/no_results.png"
-                          layout="fill"
-                          objectFit="contain"
-                          src="/no_results.png"
-                          alt=""
+                          placeholder='blur'
+                          blurDataURL='/no_results.png'
+                          layout='fill'
+                          objectFit='contain'
+                          src='/no_results.png'
+                          alt=''
                         />
                       </div>
-                      <h6 className="text-3xl font-semibold text-gray-400">No Jobs Found</h6>
+                      <h6 className='text-3xl font-semibold text-gray-400'>No Jobs Found</h6>
                     </div>
                   )}
                 </div>
               </section>
             </div>
-            <div className="w-[20%]">
-              <div className="rounded-lg bg-white overflow-hidden shadow">
-                <div className="p-4">
-                  <div className="flow-root">
+            <div className='w-[20%]'>
+              <div className='rounded-lg bg-white overflow-hidden shadow'>
+                <div className='p-4'>
+                  <div className='flow-root'>
                     <Filter
                       applyFilters={applyFilters}
                       jobs={jobs}
@@ -179,10 +179,10 @@ const Index = ({ userDetails }) => {
         </div>
       </main>
       <footer>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-          <div className="border-t border-gray-200 py-8 text-sm text-gray-500 text-center sm:text-left">
-            <span className="block sm:inline">&copy; 2022 Provast</span>{" "}
-            <span className="block sm:inline">All rights reserved.</span>
+        <div className='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl'>
+          <div className='border-t border-gray-200 py-8 text-sm text-gray-500 text-center sm:text-left'>
+            <span className='block sm:inline'>&copy; 2022 Provast</span>{" "}
+            <span className='block sm:inline'>All rights reserved.</span>
           </div>
         </div>
       </footer>
@@ -213,6 +213,14 @@ export const getServerSideProps = async ({ req, res }) => {
     return {
       redirect: {
         destination: "/dashbaord/" + user.category,
+        permanent: false,
+      },
+    };
+  }
+  if (user.approved) {
+    return {
+      redirect: {
+        destination: "/approvalpending",
         permanent: false,
       },
     };
