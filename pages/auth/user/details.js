@@ -101,8 +101,9 @@ const Details = ({ colleges, user }) => {
       setLoading(false);
       if (data.message === "Details Updated") {
         toast.success("User Details Created.", { toastId: "User Details Created." });
-        if (category === "individual") router.push("/dashboard/individual/resumes");
-        else router.push("/dashboard/student");
+        if (category === "individual") {
+          router.push("/dashboard/individual/resumes");
+        } else router.push("/dashboard/student");
       }
     } catch (e) {
       toast.error(e.response.data.message, { toastId: e.response.data.message });

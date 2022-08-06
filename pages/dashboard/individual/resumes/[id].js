@@ -54,14 +54,14 @@ const ResumeSlug = ({ user, id }) => {
   if (!resume) return <div></div>;
   if (resume)
     return (
-      <div className="mt-[-10vh]">
+      <div className='mt-[-10vh]'>
         <Left resumeDetails={resume} />
-        <main className="lg:ml-[30%] flex-1 mt-[10vh]">
-          <div className="flex justify-between bg-gray-800 overflow-auto">
-            <section className="mx-auto h-screen overflow-auto py-5 w-full">
+        <main className='lg:ml-[30%] flex-1 mt-[10vh]'>
+          <div className='flex justify-between bg-gray-800 overflow-auto'>
+            <section className='mx-auto h-screen overflow-auto py-5 w-full'>
               <Template componentRef={componentRef} />
             </section>
-            <section className="w-[25%] h-screen overflow-auto">
+            <section className='w-[25%] h-screen overflow-auto'>
               <Right componentRef={componentRef} />
             </section>
           </div>
@@ -92,7 +92,7 @@ export const getServerSideProps = async (context) => {
       },
     };
   }
-  if (user.category !== "student") {
+  if (user.category !== "individual") {
     return {
       redirect: {
         destination: `/dashboard/${user.category}`,
@@ -100,14 +100,7 @@ export const getServerSideProps = async (context) => {
       },
     };
   }
-  if (user.category === "student" && !user.academicsAvailable) {
-    return {
-      redirect: {
-        destination: "/auth/user/academics",
-        permanent: false,
-      },
-    };
-  }
+
   return {
     props: {
       session,
