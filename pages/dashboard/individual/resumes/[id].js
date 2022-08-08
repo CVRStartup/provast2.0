@@ -46,7 +46,7 @@ const ResumeSlug = ({ user, id }) => {
     setLoading(false);
     const currentResume = resumes.find((x) => x._id === id);
     if (!currentResume) {
-      router.push("/dashboard/student/resumes");
+      router.push("/dashboard/individual/resumes");
       return;
     }
     setResume(currentResume);

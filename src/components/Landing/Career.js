@@ -25,7 +25,7 @@ export const Career = () => {
           </button>
           <button
             type='submit'
-            className='my-5 py-4 px-4 border rounded text-white font-bold text-md tracking-wider hover:text-orange-500  hover:text-orange-600 hover:border-orange-600'
+            className='my-5 py-4 px-4 border rounded text-white font-bold text-md tracking-wider hover:text-orange-600 hover:border-orange-600'
           >
             Resume Examples
           </button>

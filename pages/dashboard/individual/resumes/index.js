@@ -155,7 +155,7 @@ const ResumeIndex = ({ user }) => {
         },
       });
       await mutate(`/api/resume/user?userId=${user._id}`);
-      router.push(`${process.env.NEXT_PUBLIC_HOST_URL}/dashboard/student/resumes/${resume._id}`);
+      router.push(`${process.env.NEXT_PUBLIC_HOST_URL}/dashboard/individual/resumes/${resume._id}`);
     }
   };
 
@@ -210,14 +210,13 @@ const ResumeIndex = ({ user }) => {
   };
 
   const checkResumeCreation = (count) => {
-    return (
-      user?.college?.name === "SRM INSTITUTE OF SCIENCE AND TECHNOLOGY" ||
-      user?.college?.name === "CVR College of Engineering" ||
-      user?.college?.name === "SRI INDU COLLEGE OF ENGINEERING AND TECHNOLOGY"
-      // (session?.plan?.plan === "Basic" && count < 2) ||
-      // (session?.plan?.plan === "Essential" && count < 5) ||
-      // session?.plan?.plan === "Premium"
-    );
+    return true;
+    // user?.college?.name === "SRM INSTITUTE OF SCIENCE AND TECHNOLOGY" ||
+    // user?.college?.name === "CVR College of Engineering" ||
+    // user?.college?.name === "SRI INDU COLLEGE OF ENGINEERING AND TECHNOLOGY"
+    // (session?.plan?.plan === "Basic" && count < 2) ||
+    // (session?.plan?.plan === "Essential" && count < 5) ||
+    // session?.plan?.plan === "Premium"
   };
 
   return (

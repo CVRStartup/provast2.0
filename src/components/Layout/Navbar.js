@@ -76,6 +76,21 @@ export const Navbar = () => {
     },
   ];
 
+  const individualNavigation = [
+    {
+      name: "Resumes",
+      href: "/dashboard/individual/resumes",
+    },
+    {
+      name: "Test Patterns",
+      href: "/dashboard/student/testpatterns",
+    },
+    {
+      name: "Open Jobs",
+      href: "/openjobs",
+    },
+  ];
+
   const [navigation, setNavigation] = useState(landingNavigation);
 
   useEffect(() => {
@@ -83,6 +98,7 @@ export const Navbar = () => {
     else if (session?.category === "college") setNavigation(collegeNavigation);
     else if (session?.category === "student") setNavigation(studentNavigation);
     else if (session?.category === "admin") setNavigation(adminNavigation);
+    else if (session?.category === "individual") setNavigation(individualNavigation);
   }, [session]);
 
   if (

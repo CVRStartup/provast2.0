@@ -11,7 +11,6 @@ import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
 import { useStudents } from "../../../../src/hooks/useStudents";
 import { StudentProfile } from "../../../../src/components/Resumes/StudentProfile";
-import { usePersonal } from "../../../../src/hooks/usePersonal";
 
 const Students = ({ user }) => {
   const { students } = useStudents(user);
@@ -287,7 +286,7 @@ const Students = ({ user }) => {
           {/* Static sidebar for desktop */}
           <div className='hidden lg:flex md:flex-shrink-0 h-screen overflow-y-auto'>
             <div className='flex flex-col w-96'>
-              <div className='flex-1 w-full flex flex-col max-h-[100vh] pt-[10vh] border-r border-gray-200'>
+              <div className='flex-1 w-full flex flex-col max-h-[100vh] border-r border-gray-200'>
                 <aside className='hidden lg:order-first lg:flex lg:flex-col flex-shrink-0 w-96 border-r border-gray-200'>
                   <div className='px-6 pt-6 pb-4'>
                     <h2 className='text-lg font-medium text-gray-900'>Students List</h2>

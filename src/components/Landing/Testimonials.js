@@ -8,7 +8,8 @@ const people = [
   {
     name: "Thushar KE",
     role: "Director",
-    imageUrl: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1656491326/thushar_ucffyg.jpg",
+    imageUrl:
+      "https://res.cloudinary.com/dj7nomqfd/image/upload/v1659940128/1629926488607_kaipmb.jpg",
   },
   {
     name: "Adil Shaik",
