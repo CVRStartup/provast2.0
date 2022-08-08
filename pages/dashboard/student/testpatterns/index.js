@@ -6,7 +6,8 @@ const products = [
     id: 1,
     name: "Amcat",
     href: "/dashboard/student/testpatterns/amcat",
-    imageSrc: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1654756599/images_q9eytb.png",
+    imageSrc:
+      "https://res.cloudinary.com/dj7nomqfd/image/upload/v1654756599/images_q9eytb.png",
   },
   {
     id: 2,
@@ -28,6 +29,41 @@ const products = [
     href: "/dashboard/student/testpatterns/epam",
     imageSrc:
       "https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/hs0whppqg2pi33o6q8op",
+  },
+  {
+    id: 5,
+    name: "Cognizant",
+    href: "/dashboard/student/testpatterns/cognizant",
+    imageSrc:
+      "http://res.cloudinary.com/dj7nomqfd/image/upload/v1659944636/uploads/y78vzbxuemo4ptieqsjp.jpg",
+  },
+  {
+    id: 6,
+    name: "Accenture",
+    href: "/dashboard/student/testpatterns/accenture",
+    imageSrc:
+      "http://res.cloudinary.com/dj7nomqfd/image/upload/v1659944715/uploads/eibogpbhwfy7e0vrv4bp.jpg",
+  },
+  {
+    id: 7,
+    name: "Infosys",
+    href: "/dashboard/student/testpatterns/infosys",
+    imageSrc:
+      "http://res.cloudinary.com/dj7nomqfd/image/upload/v1659944749/uploads/lormxbeeixkohptsukz6.png",
+  },
+  {
+    id: 8,
+    name: "Capgemini",
+    href: "/dashboard/student/testpatterns/capgemini",
+    imageSrc:
+      "http://res.cloudinary.com/dj7nomqfd/image/upload/v1659944785/uploads/qyvxdwbsnbok7rlsyilp.jpg",
+  },
+  {
+    id: 9,
+    name: "Legato",
+    href: "/dashboard/student/testpatterns/legato",
+    imageSrc:
+      "http://res.cloudinary.com/dj7nomqfd/image/upload/v1659944836/uploads/swwgqc921exzejirdc5v.jpg",
   },
   // More products...
 ];
