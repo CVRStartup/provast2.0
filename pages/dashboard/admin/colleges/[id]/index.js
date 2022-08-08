@@ -262,7 +262,7 @@ const Index = ({ id }) => {
     console.log(branch);
   };
   return (
-    <div className='mt-[10vh]'>
+    <div className='pt-[10vh]'>
       <div>
         <div className='sm:col-span-3'>
           <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
@@ -284,7 +284,7 @@ const Index = ({ id }) => {
         </div>
         <button onClick={handleCreate}>Create</button>
       </div>
-      <div className='mt-[10vh]'>
+      <div className='pt-[10vh]'>
         <div className='sm:col-span-3'>
           <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
             Upload Spreadsheet

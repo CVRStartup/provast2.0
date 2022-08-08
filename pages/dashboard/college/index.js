@@ -24,7 +24,7 @@ const Index = ({ userDetails }) => {
     { label: "Total Jobs Posted", value: jobs?.length },
   ];
   return (
-    <div className='min-h-screen mt-[10vh] bg-gray-50'>
+    <div className='min-h-screen pt-[10vh] bg-gray-50'>
       <Popover as='header' className=' pt-10 pb-24 bg-gradient-to-r from-orange-600 to-orange-500'>
         {({ open }) => (
           <>
@@ -217,7 +217,7 @@ export const getServerSideProps = async ({ req, res }) => {
       },
     };
   }
-  if (user.approved) {
+  if (!user.approved) {
     return {
       redirect: {
         destination: "/approvalpending",

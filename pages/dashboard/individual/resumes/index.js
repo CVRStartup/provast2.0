@@ -231,7 +231,7 @@ const ResumeIndex = ({ user }) => {
       {loading && <Loading />}
 
       {state == 1 && (
-        <div className='min-h-[70vh] py-4 mt-[10vh]'>
+        <div className='min-h-[70vh] py-4 pt-[10vh]'>
           <Heading
             subheading={`Welcome ${user?.profile?.firstName} ${user?.profile?.lastName}!`}
             description={
@@ -444,7 +444,7 @@ const ResumeIndex = ({ user }) => {
       )}
 
       {state == 2 && (
-        <main className='px-8 relative mt-[10vh]'>
+        <main className='px-8 relative pt-[10vh]'>
           <button
             onClick={() => setState(1)}
             className='absolute w-auto top-3 left-3 hover:text-gray-500'

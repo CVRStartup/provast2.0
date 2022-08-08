@@ -353,12 +353,12 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
 
   return (
     <>
-      <FullScreen handle={handle} onChange={reportChange} className="bg-white overflow-y-auto">
+      <FullScreen handle={handle} onChange={reportChange} className='bg-white overflow-y-auto'>
         {assessment?.mode === "Test" && status?.finishedAt == null && fullscreen == false ? (
-          <div className="mt-[10vh] p-10 grid grid-cols-6">
+          <div className='pt-[10vh] p-10 grid grid-cols-6'>
             {firstWarning ? (
-              <div className="m-5 col-start-2 col-span-4 flex flex-col items-center">
-                <div className="border rounded bg-red-300 text-red-700 p-10">
+              <div className='m-5 col-start-2 col-span-4 flex flex-col items-center'>
+                <div className='border rounded bg-red-300 text-red-700 p-10'>
                   Warning! You have tried to switch the tab or change the window. Attempting to do
                   this again will result in auto-submission of the test.
                 </div>
@@ -367,15 +367,15 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                     handle.enter();
                     setFullscreen(true);
                   }}
-                  className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
+                  className='bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded'
                 >
                   Resume Test
                 </button>
               </div>
             ) : (
-              <div className="m-5 col-start-2 col-span-4 flex flex-col items-center">
-                <div className="border rounded bg-yellow-300 text-orange-700 p-10">
-                  <h3 className="font-bold">Rules</h3>
+              <div className='m-5 col-start-2 col-span-4 flex flex-col items-center'>
+                <div className='border rounded bg-yellow-300 text-orange-700 p-10'>
+                  <h3 className='font-bold'>Rules</h3>
                   <ul>
                     <li>• Timer starts as soon as button is clicked</li>
                     <li>
@@ -389,7 +389,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                     handle.enter();
                     setFullscreen(true);
                   }}
-                  className="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded"
+                  className='bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded'
                 >
                   Start Test
                 </button>
@@ -398,10 +398,10 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
           </div>
         ) : (
           (assessment?.mode == "Practice" || assessment?.mode === "Test" || status?.finishedAt) && (
-            <div className="mt-[10vh] p-10 grid grid-cols-6 bg-white">
-              <div className="col-start-2 col-span-4 flex justify-between items-center">
+            <div className='pt-[10vh] p-10 grid grid-cols-6 bg-white'>
+              <div className='col-start-2 col-span-4 flex justify-between items-center'>
                 {assessment && (
-                  <div className=" flex flex-col justify-start text-3xl font-bold  mt-15 ml-10">
+                  <div className=' flex flex-col justify-start text-3xl font-bold  mt-15 ml-10'>
                     {assessment.name}
                     <span
                       className={
@@ -414,7 +414,7 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                   </div>
                 )}
                 {status && status.finishedAt && (
-                  <div className="p-2 border rounded text-center text-orange-700 text-xl border-orange-600">
+                  <div className='p-2 border rounded text-center text-orange-700 text-xl border-orange-600'>
                     Score : {status.marks?.scored}/{status.marks?.total}
                   </div>
                 )}
@@ -422,8 +422,8 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                   status && !status.finishedAt ? (
                     <Timer startTime={getStartTime(moment(status.openedAt), moment())} />
                   ) : (
-                    <div className="mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500">
-                      <AiOutlineClockCircle size="1.5em" className="mr-1" />
+                    <div className='mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500'>
+                      <AiOutlineClockCircle size='1.5em' className='mr-1' />
                       {" " +
                         (finish.days < 10 ? "0" + finish.days : finish.days) +
                         ":" +
@@ -446,8 +446,8 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                       submitAssessmentFromTimer={submitHandler}
                     />
                   ) : (
-                    <div className="mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500">
-                      <AiOutlineClockCircle size="1.5em" className="mr-1" />
+                    <div className='mr-5 flex text-xl border rounded p-2 text-red-700 border-red-500'>
+                      <AiOutlineClockCircle size='1.5em' className='mr-1' />
                       {" " +
                         (finish.days < 10 ? "0" + finish.days : finish.days) +
                         ":" +
@@ -477,13 +477,13 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
                 )}
               </div>
               {status?.finishedAt == null ? (
-                <div className="col-start-2 col-span-4 ml-10">Total score: {assessmentSize}</div>
+                <div className='col-start-2 col-span-4 ml-10'>Total score: {assessmentSize}</div>
               ) : (
-                <div className="col-start-2 col-span-4 ml-10">
+                <div className='col-start-2 col-span-4 ml-10'>
                   No. of attempts: {status.attempts}
                 </div>
               )}
-              <div className="col-start-1 col-span-6 my-10">
+              <div className='col-start-1 col-span-6 my-10'>
                 {assessment && assessment.sections && (
                   <div>
                     <AssessmentSection

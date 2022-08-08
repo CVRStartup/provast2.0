@@ -24,7 +24,7 @@ const openjobs = [
 
 const index = () => {
   return (
-    <div className='max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4 mt-[10vh]'>
+    <div className='max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-4 pt-[10vh]'>
       <h2 className='text-2xl font-bold leading-7 text-gray-800 text-center sm:text-4xl sm:truncate'>
         Open Jobs
       </h2>

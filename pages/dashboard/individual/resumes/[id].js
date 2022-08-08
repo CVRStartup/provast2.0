@@ -56,7 +56,7 @@ const ResumeSlug = ({ user, id }) => {
     return (
       <div className='mt-[-10vh]'>
         <Left resumeDetails={resume} />
-        <main className='lg:ml-[30%] flex-1 mt-[10vh]'>
+        <main className='lg:ml-[30%] flex-1 pt-[10vh]'>
           <div className='flex justify-between bg-gray-800 overflow-auto'>
             <section className='mx-auto h-screen overflow-auto py-5 w-full'>
               <Template componentRef={componentRef} />

@@ -8,7 +8,7 @@ const PDFViewer = dynamic(() => import("../../../../../src/components/Learn/PDFV
 });
 const MaterialSlug = ({ file }) => {
   return (
-    <div className='mt-[10vh]'>
+    <div className='pt-[10vh]'>
       <PDFViewer file={file} />
     </div>
   );

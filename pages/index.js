@@ -51,7 +51,7 @@ const Index = () => {
       />
       <div className='bg-white'>
         <Navbar />
-        <main className='mt-[10vh] mb-10'>
+        <main className='pt-[10vh] mb-10'>
           <Slider />
           <Guide />
           <Testimonials />

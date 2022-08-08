@@ -71,7 +71,7 @@ const Students = ({ user }) => {
   return (
     <>
       {students && profile ? (
-        <div className={`relative flex sm:mt-[10vh] lg:mt-0`}>
+        <div className={`relative flex sm:pt-[10vh] lg:mt-0`}>
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog
               as='div'
@@ -287,7 +287,7 @@ const Students = ({ user }) => {
           {/* Static sidebar for desktop */}
           <div className='hidden lg:flex md:flex-shrink-0 h-screen overflow-y-auto'>
             <div className='flex flex-col w-96'>
-              <div className='flex-1 w-full flex flex-col max-h-[100vh] pt-[10vh] border-r border-gray-200 bg-gray-100'>
+              <div className='flex-1 w-full flex flex-col max-h-[100vh] pt-[10vh] border-r border-gray-200'>
                 <aside className='hidden lg:order-first lg:flex lg:flex-col flex-shrink-0 w-96 border-r border-gray-200'>
                   <div className='px-6 pt-6 pb-4'>
                     <h2 className='text-lg font-medium text-gray-900'>Students List</h2>

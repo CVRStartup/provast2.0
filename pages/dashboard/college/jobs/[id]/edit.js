@@ -436,7 +436,7 @@ const JobAdd = ({ job, user }) => {
     );
   };
   return (
-    <main className='bg-gray-50 mt-[10vh]'>
+    <main className='bg-gray-50 pt-[10vh]'>
       {loading.type === "edit" && loading.status === true ? <Loading /> : ""}
       <div className='space-y-6 max-w-6xl mx-auto py-8'>
         <div className='bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>

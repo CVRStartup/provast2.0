@@ -80,7 +80,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
 
   return tab ? (
     // grid grid-cols-8
-    <div className='mt-[10vh] p-10 flex flex-col justify-center item-center w-full'>
+    <div className='pt-[10vh] p-10 flex flex-col justify-center item-center w-full'>
       {assessment && (
         <div className=' flex flex-col justify-start text-3xl font-bold my-15 ml-10 col-start-2'>
           {assessment.name}
@@ -143,7 +143,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
     <>
       {/* <Timer /> */}
       {/* grid grid-cols-6 */}
-      <div className='mt-[10vh] p-10 flex flex-col justify-center items-center w-full'>
+      <div className='pt-[10vh] p-10 flex flex-col justify-center items-center w-full'>
         {assessment && (
           <div className=' flex flex-col justify-start items-start w-full text-3xl font-bold my-15 ml-20 col-start-2'>
             {assessment.name}

@@ -130,7 +130,7 @@ const ReportSlug = ({ assessmentStatuses, assessmentDetails, studentDetails, use
   };
   console.log(studentDetails);
   return (
-    <div className='mt-[10vh]'>
+    <div className='pt-[10vh]'>
       <div>
         <div className='flex flex-row flex-wrap w-full bg-orange-100 min-h-[300px] border-2 border-solid border-orange-200'>
           <div className='md:w-1/2 w-full m-5 md:m-0 flex flex-col items-center justify-center'>

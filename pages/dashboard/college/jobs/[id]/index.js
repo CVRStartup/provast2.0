@@ -66,7 +66,7 @@ const CollegeJobSlug = ({ id }) => {
   };
 
   return (
-    <div className='min-h-full bg-gray-100 mt-[10vh]'>
+    <div className='min-h-full bg-gray-100 pt-[10vh]'>
       <JobHeader />
       <main className='py-10'>
         <JobHero job={job} />
