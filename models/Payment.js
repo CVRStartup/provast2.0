@@ -5,15 +5,12 @@ const paymentSchema = new mongoose.Schema(
     user: { type: String, required: true },
     paymentId: {
       type: String,
-      required: true,
     },
     amount: {
       type: Number,
-      required: true,
     },
     orderId: {
       type: String,
-      required: true,
     },
     coupon: {
       data: [
@@ -25,21 +22,23 @@ const paymentSchema = new mongoose.Schema(
         type: Number,
       },
     },
+    college: {
+      name: String,
+      code: String,
+    },
+
     email: String,
     phone: String,
     address: {
       country: String,
       postal: String,
     },
-    plan: {
-      type: String,
-      required: true,
-    },
-    tier: {
-      type: Number,
-      default: 1,
-      required: true,
-    },
+    modules: [
+      {
+        name: String,
+        config: [{ key: String, value: String }],
+      },
+    ],
     expiryDate: {
       type: Date,
       required: true,
