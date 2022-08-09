@@ -2,6 +2,7 @@
 import { CheckIcon, ChevronDownIcon, MinusIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import React, { Fragment } from "react";
+import { Loading } from "../../src/components/Reusables/Loading";
 import { usePlan } from "../../src/hooks/usePlan";
 import { getLoginSession } from "../../src/lib/auth";
 import { getEighteenPercent } from "../../src/lib/helper";
@@ -163,10 +164,11 @@ const Packages = ({ userDetails }) => {
   const withoutGST = (amount, plan) => {
     if (!amount || !plan) return 0;
     return Math.floor(
-      Number(amount) - Number(getEighteenPercent(plans.filter((p) => p.name === plan)[0].price))
+      Number(amount) -
+        Math.floor(Number(getEighteenPercent(plans.filter((p) => p.name === plan)[0].price)))
     );
   };
-  if (isLoading) return <div className='mt-[20vh]'>Loading...</div>;
+  if (isLoading) return <Loading />;
   return (
     <div className='bg-white pt-[10vh]'>
       {/* {loading && <Loading />} */}

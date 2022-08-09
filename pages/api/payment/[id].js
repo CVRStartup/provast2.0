@@ -6,6 +6,9 @@ export default async function handler(req, res) {
     case "GET":
       await searchOrder(req, res);
       break;
+    case "POST":
+      await generateOrder(req, res);
+      break;
   }
 }
 
@@ -23,6 +26,25 @@ const searchOrder = async (req, res) => {
       return res.status(200).json({ message: "payment Found", payment });
     } else {
       return res.status(200).json({ message: "payment not found", payment: undefined });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const generateOrder = async (req, res) => {
+  try {
+    await connectDB();
+    console.log(req.body);
+
+    const paymentDetails = new Payment(req.body);
+
+    await paymentDetails.save();
+
+    if (paymentDetails) {
+      return res.status(200).json({ message: "Payment Generated", paymentDetails });
+    } else {
+      return res.status(200).json({ message: "Please try again!", paymentDetails: undefined });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });

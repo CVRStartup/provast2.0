@@ -52,7 +52,7 @@ export const ResumeForm = () => {
     });
     await mutate(`/api/resume/user?userId=${user?._id}`);
     if (message === "Success! Resumes Created") {
-      router.push(`/dashboard/student/resumes/${resume._id}`);
+      router.push(`/dashboard/${user?.category}/resumes/${resume._id}`);
     }
     closeModal();
   };
@@ -74,68 +74,68 @@ export const ResumeForm = () => {
 
   return (
     <form onSubmit={handleCreate}>
-      <div className="flex items-center justify-between">
-        <Dialog.Title as="h3" className="text-2xl font-medium leading-6 text-white">
+      <div className='flex items-center justify-between'>
+        <Dialog.Title as='h3' className='text-2xl font-medium leading-6 text-white'>
           Create Resume
         </Dialog.Title>
       </div>
-      <div className="mt-5 w-full">
-        <div className="mt-6 grid grid-cols-1 gap-y-3 gap-x-4 sm:grid-cols-6">
-          <div className="sm:col-span-6">
+      <div className='mt-5 w-full'>
+        <div className='mt-6 grid grid-cols-1 gap-y-3 gap-x-4 sm:grid-cols-6'>
+          <div className='sm:col-span-6'>
             <label
-              htmlFor="hobby"
-              className="block uppercase tracking-wider text-[10px] font-medium text-gray-400"
+              htmlFor='hobby'
+              className='block uppercase tracking-wider text-[10px] font-medium text-gray-400'
             >
               Name
             </label>
-            <div className="mt-1 flex rounded-md shadow-sm">
+            <div className='mt-1 flex rounded-md shadow-sm'>
               <input
-                type="text"
-                name="resume"
-                id="resume"
+                type='text'
+                name='resume'
+                id='resume'
                 required
-                placeholder="Ex:- Full Stack Developer"
+                placeholder='Ex:- Full Stack Developer'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="flex-1 focus:ring-orange-500 focus:border-orange-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
+                className='flex-1 focus:ring-orange-500 focus:border-orange-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300'
               />
             </div>
           </div>
           {hasPublicResume && (
-            <div className="sm:col-span-6 flex items-center">
-              <div className="mt-1 flex rounded-md shadow-sm mr-2">
+            <div className='sm:col-span-6 flex items-center'>
+              <div className='mt-1 flex rounded-md shadow-sm mr-2'>
                 <input
-                  type="checkbox"
-                  name="resume"
-                  id="resume"
-                  placeholder="Ex:- Full Stack Developer"
+                  type='checkbox'
+                  name='resume'
+                  id='resume'
+                  placeholder='Ex:- Full Stack Developer'
                   value={name}
                   onChange={(e) => setImportFromPublicResume(!importFromPublicResume)}
-                  className="outline"
+                  className='outline'
                 />
               </div>
-              <label htmlFor="hobby" className="block text-[13px] text-gray-200">
+              <label htmlFor='hobby' className='block text-[13px] text-gray-200'>
                 Import resume data from your public resume
               </label>
             </div>
           )}
         </div>
       </div>
-      <div className="pt-5">
-        <div className="flex justify-end">
+      <div className='pt-5'>
+        <div className='flex justify-end'>
           <button
-            type="button"
+            type='button'
             onClick={() => {
               setLoading(false);
               closeModal();
             }}
-            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
           >
             Cancel
           </button>
           <button
-            type="submit"
-            className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            type='submit'
+            className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
           >
             Save
           </button>

@@ -2,6 +2,8 @@ import React from "react";
 import { VscLock } from "react-icons/vsc";
 import { useModelContext } from "../../../../context/ModalContext";
 import { useResumeContext } from "../../../../context/ResumeContext";
+import { usePlan } from "../../../../hooks/usePlan";
+import { useUser } from "../../../../lib/hooks";
 import ColorPicker from "../ColorPicker";
 import { RightCard } from "./RightCard";
 
@@ -25,27 +27,25 @@ const fonts = [
 export const Right = React.forwardRef(function Right({ componentRef }) {
   const { resume, layout, setLayout, debounceUpdateResume } = useResumeContext();
   const { setIsOpen, setForm } = useModelContext();
+  const user = useUser();
+  const { payment } = usePlan(user?._id);
 
   const checkPlan = (name) => {
-    return true;
-    // const plan = session?.plan?.plan;
-    // if (session?.userDetails?.college?.name === "SRM INSTITUTE OF SCIENCE AND TECHNOLOGY")
-    //   return true;
-    // if (session?.userDetails?.college?.name === "SRI INDU COLLEGE OF ENGINEERING AND TECHNOLOGY")
-    //   return true;
-    // if (session?.userDetails?.college?.name === "CVR COLLEGE OF ENGINEERING") return true;
-    // if (plan === "Basic") {
-    //   if (name === "color" || name === "font") return false;
-    //   if (name === "download") return true;
-    // }
-    // if (plan === "Essential") {
-    //   if (name === "color") return false;
-    //   if (name === "font" || name === "download") return true;
-    // }
-    // if (plan === "Premium") {
-    //   if (name === "color" || name === "font" || name === "download") return true;
-    // }
-    // return false;
+    if (!payment) return;
+
+    const plan = payment?.plan;
+    if (plan === "Basic") {
+      if (name === "color" || name === "font") return false;
+      if (name === "download") return true;
+    }
+    if (plan === "Essential") {
+      if (name === "color") return false;
+      if (name === "font" || name === "download") return true;
+    }
+    if (plan === "Premium") {
+      if (name === "color" || name === "font" || name === "download") return true;
+    }
+    return false;
   };
 
   const handleClick = (font) => {
@@ -55,13 +55,13 @@ export const Right = React.forwardRef(function Right({ componentRef }) {
 
   return (
     <div>
-      <div className="w-full py-4 flex flex-col items-center">
+      <div className='w-full py-4 flex flex-col items-center'>
         {layout?.template !== "onyx" &&
         layout?.template !== "refined" &&
         layout?.template !== "tadigital" &&
         layout?.template !== "moscow" ? (
-          <div className="my-2 border-b border-gray-400 w-full">
-            <h2 className="mb-5 px-2 text-white text-2xl">Colors</h2>
+          <div className='my-2 border-b border-gray-400 w-full'>
+            <h2 className='mb-5 px-2 text-white text-2xl'>Colors</h2>
             <div
               onClick={() => {
                 if (!checkPlan("color")) {
@@ -78,8 +78,8 @@ export const Right = React.forwardRef(function Right({ componentRef }) {
                 <ColorPicker />
               </div>
               {!checkPlan("color") && (
-                <div className="absolute z-10 top-[1px] right-[40%] flex items-center justify-center h-7 w-7 bg-gray-900 bg-opacity-70 rounded-full p-1 ">
-                  <VscLock size={15} color="white" />
+                <div className='absolute z-10 top-[1px] right-[40%] flex items-center justify-center h-7 w-7 bg-gray-900 bg-opacity-70 rounded-full p-1 '>
+                  <VscLock size={15} color='white' />
                 </div>
               )}
             </div>
@@ -88,7 +88,7 @@ export const Right = React.forwardRef(function Right({ componentRef }) {
           ""
         )}
         <div>
-          <h2 className="mb-5 px-2 text-white text-2xl">Actions</h2>
+          <h2 className='mb-5 px-2 text-white text-2xl'>Actions</h2>
           {/* <RightCard
             heading={"Pick Template"}
             description={
@@ -140,9 +140,9 @@ export const Right = React.forwardRef(function Right({ componentRef }) {
         {layout?.template !== "onyx" &&
         layout?.template !== "refined" &&
         layout?.template !== "tadigital" ? (
-          <div className="w-full text-white py-5 border-t border-gray-400">
-            <h2 className="px-2 mb-5 text-white text-2xl">Fonts</h2>
-            <div className="grid md:grid-cols-2 gap-4 mx-3">
+          <div className='w-full text-white py-5 border-t border-gray-400'>
+            <h2 className='px-2 mb-5 text-white text-2xl'>Fonts</h2>
+            <div className='grid md:grid-cols-2 gap-4 mx-3'>
               {fonts.map((option, index) => (
                 <div
                   key={index}
@@ -167,8 +167,8 @@ export const Right = React.forwardRef(function Right({ componentRef }) {
                     {option.name}
                   </button>
                   {!checkPlan("font") && option.name !== "default" && (
-                    <div className="absolute z-10 top-[20%] right-[35%] flex items-center justify-center h-7 w-7 bg-gray-900 bg-opacity-70 rounded-full p-1 ">
-                      <VscLock size={15} color="white" />
+                    <div className='absolute z-10 top-[20%] right-[35%] flex items-center justify-center h-7 w-7 bg-gray-900 bg-opacity-70 rounded-full p-1 '>
+                      <VscLock size={15} color='white' />
                     </div>
                   )}
                 </div>

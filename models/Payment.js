@@ -33,15 +33,12 @@ const paymentSchema = new mongoose.Schema(
       country: String,
       postal: String,
     },
-    modules: [
-      {
-        name: String,
-        config: [{ key: String, value: String }],
-      },
-    ],
+    plan: String,
+    modules: {
+      type: [String],
+    },
     expiryDate: {
       type: Date,
-      required: true,
     },
   },
   {

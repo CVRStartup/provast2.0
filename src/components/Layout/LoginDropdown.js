@@ -37,6 +37,19 @@ export const LoginDropdown = ({ session }) => {
             </Menu.Item>
           </div>
 
+          {session?.category !== "college" && (
+            <Menu.Item>
+              <Link href='/packages'>
+                <a className='flex items-left text-left w-full px-4 py-2 text-sm hover:bg-gray-50 '>
+                  <span className='mr-2'>
+                    <FaCrown size={18} color='orange' />
+                  </span>
+                  <span className=''>Upgrade</span>
+                </a>
+              </Link>
+            </Menu.Item>
+          )}
+
           <Menu.Item>
             {({ active }) => (
               <Link

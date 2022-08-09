@@ -17,6 +17,7 @@ import { findUser } from "../../../../src/lib/user";
 import { useResumes } from "../../../../src/hooks/useResumes";
 import { usePublicResumes } from "../../../../src/hooks/usePublicResumes";
 import { mutate } from "swr";
+import { usePlan } from "../../../../src/hooks/usePlan";
 
 const templates = [
   {
@@ -105,6 +106,7 @@ function classNames(...classes) {
 
 const ResumeIndex = ({ user }) => {
   const [tab, setTab] = useState("All Templates");
+  const { payment } = usePlan(user?._id);
   const tabs = [
     { name: "All Templates", current: tab === "All Templates" },
     { name: "Simple", current: tab === "Simple" },
@@ -195,28 +197,19 @@ const ResumeIndex = ({ user }) => {
   };
 
   const checkPlan = (template) => {
-    return true;
-    // const plan = session?.plan?.plan;
-    // if (session?.userDetails?.college?.name === "SRM INSTITUTE OF SCIENCE AND TECHNOLOGY")
-    //   return true;
-    // if (session?.userDetails?.college?.name === "SRI INDU COLLEGE OF ENGINEERING AND TECHNOLOGY")
-    //   return true;
-    // if (session?.userDetails?.college?.name === "CVR COLLEGE OF ENGINEERING") return true;
-    // if (template.category === "simple") return true;
-    // if (plan === "Basic") return template.category === "creative";
-    // if (plan === "Essential") return !(template.category === "company");
-    // if (plan === "Premium") return true;
-    // return false;
+    if (!payment) return;
+    if (template.category === "simple") return true;
+    if (payment?.plan === "Basic") return template.category === "creative";
+    if (payment?.plan === "Essential") return !(template.category === "company");
+    if (payment?.plan === "Premium") return true;
+    return false;
   };
 
   const checkResumeCreation = (count) => {
+    if (!payment) return;
+    const plan = payment?.plan;
     return (
-      user?.college?.name === "SRM INSTITUTE OF SCIENCE AND TECHNOLOGY" ||
-      user?.college?.name === "CVR College of Engineering" ||
-      user?.college?.name === "SRI INDU COLLEGE OF ENGINEERING AND TECHNOLOGY"
-      // (session?.plan?.plan === "Basic" && count < 2) ||
-      // (session?.plan?.plan === "Essential" && count < 5) ||
-      // session?.plan?.plan === "Premium"
+      (plan === "Basic" && count < 2) || (plan === "Essential" && count < 5) || plan === "Premium"
     );
   };
 
