@@ -165,7 +165,7 @@ const Packages = ({ userDetails }) => {
     if (!amount || !plan) return 0;
     return Math.floor(
       Number(amount) -
-        Math.floor(Number(getEighteenPercent(plans.filter((p) => p.name === plan)[0].price)))
+        Math.floor(Number(getEighteenPercent(plans.filter((p) => p.name === plan)[0]?.price)))
     );
   };
   if (isLoading) return <Loading />;

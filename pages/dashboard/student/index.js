@@ -11,6 +11,10 @@ import { JobCard } from "../../../src/components/Jobs/JobCard";
 import { JobChart } from "../../../src/components/Jobs/JobChart";
 import { useResumes } from "../../../src/hooks/useResumes";
 import axios from "axios";
+import Link from "next/link";
+import { useCrt } from "../../../src/hooks/useCrt";
+import { Dialog } from "@headlessui/react";
+import { FaLock } from "react-icons/fa";
 
 const resources = [
   // {
@@ -39,6 +43,7 @@ const resources = [
 
 const StudentIndex = ({ user }) => {
   const { jobs, isLoading } = useJobs(user);
+  const { crtPayment } = useCrt(user?._id);
   const [filteredJobs, setFilteredJobs] = useState(null);
   const [counts, setCounts] = useState([]);
   const { resumes } = useResumes(user);
@@ -88,31 +93,51 @@ const StudentIndex = ({ user }) => {
             <div className='min-w-0'>
               <div className='lg:min-w-0'>
                 <div className='h-full px-1'>
-                  <div className='mt-4 relative h-full' style={{ minHeight: "36rem" }}>
-                    {!filteredJobs && isLoading ? (
-                      <JobCardSkeleton />
-                    ) : filteredJobs?.length > 0 ? (
-                      <div className='flex flex-col'>
-                        {filteredJobs?.map((job) => (
-                          <JobCard key={job._id} job={job} />
-                        ))}
+                  {user?.college?.name === "SRM Institute of Science and Technology" &&
+                  !crtPayment ? (
+                    <div className='flex justify-center'>
+                      <div className='w-1/2 p-4 bg-white text-center rounded'>
+                        <h1 className='font-semibold'>Jobs</h1>
+                        <h1 className='font-semibold text-gray-500 my-3'>
+                          Subscribe to CRT to view Jobs.
+                        </h1>
+                        <Link href='/packages/checkout/3'>
+                          <button
+                            type='button'
+                            className='inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-orange-700 bg-orange-100 hover:bg-orange-200 '
+                          >
+                            Pay
+                          </button>
+                        </Link>
                       </div>
-                    ) : (
-                      <div className='flex mt-10 pt-32 flex-col justify-center items-center w-full'>
-                        <div className='relative flex-shrink-0 flex justify-center h-72 w-72'>
-                          <Image
-                            placeholder='blur'
-                            blurDataURL='/no_results.png'
-                            layout='fill'
-                            objectFit='contain'
-                            src='/no_results.png'
-                            alt=''
-                          />
+                    </div>
+                  ) : (
+                    <div className='mt-4 relative h-full' style={{ minHeight: "36rem" }}>
+                      {!filteredJobs && isLoading ? (
+                        <JobCardSkeleton />
+                      ) : filteredJobs?.length > 0 ? (
+                        <div className='flex flex-col'>
+                          {filteredJobs?.map((job) => (
+                            <JobCard key={job._id} job={job} />
+                          ))}
                         </div>
-                        <h6 className='text-3xl font-semibold text-gray-400'>No Jobs Found</h6>
-                      </div>
-                    )}
-                  </div>
+                      ) : (
+                        <div className='flex mt-10 pt-32 flex-col justify-center items-center w-full'>
+                          <div className='relative flex-shrink-0 flex justify-center h-72 w-72'>
+                            <Image
+                              placeholder='blur'
+                              blurDataURL='/no_results.png'
+                              layout='fill'
+                              objectFit='contain'
+                              src='/no_results.png'
+                              alt=''
+                            />
+                          </div>
+                          <h6 className='text-3xl font-semibold text-gray-400'>No Jobs Found</h6>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -217,7 +242,7 @@ export const getServerSideProps = async ({ req, res }) => {
       user: user?._id,
       amount: 0,
       plan: "free",
-      modules: ["resumes", "jobs", "assessments", "learning", "testpatterns"],
+      modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
     });
   }
 

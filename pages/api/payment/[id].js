@@ -35,7 +35,6 @@ const searchOrder = async (req, res) => {
 const generateOrder = async (req, res) => {
   try {
     await connectDB();
-    console.log(req.body);
 
     const paymentDetails = new Payment(req.body);
 

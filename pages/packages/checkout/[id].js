@@ -30,13 +30,18 @@ const plans = [
     tier: 3,
     description: "Orci volutpat ut sed sed neque, dui eget. Quis tristique non.",
   },
+  {
+    name: "SRM CRT",
+    price: 12711.8644068,
+    tier: 4,
+    description: "Orci volutpat ut sed sed neque, dui eget. Quis tristique non.",
+  },
 ];
 
-const CheckoutSlug = ({ userDetails }) => {
+const CheckoutSlug = ({ userDetails, id }) => {
   const session = JSON.parse(userDetails);
   const { payment, isError, isLoading } = usePlan(userDetails._id);
   const router = useRouter();
-  const { id } = router.query;
   const [plan, setPlan] = useState(null);
   const [step, setStep] = useState("personal");
   const [email, setEmail] = useState("");
@@ -100,22 +105,40 @@ const CheckoutSlug = ({ userDetails }) => {
       image: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png",
       handler: async function (response) {
         if (response) {
-          const {
-            data: { message },
-          } = await axios.put("/api/payment/verification", {
-            response,
-            plan: plan?.name,
-            userId: session?._id,
-            amount: amount / 100,
-            email,
-            address,
-            phone,
-          });
-          console.log(message);
-          if (message == "Payment Successfull") {
-            toast.success(message, { toastId: message });
-            router.push(`/packages`);
-          } else toast.error(message, { toastId: message });
+          if (id == 3) {
+            const {
+              data: { message },
+            } = await axios.post("/api/payment/crt", {
+              response,
+              userId: session?._id,
+              amount: amount / 100,
+              email,
+              address,
+              phone,
+            });
+            console.log(message);
+            if (message == "Payment Successfull") {
+              toast.success(message, { toastId: message });
+              router.push(`/packages`);
+            } else toast.error(message, { toastId: message });
+          } else {
+            const {
+              data: { message },
+            } = await axios.put("/api/payment/verification", {
+              response,
+              plan: plan?.name,
+              userId: session?._id,
+              amount: amount / 100,
+              email,
+              address,
+              phone,
+            });
+            console.log(message);
+            if (message == "Payment Successfull") {
+              toast.success(message, { toastId: message });
+              router.push(`/packages`);
+            } else toast.error(message, { toastId: message });
+          }
         }
       },
       prefill: {
@@ -386,7 +409,7 @@ const CheckoutSlug = ({ userDetails }) => {
   );
 };
 
-export const getServerSideProps = async ({ req, res }) => {
+export const getServerSideProps = async ({ req, res, query }) => {
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
   if (!user) {
@@ -409,6 +432,7 @@ export const getServerSideProps = async ({ req, res }) => {
   return {
     props: {
       userDetails: JSON.stringify(user),
+      id: query.id,
     },
   };
 };

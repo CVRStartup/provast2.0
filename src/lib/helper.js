@@ -14,7 +14,6 @@ import axios from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
 import * as XLSX from "xlsx";
-import { useModelContext } from "../context/ModalContext";
 
 export const handleJobResponse = async (job, user, op, roles, questionnaire, resume) => {
   if (!user) return;
