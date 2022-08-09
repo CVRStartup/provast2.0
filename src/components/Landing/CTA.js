@@ -13,7 +13,7 @@ export const CTA = () => {
           mind the various roles, skills, and expertise professionals would require to carve a niche
           for themselves.
         </p>
-        <Link href='/auth/signin'>
+        <Link href='/auth/signup'>
           <a className='mt-8 w-full bg-white border border-transparent rounded-md py-3 px-5 inline-flex items-center justify-center text-base font-medium text-cyan-700 hover:bg-gray-100 sm:w-auto'>
             Sign up for free
           </a>
