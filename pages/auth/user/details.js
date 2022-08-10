@@ -16,7 +16,6 @@ const typeOfCategory = [
   { id: "student", name: "student" },
   { id: "college", name: "college" },
 ];
-
 const Details = ({ colleges, user }) => {
   const router = useRouter();
   const [rollNumber, setRollNumber] = useState({
