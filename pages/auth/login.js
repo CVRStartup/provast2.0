@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Router from "next/router";
-import { useUser } from "../../src/lib/hooks";
 import Form from "../../src/components/form";
 import { useModelContext } from "../../src/context/ModalContext";
 import { Loading } from "../../src/components/Reusables/Loading";

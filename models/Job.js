@@ -3,6 +3,15 @@ import mongoose from "mongoose";
 const JobSchema = mongoose.Schema(
   {
     user: { type: String, required: true },
+    owner: {
+      name: String,
+      signature: String,
+    },
+    team: {
+      placementOfficer: String,
+      dataTeamLead: String,
+      processTeamLead: String,
+    },
     college: {
       name: {
         type: String,

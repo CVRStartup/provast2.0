@@ -10,6 +10,7 @@ import { useJobs } from "../../../src/hooks/useJobs";
 import { JobCard } from "../../../src/components/Jobs/JobCard";
 import { JobChart } from "../../../src/components/Jobs/JobChart";
 import { useResumes } from "../../../src/hooks/useResumes";
+import axios from "axios";
 
 const resources = [
   // {
@@ -186,6 +187,23 @@ export const getServerSideProps = async ({ req, res }) => {
         permanent: false,
       },
     };
+  }
+
+  console.log("indivisual dahsboard");
+
+  const {
+    data: { payment },
+  } = await axios.get(`${process.env.HOST_URL}/api/payment/${user?._id}`);
+
+  console.log("payment", payment);
+
+  if (!payment) {
+    const { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
+      user: user?._id,
+      amount: 0,
+      plan: "free",
+      modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
+    });
   }
 
   return {
