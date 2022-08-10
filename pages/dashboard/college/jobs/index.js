@@ -18,7 +18,7 @@ const Jobs = ({ user }) => {
   }, [jobs]);
 
   return (
-    <div className='px-5 pt-1 overflow-auto w-[100%] pt-[10vh]'>
+    <div className='px-5 overflow-auto w-[100%] pt-[10vh]'>
       <div className='rounded-md h-14 px-10 bg-gray-800 flex items-center justify-between'>
         <div className='flex-1 min-w-0'>
           <h2 className='text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate'>Jobs</h2>
