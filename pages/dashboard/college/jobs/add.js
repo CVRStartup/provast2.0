@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { Loader } from "../../../../src/components/Layout/Loader";
 import {
-  branches,
   ctcRange,
   generateYearsBetween,
   jobPostingLocationOptions,
