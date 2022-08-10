@@ -1,3 +1,4 @@
+import moment from "moment";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -37,19 +38,31 @@ const Notice = ({ user }) => {
                           scope='col'
                           className='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6'
                         >
+                          SNo.
+                        </th>
+                        <th
+                          scope='col'
+                          className='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6'
+                        >
                           Title
                         </th>
                         <th
                           scope='col'
                           className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
                         >
-                          Description
+                          Author Name
                         </th>
                         <th
                           scope='col'
                           className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
                         >
                           Status
+                        </th>
+                        <th
+                          scope='col'
+                          className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
+                        >
+                          Last Edited
                         </th>
                       </tr>
                     </thead>
@@ -59,19 +72,23 @@ const Notice = ({ user }) => {
                           key={notice._id}
                           className={noticeIdx % 2 === 0 ? undefined : "bg-gray-50"}
                         >
+                          <td className='truncate whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 hover:underline cursor-pointer sm:pl-6'>
+                            {noticeIdx + 1}
+                          </td>
                           <Link href={`/dashboard/college/notices/${notice._id}/edit`}>
                             <td className='truncate whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 hover:underline cursor-pointer sm:pl-6'>
                               {notice.title}
                             </td>
                           </Link>
                           <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-                            <p
-                              className='text-sm truncate'
-                              dangerouslySetInnerHTML={{ __html: notice.description }}
-                            />
+                            {notice.author.name}
                           </td>
-                          <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+
+                          <td className='whitespace-nowrap px-3 py-4 uppercase text-green-600 text-sm font-semibold'>
                             {notice.status}
+                          </td>
+                          <td className='whitespace-nowrap px-3 py-4 uppercase text-gray-500 text-sm'>
+                            {moment(new Date(notice.updatedAt)).format("YYYY-MM-DD HH:mm:ss")}
                           </td>
                         </tr>
                       ))}
