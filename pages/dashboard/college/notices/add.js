@@ -13,7 +13,6 @@ import * as XLSX from "xlsx";
 
 const JobAdd = ({ user }) => {
   const router = useRouter();
-  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [eligible, setEligible] = useState([]);
