@@ -45,7 +45,7 @@ const Profile = ({ userDetails }) => {
                       placeholder='blur'
                       blurDataURL={user?.profile?.image}
                       layout='fill'
-                      objectFit='cover'
+                      objectFit='center'
                       src={user?.profile?.image}
                       alt='profile-image'
                     />
