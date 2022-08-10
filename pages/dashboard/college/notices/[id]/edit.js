@@ -23,7 +23,6 @@ const JobAdd = ({ user, notice }) => {
   const handleCallBack = (data) => {
     setDescription(data);
   };
-
   const fileType = [
     "application/vnd.ms-excel",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

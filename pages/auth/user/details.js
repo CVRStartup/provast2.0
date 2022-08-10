@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { Loading } from "../../../src/components/Reusables/Loading";
 import { getLoginSession } from "../../../src/lib/auth";
-import { genders, getModule } from "../../../src/lib/helper";
+import { genders } from "../../../src/lib/helper";
 import { useUser } from "../../../src/lib/hooks";
 import { findUser } from "../../../src/lib/user";
 import { DropDown } from "../../../src/components/Reusables/Dropdown";
@@ -105,7 +105,7 @@ const Details = ({ colleges, user }) => {
           user: session?._id,
           amount: 0,
           plan: "free",
-          modules: getModule(college.name),
+          modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
         });
       } catch (error) {
         console.log(error);
