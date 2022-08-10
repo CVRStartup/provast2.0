@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { Loader } from "../../../../src/components/Layout/Loader";
 import {
-  branches,
   ctcRange,
   generateYearsBetween,
   jobPostingLocationOptions,
@@ -18,7 +17,6 @@ import {
   Percentages,
   CGPAs,
   typeOfPlacedStatus,
-  handleFile,
   typeOfJobProgram,
   btechBranches,
   mtechBranches,
@@ -66,11 +64,24 @@ const JobAdd = ({ user }) => {
 
   const [selectedXthTypeOfGrade, setSelectedXthTypeOfGrade] = useState(typeOfGrade[0]);
   const [selectedXIIthTypeOfGrade, setSelectedXIIthTypeOfGrade] = useState(typeOfGrade[0]);
-  const [selectedBtechTypeOfGrade, setSelectedBtechTypeOfGrade] = useState(typeOfGrade[0]);
+  const [selectedDiplomaTypeOfGrade, setSelectedDiplomaTypeOfGrade] = useState(typeOfGrade[0]);
+  const [selectedUndergraduateTypeOfGrade, setSelectedUndergraduateTypeOfGrade] = useState(
+    typeOfGrade[0]
+  );
+  const [selectedPostgraduateTypeOfGrade, setSelectedPostgraduateTypeOfGrade] = useState(
+    typeOfGrade[0]
+  );
+
+  const [owner, setOwner] = useState({
+    name: "",
+    signature: "",
+  });
 
   const [selectedXthGrade, setSelectedXthGrade] = useState(CGPAs[0]);
   const [selectedXIIthGrade, setSelectedXIIthGrade] = useState(CGPAs[0]);
-  const [selectedBtechGrade, setSelectedBtechGrade] = useState(CGPAs[0]);
+  const [selectedDiplomaGrade, setSelectedDiplomaGrade] = useState(CGPAs[0]);
+  const [selectedUndergraduateGrade, setSelectedUndergraduateGrade] = useState(CGPAs[0]);
+  const [selectedPostgraduateGrade, setSelectedPostgraduateGrade] = useState(CGPAs[0]);
 
   const [rounds, setRounds] = useState([
     {
@@ -101,10 +112,25 @@ const JobAdd = ({ user }) => {
   }, [selectedXIIthTypeOfGrade]);
 
   useEffect(() => {
-    if (selectedBtechTypeOfGrade.name === "CGPA") setSelectedBtechGrade(CGPAs[0]);
-    else if (selectedBtechTypeOfGrade.name === "Percentage") setSelectedBtechGrade(Percentages[0]);
-    else setSelectedBtechGrade({ id: 11, name: 0 });
-  }, [selectedBtechTypeOfGrade]);
+    if (selectedDiplomaTypeOfGrade.name === "CGPA") setSelectedDiplomaGrade(CGPAs[0]);
+    else if (selectedDiplomaTypeOfGrade.name === "Percentage")
+      setSelectedDiplomaGrade(Percentages[0]);
+    else setSelectedDiplomaGrade({ id: 11, name: 0 });
+  }, [selectedDiplomaTypeOfGrade]);
+
+  useEffect(() => {
+    if (selectedUndergraduateTypeOfGrade.name === "CGPA") setSelectedUndergraduateGrade(CGPAs[0]);
+    else if (selectedUndergraduateTypeOfGrade.name === "Percentage")
+      setSelectedUndergraduateGrade(Percentages[0]);
+    else setSelectedUndergraduateGrade({ id: 11, name: 0 });
+  }, [selectedUndergraduateTypeOfGrade]);
+
+  useEffect(() => {
+    if (selectedPostgraduateTypeOfGrade.name === "CGPA") setSelectedPostgraduateGrade(CGPAs[0]);
+    else if (selectedPostgraduateTypeOfGrade.name === "Percentage")
+      setSelectedPostgraduateGrade(Percentages[0]);
+    else setSelectedPostgraduateGrade({ id: 11, name: 0 });
+  }, [selectedPostgraduateTypeOfGrade]);
 
   const [excelFileError, setExcelFileError] = useState(null);
 
@@ -125,6 +151,7 @@ const JobAdd = ({ user }) => {
         name: user.college.name,
         code: user.college.code,
       },
+      owner,
       company: name,
       program: typeOfProgram,
       website,
@@ -137,9 +164,17 @@ const JobAdd = ({ user }) => {
           typeOfGrade: selectedXIIthTypeOfGrade.name,
           grade: selectedXIIthGrade.name,
         },
-        btech: {
-          typeOfGrade: selectedBtechTypeOfGrade.name,
-          grade: selectedBtechGrade.name,
+        diploma: {
+          typeOfGrade: selectedDiplomaTypeOfGrade.name,
+          grade: selectedDiplomaGrade.name,
+        },
+        undergraduate: {
+          typeOfGrade: selectedUndergraduateTypeOfGrade.name,
+          grade: selectedUndergraduateGrade.name,
+        },
+        postgraduate: {
+          typeOfGrade: selectedPostgraduateTypeOfGrade.name,
+          grade: selectedPostgraduateGrade.name,
         },
         placed: placed,
         salary: salary,
@@ -192,6 +227,7 @@ const JobAdd = ({ user }) => {
       const { url } = uploadRes.data;
       if (type === "banner") setImage(url);
       if (type === "logo") setLogo(url);
+      if (type === "sign") setOwner({ ...owner, signature: url });
     } catch (error) {
       toast.error(error, { toastId: error });
     }
@@ -452,6 +488,57 @@ const JobAdd = ({ user }) => {
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
                   autoComplete='off'
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                />
+              </div>
+              <div className='sm:col-span-3'>
+                <label htmlFor='sign' className='block text-sm font-medium text-gray-700'>
+                  Owner Sign
+                </label>
+                <div className='mt-1'>
+                  <div className='sm:mt-0 sm:col-span-2'>
+                    {loading.type === "sign" && loading.status ? (
+                      <div className='animate-pulse'>
+                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
+                      </div>
+                    ) : (
+                      <input
+                        type='text'
+                        value={owner.signature}
+                        disabled={true}
+                        onChange={(e) => setOwner({ ...owner, signature: e.target.value })}
+                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                      />
+                    )}
+                    {loading.type === "sign" && loading.status ? (
+                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
+                        <Loader size={8} color='gray' />
+                        Please Wait...
+                      </div>
+                    ) : (
+                      <input
+                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                        label='Choose File'
+                        type='file'
+                        name='sign'
+                        id='sign'
+                        onChange={(e) => uploadFileHandler(e, "sign")}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className='sm:col-span-3'>
+                <label htmlFor='ownername' className='block text-sm font-medium text-gray-700'>
+                  Owner Name
+                </label>
+                <input
+                  type='text'
+                  name='ownername'
+                  id='ownername'
+                  value={owner.name}
+                  onChange={(e) => setOwner({ ...owner, name: e.target.value })}
                   className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
@@ -907,22 +994,59 @@ const JobAdd = ({ user }) => {
               )}
               <div className='sm:col-span-1 relative -top-[22px]'>
                 <DropDown
-                  title={"Btech Type Of Grade"}
+                  title={"Diploma Type Of Grade"}
                   options={typeOfGrade}
-                  selectedOption={selectedBtechTypeOfGrade}
-                  setSelectedOption={setSelectedBtechTypeOfGrade}
+                  selectedOption={selectedDiplomaTypeOfGrade}
+                  setSelectedOption={setSelectedDiplomaTypeOfGrade}
                 />
               </div>
-              {selectedBtechTypeOfGrade.name !== "Not Applicable" && (
+              {selectedDiplomaTypeOfGrade.name !== "Not Applicable" && (
                 <div className='sm:col-span-1 relative -top-[22px]'>
                   <DropDown
-                    title={"Btech Grade"}
-                    options={selectedBtechTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
-                    selectedOption={selectedBtechGrade}
-                    setSelectedOption={setSelectedBtechGrade}
+                    title={"Diploma Grade"}
+                    options={selectedDiplomaTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    selectedOption={selectedDiplomaGrade}
+                    setSelectedOption={setSelectedDiplomaGrade}
                   />
                 </div>
               )}
+              <div className='sm:col-span-1 relative -top-[22px]'>
+                <DropDown
+                  title={"UG Type Of Grade"}
+                  options={typeOfGrade}
+                  selectedOption={selectedUndergraduateTypeOfGrade}
+                  setSelectedOption={setSelectedUndergraduateTypeOfGrade}
+                />
+              </div>
+              {selectedUndergraduateTypeOfGrade.name !== "Not Applicable" && (
+                <div className='sm:col-span-1 relative -top-[22px]'>
+                  <DropDown
+                    title={"UG Grade"}
+                    options={selectedUndergraduateTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    selectedOption={selectedUndergraduateGrade}
+                    setSelectedOption={setSelectedUndergraduateTypeOfGrade}
+                  />
+                </div>
+              )}
+              <div className='sm:col-span-1 relative -top-[22px]'>
+                <DropDown
+                  title={"PG Type Of Grade"}
+                  options={typeOfGrade}
+                  selectedOption={selectedPostgraduateTypeOfGrade}
+                  setSelectedOption={setSelectedPostgraduateTypeOfGrade}
+                />
+              </div>
+              {selectedPostgraduateTypeOfGrade.name !== "Not Applicable" && (
+                <div className='sm:col-span-1 relative -top-[22px]'>
+                  <DropDown
+                    title={"PG Grade"}
+                    options={selectedPostgraduateTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
+                    selectedOption={selectedPostgraduateGrade}
+                    setSelectedOption={setSelectedPostgraduateGrade}
+                  />
+                </div>
+              )}
+
               <div className='sm:col-span-3'>
                 <label className='text-base font-medium text-gray-900'>
                   What students are eligible ?
