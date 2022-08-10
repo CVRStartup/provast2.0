@@ -63,6 +63,10 @@ export const Navbar = () => {
       href: "/dashboard/student",
     },
     {
+      name: "Notices",
+      href: "/dashboard/student/notices",
+    },
+    {
       name: "Resumes",
       href: "/dashboard/student/resumes",
     },
