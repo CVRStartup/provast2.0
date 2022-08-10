@@ -95,7 +95,15 @@ const JobSchema = mongoose.Schema(
         typeOfGrade: String,
         grade: Number,
       },
-      btech: {
+      diploma: {
+        typeOfGrade: String,
+        grade: Number,
+      },
+      undergraduate: {
+        typeOfGrade: String,
+        grade: Number,
+      },
+      postgraduate: {
         typeOfGrade: String,
         grade: Number,
       },
