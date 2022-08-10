@@ -80,6 +80,12 @@ const JobAdd = ({ job, user }) => {
     signature: job?.owner?.signature,
   });
 
+  const [team, setTeam] = useState({
+    placementOfficer: job?.team?.placementOfficer,
+    dataTeamLead: job?.team?.dataTeamLead,
+    processTeamLead: job?.team?.processTeamLead,
+  });
+
   const [placed, setPlaced] = useState(job?.eligibility?.placed);
   const [salary, setSalary] = useState(job?.eligibility?.salary || 0);
 
@@ -224,6 +230,7 @@ const JobAdd = ({ job, user }) => {
         code: user.college.code,
       },
       owner,
+      team,
       company: name,
       program: typeOfProgram,
       website,
@@ -564,6 +571,45 @@ const JobAdd = ({ job, user }) => {
                   id='ownername'
                   value={owner.name}
                   onChange={(e) => setOwner({ ...owner, name: e.target.value })}
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                />
+              </div>
+              <div className='sm:col-span-2'>
+                <label htmlFor='placementOName' className='block text-sm font-medium text-gray-700'>
+                  Placement Officer Name
+                </label>
+                <input
+                  type='text'
+                  name='placementOName'
+                  id='placementOName'
+                  value={team.placementOfficer}
+                  onChange={(e) => setTeam({ ...team, placementOfficer: e.target.value })}
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-200 rounded-md'
+                />
+              </div>
+              <div className='sm:col-span-2'>
+                <label htmlFor='dataLead' className='block text-sm font-medium text-gray-700'>
+                  Data Team Lead
+                </label>
+                <input
+                  type='text'
+                  name='dataLead'
+                  id='dataLead'
+                  value={team.dataTeamLead}
+                  onChange={(e) => setTeam({ ...team, dataTeamLead: e.target.value })}
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-200 rounded-md'
+                />
+              </div>
+              <div className='sm:col-span-2'>
+                <label htmlFor='processLead' className='block text-sm font-medium text-gray-700'>
+                  Process Team Lead
+                </label>
+                <input
+                  type='text'
+                  name='processLead'
+                  id='processLead'
+                  value={team.processTeamLead}
+                  onChange={(e) => setTeam({ ...team, processTeamLead: e.target.value })}
                   className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
