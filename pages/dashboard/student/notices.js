@@ -33,7 +33,7 @@ const Notice = ({ user }) => {
                     <img className="w-16 h-16 " src={x.author.image} />
                   </div>
                   <div>
-                    <div className="text-[16px] font-semibold">{x.title}</div>
+                    <div className="text-[16px] font-semibold ">{x.title}</div>
                     <div className="text-sm font-light">
                       {x.author.name +
                         " - " +
