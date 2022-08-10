@@ -93,7 +93,7 @@ const JobAdd = ({ user, notice }) => {
       <div className="space-y-6 max-w-6xl mx-auto py-8">
         <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
           <div className="mb-5 md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">Create Notice</h3>
+            <h3 className="text-lg font-medium leading-6 text-gray-900">Edit Notice</h3>
             <p className="mt-1 text-sm text-gray-500">
               This information will be displayed publicly so be careful what you share.
             </p>
@@ -150,7 +150,7 @@ const JobAdd = ({ user, notice }) => {
               </div>
             </form>
             <div className="flex justify-end mt-6">
-              <Link href={`/dashboard/college/jobs`}>
+              <Link href={`/dashboard/college/notices`}>
                 <button
                   type="button"
                   className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
