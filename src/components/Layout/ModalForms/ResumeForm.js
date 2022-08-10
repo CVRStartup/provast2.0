@@ -106,15 +106,13 @@ export const ResumeForm = () => {
               <div className='mt-1 flex rounded-md shadow-sm mr-2'>
                 <input
                   type='checkbox'
-                  name='resume'
-                  id='resume'
-                  placeholder='Ex:- Full Stack Developer'
-                  value={name}
+                  name='import'
+                  id='import'
                   onChange={(e) => setImportFromPublicResume(!importFromPublicResume)}
-                  className='outline'
+                  className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300 rounded'
                 />
               </div>
-              <label htmlFor='hobby' className='block text-[13px] text-gray-200'>
+              <label htmlFor='import' className='block text-[13px] text-white mt-1'>
                 Import resume data from your public resume
               </label>
             </div>
