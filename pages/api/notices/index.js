@@ -40,9 +40,9 @@ const searchNotices = async (req, res) => {
     }).sort({ $natural: -1 });
 
     if (notices.length > 0) {
-      return res.status(200).json({ message: "jobs Found", notices });
+      return res.status(200).json({ message: "Notices Found", notices });
     } else {
-      return res.status(200).json({ message: "jobs not found", notices: [] });
+      return res.status(200).json({ message: "Notices not found", notices: [] });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });

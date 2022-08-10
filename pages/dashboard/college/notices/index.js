@@ -1,84 +1,94 @@
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { JobCard } from "../../../../src/components/Jobs/JobCard";
-import { JobCardSkeleton } from "../../../../src/components/Layout/Skeletons/JobCardSkeleton";
-import { useJobs } from "../../../../src/hooks/useJobs";
+import { useNotices } from "../../../../src/hooks/useNotices";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
 
-const Jobs = ({ user }) => {
-  const { jobs, isLoading } = useJobs(user);
-  const [filteredJobs, setFilteredJobs] = useState([]);
-  useEffect(() => {
-    setFilteredJobs(jobs);
-  }, [jobs]);
+const Notice = ({ user }) => {
+  const { notices, isLoading } = useNotices(user);
 
   return (
-    <div className="px-5 overflow-auto w-[100%] pt-[10vh]">
-      <div className="w-[70%] mt-4 mx-auto rounded-md h-14 px-10 bg-gray-800 flex items-center justify-between">
-        <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+    <div className='px-5 min-h-screen overflow-auto w-[100%] pt-[10vh]'>
+      <div className='mt-4 mx-auto rounded-md h-14 px-10 bg-gray-800 flex items-center justify-between'>
+        <div className='flex-1 min-w-0'>
+          <h2 className='text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate'>
             Notices
           </h2>
         </div>
-        <div className="mt-4 flex md:mt-0 md:ml-4">
-          <Link href="/dashboard/college/notices/add">
-            <a className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-orange-500">
+        <div className='mt-4 flex md:mt-0 md:ml-4'>
+          <Link href='/dashboard/college/notices/add'>
+            <a className='ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-orange-500'>
               Publish
             </a>
           </Link>
         </div>
       </div>
-      <div className="flex justify-between items-start mt-5">
-        <div className="w-[70%] mx-auto flex">
-          <div className="bg-gray-50 min-h-[85vh] rounded-md p-2 w-full">
-            <div className="min-w-0">
-              <div className="lg:min-w-0">
-                <div className="h-full px-1">
-                  <div className="mt-4 relative h-full" style={{ minHeight: "36rem" }}>
-                    {isLoading ? (
-                      <JobCardSkeleton />
-                    ) : filteredJobs?.length > 0 ? (
-                      <div className="flex flex-col">
-                        {filteredJobs?.map((job) => (
-                          <JobCard key={job._id} job={job} />
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="flex mt-10 flex-col justify-center items-center w-full">
-                        <div className="relative flex-shrink-0 flex justify-center h-72 w-full">
-                          <Image
-                            placeholder="blur"
-                            blurDataURL="/no_results.png"
-                            layout="fill"
-                            objectFit="contain"
-                            src="/no_results.png"
-                            alt=""
-                          />
-                        </div>
-                        <h6 className="text-3xl font-semibold text-gray-400">No Jobs Found</h6>
-                      </div>
-                    )}
-                  </div>
+      {notices?.length > 0 ? (
+        <div className='px-4 sm:px-6 lg:px-8'>
+          <div className='mt-8 flex flex-col'>
+            <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
+              <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
+                <div className='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg'>
+                  <table className='min-w-full divide-y divide-gray-300'>
+                    <thead className='bg-gray-50'>
+                      <tr>
+                        <th
+                          scope='col'
+                          className='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6'
+                        >
+                          Title
+                        </th>
+                        <th
+                          scope='col'
+                          className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
+                        >
+                          Description
+                        </th>
+                        <th
+                          scope='col'
+                          className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
+                        >
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className='bg-white'>
+                      {notices?.map((notice, noticeIdx) => (
+                        <tr
+                          key={notice._id}
+                          className={noticeIdx % 2 === 0 ? undefined : "bg-gray-50"}
+                        >
+                          <Link href={`/dashboard/college/notices/${notice._id}/edit`}>
+                            <td className='truncate whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 hover:underline cursor-pointer sm:pl-6'>
+                              {notice.title}
+                            </td>
+                          </Link>
+                          <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+                            <p
+                              className='text-sm truncate'
+                              dangerouslySetInnerHTML={{ __html: notice.description }}
+                            />
+                          </td>
+                          <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+                            {notice.status}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <style>{`
-        iframe {
-          height: 150px;
-          width: 100%;
-          padding: 5px;
-          margin: 0px auto;
-        }
-      `}</style>
+      ) : (
+        <h3 className='mt-3 text-lg text-gray-800'>There are no notices posted by you.</h3>
+      )}
     </div>
   );
 };
+
 export const getServerSideProps = async ({ req, res }) => {
   res.setHeader("Cache-Control", "public, s-maxage=10, stale-while-revalidate=59");
   const session = await getLoginSession(req);
@@ -119,4 +129,4 @@ export const getServerSideProps = async ({ req, res }) => {
     props: {},
   };
 };
-export default Jobs;
+export default Notice;
