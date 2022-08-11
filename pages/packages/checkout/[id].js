@@ -62,7 +62,14 @@ const CheckoutSlug = ({ userDetails, id }) => {
       data: { order },
     } = await axios.get(`/api/payment/?amount=${finalAmount}`);
 
-    console.log(order);
+    return { amount: order.amount, orderId: order.id };
+  };
+
+  const createTransferOrder = async (amount) => {
+    const finalAmount = Math.max(0, amount - (payment?.plan ? payment?.plan?.amount : 0));
+    const {
+      data: { order },
+    } = await axios.get(`/api/payment/transfers?amount=${finalAmount}`);
 
     return { amount: order.amount, orderId: order.id };
   };
@@ -91,34 +98,27 @@ const CheckoutSlug = ({ userDetails, id }) => {
       return;
     }
 
-    const { amount, orderId } = await createOrder(
-      Math.floor(Number(plan?.price) + Number(getEighteenPercent(plan?.price)))
-    );
-
     if (id == 3) {
-      var options = {
-        key: process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-        name: "Prochal",
-        currency: "INR",
-        amount: amount,
-        order_id: orderId,
-        description: "Thanks for choosing Prochal.",
-        transfers: [
-          {
-            account: process.env.SRM_linked_bank_account,
-            amount: amount,
-            currency: "INR",
-            notes: {
-              branch: "SRM IST",
-              name: "Placements",
-            },
-            linked_account_notes: ["Placements"],
-            on_hold: 0,
-          },
-        ],
-        image: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png",
-        handler: async function (response) {
-          if (response) {
+      var { amount, orderId } = await createTransferOrder(
+        Math.floor(Number(plan?.price) + Number(getEighteenPercent(plan?.price)))
+      );
+    } else {
+      var { amount, orderId } = await createOrder(
+        Math.floor(Number(plan?.price) + Number(getEighteenPercent(plan?.price)))
+      );
+    }
+
+    var options = {
+      key: process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+      name: "Prochal",
+      currency: "INR",
+      amount: amount,
+      order_id: orderId,
+      description: "Thankyou for your test donation",
+      image: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png",
+      handler: async function (response) {
+        if (response) {
+          if (id == 3) {
             const {
               data: { message },
             } = await axios.post("/api/payment/crt", {
@@ -134,24 +134,7 @@ const CheckoutSlug = ({ userDetails, id }) => {
               toast.success(message, { toastId: message });
               router.push(`/dashboard/student`);
             } else toast.error(message, { toastId: message });
-          }
-        },
-        prefill: {
-          email: email && email,
-          contact: phone && phone,
-        },
-      };
-    } else {
-      var options = {
-        key: process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-        name: "Prochal",
-        currency: "INR",
-        amount: amount,
-        order_id: orderId,
-        description: "Thankyou for your test donation",
-        image: "https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png",
-        handler: async function (response) {
-          if (response) {
+          } else {
             const {
               data: { message },
             } = await axios.put("/api/payment/verification", {
@@ -169,13 +152,13 @@ const CheckoutSlug = ({ userDetails, id }) => {
               router.push(`/packages`);
             } else toast.error(message, { toastId: message });
           }
-        },
-        prefill: {
-          email: email && email,
-          contact: phone && phone,
-        },
-      };
-    }
+        }
+      },
+      prefill: {
+        email: email && email,
+        contact: phone && phone,
+      },
+    };
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
