@@ -10,7 +10,9 @@ const Notice = ({ user }) => {
   const [visbleNotices, setVisibleNotices] = useState([]);
   useEffect(() => {
     if (!notices) return;
-    const newVisibleNotices = notices.filter((x) => x.visible.some((x) => x.email === user?.email));
+    const newVisibleNotices = notices.filter(
+      (x) => x.visible.length === 0 || x.visible.some((x) => x.email === user?.email)
+    );
     setVisibleNotices([...newVisibleNotices]);
   }, [notices]);
 
@@ -27,7 +29,7 @@ const Notice = ({ user }) => {
         <div className="flex flex-col items-center mt-4">
           {visbleNotices.map((x) => {
             return (
-              <div className="w-[60%] bg-white p-4 rounded-md">
+              <div className="w-[60%] bg-white p-4 rounded-md mb-4">
                 <div className="flex justify-start">
                   <div className=" mr-5 flex justify-center items-center">
                     <img className="w-16 h-16 " src={x.author.image} />
