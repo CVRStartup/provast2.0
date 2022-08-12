@@ -12,7 +12,7 @@ export const Questionnaire = ({ job }) => {
               <div className='flex justify-between items-center'>
                 <div className='w-[80%]'>
                   <span className='text-md font-semibold'>{questionObj.question.questionName}</span>
-                  <span className='text-xs ml-2 text-red-500'>
+                  <span className='text-xs ml-2 text-orange-500'>
                     ({questionObj.question.required ? "Required" : "Optional"})
                   </span>
                 </div>
