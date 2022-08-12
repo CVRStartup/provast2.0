@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel, MdPendingActions } from "react-icons/md";
 import { useModelContext } from "../../context/ModalContext";
-import { useStudents } from "../../hooks/useStudents";
-import { useUser } from "../../lib/hooks";
 import Paginate from "../Layout/Paginate";
 
 export const EligibleTable = ({ eligible, heading, tagline }) => {
