@@ -293,7 +293,7 @@ const Students = ({ user }) => {
                     <p className='mt-1 text-sm text-gray-600'>
                       Search directory of {students.length} students.
                     </p>
-                    <form className='mt-6 flex space-x-4' action='#'>
+                    <div className='mt-6 flex space-x-4'>
                       <div className='flex-1 min-w-0'>
                         <label htmlFor='search' className='sr-only'>
                           Search
@@ -329,7 +329,7 @@ const Students = ({ user }) => {
                         <FilterIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
                         <span className='sr-only'>Search</span>
                       </button>
-                    </form>
+                    </div>
                   </div>
                   {/* Directory list */}
                   <nav className='flex-1 min-h-0 overflow-y-auto' aria-label='Directory'>
