@@ -1,6 +1,6 @@
 import { NextSeo } from "next-seo";
+import { Contact } from "../src/components/Landing/Contact";
 import { CTA } from "../src/components/Landing/CTA";
-import { Footer } from "../src/components/Landing/Footer";
 import { Guide } from "../src/components/Landing/Guide";
 import { Slider } from "../src/components/Landing/Slider";
 import { Testimonials } from "../src/components/Landing/Testimonials";
@@ -49,16 +49,14 @@ const Index = () => {
           cardType: "summary_large_image",
         }}
       />
-      <div className='bg-white'>
-        <Navbar />
-        <main className='pt-[10vh] mb-10'>
-          <Slider />
-          <Guide />
-          <Testimonials />
-          <CTA />
-          <Footer />
-        </main>
-      </div>
+
+      <main className='pt-[10vh] mb-10'>
+        <Slider />
+        <Guide />
+        <Testimonials />
+        <CTA />
+        <Contact />
+      </main>
     </>
   );
 };

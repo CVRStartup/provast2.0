@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Footer } from "./Layout/Footer";
 import { Navbar } from "./Layout/Navbar";
 
 const Layout = (props) => (
@@ -7,9 +8,10 @@ const Layout = (props) => (
       <title>Provast</title>
     </Head>
     <Navbar />
-    <main>
-      <div className=''>{props.children}</div>
+    <main className='min-h-screen'>
+      <div>{props.children}</div>
     </main>
+    <Footer />
   </>
 );
 
