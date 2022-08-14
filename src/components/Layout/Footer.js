@@ -3,11 +3,11 @@ import Link from "next/link";
 
 const navigation = {
   main: [
-    { name: "About Us", href: "#about-us" },
-    { name: "Contact Us", href: "#contact-us" },
-    { name: "Privacy Policy", href: "#privacy-policy" },
-    { name: "Refund Policy", href: "#refund-policy" },
-    { name: "Terms And Conditions", href: "#terms-and-conditions" },
+    { name: "About Us", href: "/#about-us" },
+    { name: "Contact Us", href: "/#contact-us" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Refund Policy", href: "/refund-policy" },
+    { name: "Terms And Conditions", href: "/terms-and-conditions" },
   ],
 };
 
@@ -30,11 +30,11 @@ export const Footer = () => {
         </div>
         <nav className='-mx-5 -my-2 flex flex-wrap justify-center' aria-label='Footer'>
           {navigation.main.map((item) => (
-            <div key={item.name} className='px-5 py-2'>
-              <a href={item.href} className='text-base text-white hover:text-gray-600'>
-                {item.name}
-              </a>
-            </div>
+            <Link href={item.href} key={item.name}>
+              <div className='cursor-pointer px-5 py-2'>
+                <a className='text-base text-white hover:text-gray-600'>{item.name}</a>
+              </div>
+            </Link>
           ))}
         </nav>
         <p className='mt-8 text-center text-base text-white'>

@@ -11,11 +11,10 @@ export const Contact = () => {
             </h2>
             <div className='mt-3'>
               <p className='text-lg text-gray-500'>
-                Nullam risus blandit ac aliquam justo ipsum. Quam mauris volutpat massa dictumst
-                amet. Sapien tortor lacus arcu.
+                Any queries related to sales please contact the mentioned email.
               </p>
             </div>
-            <div className='mt-9'>
+            <div className='mt-2'>
               <div className='mt-6 flex'>
                 <div className='flex-shrink-0'>
                   <MailIcon className='h-6 w-6 text-gray-400' aria-hidden='true' />
@@ -32,11 +31,10 @@ export const Contact = () => {
             </h2>
             <div className='mt-3'>
               <p className='text-lg text-gray-500'>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni, repellat error
-                corporis doloribus similique, voluptatibus numquam quam.
+                For any technical support needed please contact the mentioned email.
               </p>
             </div>
-            <div className='mt-9'>
+            <div className='mt-2'>
               <div className='mt-6 flex'>
                 <div className='flex-shrink-0'>
                   <MailIcon className='h-6 w-6 text-gray-400' aria-hidden='true' />

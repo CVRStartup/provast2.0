@@ -1,10 +1,10 @@
 import { NextSeo } from "next-seo";
+import { About } from "../src/components/Landing/About";
 import { Contact } from "../src/components/Landing/Contact";
 import { CTA } from "../src/components/Landing/CTA";
 import { Guide } from "../src/components/Landing/Guide";
 import { Slider } from "../src/components/Landing/Slider";
 import { Testimonials } from "../src/components/Landing/Testimonials";
-import { Navbar } from "../src/components/Layout/Navbar";
 import { getLoginSession } from "../src/lib/auth";
 import { findUser } from "../src/lib/user";
 
@@ -55,6 +55,7 @@ const Index = () => {
         <Guide />
         <Testimonials />
         <CTA />
+        <About />
         <Contact />
       </main>
     </>
