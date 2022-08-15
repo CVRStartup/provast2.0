@@ -5,6 +5,7 @@ const navigation = {
   main: [
     { name: "About Us", href: "/#about-us" },
     { name: "Contact Us", href: "/#contact-us" },
+    { name: "Pricing", href: "/packages" },
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Refund Policy", href: "/refund-policy" },
     { name: "Terms And Conditions", href: "/terms-and-conditions" },
