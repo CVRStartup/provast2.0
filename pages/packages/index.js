@@ -451,22 +451,6 @@ const Packages = ({ userDetails }) => {
 export const getServerSideProps = async ({ req, res }) => {
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/auth/login",
-        permanent: false,
-      },
-    };
-  }
-  if (!user.detailsAvailable) {
-    return {
-      redirect: {
-        destination: "/auth/user/details",
-        permanent: false,
-      },
-    };
-  }
 
   return {
     props: {
