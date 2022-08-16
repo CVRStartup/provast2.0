@@ -44,7 +44,7 @@ const Notice = ({ user }) => {
                   </div>
                 </div>
                 <div className='mt-5' dangerouslySetInnerHTML={{ __html: x.description }} />
-                {attachment && (
+                {x.attachment && (
                   <div className='p-4 flex items-center justify-center'>
                     <img src={x.attachment} alt='' />
                   </div>
