@@ -9,6 +9,10 @@ export default async function handler(req, res) {
   }
 }
 
+const getTwoPercent = (amount) => {
+  return ((amount / 100) * 2).toFixed(2);
+};
+
 const createTransferOrder = async (req, res) => {
   try {
     const instance = new Razorpay({
@@ -25,7 +29,7 @@ const createTransferOrder = async (req, res) => {
         transfers: [
           {
             account: process.env.razorpay_SRM,
-            amount: amount * 100,
+            amount: amount * 100 - getTwoPercent(amount * 100),
             currency: "INR",
             on_hold: 0,
           },
