@@ -4,7 +4,7 @@ export const Contact = () => {
   return (
     <div id='contact-us' className='bg-white'>
       <div className='max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8'>
-        <div className='max-w-lg mx-auto md:max-w-none md:grid md:grid-cols-2 md:gap-8'>
+        <div className='max-w-lg mx-auto md:max-w-none md:grid md:grid-cols-3 md:gap-8'>
           <div>
             <h2 className='text-2xl font-bold text-gray-900 sm:text-3xl sm:tracking-tight'>
               Sales Support
@@ -43,6 +43,16 @@ export const Contact = () => {
                   <p>provastcvr@gmail.com</p>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className='mt-12 sm:mt-16 md:mt-0'>
+            <h2 className='text-2xl font-bold text-gray-900 sm:text-3xl sm:tracking-tight'>
+              Our Office
+            </h2>
+            <div className='mt-3'>
+              <p className='text-lg text-gray-500'>
+                #403 D Block Madhavaram Serenity, Karmanghat, Hyderabad, Telangana, 500035, India.
+              </p>
             </div>
           </div>
         </div>
