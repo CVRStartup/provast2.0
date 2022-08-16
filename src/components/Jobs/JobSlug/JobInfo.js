@@ -152,7 +152,6 @@ export const JobInfo = ({ job }) => {
           </div>
         </section>
 
-        {/* Comments*/}
         <section aria-labelledby='notes-title'>
           <div className='bg-white shadow sm:rounded-lg sm:overflow-hidden'>
             <div className='divide-y divide-gray-200'>

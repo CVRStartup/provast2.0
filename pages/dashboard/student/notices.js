@@ -17,39 +17,44 @@ const Notice = ({ user }) => {
   }, [notices]);
 
   return (
-    <div className="px-5 min-h-screen overflow-auto w-[100%] pt-[10vh] bg-gray-200">
-      <div className="mt-4 mx-auto rounded-md h-14 px-10 bg-gray-800 flex items-center justify-between">
-        <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+    <div className='px-5 min-h-screen overflow-auto w-[100%] pt-[10vh] bg-gray-200'>
+      <div className='mt-4 mx-auto rounded-md h-14 px-10 bg-gray-800 flex items-center justify-between'>
+        <div className='flex-1 min-w-0'>
+          <h2 className='text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate'>
             Notices
           </h2>
         </div>
       </div>
       {visbleNotices?.length > 0 ? (
-        <div className="flex flex-col items-center mt-4">
+        <div className='flex flex-col items-center mt-4'>
           {visbleNotices.map((x) => {
             return (
-              <div className="w-[60%] bg-white p-4 rounded-md mb-4">
-                <div className="flex justify-start">
-                  <div className=" mr-5 flex justify-center items-center">
-                    <img className="w-16 h-16 " src={x.author.image} />
+              <div className='w-[60%] bg-white p-4 rounded-md mb-4'>
+                <div className='flex justify-start'>
+                  <div className=' mr-5 flex justify-center items-center'>
+                    <img className='w-16 h-16 ' src={x.author.image} />
                   </div>
                   <div>
-                    <div className="text-[16px] font-semibold ">{x.title}</div>
-                    <div className="text-sm font-light">
+                    <div className='text-[16px] font-semibold '>{x.title}</div>
+                    <div className='text-sm font-light'>
                       {x.author.name +
                         " - " +
                         moment(new Date(x.createdAt)).startOf("hour").fromNow()}
                     </div>
                   </div>
                 </div>
-                <div className="mt-5" dangerouslySetInnerHTML={{ __html: x.description }} />
+                <div className='mt-5' dangerouslySetInnerHTML={{ __html: x.description }} />
+                {attachment && (
+                  <div className='p-4 flex items-center justify-center'>
+                    <img src={x.attachment} alt='' />
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
       ) : (
-        <h3 className="mt-3 text-lg text-gray-800">There are no notices posted for you.</h3>
+        <h3 className='mt-3 text-lg text-gray-800'>There are no notices posted for you.</h3>
       )}
     </div>
   );
