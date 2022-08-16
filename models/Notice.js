@@ -7,6 +7,7 @@ const NoticeSchema = mongoose.Schema(
       name: String,
       image: String,
     },
+    attachment: String,
     college: {
       name: String,
       code: String,

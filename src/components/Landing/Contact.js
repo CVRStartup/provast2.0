@@ -1,4 +1,4 @@
-import { MailIcon, PhoneIcon } from "@heroicons/react/outline";
+import { MailIcon } from "@heroicons/react/outline";
 
 export const Contact = () => {
   return (

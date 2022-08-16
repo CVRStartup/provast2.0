@@ -5,13 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Loader } from "../../../../src/components/Layout/Loader";
-import { countries } from "../../../../src/lib/helper";
 import { BsFillCameraFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { getLoginSession } from "../../../../src/lib/auth";
 import { findUser } from "../../../../src/lib/user";
-import { usePersonal } from "../../../../src/hooks/usePersonal";
 
 const ProfileEdit = ({ userDetails }) => {
   const user = JSON.parse(userDetails);

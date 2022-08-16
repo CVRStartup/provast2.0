@@ -9,16 +9,39 @@ import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
 import Link from "next/link";
 import * as XLSX from "xlsx";
+import { Loader } from "../../../../../src/components/Layout/Loader";
+import { useModelContext } from "../../../../../src/context/ModalContext";
 
 const JobAdd = ({ user, notice }) => {
   const router = useRouter();
   const [description, setDescription] = useState(notice.description);
+  const { loading, setLoading } = useModelContext();
   const [title, setTitle] = useState(notice.title);
+  const [attachment, setAttachment] = useState(notice.attachment);
   const [eligible, setEligible] = useState(notice.visible);
   const [excelFileError, setExcelFileError] = useState("");
   const [selectedStatus, setSelectedStatus] = useState(
     status.filter((x) => x.name == notice.status)[0]
   );
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "uploads");
+    try {
+      setLoading(true);
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/dj7nomqfd/image/upload",
+        formData
+      );
+      setLoading(false);
+      const { url } = uploadRes.data;
+      setAttachment(url);
+    } catch (error) {
+      toast.error(error, { toastId: error });
+    }
+  };
 
   const handleCallBack = (data) => {
     setDescription(data);
@@ -77,6 +100,7 @@ const JobAdd = ({ user, notice }) => {
       description: description,
       status: selectedStatus.name,
       visible: eligible,
+      attachment,
     });
 
     if (message == "Notice Updated") {
@@ -88,8 +112,7 @@ const JobAdd = ({ user, notice }) => {
   };
 
   return (
-    <main className='bg-gray-50 h-screen pt-[15vh]'>
-      {/* {loading.type === "add" && loading.status === true ? <Loading /> : ""} */}
+    <main className='bg-gray-50 pt-[15vh]'>
       <div className='space-y-6 max-w-6xl mx-auto py-8'>
         <div className='bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>
           <div className='mb-5 md:col-span-1'>
@@ -147,6 +170,44 @@ const JobAdd = ({ user, notice }) => {
                   selectedOption={selectedStatus}
                   setSelectedOption={setSelectedStatus}
                 />
+              </div>
+
+              <div className='sm:col-span-6'>
+                <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+                  Attachment
+                </label>
+                <div className='mt-1'>
+                  <div className='sm:mt-0 sm:col-span-2'>
+                    {loading ? (
+                      <div className='animate-pulse'>
+                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
+                      </div>
+                    ) : (
+                      <input
+                        type='text'
+                        value={attachment}
+                        disabled={true}
+                        onChange={(e) => setAttachment(e.target.value)}
+                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                      />
+                    )}
+                    {loading ? (
+                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
+                        <Loader size={8} color='gray' />
+                        Please Wait...
+                      </div>
+                    ) : (
+                      <input
+                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                        label='Choose File'
+                        type='file'
+                        name='image'
+                        id='profileImg'
+                        onChange={(e) => uploadFileHandler(e)}
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
             </form>
             <div className='flex justify-end mt-6'>
