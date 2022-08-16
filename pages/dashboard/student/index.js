@@ -238,12 +238,23 @@ export const getServerSideProps = async ({ req, res }) => {
   } = await axios.get(`${process.env.HOST_URL}/api/payment/${user?._id}`);
 
   if (!payment) {
-    const { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
-      user: user?._id,
-      amount: 0,
-      plan: "free",
-      modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
-    });
+    if (user?.college?.name === "SRM Institute of Science and Technology") {
+      var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
+        user: user?._id,
+        amount: 211,
+        plan: "Essential",
+        email: user?.email,
+        phone: user?.phone?.value,
+        modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
+      });
+    } else {
+      var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
+        user: user?._id,
+        amount: 0,
+        plan: "free",
+        modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
+      });
+    }
   }
 
   return {
