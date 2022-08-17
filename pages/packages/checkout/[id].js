@@ -32,7 +32,7 @@ const plans = [
   },
   {
     name: "SRM CRT",
-    price: 12711.8644068,
+    price: 5190.6779661,
     tier: 4,
     description: "Orci volutpat ut sed sed neque, dui eget. Quis tristique non.",
   },
