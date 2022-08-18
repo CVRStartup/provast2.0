@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useModelContext } from "../../../context/ModalContext";
 import { useResumeContext } from "../../../context/ResumeContext";
 import { FormToggle } from "../../Resumes/Displays/Shared/FormToggle";
-import { Toggle } from "../../Resumes/Displays/Shared/Toggle";
 import { MarkdownSupporter } from "../../Resumes/MarkdownSupporter";
 
 export const AwardForm = () => {
