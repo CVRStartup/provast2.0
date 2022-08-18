@@ -26,9 +26,18 @@ const updateJob = async (req, res) => {
       });
     } else {
       neweligible = job?.eligible;
-      neweligible.push(req.body.newstatus);
+      let index = -1;
+      neweligible?.some((x, idx) => {
+        if (x.email === req.query.email) {
+          index = idx;
+          return true;
+        }
+      });
+
+      if (index == -1) neweligible.push(req.body.newstatus);
+      else neweligible[index] = req.body.newstatus;
     }
-    console.log(neweligible);
+
     job.eligible = neweligible;
     const updated = await Jobs.findByIdAndUpdate(req.query.id, job, {
       new: true,
