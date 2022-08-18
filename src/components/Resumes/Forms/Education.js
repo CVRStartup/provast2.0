@@ -60,6 +60,8 @@ export const EducationForm = () => {
         });
       } else newstate.push({ ...option, typeOfDegree: selected });
       setEducation([...newstate]);
+      console.log(newstate);
+      console.log({ ...resume, education: newstate });
       debounceUpdateResume({ ...resume, education: newstate });
       closeModal();
     }

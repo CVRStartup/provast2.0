@@ -48,7 +48,7 @@ export const EducationDisplay = () => {
                 key={option._id}
                 id={option._id}
                 name={option.institution}
-                caption={option.typeOfDegree}
+                caption={option.typeOfDegree.name}
                 description={option.fieldOfStudy}
                 enabled={option.enabled}
                 setEnabled={setEnabled}
