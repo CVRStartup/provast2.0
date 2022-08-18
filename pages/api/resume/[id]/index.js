@@ -22,9 +22,7 @@ const searchResumeDetails = async (req, res) => {
     if (!resumeId) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
-
     const resume = await ResumeDetails.findById(resumeId);
-
     if (resume) {
       return res.status(200).json({ message: "Resume Found", resume });
     } else {
@@ -42,13 +40,11 @@ const updateResumeDetails = async (req, res) => {
     if (!resumeId) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
-    console.log(resumeId);
     const resume = await ResumeDetails.findByIdAndUpdate(
       resumeId,
       { ...req.body.res },
       { new: true }
     );
-    console.log(resume);
     if (resume) {
       return res.status(200).json({ message: "Resume Updated", resume });
     } else {

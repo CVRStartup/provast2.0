@@ -47,6 +47,7 @@ export const EducationForm = () => {
     const newErrorState = {
       from: verifyDates(option.startDate, option.endDate).from,
       to: verifyDates(option.startDate, option.endDate).to,
+      grade: validate(option.gpa) === "Accepted" ? null : validate(option.gpa),
     };
     setError(newErrorState);
     if (!newErrorState.from && !newErrorState.to && !newErrorState.grade) {
@@ -57,7 +58,6 @@ export const EducationForm = () => {
           return x;
         });
       } else newstate.push({ ...option, typeOfDegree: selected });
-      console.log("Hello");
       setEducation([...newstate]);
       debounceUpdateResume({ ...resume, education: newstate });
       closeModal();
