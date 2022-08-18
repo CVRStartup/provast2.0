@@ -17,21 +17,19 @@ export const ExtraOption = ({ skill, setSkill, showLevel }) => {
     setSkill(skill.id, skill.enabled, option.name);
   };
   return (
-    <div key={skill.id} className="mt-3 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+    <div key={skill.id} className='mt-3 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6'>
       <div
-        className="sm:col-span-3 flex items-center text-white"
+        className='sm:col-span-3 flex items-center text-white'
         onClick={() => setSkill(skill.id, !skill.enabled, skill.level)}
       >
         <span
-          className={`border border-2 ${
-            skill.enabled ? "border-orange-500" : ""
-          } rounded-full p-2 mr-4`}
+          className={`border-2 ${skill.enabled ? "border-orange-500" : ""} rounded-full p-2 mr-4`}
         >
           <skill.icon size={24} />
         </span>
-        <span className="text-lg"> {skill.name}</span>
+        <span className='text-lg'> {skill.name}</span>
       </div>
-      <div className="sm:col-span-3">
+      <div className='sm:col-span-3'>
         {showLevel && (
           <Listbox
             value={options.filter((x) => x.name === skill.level)[0]}
@@ -40,27 +38,27 @@ export const ExtraOption = ({ skill, setSkill, showLevel }) => {
           >
             {({ open }) => (
               <>
-                <Listbox.Label className="block uppercase tracking-wider text-[10px] font-medium text-gray-400">
+                <Listbox.Label className='block uppercase tracking-wider text-[10px] font-medium text-gray-400'>
                   Level
                 </Listbox.Label>
-                <div className="mt-1 relative ">
-                  <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm ">
-                    <span className="block truncate">
+                <div className='mt-1 relative '>
+                  <Listbox.Button className='bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm '>
+                    <span className='block truncate'>
                       {options.filter((x) => x.name === skill.level)[0].name}
                     </span>
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none'>
+                      <SelectorIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
                     </span>
                   </Listbox.Button>
 
                   <Transition
                     show={open}
                     as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+                    leave='transition ease-in duration-100'
+                    leaveFrom='opacity-100'
+                    leaveTo='opacity-0'
                   >
-                    <Listbox.Options className="z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                    <Listbox.Options className='z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm'>
                       {options.map((option) => (
                         <Listbox.Option
                           key={option.id}
@@ -90,7 +88,7 @@ export const ExtraOption = ({ skill, setSkill, showLevel }) => {
                                     "absolute inset-y-0 right-0 flex items-center pr-4"
                                   )}
                                 >
-                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  <CheckIcon className='h-5 w-5' aria-hidden='true' />
                                 </span>
                               ) : null}
                             </>

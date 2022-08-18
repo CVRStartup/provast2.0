@@ -138,7 +138,7 @@ export const AwardForm = () => {
               )}
             </div>
           </div>
-          <div className='sm:col-span-6   '>
+          <div className='sm:col-span-6'>
             <label
               htmlFor='awardsSummary'
               className='block uppercase tracking-wider text-[10px] font-medium text-gray-400'
@@ -163,21 +163,6 @@ export const AwardForm = () => {
                 }
                 className='flex-1 focus:ring-orange-500 focus:border-orange-500 block w-full min-w-0 rounded-sm sm:text-sm border-gray-300'
               />
-            </div>
-            <div className='flex items-center my-3'>
-              <Toggle
-                enabled={option?.summary?.enabled}
-                setEnabled={(val) =>
-                  setOption({
-                    ...option,
-                    summary: {
-                      ...option?.summary,
-                      enabled: val,
-                    },
-                  })
-                }
-              />
-              <p className='text-white ml-2 text-sm'>Display summary in resume</p>
             </div>
             <MarkdownSupporter />
           </div>

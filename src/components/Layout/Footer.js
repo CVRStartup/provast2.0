@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const navigation = {
   main: [
@@ -13,6 +14,15 @@ const navigation = {
 };
 
 export const Footer = () => {
+  const router = useRouter();
+  if (
+    router.pathname.split("/").indexOf("auth") !== -1 ||
+    (router.pathname.split("/")[3] === "resumes" && router.pathname.split("/")[4] === "[id]") ||
+    router.pathname.indexOf("viewresume") !== -1 ||
+    router.pathname.indexOf("checkout") !== -1
+  )
+    return <></>;
+
   return (
     <footer className='bg-gray-900'>
       <div className='max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8'>
