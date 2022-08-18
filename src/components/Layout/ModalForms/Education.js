@@ -36,7 +36,6 @@ export const EducationForm = () => {
     },
     enabled: true,
   });
-
   useEffect(() => {
     if (isEdit) setOption(education.filter((x) => x._id === editId)[0]);
   }, [isEdit, editId, education]);
