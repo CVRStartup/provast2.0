@@ -21,7 +21,13 @@ export const JobHero = ({ job }) => {
     setLoading,
     setDeleteName,
   } = useModelContext();
+
   const [showOptions, setShowOptions] = useState(0);
+  // -1 -> not eligible
+  // 0 -> not yet applied
+  // 1 -> applied
+  // 2 -> not interested
+
   const router = useRouter();
 
   useEffect(() => {
