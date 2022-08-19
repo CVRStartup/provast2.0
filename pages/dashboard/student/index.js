@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useCrt } from "../../../src/hooks/useCrt";
 import { Dialog } from "@headlessui/react";
 import { FaLock } from "react-icons/fa";
+import { useNotices } from "../../../src/hooks/useNotices";
 
 const resources = [
   // {
@@ -43,6 +44,7 @@ const resources = [
 
 const StudentIndex = ({ user }) => {
   const { jobs, isLoading } = useJobs(user);
+  const { notices } = useNotices(user);
   const { crtPayment } = useCrt(user?._id);
   const [filteredJobs, setFilteredJobs] = useState(null);
   const [counts, setCounts] = useState([]);
@@ -64,6 +66,18 @@ const StudentIndex = ({ user }) => {
       setCounts(dataSet);
     })();
   }, [jobs]);
+
+  useEffect(() => {
+    if (!notices || !user) return;
+    let count = 0;
+    notices.forEach((x) => {
+      if (x.seen.filter((x) => x.email === user.email).length === 0) count++;
+    });
+    console.log(count);
+    if (count > 0) {
+      toast.info("You have " + count + " new notice.", { toastId: 1 });
+    }
+  }, [notices, user]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

@@ -6,6 +6,8 @@ export default async function handler(req, res) {
     case "GET":
       await searchNotice(req, res);
       break;
+    case "PUT":
+      await updateNotice(req, res);
   }
 }
 

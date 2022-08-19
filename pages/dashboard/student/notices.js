@@ -4,15 +4,25 @@ import { useState, useEffect } from "react";
 import { useNotices } from "../../../src/hooks/useNotices";
 import { getLoginSession } from "../../../src/lib/auth";
 import { findUser } from "../../../src/lib/user";
+import axios from "axios";
+import { mutate } from "swr";
 
 const Notice = ({ user }) => {
   const { notices, isLoading } = useNotices(user);
   const [visbleNotices, setVisibleNotices] = useState([]);
   useEffect(() => {
-    if (!notices) return;
+    if (!notices || !user) return;
     const newVisibleNotices = notices.filter(
       (x) => x.visible.length === 0 || x.visible.some((x) => x.email === user?.email)
     );
+    notices.forEach((notice) => {
+      if (!notice.seen.some((x) => x.email === user?.email))
+        axios.put("/api/notices", {
+          ...notice,
+          seen: [...notice.seen, { email: user?.email }],
+        });
+    });
+    mutate(`/api/notices?collegename=${user?.college?.name}&collegecode=${user?.college?.code}`);
     setVisibleNotices([...newVisibleNotices]);
   }, [notices]);
 

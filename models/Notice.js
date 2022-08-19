@@ -22,6 +22,11 @@ const NoticeSchema = mongoose.Schema(
         email: String,
       },
     ],
+    seen: [
+      {
+        email: String,
+      },
+    ],
   },
   {
     timestamps: true,
