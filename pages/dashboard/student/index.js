@@ -13,8 +13,6 @@ import { useResumes } from "../../../src/hooks/useResumes";
 import axios from "axios";
 import Link from "next/link";
 import { useCrt } from "../../../src/hooks/useCrt";
-import { Dialog } from "@headlessui/react";
-import { FaLock } from "react-icons/fa";
 import { useNotices } from "../../../src/hooks/useNotices";
 import { useSingleAcademic } from "../../../src/hooks/useSingleAcademic";
 
@@ -155,7 +153,7 @@ const StudentIndex = ({ user }) => {
                           <br />
                           Enrollment Fee : Rs.7500/-{" "}
                           {isEligibleToPay && (
-                            <Link href="/packages/checkout/3">
+                            <Link href="https://rzp.io/i/dnMqcMxY">
                               <button
                                 type="button"
                                 className="ml-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded text-white bg-orange-500 hover:bg-orange-600 "
@@ -303,23 +301,12 @@ export const getServerSideProps = async ({ req, res }) => {
   } = await axios.get(`${process.env.HOST_URL}/api/payment/${user?._id}`);
 
   if (!payment) {
-    if (user?.college?.name === "SRM Institute of Science and Technology") {
-      var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
-        user: user?._id,
-        amount: 211,
-        plan: "Essential",
-        email: user?.email,
-        phone: user?.phone?.value,
-        modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
-      });
-    } else {
-      var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
-        user: user?._id,
-        amount: 0,
-        plan: "free",
-        modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
-      });
-    }
+    var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
+      user: user?._id,
+      amount: 0,
+      plan: "free",
+      modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
+    });
   }
 
   return {
