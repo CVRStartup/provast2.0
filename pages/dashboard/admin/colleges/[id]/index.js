@@ -40,6 +40,13 @@ const Index = ({ id }) => {
     return studentName;
   };
 
+  const getPercentage = (percentage) => {
+    if (!percentage) return "";
+    let n = percentage.length;
+    if (percentage[n - 1] === "%") return percentage.substring(0, n - 1);
+    return percentage;
+  };
+
   const handleFile = (e) => {
     if (!college) return;
     let selectedFile = e.target.files[0];
@@ -55,27 +62,27 @@ const Index = ({ id }) => {
             const worksheet = workbook.Sheets[worksheetName];
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
-              const name = x["Name of Student"].split(" ");
+              const name = x["STUDENT FULL NAME (AS PER SSC)"].split(" ");
               const studentName = getName(name);
               return {
-                email: x["Email Id"] ?? null,
+                email: x["EMAIL ID"] ?? null,
                 detailsAvailable: true,
                 academicsAvailable: false,
                 profile: {
                   ...studentName,
-                  gender: x["Gender"] ?? null,
+                  gender: x["GENDER"] ?? null,
                   verified: false,
                   frozen: false,
                 },
                 approved: true,
                 category: "student",
                 rollNumber: {
-                  value: x["Roll No"] ?? null,
+                  value: x["ROLL NO"] ?? null,
                   frozen: false,
                   verified: false,
                 },
                 phone: {
-                  value: x["Phone Number"] ?? null,
+                  value: x["MOBILE NO"] ?? null,
                   frozen: false,
                   verified: false,
                 },
@@ -145,70 +152,55 @@ const Index = ({ id }) => {
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
               return {
-                rollNumber: x["Roll No"] ?? "",
+                rollNumber: x["ROLL NO"] ?? "",
                 education: [
                   {
-                    institution: college.collegeName,
-                    program: x["Program"] ?? "",
-                    branch: x["Current Course"] ? rename(x["Current Course"]).trim() : "",
+                    institution: x["COLLEGE"],
+                    program: "B.Tech" ?? "",
+                    board: "",
+                    branch: x["DEPARTMENT"] ? rename(x["DEPARTMENT"]).trim() : "",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "CGPA",
-                      grade: x["Current course CGPa"] ?? 0,
+                      grade: getPercentage(x["B.TECH AGGREGATE CGPA"]) ?? 0,
+                    },
+                    batch: {
+                      from: 0,
+                      to: 0,
                     },
                     current: true,
                     verified: false,
                     frozen: false,
                   },
                   {
-                    institution: x["UG School/College"],
-                    program: x["UG Program"] ?? "",
-                    board: x["UG Board/University"] ?? "",
-                    branch: x["UG Branch/Specialization"]
-                      ? rename(x["UG Branch/Specialization"]).trim()
-                      : "",
-                    educationType: "Full Time",
-                    score: {
-                      typeOfGrade: "Percentage",
-                      grade: x["UG percentage"] ?? 0,
-                    },
-                    batch: {
-                      from: 0,
-                      to: x["UG End Year"] ?? 0,
-                    },
-                    current: false,
-                    verified: false,
-                    frozen: false,
-                  },
-                  {
-                    institution: x["Class 12 School"],
+                    institution: "N/A",
                     program: "Class XIIth",
-                    board: x["Class 12 Board"] ?? "",
+                    board: "MPC" ?? "",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "Percentage",
-                      grade: x["Class 12 %"] ?? 0,
+                      grade: getPercentage(x["INTER / DIPLOMA PERCENTAGE"]) ?? 0,
                     },
                     batch: {
                       from: 0,
-                      to: x["12th YOP"] ?? 0,
+                      to: 0,
                     },
                     current: false,
                     verified: false,
                     frozen: false,
                   },
                   {
-                    institution: x["Class 10 School"],
+                    institution: "N/A",
                     program: "Class Xth",
-                    board: x["Class 10 Board"] ?? "",
+                    board: "SSC",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "Percentage",
-                      grade: x["Class 10 %"] ?? 0,
+                      grade: getPercentage(x["10TH PERCENTAGE"]) ?? 0,
                     },
                     batch: {
                       from: 0,
-                      to: x["10th YOP"] ?? 0,
+                      to: 0,
                     },
                     current: false,
                     verified: false,
@@ -245,12 +237,12 @@ const Index = ({ id }) => {
         createdCount += 1;
         branch.add(s.education.branch);
       } catch (e) {
-        if (e.response.data.message !== "Details Already Exists") {
-          failedAccounts.push({
-            account: s,
-            reason: e.response.data.message,
-          });
-        }
+        // if (e.response.data.message !== "Details Already Exists") {
+        failedAccounts.push({
+          account: s,
+          reason: e.response.data.message,
+        });
+        // }
       }
     }
     if (total === createdCount) {
@@ -262,19 +254,19 @@ const Index = ({ id }) => {
     console.log(branch);
   };
   return (
-    <div className='pt-[10vh]'>
+    <div className="pt-[10vh]">
       <div>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+        <div className="sm:col-span-3">
+          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
             Upload Spreadsheet
           </label>
 
           <input
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            label='Choose File'
-            type='file'
-            name='image'
-            id='profileImg'
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            label="Choose File"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handleFile}
           />
           {excelFileError &&
@@ -284,18 +276,18 @@ const Index = ({ id }) => {
         </div>
         <button onClick={handleCreate}>Create</button>
       </div>
-      <div className='pt-[10vh]'>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+      <div className="pt-[10vh]">
+        <div className="sm:col-span-3">
+          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
             Upload Spreadsheet
           </label>
 
           <input
-            label='Choose File'
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            type='file'
-            name='image'
-            id='profileImg'
+            label="Choose File"
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handleEducation}
           />
           {excelFileError &&

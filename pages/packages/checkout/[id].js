@@ -32,7 +32,7 @@ const plans = [
   },
   {
     name: "SRM CRT",
-    price: 5190.6779661,
+    price: 6355.9322,
     tier: 4,
     description: "Orci volutpat ut sed sed neque, dui eget. Quis tristique non.",
   },
@@ -170,35 +170,35 @@ const CheckoutSlug = ({ userDetails, id }) => {
     { name: "Payment", current: step === "payment" },
   ];
   return (
-    <div className='flex'>
-      <div className='flex items-center justify-center w-[50%] h-screen'>
-        <div className='w-[60%] mx-auto'>
-          <div className='relative w-40 h-16 my-2'>
+    <div className="flex">
+      <div className="flex items-center justify-center w-[50%] h-screen">
+        <div className="w-[60%] mx-auto">
+          <div className="relative w-40 h-16 my-2">
             <Image
-              placeholder='blur'
-              blurDataURL='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
-              layout='fill'
-              objectFit='contain'
-              className=''
-              src='https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png'
-              alt=''
+              placeholder="blur"
+              blurDataURL="https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png"
+              layout="fill"
+              objectFit="contain"
+              className=""
+              src="https://res.cloudinary.com/dj7nomqfd/image/upload/v1652909540/pvast_B_fpwhlu.png"
+              alt=""
             />
           </div>
-          <nav className='flex' aria-label='Breadcrumb'>
-            <ol role='list' className='flex items-center space-x-1'>
+          <nav className="flex" aria-label="Breadcrumb">
+            <ol role="list" className="flex items-center space-x-1">
               <li>
                 <div>
                   <Link href={"/packages"}>
-                    <a className='text-gray-400 hover:text-gray-700'>Packages</a>
+                    <a className="text-gray-400 hover:text-gray-700">Packages</a>
                   </Link>
                 </div>
               </li>
               {pages.map((page) => (
-                <li key={page.name} className='mt-[1.5px]'>
-                  <div className='flex items-center'>
+                <li key={page.name} className="mt-[1.5px]">
+                  <div className="flex items-center">
                     <ChevronRightIcon
-                      className='flex-shrink-0 h-5 w-5 text-gray-400'
-                      aria-hidden='true'
+                      className="flex-shrink-0 h-5 w-5 text-gray-400"
+                      aria-hidden="true"
                     />
                     <a
                       href={page.href}
@@ -213,42 +213,42 @@ const CheckoutSlug = ({ userDetails, id }) => {
               ))}
             </ol>
           </nav>
-          <div className='my-5'>
-            <h1 className='block text-lg font-medium text-gray-800'>Payment Details</h1>
-            <p className='text-sm font-semibold text-gray-500 mb-3'>
+          <div className="my-5">
+            <h1 className="block text-lg font-medium text-gray-800">Payment Details</h1>
+            <p className="text-sm font-semibold text-gray-500 mb-3">
               Complete your purchase by providing your payment information.
             </p>
             {step === "personal" && (
-              <div data-aos='fade-left' className='sm:col-span-4 my-4'>
+              <div data-aos="fade-left" className="sm:col-span-4 my-4">
                 <div>
-                  <label htmlFor='email' className='block text-lg font-medium text-gray-500'>
+                  <label htmlFor="email" className="block text-lg font-medium text-gray-500">
                     Email address
                   </label>
-                  <div className='mt-1'>
+                  <div className="mt-1">
                     <input
-                      id='email'
-                      name='email'
-                      type='email'
-                      autoComplete='email'
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
                       onChange={(e) => setEmail(e.target.value)}
                       value={email}
-                      className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                      className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor='phone' className='block text-lg font-medium text-gray-500 mt-3'>
+                  <label htmlFor="phone" className="block text-lg font-medium text-gray-500 mt-3">
                     Phone
                   </label>
-                  <div className='mt-1'>
+                  <div className="mt-1">
                     <input
-                      id='phone'
-                      name='phone'
-                      type='text'
-                      autoComplete='tel'
+                      id="phone"
+                      name="phone"
+                      type="text"
+                      autoComplete="tel"
                       onChange={(e) => setPhone(e.target.value)}
                       value={phone}
-                      className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                      className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
                 </div>
@@ -258,33 +258,33 @@ const CheckoutSlug = ({ userDetails, id }) => {
                       ? setStep("address")
                       : toast.error("Please check your details")
                   }
-                  type='button'
-                  className='my-4 w-full flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800'
+                  type="button"
+                  className="my-4 w-full flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800"
                 >
                   Continue
-                  <MdDoubleArrow className='ml-1 -mr-1 mt-1 h-4 w-4' aria-hidden='true' />
+                  <MdDoubleArrow className="ml-1 -mr-1 mt-1 h-4 w-4" aria-hidden="true" />
                 </button>
               </div>
             )}
             {step === "address" && (
-              <div data-aos='fade-left' className=''>
-                <h1 className='mt-4 block text-md font-medium text-gray-800'>
+              <div data-aos="fade-left" className="">
+                <h1 className="mt-4 block text-md font-medium text-gray-800">
                   Where are you located?
                 </h1>
-                <p className='text-sm font-semibold text-gray-500 mb-3'>
+                <p className="text-sm font-semibold text-gray-500 mb-3">
                   Please enter your Country and Post/ ZIP Code below. We collect this information to
                   help combat fraud, and to keep your payment secure.
                 </p>
-                <div className='sm:col-span-3 mt-4'>
-                  <label htmlFor='country' className='block text-lg font-medium text-gray-500'>
+                <div className="sm:col-span-3 mt-4">
+                  <label htmlFor="country" className="block text-lg font-medium text-gray-500">
                     Country
                   </label>
-                  <div className='mt-1'>
+                  <div className="mt-1">
                     <select
-                      id='country'
-                      name='country'
-                      autoComplete='country-name'
-                      className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-md border-gray-300 rounded-md'
+                      id="country"
+                      name="country"
+                      autoComplete="country-name"
+                      className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-md border-gray-300 rounded-md"
                       onChange={(e) => setAddress({ ...address, country: e.target.value })}
                     >
                       <>
@@ -298,19 +298,19 @@ const CheckoutSlug = ({ userDetails, id }) => {
                     </select>
                   </div>
                 </div>
-                <div className='sm:col-span-3 my-4'>
-                  <label htmlFor='postal-code' className='block text-lg font-medium text-gray-500'>
+                <div className="sm:col-span-3 my-4">
+                  <label htmlFor="postal-code" className="block text-lg font-medium text-gray-500">
                     ZIP / Postal code
                   </label>
-                  <div className='mt-1'>
+                  <div className="mt-1">
                     <input
-                      type='text'
-                      name='postal-code'
-                      id='postal-code'
-                      autoComplete='postal-code'
+                      type="text"
+                      name="postal-code"
+                      id="postal-code"
+                      autoComplete="postal-code"
                       value={address.postal}
                       onChange={(e) => setAddress({ ...address, postal: e.target.value })}
-                      className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                      className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
                 </div>
@@ -320,42 +320,42 @@ const CheckoutSlug = ({ userDetails, id }) => {
                       ? setStep("payment")
                       : toast.error("Please check your address.")
                   }
-                  type='button'
-                  className='my-4 w-full flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800'
+                  type="button"
+                  className="my-4 w-full flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800"
                 >
                   Continue
-                  <MdDoubleArrow className='ml-1 -mr-1 mt-1 h-4 w-4' aria-hidden='true' />
+                  <MdDoubleArrow className="ml-1 -mr-1 mt-1 h-4 w-4" aria-hidden="true" />
                 </button>
               </div>
             )}
             {step === "payment" && (
-              <div data-aos='fade-left'>
-                <div className='my-4'>
-                  <label htmlFor='coupon' className='block text-lg font-medium text-gray-500'>
-                    Coupon <span className='font-base text-gray-400 text-sm'>(Optional)</span>
+              <div data-aos="fade-left">
+                <div className="my-4">
+                  <label htmlFor="coupon" className="block text-lg font-medium text-gray-500">
+                    Coupon <span className="font-base text-gray-400 text-sm">(Optional)</span>
                   </label>
-                  <div className='mt-1 flex items-center justify-between'>
+                  <div className="mt-1 flex items-center justify-between">
                     <input
-                      type='text'
-                      name='coupon'
-                      id='coupon'
+                      type="text"
+                      name="coupon"
+                      id="coupon"
                       value={coupon}
                       onChange={(e) => setCoupon(e.target.value)}
-                      className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-[75%] sm:text-sm border-gray-300 rounded-md'
-                      placeholder='Enter coupon'
+                      className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-[75%] sm:text-sm border-gray-300 rounded-md"
+                      placeholder="Enter coupon"
                     />
                     <button
-                      type='button'
-                      className='w-[22%] inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200'
+                      type="button"
+                      className="w-[22%] inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200"
                     >
                       Apply
                     </button>
                   </div>
                 </div>
                 <button
-                  type='button'
+                  type="button"
                   onClick={handlePay}
-                  className='my-4 w-full flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800'
+                  className="my-4 w-full flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800"
                 >
                   Pay
                 </button>
@@ -364,12 +364,12 @@ const CheckoutSlug = ({ userDetails, id }) => {
           </div>
         </div>
       </div>
-      <div className='flex items-center justify-center w-[50%] h-screen bg-gray-900'>
-        <div className='w-[65%] mx-auto'>
-          <h1 className='block text-xl leading-6 text-cyan-300 font-semibold'>
+      <div className="flex items-center justify-center w-[50%] h-screen bg-gray-900">
+        <div className="w-[65%] mx-auto">
+          <h1 className="block text-xl leading-6 text-cyan-300 font-semibold">
             {plan?.name} Package
           </h1>
-          <span className='text-white text-4xl font-bold'>
+          <span className="text-white text-4xl font-bold">
             ₹
             {plan
               ? Number((plan.price - (payment?.plan ? payment?.plan?.amount : 0)).toFixed(2)) +
@@ -377,11 +377,11 @@ const CheckoutSlug = ({ userDetails, id }) => {
               : ""}{" "}
             INR
           </span>
-          <p className='text-md text-gray-400 my-5 '>
+          <p className="text-md text-gray-400 my-5 ">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora, consequuntur.
           </p>
-          <div className='rounded-lg bg-black bg-opacity-25 divide-y divide-gray-600 divide-opacity-25 text-base leading-6 font-semibold'>
-            <div className='p-6 flex justify-between text-white'>
+          <div className="rounded-lg bg-black bg-opacity-25 divide-y divide-gray-600 divide-opacity-25 text-base leading-6 font-semibold">
+            <div className="p-6 flex justify-between text-white">
               <dt>Subtotal</dt>
               <dd>
                 <span>
@@ -390,7 +390,7 @@ const CheckoutSlug = ({ userDetails, id }) => {
                 </span>
               </dd>
             </div>
-            <div className='p-6 flex justify-between text-gray-400'>
+            <div className="p-6 flex justify-between text-gray-400">
               <dt>
                 <span>Sales tax</span>
                 <span> (18%)</span>
@@ -401,7 +401,7 @@ const CheckoutSlug = ({ userDetails, id }) => {
                 </span>
               </dd>
             </div>
-            <div className='p-6 flex justify-between text-white'>
+            <div className="p-6 flex justify-between text-white">
               <dt>Total price</dt>
               <dd>
                 <span>

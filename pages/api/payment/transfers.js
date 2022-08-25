@@ -28,7 +28,7 @@ const createTransferOrder = async (req, res) => {
         receipt: uniquId(),
         transfers: [
           {
-            account: process.env.razorpay_SRM,
+            account: "acc_K6PgLGfZjOtadJ",
             amount: amount * 100 - getTwoPercent(amount * 100),
             currency: "INR",
             on_hold: 0,

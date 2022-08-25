@@ -18,11 +18,13 @@ const getUserSingleAcademic = async (req, res) => {
     const { id, rollNumber } = req.query;
 
     const academics = await Academic.findOne({ rollNumber });
-
-    const oldAcademic = academics.education.filter((academic) => academic._id == id);
-
-    console.log(oldAcademic);
-
+    let oldAcademic = [];
+    if (id === "undefined") {
+      oldAcademic = academics.education.filter((academic) => academic.current);
+      console.log("old academic ", oldAcademic);
+    } else {
+      oldAcademic = academics.education.filter((academic) => academic._id === id);
+    }
     if (oldAcademic.length > 0) {
       return res
         .status(200)
