@@ -159,6 +159,19 @@ export const Navbar = () => {
           ))}
         </Popover.Group>
         <div className='hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
+          {session?.college?.name === "SRM Institute of Science and Technology" && (
+            <div className='relative h-20 w-20 object-cover rounded-md cursor-pointer'>
+              <Image
+                placeholder='blur'
+                blurDataURL='https://res.cloudinary.com/dj7nomqfd/image/upload/v1661498646/SRMIST-01_CMYK_tqqfn8.png'
+                layout='fill'
+                objectFit='contain'
+                className=''
+                src='https://res.cloudinary.com/dj7nomqfd/image/upload/v1661498646/SRMIST-01_CMYK_tqqfn8.png'
+                alt=''
+              />
+            </div>
+          )}
           {session?.profile?.image && (
             <div className='hidden sm:ml-6 sm:flex sm:items-center'>
               <div className='relative h-10 w-10'>
