@@ -15,7 +15,7 @@ export const Navbar = () => {
   const session = useUser();
   const router = useRouter();
   const landingNavigation = [
-    { name: "Resume", href: "/dashboard/student/resumes" },
+    { name: "Resumes", href: "/dashboard/student/resumes" },
     {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",
