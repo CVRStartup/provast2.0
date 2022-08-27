@@ -144,7 +144,7 @@ const resources = [
 const StudentIndex = ({ user }) => {
   const { jobs, isLoading } = useJobs(user);
   const { oldAcademic } = useSingleAcademic(undefined, user?.rollNumber?.value);
-  const [isEligibleToPay, setIsEligibleToPay] = useState(true);
+  const [isEligibleToPay, setIsEligibleToPay] = useState(false);
   const { notices } = useNotices(user);
   const { crtPayment } = useCrt(user?._id);
   const [filteredJobs, setFilteredJobs] = useState(null);
@@ -186,16 +186,16 @@ const StudentIndex = ({ user }) => {
   }, [form.current]);
 
   useEffect(() => {
-    // if (!oldAcademic) return;
-    // if (oldAcademic.score.grade <= 10) {
-    //   setIsEligibleToPay(oldAcademic.score.grade >= 6);
-    // } else if (oldAcademic.score.grade <= 100) {
-    //   setIsEligibleToPay(oldAcademic.score.grade >= 60);
-    // } else {
-    //   setIsEligibleToPay(false);
-    // }
-    // if (notEligibleStudents.filter((x) => x === user.rollNumber.value).length > 0)
-    //   setIsEligibleToPay(false);
+    if (!oldAcademic) return;
+    if (oldAcademic.score.grade <= 10) {
+      setIsEligibleToPay(oldAcademic.score.grade >= 6);
+    } else if (oldAcademic.score.grade <= 100) {
+      setIsEligibleToPay(oldAcademic.score.grade >= 60);
+    } else {
+      setIsEligibleToPay(false);
+    }
+    if (notEligibleStudents.filter((x) => x === user.rollNumber.value).length > 0)
+      setIsEligibleToPay(false);
   }, [oldAcademic]);
 
   useEffect(() => {
