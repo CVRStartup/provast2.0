@@ -30,7 +30,7 @@ const PrivacyPolicy = () => {
         We hope you take some time to read through this Policy carefully, because it is important.
         If there are any terms in this Policy that you do not agree with, please immediately
         discontinue use of the Platform and our services. If you have any questions or concerns
-        about our collection or use of your information, please contact us at sales@provast.io.
+        about our collection or use of your information, please contact us at support@provast.io.
       </p>
 
       <h2 className='my-4 text-lg font-semibold'>A. What personal data do we collect?</h2>
@@ -96,7 +96,7 @@ const PrivacyPolicy = () => {
         <b>To post testimonials.</b> We post testimonials on the Platform that may contain personal
         data. Prior to posting a testimonial, we will obtain your consent to use your name and
         testimonial. If you wish to update, or delete your testimonial, please contact us at
-        sales@provast.io and be sure to include your name, testimonial location, and contact
+        support@provast.io and be sure to include your name, testimonial location, and contact
         information.
       </p>
       <p className='mt-4'>
@@ -154,7 +154,7 @@ const PrivacyPolicy = () => {
         Although we will do our best to protect your personal data, transmission of personal data to
         and from the Platform is at your own risk. You should only access the Platform within a
         secure environment. If you believe your account has been compromised or you suspect any type
-        of data breach, please contact us at sales@provast.io.
+        of data breach, please contact us at support@provast.io.
       </p>
 
       <h2 className='my-4 font-semibold text-lg'>E. What are your privacy rights?</h2>
@@ -196,7 +196,7 @@ const PrivacyPolicy = () => {
       <h2 className='my-4 font-semibold text-lg'>G. How can you contact us about this policy?</h2>
       <p>
         If you have questions or comments about this Policy, you may contact our Data Protection
-        Officer (DPO) by email at sales@provast.io.
+        Officer (DPO) by email at support@provast.io.
       </p>
     </main>
   );

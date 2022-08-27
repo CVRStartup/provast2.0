@@ -40,7 +40,7 @@ export const Contact = () => {
                   <MailIcon className='h-6 w-6 text-gray-400' aria-hidden='true' />
                 </div>
                 <div className='ml-3 text-base text-gray-500'>
-                  <p>provastcvr@gmail.com</p>
+                  <p>support@provast.io</p>
                 </div>
               </div>
             </div>

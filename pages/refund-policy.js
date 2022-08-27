@@ -20,7 +20,7 @@ const Refundpolicy = () => {
       </p>
       <p className='mt-4'>
         If you are dissatisfied with any of our services, please contact the support team for the
-        specific brand or email sales@provast.io, and we will provide appropriate assistance.
+        specific brand or email support@provast.io, and we will provide appropriate assistance.
       </p>
     </main>
   );
