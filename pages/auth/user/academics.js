@@ -21,7 +21,7 @@ const Academics = () => {
   const [loading, setLoading] = useState(false);
 
   const [selectedDegree, setSelectedDegree] = useState(academicDegrees[0]);
-  const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
+  const [selectedBranch, setSelectedBranch] = useState(mbaBranches[0]);
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
   const [selectedTypeOfEducationGrade, setSelectedTypeOfEducationGrade] = useState(
     typeOfEducationGrade[0]
@@ -314,32 +314,32 @@ const Academics = () => {
 export const getServerSideProps = async function ({ req, res }) {
   const session = await getLoginSession(req);
   const user = (session?._doc && (await findUser(session._doc))) ?? null;
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/auth/login",
-        permanent: false,
-      },
-    };
-  }
+  // if (!user) {
+  //   return {
+  //     redirect: {
+  //       destination: "/auth/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-  if (user.category === "college" || !user?.detailsAvailable) {
-    return {
-      redirect: {
-        destination: "/auth/user/details",
-        permanent: false,
-      },
-    };
-  }
+  // if (user.category === "college" || !user?.detailsAvailable) {
+  //   return {
+  //     redirect: {
+  //       destination: "/auth/user/details",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-  if (user?.academicsAvailable) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
+  // if (user?.academicsAvailable) {
+  //   return {
+  //     redirect: {
+  //       destination: "/",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
   return {
     props: {},
   };
