@@ -47,6 +47,122 @@ const Index = ({ id }) => {
     return percentage;
   };
 
+  const userIds = {
+    6383758397: "631392d283b1159278b8e3de",
+    "Jb6958@srmist.edu.in": "631392d283b1159278b8e3d8",
+    "Pe4996@srmist.edu.in": "631392c583b1159278b8e315",
+    "Sa5870@srmist.edu.in": "631392c183b1159278b8e2e2",
+    "Sb0477@srmist.edu.in": "631392cb83b1159278b8e36c",
+    "Vc0719@srmist.edu.in": "631392c083b1159278b8e2ca",
+    "ab3492@srmist.edu.in": "631392d183b1159278b8e3cf",
+    "ab8497@srmist.edu.in": "631392c783b1159278b8e336",
+    "ac2640@srmist.edu.in": "631392c083b1159278b8e2d0",
+    "ac3147@srmist.edu.in": "631392c783b1159278b8e33f",
+    "ac5597@srmist.edu.in": "631392cf83b1159278b8e3a8",
+    "ae7018@srmist.edu.in": "631392c383b1159278b8e300",
+    "ak1961@srmist.edu.in": "631392be83b1159278b8e2a3",
+    "ak2806@srmist.edu.in": "631392bf83b1159278b8e2be",
+    "ak6079@srmist.edu.in": "631392d183b1159278b8e3c3",
+    "al9237@srmist.edu.in": "631392c283b1159278b8e2ee",
+    "an1064@srmist.edu.in": "631392c683b1159278b8e32d",
+    "ar4562@srmist.edu.in": "631392c883b1159278b8e34b",
+    "as4379@srmist.edu.in": "631392c483b1159278b8e312",
+    "bb9848@srmist.edu.in": "631392c183b1159278b8e2d9",
+    "bk7579@srmist.edu.in": "631392c583b1159278b8e31b",
+    "br9266@srmist.edu.in": "631392d383b1159278b8e3e7",
+    "bs3155@srmist.edu.in": "631392c383b1159278b8e2fa",
+    "bs5277@srmist.edu.in": "631392c683b1159278b8e32a",
+    "cs4825@srmist.edu.in": "631392c383b1159278b8e303",
+    "dg7886@srmist.edu.in": "631392cd83b1159278b8e393",
+    "dh8058@srmist.edu.in": "631392c083b1159278b8e2d3",
+    "dp5880@srmist.edu.in": "631392cd83b1159278b8e38a",
+    "ds3887@srmist.edu.in": "631392c583b1159278b8e318",
+    "dz2855@srmist.edu.in": "631392d283b1159278b8e3db",
+    "eg5434@srmist.edu.in": "631392cf83b1159278b8e3b4",
+    "es9627@srmist.edu.in": "631392be83b1159278b8e2a6",
+    "gb8667@srmist.edu.in": "631392cc83b1159278b8e387",
+    "gg2849@srmist.edu.in": "631392c983b1159278b8e351",
+    "gm0320@srmist.edu.in": "631392cb83b1159278b8e36f",
+    "gm4918@srmist.edu.in": "631392ca83b1159278b8e363",
+    "gn5077@srmist.edu.in": "631392c183b1159278b8e2df",
+    "gr3988@srmist.edu.in": "631392cd83b1159278b8e38d",
+    "gv3565@srmist.edu.in": "631392d183b1159278b8e3cc",
+    "hg1522@srmist.edu.in": "631392c283b1159278b8e2e8",
+    "hs1777@srmist.edu.in": "631392d383b1159278b8e3e4",
+    "hu2169@srmist.edu.in": "631392c583b1159278b8e31e",
+    "ja1589@srmist.edu.in": "631392cc83b1159278b8e381",
+    "jb2978@srmist.edu.in": "631392ca83b1159278b8e369",
+    "jj4821@srmist.edu.in": "631392cd83b1159278b8e390",
+    "jm6379@srmist.edu.in": "631392c283b1159278b8e2e5",
+    "jr0543@srmist.edu.in": "631392c783b1159278b8e33c",
+    "jr1621@srmist.edu.in": "631392cb83b1159278b8e378",
+    "js8044@srmist.edu.in": "631392c083b1159278b8e2c7",
+    "kp8429@srmist.edu.in": "631392d283b1159278b8e3d2",
+    "kr3626@srmist.edu.in": "631392bf83b1159278b8e2c1",
+    "ks4324@srmist.edu.in": "631392c983b1159278b8e357",
+    "kv1856@srmist.edu.in": "631392c783b1159278b8e333",
+    "lr2687@srmist.edu.in": "631392d183b1159278b8e3c6",
+    "ma3412@srmist.edu.in": "631392ce83b1159278b8e3a5",
+    "mb9395@srmist.edu.in": "631392d083b1159278b8e3c0",
+    "mh8370@srmist.edu.in": "631392c883b1159278b8e342",
+    "mi7814@srmist.edu.in": "631392c483b1159278b8e306",
+    "mi8670@srmist.edu.in": "631392bf83b1159278b8e2b8",
+    "mj0251@srmist.edu.in": "631392c283b1159278b8e2f1",
+    "mj3720@srmist.edu.in": "631392be83b1159278b8e2a9",
+    "mk3280@srmist.edu.in": "631392d283b1159278b8e3d5",
+    "mm3089@srmist.edu.in": "631392be83b1159278b8e29a",
+    "mm8089@srmist.edu.in": "631392cc83b1159278b8e37b",
+    "mn2369@srmist.edu.in": "631392ce83b1159278b8e39c",
+    "ms8080@srmist.edu.in": "631392bf83b1159278b8e2b2",
+    "mt6056@srmist.edu.in": "631392cd83b1159278b8e396",
+    "mv3288@srmist.edu.in": "631392c183b1159278b8e2dc",
+    "nb8998@srmist.edu.in": "631392c883b1159278b8e34e",
+    "pk1083@srmist.edu.in": "631392c883b1159278b8e345",
+    "pk3684@srmist.edu.in": "631392c683b1159278b8e330",
+    "pp8462@srmist.edu.in": "631392cf83b1159278b8e3ab",
+    "pr5238@srmist.edu.in": "631392d383b1159278b8e3ea",
+    "ps0837@srmist.edu.in": "631392c483b1159278b8e30f",
+    "pv8126@srmist.edu.in": "631392be83b1159278b8e29d",
+    "ra3241@srmist.edu.in": "631392ce83b1159278b8e3a2",
+    "ra3715@srmist.edu.in": "631392cb83b1159278b8e372",
+    "ri3519@srmist.edu.in": "631392c883b1159278b8e348",
+    "rk1141@srmist.edu.in": "631392c983b1159278b8e35a",
+    "rk6585@srmist.edu.in": "631392ca83b1159278b8e366",
+    "rk8540@srmist.edu.in": "631392d083b1159278b8e3bd",
+    "rm2096@srmist.edu.in": "631392ce83b1159278b8e399",
+    "rr6229@srmist.edu.in": "631392d383b1159278b8e3e1",
+    "sa1230@srmist.edu.in": "631392c083b1159278b8e2c4",
+    "sb1812@srmist.edu.in": "631392cf83b1159278b8e3ae",
+    "sb4208@srmist.edu.in": "631392cf83b1159278b8e3b1",
+    "sb9315@srmist.edu.in": "631392cc83b1159278b8e37e",
+    "sd2355@srmist.edu.in": "631392ca83b1159278b8e360",
+    "sk6250@srmist.edu.in": "631392bf83b1159278b8e2af",
+    "sm1655@srmist.edu.in": "631392c983b1159278b8e354",
+    "sp4709@srmist.edu.in": "631392c683b1159278b8e324",
+    "sp8276@srmist.edu.in": "631392c283b1159278b8e2eb",
+    "sp8856@srmist.edu.in": "631392c183b1159278b8e2d6",
+    "sr6121@srmist.edu.in": "631392c283b1159278b8e2f4",
+    "ss1235@srmist.edu.in": "631392c783b1159278b8e339",
+    "ss1841@srmist.edu.in": "631392c483b1159278b8e30c",
+    "ss3282@srmist.edu.in": "631392cb83b1159278b8e375",
+    "ss5686@srmist.edu.in": "631392c483b1159278b8e309",
+    "ss6936@srmist.edu.in": "631392c083b1159278b8e2cd",
+    "sv0788@srmist.edu.in": "631392be83b1159278b8e2a0",
+    "sv4796@srmist.edu.in": "631392bf83b1159278b8e2bb",
+    "sv9544@srmist.edu.in": "631392bf83b1159278b8e2b5",
+    "ta7576@srmist.edu.in": "631392d183b1159278b8e3c9",
+    "ts8800@srmist.edu.in": "631392be83b1159278b8e2ac",
+    "va0320@srmist.edu.in": "631392ce83b1159278b8e39f",
+    "va5702@srmist.edu.in": "631392c583b1159278b8e321",
+    "va8990@srmist.edu.in": "631392ca83b1159278b8e35d",
+    "vk8884@srmist.edu.in": "631392c383b1159278b8e2f7",
+    "vp3989@srmist.edu.in": "631392cc83b1159278b8e384",
+    "vr0146@srmist.edu.in": "631392c383b1159278b8e2fd",
+    "vs4802@srmist.edu.in": "631392d083b1159278b8e3b7",
+    "ya8561@srmist.edu.in": "631392c683b1159278b8e327",
+    "yb5043@srmist.edu.in": "631392d083b1159278b8e3ba",
+  };
+
   const handleFile = (e) => {
     if (!college) return;
     let selectedFile = e.target.files[0];
@@ -62,27 +178,27 @@ const Index = ({ id }) => {
             const worksheet = workbook.Sheets[worksheetName];
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
-              const name = x["STUDENT FULL NAME (AS PER SSC)"].split(" ");
+              const name = x["Name of Student"].split(" ");
               const studentName = getName(name);
               return {
-                email: x["EMAIL ID"] ?? null,
+                email: x["Email Id"] ?? null,
                 detailsAvailable: true,
-                academicsAvailable: false,
+                academicsAvailable: true,
                 profile: {
                   ...studentName,
-                  gender: x["GENDER"] ?? null,
+                  gender: x["Gender"] ?? null,
                   verified: false,
                   frozen: false,
                 },
                 approved: true,
                 category: "student",
                 rollNumber: {
-                  value: x["ROLL NO"] ?? null,
+                  value: x["Roll No"] ?? null,
                   frozen: false,
                   verified: false,
                 },
                 phone: {
-                  value: x["MOBILE NO"] ?? null,
+                  value: x["Phone Number"] ?? null,
                   frozen: false,
                   verified: false,
                 },
@@ -115,11 +231,14 @@ const Index = ({ id }) => {
       try {
         const salt = crypto.randomBytes(16).toString("hex");
         const hash = crypto.pbkdf2Sync("Provast@123", salt, 1000, 64, "sha512").toString("hex");
-        await axios.post("/api/auth/user/details", {
+        const {
+          data: { details },
+        } = await axios.post("/api/auth/user/details", {
           ...s,
           hash,
           salt,
         });
+        userIds[details.email] = details._id;
         createdCount += 1;
       } catch (e) {
         failedAccounts.push({
@@ -134,6 +253,7 @@ const Index = ({ id }) => {
       toast.error("Account creation failed for " + failedAccounts.length + " Students.");
       console.log(failedAccounts);
     }
+    console.log(userIds);
   };
 
   const handleEducation = (e) => {
@@ -152,17 +272,17 @@ const Index = ({ id }) => {
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
               return {
-                rollNumber: x["ROLL NO"] ?? "",
+                rollNumber: x["Roll No"] ?? "",
                 education: [
                   {
-                    institution: x["COLLEGE"],
-                    program: "B.Tech" ?? "",
+                    institution: x["College"],
+                    program: "MBA" ?? "",
                     board: "",
-                    branch: x["DEPARTMENT"] ? rename(x["DEPARTMENT"]).trim() : "",
+                    branch: x["Current Course"] ? rename(x["Current Course"]).trim() : "",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "CGPA",
-                      grade: getPercentage(x["B.TECH AGGREGATE CGPA"]) ?? 0,
+                      grade: getPercentage(x["Current course CGPa"]) ?? 0,
                     },
                     batch: {
                       from: 0,
@@ -173,34 +293,54 @@ const Index = ({ id }) => {
                     frozen: false,
                   },
                   {
-                    institution: "N/A",
-                    program: "Class XIIth",
-                    board: "MPC" ?? "",
+                    institution: x["UG School/College"],
+                    program: x["UG Program"] ?? "",
+                    board: x["UG Board/University"],
+                    branch: x["UG Branch/Specialization"]
+                      ? rename(x["UG Branch/Specialization"]).trim()
+                      : "",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "Percentage",
-                      grade: getPercentage(x["INTER / DIPLOMA PERCENTAGE"]) ?? 0,
+                      grade: getPercentage(x["UG percentage"]) ?? 0,
                     },
                     batch: {
                       from: 0,
-                      to: 0,
+                      to: x["UG End Year"],
+                    },
+                    current: true,
+                    verified: false,
+                    frozen: false,
+                  },
+                  {
+                    institution: x["Class 12 School"],
+                    program: "Class XIIth",
+                    board: x["Class 12 Board"],
+                    educationType: "Full Time",
+                    score: {
+                      typeOfGrade: "Percentage",
+                      grade: getPercentage(x["Class 12 %"]) ?? 0,
+                    },
+                    batch: {
+                      from: 0,
+                      to: x["12th YOP"],
                     },
                     current: false,
                     verified: false,
                     frozen: false,
                   },
                   {
-                    institution: "N/A",
+                    institution: x["Class 10 School"],
                     program: "Class Xth",
-                    board: "SSC",
+                    board: x["Class 10 Board"],
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "Percentage",
-                      grade: getPercentage(x["10TH PERCENTAGE"]) ?? 0,
+                      grade: getPercentage(x["Class 10 %"]) ?? 0,
                     },
                     batch: {
                       from: 0,
-                      to: 0,
+                      to: x["10th YOP"],
                     },
                     current: false,
                     verified: false,
@@ -253,6 +393,75 @@ const Index = ({ id }) => {
     }
     console.log(branch);
   };
+
+  const handlePayment = (e) => {
+    if (!college) return;
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
+        reader.onload = (e) => {
+          setExcelFileError(null);
+          if (e.target.result !== null) {
+            const workbook = XLSX.read(e.target.result, { type: "buffer" });
+            const worksheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[worksheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+            console.log(userIds["yb5043@srmist.edu.in"]);
+            const res = data.map((x) => {
+              return {
+                user: userIds[x["Email Id"].toString().trim(" ")],
+                amount: 7500,
+                email: x["Email Id"].toString().trim(" "),
+                address: {
+                  country: "India",
+                  postal: "500074",
+                },
+                phone: x["Phone Number"],
+              };
+            });
+            console.log(res);
+            setStudents(res);
+          } else {
+            setStudents([]);
+          }
+        };
+      } else {
+        setExcelFileError("Please select only excel file types");
+        setExcelFile(null);
+      }
+    } else {
+      console.log("please select your file");
+    }
+  };
+  const handlePaymentCreate = async () => {
+    let total = students.length,
+      createdCount = 0;
+    const failedAccounts = [];
+    for (let i = 0; i < students.length; i++) {
+      const s = students[i];
+      try {
+        await axios.put("/api/payment/crt", {
+          ...s,
+        });
+        createdCount += 1;
+      } catch (e) {
+        // if (e.response.data.message !== "Details Already Exists") {
+        failedAccounts.push({
+          account: s,
+          reason: e.response.data.message,
+        });
+        // }
+      }
+    }
+    if (total === createdCount) {
+      toast.success("All Payments Are Successfully Created!");
+    } else {
+      toast.error("Payment creation failed for " + failedAccounts.length + " Students.");
+      console.log(failedAccounts);
+    }
+  };
   return (
     <div className="pt-[10vh]">
       <div>
@@ -296,6 +505,28 @@ const Index = ({ id }) => {
             })}
         </div>
         <button onClick={handleEducationCreate}>Create Education</button>
+      </div>
+
+      <div className="pt-[10vh]">
+        <div className="sm:col-span-3">
+          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+            Upload Spreadsheet
+          </label>
+
+          <input
+            label="Choose File"
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            type="file"
+            name="image"
+            id="profileImg"
+            onChange={handlePayment}
+          />
+          {excelFileError &&
+            toast.error(excelFileError, {
+              toastId: excelFileError,
+            })}
+        </div>
+        <button onClick={handlePaymentCreate}>Create Payment</button>
       </div>
     </div>
   );

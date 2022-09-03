@@ -146,7 +146,8 @@ const StudentIndex = ({ user }) => {
   const { oldAcademic } = useSingleAcademic(undefined, user?.rollNumber?.value);
   const [isEligibleToPay, setIsEligibleToPay] = useState(false);
   const { notices } = useNotices(user);
-  const { crtPayment } = useCrt(user?._id);
+  const { crtPayment } = useCrt(user?.email);
+  console.log(crtPayment);
   const [filteredJobs, setFilteredJobs] = useState(null);
   const [counts, setCounts] = useState([]);
   const { resumes } = useResumes(user);

@@ -10,6 +10,9 @@ export default async function handler(req, res) {
     case "POST":
       await verifyAndCreateOrder(req, res);
       break;
+    case "PUT":
+      await createOrder(req, res);
+      break;
   }
 }
 
@@ -21,7 +24,7 @@ const searchOrder = async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
-    const crtPayment = await CRTPayment.findOne({ user: userId });
+    const crtPayment = await CRTPayment.findOne({ email: userId });
 
     console.log(crtPayment);
 
@@ -68,6 +71,23 @@ const verifyAndCreateOrder = async (req, res) => {
         return res.status(200).json({ message: "Please Try Again!" });
       }
     } else return res.status(200).json({ message: "Payment Unsuccessfull" });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+const createOrder = async (req, res) => {
+  try {
+    await connectDB();
+
+    const paymentDetails = new CRTPayment(req.body);
+
+    await paymentDetails.save();
+    if (paymentDetails) {
+      return res.status(200).json({ message: "CRT Recipt Creation Successfull" });
+    } else {
+      return res.status(200).json({ message: "Please Try Again!" });
+    }
   } catch (error) {
     return res.status(500).json({ message: error });
   }
