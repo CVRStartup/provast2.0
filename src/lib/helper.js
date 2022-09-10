@@ -1440,6 +1440,7 @@ export const typeOfPosting = [
   { id: "shortlisted", name: "Shortlisted Students" },
   { id: "onCampus", name: "On-Campus" },
   { id: "offCampus", name: "Off-Campus" },
+  { id: "criteria", name: "Criteria" },
 ];
 
 export const typeOfJobProgram = [

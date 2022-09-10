@@ -22,6 +22,8 @@ const getUserSingleAcademic = async (req, res) => {
     if (id === "undefined") {
       oldAcademic = academics.education.filter((academic) => academic.current);
       console.log("old academic ", oldAcademic);
+    } else if (id === "null") {
+      oldAcademic = academics;
     } else {
       oldAcademic = academics.education.filter((academic) => academic._id === id);
     }
