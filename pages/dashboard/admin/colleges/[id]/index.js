@@ -178,7 +178,7 @@ const Index = ({ id }) => {
             const worksheet = workbook.Sheets[worksheetName];
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
-              const name = x["Name of Student"].split(" ");
+              const name = x["Student Name"].split(" ");
               const studentName = getName(name);
               return {
                 email: x["Email Id"] ?? null,
@@ -186,19 +186,19 @@ const Index = ({ id }) => {
                 academicsAvailable: true,
                 profile: {
                   ...studentName,
-                  gender: x["Gender"] ?? null,
+                  gender: x["GENDER"] ?? null,
                   verified: false,
                   frozen: false,
                 },
                 approved: true,
                 category: "student",
                 rollNumber: {
-                  value: x["Roll No"] ?? null,
+                  value: x["RollNo."] ?? null,
                   frozen: false,
                   verified: false,
                 },
                 phone: {
-                  value: x["Phone Number"] ?? null,
+                  value: x["Student Contact No"] ?? null,
                   frozen: false,
                   verified: false,
                 },
@@ -272,17 +272,17 @@ const Index = ({ id }) => {
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
               return {
-                rollNumber: x["Roll No"] ?? "",
+                rollNumber: x["RollNo."] ?? "",
                 education: [
                   {
-                    institution: x["College"],
-                    program: "MBA" ?? "",
-                    board: "",
-                    branch: x["Current Course"] ? rename(x["Current Course"]).trim() : "",
+                    institution: "CVR College Of Engineering",
+                    program: "B.Tech",
+                    board: "JNTUH",
+                    branch: x["Branch"] ? rename(x["Branch"]).trim() : "",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "CGPA",
-                      grade: getPercentage(x["Current course CGPa"]) ?? 0,
+                      grade: getPercentage(x["B.Tech"]) ?? 0,
                     },
                     batch: {
                       from: 0,
@@ -293,54 +293,34 @@ const Index = ({ id }) => {
                     frozen: false,
                   },
                   {
-                    institution: x["UG School/College"],
-                    program: x["UG Program"] ?? "",
-                    board: x["UG Board/University"],
-                    branch: x["UG Branch/Specialization"]
-                      ? rename(x["UG Branch/Specialization"]).trim()
-                      : "",
-                    educationType: "Full Time",
-                    score: {
-                      typeOfGrade: "Percentage",
-                      grade: getPercentage(x["UG percentage"]) ?? 0,
-                    },
-                    batch: {
-                      from: 0,
-                      to: x["UG End Year"],
-                    },
-                    current: true,
-                    verified: false,
-                    frozen: false,
-                  },
-                  {
-                    institution: x["Class 12 School"],
+                    institution: x["COLLEGE  NAME "],
                     program: "Class XIIth",
-                    board: x["Class 12 Board"],
+                    board: "SSC",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "Percentage",
-                      grade: getPercentage(x["Class 12 %"]) ?? 0,
+                      grade: getPercentage(x["INTER %"]) ?? 0,
                     },
                     batch: {
                       from: 0,
-                      to: x["12th YOP"],
+                      to: x["INTER YEAR OF PASSING "],
                     },
                     current: false,
                     verified: false,
                     frozen: false,
                   },
                   {
-                    institution: x["Class 10 School"],
+                    institution: x["SCHOOL NAME "],
                     program: "Class Xth",
-                    board: x["Class 10 Board"],
+                    board: x["SSC DETAILS"],
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "Percentage",
-                      grade: getPercentage(x["Class 10 %"]) ?? 0,
+                      grade: getPercentage(x["SSC %"]) ?? 0,
                     },
                     batch: {
                       from: 0,
-                      to: x["10th YOP"],
+                      to: x["SSC YEAR OF PASSING "],
                     },
                     current: false,
                     verified: false,

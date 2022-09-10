@@ -13,7 +13,6 @@ import { useStudents } from "../../../src/hooks/useStudents";
 import axios, { Axios } from "axios";
 
 const Index = ({ userDetails, crtPayments }) => {
-  console.log(crtPayments);
   const user = JSON.parse(userDetails);
   const { jobs, isLoading } = useJobs(user);
   const { students } = useStudents(user);
@@ -111,17 +110,28 @@ const Index = ({ userDetails, crtPayments }) => {
                           </p>
                         </div>
                       </div>
-                      <div className="border rounded-md border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x ">
-                        {stats.map((stat) => (
-                          <div
-                            key={stat.label}
-                            className="px-6 py-5 text-sm font-medium text-center"
-                          >
-                            <span className="text-gray-600">{stat.label}</span>
-                            {": "}
-                            <span className="text-gray-900">{stat.value}</span>
-                          </div>
-                        ))}
+                      <div
+                        className={`border rounded-md border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 ${
+                          user.college.name === "CVR College of Engineering"
+                            ? "sm:grid-cols-2"
+                            : "sm:grid-cols-3"
+                        } sm:divide-y-0 sm:divide-x `}
+                      >
+                        {stats.map((stat, index) => {
+                          console.log(user.college.name);
+                          if (user.college.name === "CVR College of Engineering" && index === 0)
+                            return;
+                          return (
+                            <div
+                              key={stat.label}
+                              className="px-6 py-5 text-sm font-medium text-center"
+                            >
+                              <span className="text-gray-600">{stat.label}</span>
+                              {": "}
+                              <span className="text-gray-900">{stat.value}</span>
+                            </div>
+                          );
+                        })}
                       </div>
                       <div className="mt-5 flex justify-center sm:mt-0">
                         <a

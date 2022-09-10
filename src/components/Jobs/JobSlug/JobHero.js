@@ -14,7 +14,7 @@ import { useSingleAcademic } from "../../../hooks/useSingleAcademic";
 
 export const JobHero = ({ job, user }) => {
   const { setIsOpen, setForm, setModalJob, loading, setLoading, setDeleteName } = useModelContext();
-  const { oldAcademic } = useSingleAcademic("null", user.rollNumber.value);
+  const { oldAcademic } = useSingleAcademic("null", user?.rollNumber?.value);
   console.log(oldAcademic);
   const [showOptions, setShowOptions] = useState(-1);
   // -1 -> not eligible

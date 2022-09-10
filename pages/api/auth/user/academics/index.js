@@ -37,18 +37,10 @@ const updateUserDetails = async (req, res) => {
         rollNumber,
         education: newEducation,
       };
-      const updated = await Academic.findByIdAndUpdate(
-        academics._id,
-        newAcademics,
-        { new: true }
-      );
-      return res
-        .status(200)
-        .json({ message: "Academic Details Updated", updated });
+      const updated = await Academic.findByIdAndUpdate(academics._id, newAcademics, { new: true });
+      return res.status(200).json({ message: "Academic Details Updated", updated });
     } else {
-      return res
-        .status(200)
-        .json({ message: "Academic Details Not Found", updated });
+      return res.status(200).json({ message: "Academic Details Not Found", updated });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -67,13 +59,9 @@ const searchAcademics = async (req, res) => {
     const academics = await Academic.findOne({ rollNumber });
 
     if (academics) {
-      return res
-        .status(200)
-        .json({ message: "Academic Details Found", academics });
+      return res.status(200).json({ message: "Academic Details Found", academics });
     } else {
-      return res
-        .status(200)
-        .json({ message: "Academic Details Not Found", academics: [] });
+      return res.status(200).json({ message: "Academic Details Not Found", academics: [] });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -84,11 +72,21 @@ const createUserAcademics = async (req, res) => {
     await connectDB();
 
     const details = await Academic.findOne({ rollNumber: req.body.rollNumber });
-
+    const { education } = req.body;
     if (details) {
-      return res.status(500).json({ message: "Details Already Exists", details });
+      await Academic.findByIdAndUpdate(
+        details._id,
+        {
+          rollNumber: req.body.rollNumber,
+          education: education,
+        },
+        { new: true }
+      );
+      return res.status(200).json({
+        message: "Details Created",
+        education,
+      });
     } else {
-      const { education } = req.body;
       const newAcademic = new Academic({
         rollNumber: req.body.rollNumber,
         education: education,
