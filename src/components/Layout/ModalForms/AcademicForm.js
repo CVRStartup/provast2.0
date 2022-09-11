@@ -16,11 +16,12 @@ import { DropDown } from "../../Reusables/Dropdown";
 import { mutate } from "swr";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useAcademicDetails } from "../../../hooks/useAcademicDetails";
 
 export const AcademicForm = () => {
   const session = useUser();
+  const { closeModal, editId } = useModelContext();
   const [loading, setLoading] = useState(false);
-  const { closeModal } = useModelContext();
   const [selectedDegree, setSelectedDegree] = useState(academicDegrees[0]);
   const [selectedBranch, setSelectedBranch] = useState(btechBranches[0]);
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(typeOfEducation[0]);
@@ -77,30 +78,13 @@ export const AcademicForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const { data } = await axios.put(
-      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/academics?rollNumber=${session?.rollNumber?.value}`,
-      { academics }
-    );
-    await mutate(`/api/auth/user/academics?rollNumber=${session?.rollNumber?.value}`);
-    setLoading(false);
-    if (data.message === "Academic Details Updated") {
-      toast.success("Education details Added", {
-        toastId: "Education details Added",
-      });
-      closeModal();
-    } else {
-      toast.error(data.message, {
-        toastId: data.message,
-      });
-    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className='flex items-center justify-between'>
         <Dialog.Title as='h3' className='text-2xl font-medium leading-6 text-white'>
-          Add Education
+          Edit Education
         </Dialog.Title>
       </div>
       <div className='mt-5 w-full'>
