@@ -19,7 +19,8 @@ export const Footer = () => {
     router.pathname.split("/").indexOf("auth") !== -1 ||
     (router.pathname.split("/")[3] === "resumes" && router.pathname.split("/")[4] === "[id]") ||
     router.pathname.indexOf("viewresume") !== -1 ||
-    router.pathname.indexOf("checkout") !== -1
+    router.pathname.indexOf("checkout") !== -1 ||
+    router.pathname.indexOf("/dashboard/college/students") !== -1
   )
     return <></>;
 
