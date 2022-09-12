@@ -17,7 +17,7 @@ export const StudentProfileDetails = ({ student, personal }) => {
           <dd className=" font-semibold text-md text-gray-900">{student?.email}</dd>
         </div>
         <div className="sm:col-span-1">
-          <dt className="text-md font-medium text-gray-500">Mobile Number</dt>
+          <dt className="text-md font-medium text-gray-500 ">Mobile Number</dt>
           <dd className=" font-semibold text-md text-gray-900">{student?.phone?.value}</dd>
         </div>
 
