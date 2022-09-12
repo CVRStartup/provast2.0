@@ -18,7 +18,7 @@ const getAcademicDetails = async (req, res) => {
     const academics = await Academic.findOne({ rollNumber });
     let filteredAcademics;
     if (academics) {
-      filteredAcademics = academics.education.filter((x) => x._id == academicId);
+      filteredAcademics = academics.education.filter((x) => !academicId || x._id == academicId);
       return res.status(200).json({ message: "Academics Details Found", filteredAcademics });
     } else {
       return res.status(200).json({ message: "Academics Details Not Found", filteredAcademics });

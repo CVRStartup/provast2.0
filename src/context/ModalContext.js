@@ -6,6 +6,7 @@ export function ModelContextProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [editRollNumber, setEditRollNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState("");
   const [zipFilename, setZipFilename] = useState("");
@@ -15,6 +16,7 @@ export function ModelContextProvider({ children }) {
   const [modalJob, setModalJob] = useState(null);
   const [modalJobResume, setModalJobResume] = useState(null);
   const [modalJobQuestionnnare, setModalJobQuestionnare] = useState([]);
+  const [education, setEducation] = useState(null);
 
   function closeModal() {
     setIsOpen(false);
@@ -33,6 +35,8 @@ export function ModelContextProvider({ children }) {
     setIsEdit,
     editId,
     setEditId,
+    editRollNumber,
+    setEditRollNumber,
     loading,
     setLoading,
     zipFilename,
@@ -49,6 +53,8 @@ export function ModelContextProvider({ children }) {
     deleteName,
     modalJobResume,
     setModalJobResume,
+    education,
+    setEducation,
   };
   return <ModelContext.Provider value={state}>{children}</ModelContext.Provider>;
 }

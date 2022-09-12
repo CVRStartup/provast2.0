@@ -16,35 +16,36 @@ export default async function handler(req, res) {
 }
 
 const updateUserDetails = async (req, res) => {
-  try {
-    await connectDB();
-    const { rollNumber } = req.query;
+  // try {
+  await connectDB();
+  const { rollNumber } = req.query;
+  console.log(rollNumber);
+  const academics = await Academic.findOne({ rollNumber });
+  const newEducation = [];
+  const bodyAcademics = req.body.academics;
+  console.log("123", bodyAcademics);
+  console.log("456", academics);
 
-    const academics = await Academic.findOne({ rollNumber });
-    const newEducation = [];
-    const bodyAcademics = req.body.academics;
-    console.log("123", bodyAcademics);
-
-    if (academics) {
-      academics.education.forEach((x) => {
-        if (x) {
-          newEducation.push(x);
-          if (bodyAcademics) newEducation.push(bodyAcademics);
-        }
-      });
-      console.log(academics._id, newEducation);
-      const newAcademics = {
-        rollNumber,
-        education: newEducation,
-      };
-      const updated = await Academic.findByIdAndUpdate(academics._id, newAcademics, { new: true });
-      return res.status(200).json({ message: "Academic Details Updated", updated });
-    } else {
-      return res.status(200).json({ message: "Academic Details Not Found", updated });
-    }
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
+  if (academics) {
+    academics.education.forEach((x) => {
+      if (x && x._id.toString() !== bodyAcademics._id) {
+        newEducation.push(x);
+      } else {
+        if (bodyAcademics) newEducation.push(bodyAcademics);
+      }
+    });
+    const newAcademics = {
+      rollNumber,
+      education: newEducation,
+    };
+    const updated = await Academic.findByIdAndUpdate(academics._id, newAcademics, { new: true });
+    return res.status(200).json({ message: "Academic Details Updated", updated });
+  } else {
+    return res.status(200).json({ message: "Academic Details Not Found", updated: undefined });
   }
+  // } catch (error) {
+  //   return res.status(500).json({ message: error.message });
+  // }
 };
 
 const searchAcademics = async (req, res) => {
