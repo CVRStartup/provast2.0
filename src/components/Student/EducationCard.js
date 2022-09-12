@@ -8,7 +8,7 @@ export const EducationCard = ({ education }) => {
       <div className='flex justify-between'>
         <div>
           <h3 className='text-2xl text-gray-500 font-semibold'>{education?.program}</h3>
-          {/* <button
+          <button
             onClick={() => {
               setIsOpen(true);
               setForm("academic");
@@ -16,7 +16,7 @@ export const EducationCard = ({ education }) => {
             }}
           >
             Edit
-          </button> */}
+          </button>
           <div className='text-sm'>
             {education?.board && <span>Board: {education?.board},</span>}
             <span>Type: {education?.educationType}</span>
