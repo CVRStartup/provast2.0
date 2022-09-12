@@ -7,7 +7,6 @@ const JobQuestionInput = ({
   required,
 }) => {
   const [inputValue, setInputValue] = useState("");
-
   const inputValueHandler = (e) => {
     let newBlankInputQuestions = [...blankInputQuestions];
     let questionPresent = false;
@@ -28,8 +27,8 @@ const JobQuestionInput = ({
 
   return (
     <input
-      type="text"
-      className="inline p-2 text-sm border-0 border-b-2 border-gray-400 outline-none bg-transparent focus:outline-none"
+      type='text'
+      className='inline p-2 text-sm border-0 border-b-2 border-gray-400 outline-none bg-transparent focus:outline-none'
       required={required}
       value={inputValue}
       onChange={inputValueHandler}
