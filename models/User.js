@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema(
     email: { type: String, trim: true, unique: true },
     hash: { type: String },
     salt: { type: String },
+    placed: {
+      type: Boolean,
+      default: false,
+    },
     detailsAvailable: {
       type: Boolean,
     },

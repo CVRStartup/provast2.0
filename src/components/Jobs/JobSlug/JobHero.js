@@ -12,10 +12,10 @@ import { Loading } from "../../Reusables/Loading";
 import { mutate } from "swr";
 import { useSingleAcademic } from "../../../hooks/useSingleAcademic";
 
-export const JobHero = ({ job, user }) => {
+export const JobHero = ({ job }) => {
+  const user = useUser();
   const { setIsOpen, setForm, setModalJob, loading, setLoading, setDeleteName } = useModelContext();
   const { oldAcademic } = useSingleAcademic("null", user?.rollNumber?.value);
-  console.log(oldAcademic);
   const [showOptions, setShowOptions] = useState(-1);
   // -1 -> not eligible
   // 0  -> not yet applied
@@ -113,34 +113,33 @@ export const JobHero = ({ job, user }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
+    <div className='max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8'>
       {loading && <Loading />}
-      <div className="flex items-center space-x-5">
-        <div className="flex-shrink-0">
+      <div className='flex items-center space-x-5'>
+        <div className='flex-shrink-0'>
           {job.logo && (
-            <div className="relative rounded-md h-28 w-52">
+            <div className='relative rounded-md h-28 w-52'>
               <Image
-                className="rounded-md "
-                placeholder="blur"
+                className='rounded-md '
+                placeholder='blur'
                 blurDataURL={job.logo}
-                layout="fill"
-                objectFit="contain"
+                layout='fill'
+                objectFit='contain'
                 src={job.logo}
-                alt=""
+                alt=''
               />
             </div>
           )}
         </div>
         <div>
-          {console.log(job?.rounds?.length)}
-          <h1 className="text-2xl uppercase tracking-wide font-bold text-gray-900">
+          <h1 className='text-2xl uppercase tracking-wide font-bold text-gray-900'>
             {job?.company}{" "}
             {job.eligible.filter((x, index) => {
               // if (!x) console.log(x + index);
               return x?.email === user?.email;
             }).length > 0 && (
-              <div className="text-lg font-bold text-gray-600 inline-flex items-center">
-                <span className="mr-1">
+              <div className='text-lg font-bold text-gray-600 inline-flex items-center'>
+                <span className='mr-1'>
                   {job?.rounds?.filter(
                     (round) =>
                       round.status === "Partially completed" || round.status === "Completed"
@@ -169,24 +168,24 @@ export const JobHero = ({ job, user }) => {
                     checkUserResult(job?.email) === null ? (
                       ""
                     ) : checkUserResult(job?.email) ? (
-                      <span className="flex items-center">
+                      <span className='flex items-center'>
                         <FaCheckCircle size={15} color={"green"} /> )
                       </span>
                     ) : (
-                      <span className="flex items-center">
+                      <span className='flex items-center'>
                         <MdCancel size={28} color={"red"} /> )
                       </span>
                     )
                   ) : job?.eligible?.filter((x) => x?.email === user?.email)[0]?.status?.applied ===
                     false ? (
-                    <span className="flex items-center">
+                    <span className='flex items-center'>
                       <MdCancel size={28} color={"red"} /> )
                     </span>
                   ) : job?.eligible?.filter((x) => x?.email === user?.email)[0]?.status?.applied ===
                     null ? (
                     ""
                   ) : (
-                    <span className="flex items-center">
+                    <span className='flex items-center'>
                       <FaCheckCircle size={15} color={"green"} /> )
                     </span>
                   )}
@@ -195,46 +194,49 @@ export const JobHero = ({ job, user }) => {
             )}
           </h1>
 
-          <p className="text-sm font-medium text-gray-500">
-            Posted for <span className="text-gray-900">{getDesignations(job?.designation)}</span> on{" "}
-            <time dateTime="2020-08-25">{moment(new Date(job?.createdAt)).format("LLLL")}</time>
+          <p className='text-sm font-medium text-gray-500'>
+            Posted for <span className='text-gray-900'>{getDesignations(job?.designation)}</span> on{" "}
+            <time dateTime='2020-08-25'>{moment(new Date(job?.createdAt)).format("LLLL")}</time>
           </p>
 
-          <div className="inline-flex items-center my-2 px-2.5 py-1.5 border border-transparent text-xs font-semibold rounded text-orange-700 bg-orange-100 ">
+          <div className='inline-flex items-center my-2 px-2.5 py-1.5 border border-transparent text-xs font-semibold rounded text-orange-700 bg-orange-100 '>
             {job?.role}
           </div>
         </div>
       </div>
-      <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-        {user?.category === "student" && showOptions != -1 && dateInPast(new Date(job.to)) && (
-          <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-            {showOptions != 0 && <div>Changed your mind?</div>}
-            {showOptions != 1 && (
-              <button
-                onClick={async () => {
-                  setLoading(true);
-                  setIsOpen(true);
-                  setForm("questionnareForm");
-                  setModalJob(job);
-                  setLoading(false);
-                }}
-                className={`inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700`}
-              >
-                Apply Job
-              </button>
-            )}
-            {showOptions != 2 && (
-              <button
-                onClick={() => handleJobResponse(job, user, "Not Interested", [], [], null)}
-                className={` inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700`}
-              >
-                Not Interested
-              </button>
-            )}
-          </div>
-        )}
+      <div className='mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3'>
+        {user?.category === "student" &&
+          user?.placed === job?.allowPlaced &&
+          showOptions != -1 &&
+          dateInPast(new Date(job.to)) && (
+            <div className='mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3'>
+              {showOptions != 0 && <div>Changed your mind?</div>}
+              {showOptions != 1 && (
+                <button
+                  onClick={async () => {
+                    setLoading(true);
+                    setIsOpen(true);
+                    setForm("questionnareForm");
+                    setModalJob(job);
+                    setLoading(false);
+                  }}
+                  className={`inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700`}
+                >
+                  Apply Job
+                </button>
+              )}
+              {showOptions != 2 && (
+                <button
+                  onClick={() => handleJobResponse(job, user, "Not Interested", [], [], null)}
+                  className={` inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700`}
+                >
+                  Not Interested
+                </button>
+              )}
+            </div>
+          )}
         {user?.category === "college" && (
-          <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
+          <div className='mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3'>
             <Link href={`/dashboard/college/jobs/${job._id}/edit`}>
               <a
                 className={`

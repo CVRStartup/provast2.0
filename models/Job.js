@@ -53,6 +53,9 @@ const JobSchema = mongoose.Schema(
         type: String,
       },
     ],
+    allowPlaced: {
+      type: Boolean,
+    },
     status: {
       type: String,
     },

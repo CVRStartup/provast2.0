@@ -5,6 +5,11 @@ import Editor from "../../../../src/components/Jobs/Editor";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { Loader } from "../../../../src/components/Layout/Loader";
+import { Switch } from "@headlessui/react";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 import {
   ctcRange,
   generateYearsBetween,
@@ -56,6 +61,7 @@ const JobAdd = ({ user }) => {
 
   const [placed, setPlaced] = useState(null);
   const [salary, setSalary] = useState(0);
+  const [allowPlaced, setAllowPlaced] = useState(false);
 
   const [selectedRole, setSelectedRole] = useState(role[0]);
   const [selectedStatus, setSelectedStatus] = useState(status[0]);
@@ -186,6 +192,7 @@ const JobAdd = ({ user }) => {
         salary: salary,
       },
       role: selectedRole.name,
+      allowPlaced,
       designation,
       jobPostingLocation,
       yearofPassing,
@@ -457,77 +464,77 @@ const JobAdd = ({ user }) => {
     setQuestionnaire([...newQuestions]);
   };
   return (
-    <main className="bg-gray-50 pt-[10vh]">
+    <main className='bg-gray-50 pt-[10vh]'>
       {loading.type === "add" && loading.status === true ? <Loading /> : ""}
-      <div className="space-y-6 max-w-6xl mx-auto py-8">
-        <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
-          <div className="mb-5 md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">Job Infomation</h3>
-            <p className="mt-1 text-sm text-gray-500">
+      <div className='space-y-6 max-w-6xl mx-auto py-8'>
+        <div className='bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>
+          <div className='mb-5 md:col-span-1'>
+            <h3 className='text-lg font-medium leading-6 text-gray-900'>Job Infomation</h3>
+            <p className='mt-1 text-sm text-gray-500'>
               This information will be displayed publicly so be careful what you share.
             </p>
           </div>
           <div>
-            <form className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6" method="POST">
-              <div className="sm:col-span-3">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <form className='mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6' method='POST'>
+              <div className='sm:col-span-3'>
+                <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
                   Company Name
                 </label>
                 <input
-                  type="text"
-                  name="name"
-                  id="name"
+                  type='text'
+                  name='name'
+                  id='name'
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  autoComplete="off"
-                  className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  autoComplete='off'
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
-              <div className="sm:col-span-3">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700  ">
+              <div className='sm:col-span-3'>
+                <label htmlFor='name' className='block text-sm font-medium text-gray-700  '>
                   Website
                 </label>
                 <input
-                  type="text"
-                  name="name"
-                  id="name"
+                  type='text'
+                  name='name'
+                  id='name'
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  autoComplete="off"
-                  className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  autoComplete='off'
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
-              <div className="sm:col-span-3">
-                <label htmlFor="sign" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-3'>
+                <label htmlFor='sign' className='block text-sm font-medium text-gray-700'>
                   Owner Sign
                 </label>
-                <div className="mt-1">
-                  <div className="sm:mt-0 sm:col-span-2">
+                <div className='mt-1'>
+                  <div className='sm:mt-0 sm:col-span-2'>
                     {loading.type === "sign" && loading.status ? (
-                      <div className="animate-pulse">
-                        <input className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10"></input>
+                      <div className='animate-pulse'>
+                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
                       </div>
                     ) : (
                       <input
-                        type="text"
+                        type='text'
                         value={owner.signature}
                         disabled={true}
                         onChange={(e) => setOwner({ ...owner, signature: e.target.value })}
-                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                       />
                     )}
                     {loading.type === "sign" && loading.status ? (
-                      <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed">
-                        <Loader size={8} color="gray" />
+                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
+                        <Loader size={8} color='gray' />
                         Please Wait...
                       </div>
                     ) : (
                       <input
-                        className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                        label="Choose File"
-                        type="file"
-                        name="sign"
-                        id="sign"
+                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                        label='Choose File'
+                        type='file'
+                        name='sign'
+                        id='sign'
                         onChange={(e) => uploadFileHandler(e, "sign")}
                       />
                     )}
@@ -535,82 +542,82 @@ const JobAdd = ({ user }) => {
                 </div>
               </div>
 
-              <div className="sm:col-span-3">
-                <label htmlFor="ownername" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-3'>
+                <label htmlFor='ownername' className='block text-sm font-medium text-gray-700'>
                   Owner Name
                 </label>
                 <input
-                  type="text"
-                  name="ownername"
-                  id="ownername"
+                  type='text'
+                  name='ownername'
+                  id='ownername'
                   value={owner.name}
                   onChange={(e) => setOwner({ ...owner, name: e.target.value })}
-                  className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
 
-              <div className="sm:col-span-2">
-                <label htmlFor="placementOName" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-2'>
+                <label htmlFor='placementOName' className='block text-sm font-medium text-gray-700'>
                   Placement Officer Name
                 </label>
                 <input
-                  type="text"
-                  name="placementOName"
-                  id="placementOName"
+                  type='text'
+                  name='placementOName'
+                  id='placementOName'
                   value={team.placementOfficer}
                   onChange={(e) => setTeam({ ...team, placementOfficer: e.target.value })}
-                  className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-200 rounded-md"
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-200 rounded-md'
                 />
               </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="dataLead" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-2'>
+                <label htmlFor='dataLead' className='block text-sm font-medium text-gray-700'>
                   Data Team Lead
                 </label>
                 <input
-                  type="text"
-                  name="dataLead"
-                  id="dataLead"
+                  type='text'
+                  name='dataLead'
+                  id='dataLead'
                   value={team.dataTeamLead}
                   onChange={(e) => setTeam({ ...team, dataTeamLead: e.target.value })}
-                  className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-200 rounded-md"
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-200 rounded-md'
                 />
               </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="processLead" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-2'>
+                <label htmlFor='processLead' className='block text-sm font-medium text-gray-700'>
                   Process Team Lead
                 </label>
                 <input
-                  type="text"
-                  name="processLead"
-                  id="processLead"
+                  type='text'
+                  name='processLead'
+                  id='processLead'
                   value={team.processTeamLead}
                   onChange={(e) => setTeam({ ...team, processTeamLead: e.target.value })}
-                  className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
 
-              <div className="sm:col-span-6">
-                <label className="text-base font-medium text-gray-900">Job Program</label>
-                <p className="text-sm leading-5 text-gray-500">
+              <div className='sm:col-span-3'>
+                <label className='text-base font-medium text-gray-900'>Job Program</label>
+                <p className='text-sm leading-5 text-gray-500'>
                   Whom would you like to show this job posting?
                 </p>
-                <fieldset className="mt-4">
-                  <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                <fieldset className='mt-4'>
+                  <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10'>
                     {typeOfJobProgram.map((option) => (
-                      <div key={option.id} className="flex items-center">
+                      <div key={option.id} className='flex items-center'>
                         <input
                           id={option.id}
-                          name="notification-method"
-                          type="radio"
+                          name='notification-method'
+                          type='radio'
                           value={option.name}
                           defaultChecked={option.id === "btech"}
                           checked={option.name === typeOfProgram}
                           onChange={(e) => setTypeOfProgram(e.target.value)}
-                          className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
+                          className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
                         />
                         <label
                           htmlFor={option.id}
-                          className="ml-3 block text-sm font-medium text-gray-700"
+                          className='ml-3 block text-sm font-medium text-gray-700'
                         >
                           {option.name}
                         </label>
@@ -619,45 +626,110 @@ const JobAdd = ({ user }) => {
                   </div>
                 </fieldset>
               </div>
-              <div className="sm:col-span-6">
-                <label htmlFor="purpose" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-3'>
+                <Switch.Group as='div' className='flex items-center justify-between'>
+                  <span className='flex flex-grow flex-col'>
+                    <Switch.Label as='span' className='text-sm font-medium text-gray-900' passive>
+                      Allow Placed Students
+                    </Switch.Label>
+                    <Switch.Description as='span' className='text-sm text-gray-500'>
+                      Please make sure you enter correct information.
+                    </Switch.Description>
+                  </span>
+                  <Switch
+                    checked={allowPlaced}
+                    onChange={setAllowPlaced}
+                    className={classNames(
+                      allowPlaced ? "bg-orange-600" : "bg-gray-200",
+                      "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                    )}
+                  >
+                    <span className='sr-only'>Use setting</span>
+                    <span
+                      className={classNames(
+                        allowPlaced ? "translate-x-5" : "translate-x-0",
+                        "pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                      )}
+                    >
+                      <span
+                        className={classNames(
+                          allowPlaced
+                            ? "opacity-0 ease-out duration-100"
+                            : "opacity-100 ease-in duration-200",
+                          "absolute inset-0 flex h-full w-full items-center justify-center transition-opacity"
+                        )}
+                        aria-hidden='true'
+                      >
+                        <svg className='h-3 w-3 text-gray-400' fill='none' viewBox='0 0 12 12'>
+                          <path
+                            d='M4 8l2-2m0 0l2-2M6 6L4 4m2 2l2 2'
+                            stroke='currentColor'
+                            strokeWidth={2}
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        className={classNames(
+                          allowPlaced
+                            ? "opacity-100 ease-in duration-200"
+                            : "opacity-0 ease-out duration-100",
+                          "absolute inset-0 flex h-full w-full items-center justify-center transition-opacity"
+                        )}
+                        aria-hidden='true'
+                      >
+                        <svg
+                          className='h-3 w-3 text-orange-600'
+                          fill='currentColor'
+                          viewBox='0 0 12 12'
+                        >
+                          <path d='M3.707 5.293a1 1 0 00-1.414 1.414l1.414-1.414zM5 8l-.707.707a1 1 0 001.414 0L5 8zm4.707-3.293a1 1 0 00-1.414-1.414l1.414 1.414zm-7.414 2l2 2 1.414-1.414-2-2-1.414 1.414zm3.414 2l4-4-1.414-1.414-4 4 1.414 1.414z' />
+                        </svg>
+                      </span>
+                    </span>
+                  </Switch>
+                </Switch.Group>
+              </div>
+              <div className='sm:col-span-6'>
+                <label htmlFor='purpose' className='block text-sm font-medium text-gray-700'>
                   Description
                 </label>
                 <Editor input={description} dataCallBack={handleCallBack} />
-                <p className="mt-2 text-sm text-gray-500">Few lines to describe the job role.</p>
+                <p className='mt-2 text-sm text-gray-500'>Few lines to describe the job role.</p>
               </div>
 
-              <div className="sm:col-span-3">
-                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-3'>
+                <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
                   Logo
                 </label>
-                <div className="mt-1">
-                  <div className="sm:mt-0 sm:col-span-2">
+                <div className='mt-1'>
+                  <div className='sm:mt-0 sm:col-span-2'>
                     {loading.type === "logo" && loading.status ? (
-                      <div className="animate-pulse">
-                        <input className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10"></input>
+                      <div className='animate-pulse'>
+                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
                       </div>
                     ) : (
                       <input
-                        type="text"
+                        type='text'
                         value={logo}
                         disabled={true}
                         onChange={(e) => setLogo(e.target.value)}
-                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                       />
                     )}
                     {loading.type === "logo" && loading.status ? (
-                      <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed">
-                        <Loader size={8} color="gray" />
+                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
+                        <Loader size={8} color='gray' />
                         Please Wait...
                       </div>
                     ) : (
                       <input
-                        className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                        label="Choose File"
-                        type="file"
-                        name="image"
-                        id="profileImg"
+                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                        label='Choose File'
+                        type='file'
+                        name='image'
+                        id='profileImg'
                         onChange={(e) => uploadFileHandler(e, "logo")}
                       />
                     )}
@@ -665,37 +737,37 @@ const JobAdd = ({ user }) => {
                 </div>
               </div>
 
-              <div className="sm:col-span-3">
-                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-3'>
+                <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
                   Banner
                 </label>
-                <div className="mt-1">
-                  <div className="sm:mt-0 sm:col-span-2">
+                <div className='mt-1'>
+                  <div className='sm:mt-0 sm:col-span-2'>
                     {loading.type === "banner" && loading.status ? (
-                      <div className="animate-pulse">
-                        <input className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10"></input>
+                      <div className='animate-pulse'>
+                        <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none bg-gray-200 sm:text-sm h-10'></input>
                       </div>
                     ) : (
                       <input
-                        type="text"
+                        type='text'
                         value={image}
                         disabled={true}
                         onChange={(e) => setImage(e.target.value)}
-                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
                       />
                     )}
                     {loading.type === "banner" && loading.status ? (
-                      <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed">
-                        <Loader size={8} color="gray" />
+                      <div className='inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-gray-500 cursor-not-allowed'>
+                        <Loader size={8} color='gray' />
                         Please Wait...
                       </div>
                     ) : (
                       <input
-                        className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                        label="Choose File"
-                        type="file"
-                        name="image"
-                        id="profileImg"
+                        className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                        label='Choose File'
+                        type='file'
+                        name='image'
+                        id='profileImg'
                         onChange={(e) => uploadFileHandler(e, "banner")}
                       />
                     )}
@@ -703,41 +775,41 @@ const JobAdd = ({ user }) => {
                 </div>
               </div>
 
-              <div className="sm:col-span-3">
-                <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-3'>
+                <label htmlFor='startDate' className='block text-sm font-medium text-gray-700'>
                   Registration Start Date
                 </label>
-                <div className="mt-1">
+                <div className='mt-1'>
                   <input
-                    type="datetime-local"
-                    name="startDate"
-                    id="startDate"
+                    type='datetime-local'
+                    name='startDate'
+                    id='startDate'
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
                     required
-                    className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
                   />
                 </div>
               </div>
 
-              <div className="sm:col-span-3">
-                <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
+              <div className='sm:col-span-3'>
+                <label htmlFor='endDate' className='block text-sm font-medium text-gray-700'>
                   Registration End Date
                 </label>
-                <div className="mt-1">
+                <div className='mt-1'>
                   <input
-                    type="datetime-local"
-                    name="endDate"
-                    id="endDate"
+                    type='datetime-local'
+                    name='endDate'
+                    id='endDate'
                     required
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
-                    className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className='shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
                   />
                 </div>
               </div>
 
-              <div className="sm:col-span-6 relative -top-[22px]">
+              <div className='sm:col-span-6 relative -top-[22px]'>
                 <DropDown
                   title={"Role"}
                   options={role}
@@ -746,11 +818,11 @@ const JobAdd = ({ user }) => {
                 />
               </div>
 
-              <div className="sm:col-span-6">
-                <div className="flex items-start justify-between">
-                  <div className="w-[49%]">
+              <div className='sm:col-span-6'>
+                <div className='flex items-start justify-between'>
+                  <div className='w-[49%]'>
                     <MultiInput
-                      title="Designation"
+                      title='Designation'
                       handleExtraOptions={(extra) =>
                         setDesignation({
                           ...designation,
@@ -767,17 +839,17 @@ const JobAdd = ({ user }) => {
                     />
                   </div>
 
-                  <div className="w-[49%]">
+                  <div className='w-[49%]'>
                     <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                      htmlFor='name'
+                      className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
                     >
                       Max Roles That can be applied
                     </label>
                     <input
-                      type="number"
-                      name="name"
-                      id="name"
+                      type='number'
+                      name='name'
+                      id='name'
                       value={designation.max}
                       onChange={(e) =>
                         setDesignation({
@@ -785,17 +857,17 @@ const JobAdd = ({ user }) => {
                           max: parseInt(e.target.value),
                         })
                       }
-                      autoComplete="off"
-                      className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      autoComplete='off'
+                      className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="sm:col-span-6">
+              <div className='sm:col-span-6'>
                 {selectedRole.name === "Internship" ? (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="relative -top-[22px]">
+                  <div className='grid grid-cols-2 gap-4'>
+                    <div className='relative -top-[22px]'>
                       <DropDown
                         title={"Stipend Range"}
                         options={stipendRange}
@@ -803,24 +875,24 @@ const JobAdd = ({ user }) => {
                         setSelectedOption={setSelectedStipendRange}
                       />
                     </div>
-                    <div className="">
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    <div className=''>
+                      <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
                         Exact Stipend
                       </label>
                       <input
-                        type="number"
-                        name="name"
-                        id="name"
+                        type='number'
+                        name='name'
+                        id='name'
                         value={stipend}
                         onChange={(e) => setStipend(e.target.value)}
-                        autoComplete="off"
-                        className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        autoComplete='off'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
                   </div>
                 ) : selectedRole.name === "Full Time" ? (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="relative -top-[22px]">
+                  <div className='grid grid-cols-2 gap-4'>
+                    <div className='relative -top-[22px]'>
                       <DropDown
                         title={"CTC Range"}
                         options={ctcRange}
@@ -828,25 +900,25 @@ const JobAdd = ({ user }) => {
                         setSelectedOption={setSelectedCTCRange}
                       />
                     </div>
-                    <div className="">
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    <div className=''>
+                      <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
                         Exact CTC
                       </label>
                       <input
-                        type="number"
-                        name="name"
-                        id="name"
+                        type='number'
+                        name='name'
+                        id='name'
                         value={ctc}
                         onChange={(e) => setCtc(e.target.value)}
-                        autoComplete="off"
-                        className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        autoComplete='off'
+                        className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                       />
                     </div>
                   </div>
                 ) : selectedRole.name === "Internship and Full Time" ? (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="relative -top-[22px]">
+                  <div className='grid grid-cols-2 gap-4'>
+                    <div className='grid grid-cols-2 gap-4'>
+                      <div className='relative -top-[22px]'>
                         <DropDown
                           title={"Stipend Range"}
                           options={stipendRange}
@@ -854,23 +926,23 @@ const JobAdd = ({ user }) => {
                           setSelectedOption={setSelectedStipendRange}
                         />
                       </div>
-                      <div className="">
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      <div className=''>
+                        <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
                           Exact Stipend
                         </label>
                         <input
-                          type="number"
-                          name="name"
-                          id="name"
+                          type='number'
+                          name='name'
+                          id='name'
                           value={stipend}
                           onChange={(e) => setStipend(e.target.value)}
-                          autoComplete="off"
-                          className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          autoComplete='off'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="relative -top-[22px]">
+                    <div className='grid grid-cols-2 gap-4'>
+                      <div className='relative -top-[22px]'>
                         <DropDown
                           title={"CTC Range"}
                           options={ctcRange}
@@ -878,18 +950,18 @@ const JobAdd = ({ user }) => {
                           setSelectedOption={setSelectedCTCRange}
                         />
                       </div>
-                      <div className="">
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      <div className=''>
+                        <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
                           Exact CTC
                         </label>
                         <input
-                          type="number"
-                          name="name"
-                          id="name"
+                          type='number'
+                          name='name'
+                          id='name'
                           value={ctc}
                           onChange={(e) => setCtc(e.target.value)}
-                          autoComplete="off"
-                          className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          autoComplete='off'
+                          className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </div>
                     </div>
@@ -899,13 +971,13 @@ const JobAdd = ({ user }) => {
                 )}
               </div>
 
-              <div className="sm:col-span-6 rounded border">
-                <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
+              <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
                   <p>{"Job Posting Location"}</p>
-                  <div className="ml-3 flex items-center font-normal">
+                  <div className='ml-3 flex items-center font-normal'>
                     <input
-                      type="checkbox"
-                      className="h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none"
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none'
                       checked={jobPostingLocation.includes("PAN India")}
                       onChange={(e) => {
                         const id = jobPostingLocation.indexOf("PAN India");
@@ -927,13 +999,13 @@ const JobAdd = ({ user }) => {
                   checkedOptions={jobPostingLocation}
                 />
               </div>
-              <div className="sm:col-span-6 rounded border">
-                <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
+              <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
                   <p>{"Year Of Passing"}</p>
-                  <div className="ml-3 flex items-center font-normal">
+                  <div className='ml-3 flex items-center font-normal'>
                     <input
-                      type="checkbox"
-                      className="h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none"
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none'
                       checked={yearofPassing.length === generateYearsBetween().length}
                       onChange={() => {
                         if (yearofPassing.length === generateYearsBetween().length)
@@ -951,13 +1023,13 @@ const JobAdd = ({ user }) => {
                   checkedOptions={yearofPassing}
                 />
               </div>
-              <div className="sm:col-span-6 rounded border">
-                <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
+              <div className='sm:col-span-6 rounded border'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
                   <p>{"Eligible Branches"}</p>
-                  <div className="ml-3 flex items-center font-normal">
+                  <div className='ml-3 flex items-center font-normal'>
                     <input
-                      type="checkbox"
-                      className="h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none"
+                      type='checkbox'
+                      className='h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none'
                       checked={
                         branchOptions.length ===
                         (typeOfProgram === "B.Tech"
@@ -1070,27 +1142,27 @@ const JobAdd = ({ user }) => {
                 </div>
               )} */}
 
-              <div className="sm:col-span-4">
-                <label className="text-base font-medium text-gray-900">Type Of Job Posting</label>
-                <p className="text-sm leading-5 text-gray-500">
+              <div className='sm:col-span-4'>
+                <label className='text-base font-medium text-gray-900'>Type Of Job Posting</label>
+                <p className='text-sm leading-5 text-gray-500'>
                   How would you like to show this job posting?
                 </p>
-                <fieldset className="mt-4">
-                  <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                <fieldset className='mt-4'>
+                  <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10'>
                     {typeOfPosting.map((option) => (
-                      <div key={option.id} className="flex items-center">
+                      <div key={option.id} className='flex items-center'>
                         <input
                           id={option.id}
-                          name="notification-method"
-                          type="radio"
+                          name='notification-method'
+                          type='radio'
                           value={option.name}
                           defaultChecked={option.id === "shortlisted"}
                           onChange={(e) => setTypeOfPost(e.target.value)}
-                          className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300"
+                          className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300'
                         />
                         <label
                           htmlFor={option.id}
-                          className="ml-3 block text-sm font-medium text-gray-700"
+                          className='ml-3 block text-sm font-medium text-gray-700'
                         >
                           {option.name}
                         </label>
@@ -1100,7 +1172,7 @@ const JobAdd = ({ user }) => {
                 </fieldset>
               </div>
 
-              <div className="sm:col-span-2 relative -top-[22px]">
+              <div className='sm:col-span-2 relative -top-[22px]'>
                 <DropDown
                   title={"Status"}
                   options={status}
@@ -1111,7 +1183,7 @@ const JobAdd = ({ user }) => {
 
               {typeOfPost === "Criteria" && (
                 <>
-                  <div className="sm:col-span-1 relative -top-[22px]">
+                  <div className='sm:col-span-1 relative -top-[22px]'>
                     <DropDown
                       title={"Xth Type Of Grade"}
                       options={typeOfGrade}
@@ -1120,7 +1192,7 @@ const JobAdd = ({ user }) => {
                     />
                   </div>
                   {selectedXthTypeOfGrade.name !== "Not Applicable" && (
-                    <div className="sm:col-span-1 relative -top-[22px]">
+                    <div className='sm:col-span-1 relative -top-[22px]'>
                       <DropDown
                         title={"Xth Grade"}
                         options={selectedXthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
@@ -1129,7 +1201,7 @@ const JobAdd = ({ user }) => {
                       />
                     </div>
                   )}
-                  <div className="sm:col-span-1 relative -top-[22px]">
+                  <div className='sm:col-span-1 relative -top-[22px]'>
                     <DropDown
                       title={"XIIth Type Of Grade"}
                       options={typeOfGrade}
@@ -1138,7 +1210,7 @@ const JobAdd = ({ user }) => {
                     />
                   </div>
                   {selectedXIIthTypeOfGrade.name !== "Not Applicable" && (
-                    <div className="sm:col-span-1 relative -top-[22px]">
+                    <div className='sm:col-span-1 relative -top-[22px]'>
                       <DropDown
                         title={"XIIth Grade"}
                         options={selectedXIIthTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
@@ -1147,7 +1219,7 @@ const JobAdd = ({ user }) => {
                       />
                     </div>
                   )}
-                  <div className="sm:col-span-1 relative -top-[22px]">
+                  <div className='sm:col-span-1 relative -top-[22px]'>
                     <DropDown
                       title={"Diploma Type Of Grade"}
                       options={typeOfGrade}
@@ -1156,7 +1228,7 @@ const JobAdd = ({ user }) => {
                     />
                   </div>
                   {selectedDiplomaTypeOfGrade.name !== "Not Applicable" && (
-                    <div className="sm:col-span-1 relative -top-[22px]">
+                    <div className='sm:col-span-1 relative -top-[22px]'>
                       <DropDown
                         title={"Diploma Grade"}
                         options={selectedDiplomaTypeOfGrade.name === "CGPA" ? CGPAs : Percentages}
@@ -1165,7 +1237,7 @@ const JobAdd = ({ user }) => {
                       />
                     </div>
                   )}
-                  <div className="sm:col-span-1 relative -top-[22px]">
+                  <div className='sm:col-span-1 relative -top-[22px]'>
                     <DropDown
                       title={"UG Type Of Grade"}
                       options={typeOfGrade}
@@ -1174,7 +1246,7 @@ const JobAdd = ({ user }) => {
                     />
                   </div>
                   {selectedUndergraduateTypeOfGrade.name !== "Not Applicable" && (
-                    <div className="sm:col-span-1 relative -top-[22px]">
+                    <div className='sm:col-span-1 relative -top-[22px]'>
                       <DropDown
                         title={"UG Grade"}
                         options={
@@ -1185,7 +1257,7 @@ const JobAdd = ({ user }) => {
                       />
                     </div>
                   )}
-                  <div className="sm:col-span-1 relative -top-[22px]">
+                  <div className='sm:col-span-1 relative -top-[22px]'>
                     <DropDown
                       title={"PG Type Of Grade"}
                       options={typeOfGrade}
@@ -1194,7 +1266,7 @@ const JobAdd = ({ user }) => {
                     />
                   </div>
                   {selectedPostgraduateTypeOfGrade.name !== "Not Applicable" && (
-                    <div className="sm:col-span-1 relative -top-[22px]">
+                    <div className='sm:col-span-1 relative -top-[22px]'>
                       <DropDown
                         title={"PG Grade"}
                         options={
@@ -1211,37 +1283,37 @@ const JobAdd = ({ user }) => {
           </div>
         </div>
       </div>
-      <div className="space-y-6 max-w-6xl mx-auto py-8">
-        <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
-          <div className="mb-5 md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">Drive Infomation</h3>
-            <p className="mt-1 text-sm text-gray-500">
+      <div className='space-y-6 max-w-6xl mx-auto py-8'>
+        <div className='bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6'>
+          <div className='mb-5 md:col-span-1'>
+            <h3 className='text-lg font-medium leading-6 text-gray-900'>Drive Infomation</h3>
+            <p className='mt-1 text-sm text-gray-500'>
               This information will be displayed publicly so be careful what you share.
             </p>
           </div>
           <div>
-            <form className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6" method="POST">
-              <div className="sm:col-span-6">
-                <label htmlFor="roundNumber" className="block text-sm font-medium text-gray-700">
+            <form className='mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6' method='POST'>
+              <div className='sm:col-span-6'>
+                <label htmlFor='roundNumber' className='block text-sm font-medium text-gray-700'>
                   Enter number of rounds
                 </label>
                 <input
-                  type="number"
-                  name="roundNumber"
-                  id="roundNumber"
-                  min="1"
+                  type='number'
+                  name='roundNumber'
+                  id='roundNumber'
+                  min='1'
                   value={rounds.length}
                   onChange={(e) => addNewRound(e.target.value)}
-                  autoComplete="off"
-                  className="mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  autoComplete='off'
+                  className='mt-1 focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                 />
               </div>
 
-              <div className="sm:col-span-6 rounded border bg-white shadow sm:rounded-lg">
-                <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
+              <div className='sm:col-span-6 rounded border bg-white shadow sm:rounded-lg'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
                   <p>Rounds</p>
                 </h4>
-                <div className="px-5 pb-5">
+                <div className='px-5 pb-5'>
                   {rounds?.map((round, roundIndex) => (
                     <>
                       <Round
@@ -1253,20 +1325,20 @@ const JobAdd = ({ user }) => {
                         handleShortlistFile={handleShortlistFile}
                       />
                       {roundIndex == 0 && typeOfPost === "Shortlisted Students" && (
-                        <div className="sm:col-span-3">
+                        <div className='sm:col-span-3'>
                           <label
-                            htmlFor="photo"
-                            className="block text-sm font-medium text-gray-700"
+                            htmlFor='photo'
+                            className='block text-sm font-medium text-gray-700'
                           >
                             Upload Spreadsheet
                           </label>
 
                           <input
-                            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            label="Choose File"
-                            type="file"
-                            name="image"
-                            id="profileImg"
+                            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+                            label='Choose File'
+                            type='file'
+                            name='image'
+                            id='profileImg'
                             onChange={handleFile}
                           />
                           {excelFileError &&
@@ -1280,11 +1352,11 @@ const JobAdd = ({ user }) => {
                 </div>
               </div>
 
-              <div className="sm:col-span-6 rounded border bg-white shadow sm:rounded-lg">
-                <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
+              <div className='sm:col-span-6 rounded border bg-white shadow sm:rounded-lg'>
+                <h4 className='font-semibold text-sm bg-gray-100 px-2 py-3 flex'>
                   <p>Questionaire</p>
                 </h4>
-                <div className="p-5">
+                <div className='p-5'>
                   {questionnaire?.map((questionObj, questionIndex) => (
                     <Question
                       question={questionObj.question}
@@ -1299,7 +1371,7 @@ const JobAdd = ({ user }) => {
                     />
                   ))}
                   <div
-                    className="cursor-pointer mt-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-semibold rounded text-orange-600 bg-orange-100"
+                    className='cursor-pointer mt-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-semibold rounded text-orange-600 bg-orange-100'
                     onClick={addNewQuestion}
                   >
                     Add question
@@ -1310,11 +1382,11 @@ const JobAdd = ({ user }) => {
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className='flex justify-end'>
           <Link href={`/dashboard/college/jobs`}>
             <button
-              type="button"
-              className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+              type='button'
+              className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
             >
               Cancel
             </button>
