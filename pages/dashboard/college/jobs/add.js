@@ -38,7 +38,6 @@ import { findUser } from "../../../../src/lib/user";
 import { Round } from "../../../../src/components/Jobs/Round";
 import { Question } from "../../../../src/components/Jobs/Question";
 import { round } from "lodash";
-
 const JobAdd = ({ user }) => {
   const router = useRouter();
   const [name, setName] = useState("");
