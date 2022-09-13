@@ -40,6 +40,7 @@ const updatePassword = async (req, res) => {
       },
       { new: true }
     );
+    console.log(details);
     if (details) {
       return res.status(200).json({ message: "Password Updated", details });
     } else {

@@ -19,6 +19,10 @@ const ProfileEdit = ({ userDetails }) => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState({
+    newPassword: "",
+    confirmNewPasswod: "",
+  });
   const [rollNumber, setRollNumber] = useState({
     value: user?.rollNumber?.value,
     verified: false,
@@ -105,6 +109,22 @@ const ProfileEdit = ({ userDetails }) => {
         contact,
       }
     );
+    if (
+      password.newPassword &&
+      password.confirmNewPasswod &&
+      password.newPassword === password.confirmNewPasswod
+    ) {
+      const {
+        data: { message: passwordMessage },
+      } = await axios.put(
+        `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/forgotPassword?email=${user?.email}&password=${password.newPassword}`
+      );
+      if (passwordMessage == "Password Updated") {
+        toast.success("Password Updated", { toastId: "Password Updated" });
+      }
+    } else {
+      toast.error("Please check your password");
+    }
     if (message == "Details Updated" && personalMessage == "Personal Details Updated") {
       toast.success(message, { toastId: message });
       router.push("/dashboard/student/profile");
@@ -632,6 +652,72 @@ const ProfileEdit = ({ userDetails }) => {
           </div>
         </div>
 
+        <div className='my-10 sm:mt-0 border-b pb-5'>
+          <div className='md:grid md:grid-cols-3 md:gap-6'>
+            <div className='md:col-span-1'>
+              <div className='px-4 sm:px-0'>
+                <h3 className='text-lg font-medium leading-6 text-gray-900'>Change Password</h3>
+                <p className='mt-1 text-sm text-gray-600'>Enter correct information.</p>
+              </div>
+            </div>
+            <div className='mt-5 md:mt-0 md:col-span-2'>
+              <div>
+                <div className='shadow sm:rounded-md sm:overflow-hidden'>
+                  <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
+                    <div className='grid grid-cols-2 gap-6'>
+                      <div className=''>
+                        <label
+                          htmlFor='newPassword'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          New Password
+                        </label>
+                        <div className='mt-1 flex rounded-md shadow-sm'>
+                          <input
+                            type='text'
+                            name='newPassword'
+                            id='newPassword'
+                            className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
+                            value={password.newPassword}
+                            onChange={(e) =>
+                              setPassword({
+                                ...password,
+                                newPassword: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className=''>
+                        <label
+                          htmlFor='confirmNewPassword'
+                          className='block text-sm font-medium text-gray-700'
+                        >
+                          Confirm New Password
+                        </label>
+                        <div className='mt-1 flex rounded-md shadow-sm'>
+                          <input
+                            type='text'
+                            name='confirmNewPassword'
+                            id='confirmNewPassword'
+                            className='focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300'
+                            value={password.confirmNewPasswod}
+                            onChange={(e) =>
+                              setPassword({
+                                ...password,
+                                confirmNewPasswod: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className='mt-10 sm:mt-0'>
           <div className='md:grid md:grid-cols-3 md:gap-6'>
             <div className='md:col-span-1'>
