@@ -64,7 +64,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
     };
   }
 
-  if (user.category === "student" && !user.academicsAvailable) {
+  if (user.category === "student" && !user.academicsAvailable && user?.college.name!=='CORPORATE') {
     return {
       redirect: {
         destination: "/auth/user/academics",
@@ -72,17 +72,27 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
+
   const {
     data: { assessments },
   } = await axios.get(
     `${process.env.HOST_URL}/api/assessments?collegename=${user.college.name}&collegecode=${user.college.code}`
   );
-
+  
+  if(user?.college.name==='CORPORATE'){
+    return{
+      props: {
+        assessments,
+        academics: null,
+      },
+    }
+  }
+  
   const {
     data: { academics },
-  } = await axios.get(
-    `${process.env.HOST_URL}/api/auth/user/academics?rollNumber=${user.rollNumber?.value}`
-  );
+      } = await axios.get(
+        `${process.env.HOST_URL}/api/auth/user/academics?rollNumber=${user.rollNumber?.value}`
+        );
 
   if (!academics) {
     return {
@@ -92,7 +102,8 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   }
-
+  
+  
   return {
     props: {
       assessments,

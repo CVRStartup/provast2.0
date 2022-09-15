@@ -24,7 +24,6 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
     if (assessment.allowedBranches.includes(bBranch.code)) return bBranch.name;
   });
 
-  console.log(allowedBranches);
   if (!allowedBranches.includes(studentDetails?.branch))
     isDisabledForBranches = true;
 
@@ -39,7 +38,8 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
   let isDisabled =
     isDisabledForBatches || isDisabledForBranches || !isShortListed;
 
-  //console.log(isDisabledForBranches);
+  if(user?.college?.name === 'CORPORATE' ) isDisabled = false;
+
   useEffect(() => {
     (async () => {
       const {

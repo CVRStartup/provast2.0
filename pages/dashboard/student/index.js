@@ -187,7 +187,7 @@ const StudentIndex = ({ userDetails }) => {
   }, [form.current]);
 
   useEffect(() => {
-    if (!oldAcademic) return;
+    if (!oldAcademic || !oldAcademic.score) return;
     if (oldAcademic.score.grade <= 10) {
       setIsEligibleToPay(oldAcademic.score.grade >= 6);
     } else if (oldAcademic.score.grade <= 100) {

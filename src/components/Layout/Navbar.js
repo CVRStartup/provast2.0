@@ -100,6 +100,21 @@ export const Navbar = () => {
     },
   ];
 
+  if(session?.college?.name==='CORPORATE'){
+    collegeNavigation.push(
+      {
+        name: "Assessments",
+        href: "/dashboard/college/assessments",
+      },
+    );
+    studentNavigation.push(
+      {
+      name: "Assessments",
+      href: "/dashboard/student/assessments",
+      },
+    );
+  }
+
   const [navigation, setNavigation] = useState(landingNavigation);
 
   useEffect(() => {
