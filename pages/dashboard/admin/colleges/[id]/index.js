@@ -179,33 +179,33 @@ const Index = ({ id }) => {
             const worksheet = workbook.Sheets[worksheetName];
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
-              const name = x["Student Name"].split(" ");
+              const name = x["Full Name"].trim(" ").split(" ");
               const studentName = getName(name);
               return {
-                email: x["Email Id"] ?? null,
+                email: x["Email"] ?? null,
                 detailsAvailable: true,
                 academicsAvailable: true,
                 profile: {
                   ...studentName,
-                  gender: x["GENDER"] ?? null,
+                  gender: "",
                   verified: false,
                   frozen: false,
                 },
                 approved: true,
                 category: "student",
                 rollNumber: {
-                  value: x["RollNo."] ?? null,
+                  value: "",
                   frozen: false,
                   verified: false,
                 },
                 phone: {
-                  value: x["Student Contact No"] ?? null,
+                  value: "",
                   frozen: false,
                   verified: false,
                 },
                 college: {
-                  name: college.collegeName,
-                  code: college._id,
+                  name: "CORPORATE",
+                  code: "632309fcdc6b131c2932243b",
                 },
               };
             });
@@ -223,6 +223,7 @@ const Index = ({ id }) => {
       console.log("please select your file");
     }
   };
+
   const handleCreate = async () => {
     let total = students.length,
       createdCount = 0;
@@ -508,19 +509,19 @@ const Index = ({ id }) => {
     }
   };
   return (
-    <div className='pt-[10vh]'>
+    <div className="pt-[10vh]">
       <div>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+        <div className="sm:col-span-3">
+          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
             Upload Spreadsheet
           </label>
 
           <input
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            label='Choose File'
-            type='file'
-            name='image'
-            id='profileImg'
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            label="Choose File"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handleFile}
           />
           {excelFileError &&
@@ -530,18 +531,18 @@ const Index = ({ id }) => {
         </div>
         <button onClick={handleCreate}>Create</button>
       </div>
-      <div className='pt-[10vh]'>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+      <div className="pt-[10vh]">
+        <div className="sm:col-span-3">
+          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
             Upload Spreadsheet
           </label>
 
           <input
-            label='Choose File'
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            type='file'
-            name='image'
-            id='profileImg'
+            label="Choose File"
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handleEducation}
           />
           {excelFileError &&
@@ -552,18 +553,18 @@ const Index = ({ id }) => {
         <button onClick={handleEducationCreate}>Create Education</button>
       </div>
 
-      <div className='pt-[10vh]'>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+      <div className="pt-[10vh]">
+        <div className="sm:col-span-3">
+          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
             Upload Spreadsheet
           </label>
 
           <input
-            label='Choose File'
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            type='file'
-            name='image'
-            id='profileImg'
+            label="Choose File"
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handlePayment}
           />
           {excelFileError &&
@@ -574,18 +575,18 @@ const Index = ({ id }) => {
         <button onClick={handlePaymentCreate}>Create Payment</button>
       </div>
 
-      <div className='pt-[10vh]'>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+      <div className="pt-[10vh]">
+        <div className="sm:col-span-3">
+          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
             Upload Spreadsheet
           </label>
 
           <input
-            label='Choose File'
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            type='file'
-            name='image'
-            id='profileImg'
+            label="Choose File"
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handlePlaced}
           />
           {excelFileError &&

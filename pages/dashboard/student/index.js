@@ -141,13 +141,13 @@ const resources = [
   },
 ];
 
-const StudentIndex = ({ user }) => {
+const StudentIndex = ({ userDetails }) => {
+  const user = JSON.parse(userDetails);
   const { jobs, isLoading } = useJobs(user);
   const { oldAcademic } = useSingleAcademic(undefined, user?.rollNumber?.value);
   const [isEligibleToPay, setIsEligibleToPay] = useState(false);
   const { notices } = useNotices(user);
   const { crtPayment } = useCrt(user?.email);
-  console.log(crtPayment);
   const [filteredJobs, setFilteredJobs] = useState(null);
   const [counts, setCounts] = useState([]);
   const { resumes } = useResumes(user);
@@ -167,7 +167,7 @@ const StudentIndex = ({ user }) => {
       setFilteredJobs(jobs);
       setCounts(dataSet);
     })();
-  }, [jobs]);
+  }, [jobs, resumes]);
 
   const form = useRef(null);
 
@@ -179,10 +179,10 @@ const StudentIndex = ({ user }) => {
     script.setAttribute("data-payment_button_id", "pl_KAYn8wG1FPR3WX");
     script.async = true;
 
-    form.current.appendChild(script);
+    form?.current?.appendChild(script);
 
     return () => {
-      form.current.removeChild(script);
+      form?.current?.removeChild(script);
     };
   }, [form.current]);
 
@@ -205,7 +205,6 @@ const StudentIndex = ({ user }) => {
     notices.forEach((x) => {
       if (x.seen.filter((x) => x.email === user.email).length === 0) count++;
     });
-    console.log(count);
     if (count > 0) {
       toast.info("You have " + count + " new notice.", { toastId: 1 });
     }
@@ -425,7 +424,9 @@ export const getServerSideProps = async ({ req, res }) => {
   }
 
   return {
-    props: {},
+    props: {
+      userDetails: JSON.stringify(user),
+    },
   };
 };
 
