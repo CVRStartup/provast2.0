@@ -47,7 +47,7 @@ export const JobInfo = ({ job }) => {
                 <div className="sm:col-span-1">
                   <dt className="text-[20px] font-bold text-gray-900">End Date</dt>
                   <dd className="mt-1   text-[15px] font-semibold text-gray-700">
-                    {new Date(job.to).getDate()}{" "}
+                    {new Date(job.to?.substring(0, 10)).getDate()}{" "}
                     {months[new Date(job.to?.substring(0, 10)).getMonth() + 1]}{" "}
                     {new Date(job.to?.substring(0, 10)).getFullYear()}
                   </dd>
