@@ -808,7 +808,7 @@ const JobAdd = ({ job, user }) => {
                     type="datetime-local"
                     name="startDate"
                     id="startDate"
-                    value={moment(new Date(from)).format("YYYY-MM-DD HH:mm:ss")}
+                    value={moment(from).format("YYYY-MM-DD HH:mm:ss")}
                     onChange={(e) => {
                       setFrom(e.target.value);
                     }}
@@ -828,7 +828,7 @@ const JobAdd = ({ job, user }) => {
                     name="endDate"
                     id="endDate"
                     required
-                    value={moment(new Date(to)).format("YYYY-MM-DD HH:mm:ss")}
+                    value={moment(to).format("YYYY-MM-DD HH:mm:ss")}
                     onChange={(e) => setTo(e.target.value)}
                     className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   />
