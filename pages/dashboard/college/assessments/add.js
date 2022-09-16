@@ -180,7 +180,6 @@ const AssessmentAdd = ({ user }) => {
               ...assessment,
               sections: [...sections],
             });
-            console.log({ ...assessment, sections: [...sections] });
           }
         };
       } else {
