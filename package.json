@@ -23,6 +23,7 @@
     "lodash": "^4.17.21",
     "marked-react": "^1.2.0",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.37",
     "mongoose": "^6.5.0",
     "next": "latest",
     "next-connect": "0.8.1",

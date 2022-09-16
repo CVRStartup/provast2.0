@@ -34,7 +34,8 @@ import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
 import { Round } from "../../../../../src/components/Jobs/Round";
 import { Question } from "../../../../../src/components/Jobs/Question";
-import moment from "moment";
+import moment from "moment-timezone";
+import { toDate } from "date-fns";
 
 const getSelected = (options, value) => {
   if (!value) return options[0];
@@ -279,8 +280,8 @@ const JobAdd = ({ job, user }) => {
       description,
       image,
       logo,
-      from: moment(new Date(from)).format("YYYY-MM-DD HH:mm:ss"),
-      to: moment(new Date(to)).format("YYYY-MM-DD HH:mm:ss"),
+      from: moment.tz(from, "Asia/Kolkata"),
+      to: moment.tz(to, "Asia/Kolkata"),
       eligible,
       rounds,
       questionnaire,
@@ -808,7 +809,7 @@ const JobAdd = ({ job, user }) => {
                     type="datetime-local"
                     name="startDate"
                     id="startDate"
-                    value={moment(from).format("YYYY-MM-DD HH:mm:ss")}
+                    value={moment(moment.tz(from, "Asia/Kolkata")).format("YYYY-MM-DD HH:mm:ss")}
                     onChange={(e) => {
                       setFrom(e.target.value);
                     }}
@@ -828,7 +829,7 @@ const JobAdd = ({ job, user }) => {
                     name="endDate"
                     id="endDate"
                     required
-                    value={moment(to).format("YYYY-MM-DD HH:mm:ss")}
+                    value={moment(moment.tz(to, "Asia/Kolkata")).format("YYYY-MM-DD HH:mm:ss")}
                     onChange={(e) => setTo(e.target.value)}
                     className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   />
