@@ -280,8 +280,8 @@ const JobAdd = ({ job, user }) => {
       description,
       image,
       logo,
-      from: moment.tz(from, "Asia/Kolkata"),
-      to: moment.tz(to, "Asia/Kolkata"),
+      from: new Date(from),
+      to: new Date(to),
       eligible,
       rounds,
       questionnaire,
@@ -490,6 +490,13 @@ const JobAdd = ({ job, user }) => {
         rounds[roundIndex - 1].status === "Completed")
     );
   };
+
+  function handleChange(ev, setDate) {
+    if (!ev.target["validity"].valid) return;
+    const dt = ev.target["value"] + ":00Z";
+    setDate(dt);
+  }
+
   return (
     <main className="bg-gray-50 pt-[10vh]">
       {loading.type === "edit" && loading.status === true ? <Loading /> : ""}
@@ -809,10 +816,8 @@ const JobAdd = ({ job, user }) => {
                     type="datetime-local"
                     name="startDate"
                     id="startDate"
-                    value={moment(moment.tz(from, "Asia/Kolkata")).format("YYYY-MM-DD HH:mm:ss")}
-                    onChange={(e) => {
-                      setFrom(e.target.value);
-                    }}
+                    value={from.substring(0, 16)}
+                    onChange={(e) => handleChange(e, setFrom)}
                     required
                     className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   />
@@ -829,8 +834,8 @@ const JobAdd = ({ job, user }) => {
                     name="endDate"
                     id="endDate"
                     required
-                    value={moment(moment.tz(to, "Asia/Kolkata")).format("YYYY-MM-DD HH:mm:ss")}
-                    onChange={(e) => setTo(e.target.value)}
+                    value={to.substring(0, 16)}
+                    onChange={(e) => handleChange(e, setTo)}
                     className="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
