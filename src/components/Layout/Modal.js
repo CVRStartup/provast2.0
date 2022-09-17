@@ -6,7 +6,7 @@ import { AcademicForm } from "./ModalForms/AcademicForm";
 import { ApplyJobForm } from "./ModalForms/ApplyJobForm";
 import { AwardForm } from "./ModalForms/Awards";
 import { CertificationsForm } from "./ModalForms/Certifications";
-// import { DownloadStudentList } from "../College/Assignment/DownloadStudentList";
+import { DownloadStudentList } from "./ModalForms/DownloadStudentList";
 import EditQuestion from "./ModalForms/EditQuestion";
 import { DownloadUserList } from "./ModalForms/DownloadUserList";
 import { PaymentForm } from "./ModalForms/PaymentForm";
@@ -93,7 +93,7 @@ export const Modal = () => {
                 {form === "resume" && <ResumeForm />}
                 {/* {form === "downloadResumeFile" && <DownloadResumeForm />} */}
                 {form === "downloadUserList" && <DownloadUserList />}
-                {/* {form === "downloadStudentList" && <DownloadStudentList />} */}
+                {form === "downloadStudentList" && <DownloadStudentList />}
                 {form === "paymentForm" && <PaymentForm />}
                 {form === "questionModal" && <EditQuestion />}
                 {form === "downloadResumeFilter" && <DownloadResumeFilter />}

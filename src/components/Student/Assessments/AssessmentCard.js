@@ -105,36 +105,41 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
       >
         {assessment.mode}
       </div>
-      <div className="mb-2 text-sm text-green-500 w-fit">
-        <span>Allowed Batches : </span>
-        <span>
-          {assessment?.allowedBatches?.length > 0 ? (
-            assessment.allowedBatches.map((batch) => (
-              <span className="mr-1" key={batch}>
-                {batch}
-              </span>
-            ))
-          ) : (
-            <span>All</span>
-          )}
-        </span>{" "}
-      </div>
+      {user?.college?.name!=='CORPORATE' && 
+        <div className="mb-2 text-sm text-green-500 w-fit">
+          <span>Allowed Batches : </span>
+          <span>
+            {assessment?.allowedBatches?.length > 0 ? (
+              assessment.allowedBatches.map((batch) => (
+                <span className="mr-1" key={batch}>
+                  {batch}
+                </span>
+              ))
+            ) : (
+              <span>All</span>
+            )}
+          </span>{" "}
+        </div> 
+      }
 
-      <div className="mb-2 text-sm text-green-500 ">
-        <span>Allowed Branches : </span>
-        <span className="grid grid-cols-3">
-          {assessment?.allowedBranches &&
-          assessment?.allowedBranches?.length != btechBranches.length ? (
-            assessment.allowedBranches.map((branch) => (
-              <span className="mr-1" key={branch}>
-                {branch}
-              </span>
-            ))
-          ) : (
-            <span>All</span>
-          )}
-        </span>{" "}
-      </div>
+      {user?.college?.name!=='CORPORATE' && 
+        <div className="mb-2 text-sm text-green-500 ">
+          <span>Allowed Branches : </span>
+          <span className="grid grid-cols-3">
+            {assessment?.allowedBranches &&
+            assessment?.allowedBranches?.length != btechBranches.length ? (
+              assessment.allowedBranches.map((branch) => (
+                <span className="mr-1" key={branch}>
+                  {branch}
+                </span>
+              ))
+            ) : (
+              <span>All</span>
+            )}
+          </span>{" "}
+        </div> 
+      }
+      
       {isShortListed ? (
         <div className="mb-2 text-sm text-green-500">
           You are Short-Listed for this test
