@@ -101,7 +101,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
               <div
                 className={classNames(
                   !tab
-                    ? "border-pink-500 text-gray-900"
+                    ? "border-orange-500 text-gray-900"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                   "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md cursor-pointer"
                 )}
@@ -113,7 +113,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
               <div
                 className={classNames(
                   tab
-                    ? "border-pink-500 text-gray-900"
+                    ? "border-orange-500 text-gray-900"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                   "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md cursor-pointer"
                 )}
@@ -168,7 +168,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                   onClick={() => setTab(false)}
                   className={classNames(
                     !tab
-                      ? "border-pink-500 text-gray-900"
+                      ? "border-orange-500 text-gray-900"
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                     "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md cursor-pointer"
                   )}
@@ -180,7 +180,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
                   onClick={() => setTab(true)}
                   className={classNames(
                     tab
-                      ? "border-pink-500 text-gray-900"
+                      ? "border-orange-500 text-gray-900"
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                     "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-md  cursor-pointer"
                   )}
