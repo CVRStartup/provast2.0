@@ -132,6 +132,7 @@ const AssessmentSlug = ({ assessmentDetails, studentStatuses, user }) => {
           currentStudentStatuses={currentStatuses}
           studentStatuses={studentStatuses}
           assessmentId={assessment["_id"]}
+          user={user}
         />
         <Paginate pageCount={pageCount} handlePageClick={handlePageClick} />
       </div>

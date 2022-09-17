@@ -11,6 +11,7 @@ const StudentStatusTable = ({
   studentStatuses,
   currentStudentStatuses,
   assessmentId,
+  user,
 }) => {
   const { setIsOpen, setForm } = useModelContext();
   const { setFilteredStudentAssessmentStatuses } = useAssessmentContext();
@@ -94,12 +95,14 @@ const StudentStatusTable = ({
                     >
                       Name
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
-                    >
-                      Roll Number
-                    </th>
+                    {user?.college?.name!=='CORPORATE' && 
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                      >
+                        Roll Number
+                      </th> 
+                    }
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
@@ -145,9 +148,11 @@ const StudentStatusTable = ({
                               </div>
                             </Link>
                           </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {option.rollNumber}
-                          </td>
+                          {user?.college?.name!=='CORPORATE' && 
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {option.rollNumber}
+                            </td>
+                          }
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {option.email}
                           </td>
