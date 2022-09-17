@@ -12,6 +12,7 @@ import Timer from "../../../../src/components/Student/Assessments/Timer";
 import { debounce, first } from "lodash";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { AssessmentSection } from "../../../../src/components/Student/Assessments/AssessmentSection";
+import { useRouter } from "next/router";
 
 const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
   const [fullscreen, setFullscreen] = useState(false);
@@ -24,6 +25,9 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
   );
   const [responses, setResponses] = useState(assessmentStatus ? assessmentStatus.responses : []);
   const [sectionIndex, setSectionIndex] = useState(0);
+
+  const router = useRouter();
+
   const handle = useFullScreenHandle();
   const reportChange = useCallback(
     (state, handle) => {
@@ -156,14 +160,24 @@ const AssessmentSlug = ({ assessmentDetails, assessmentStatus, user }) => {
 
       if (!timer) {
         setDisable(true);
-        toast.success(`Submission successful! You scored ${score}/${status.marks.total} marks`, {
-          toastId: 1337,
+        if(assessment.mode==='Practice')
+          toast.success(`Submission successful! You scored ${score}/${status.marks.total} marks`, {
+            toastId: 1337,
+          });
+        else toast.success(`Submission successful!`, {
+          toastId: 1339,
         });
       } else {
-        toast.success(`You ran out of time! You scored ${score}/${status.marks.total} marks`, {
-          toastId: 1317,
+        if(assessment.mode==='Practice')
+          toast.success(`You ran out of time! You scored ${score}/${status.marks.total} marks`, {
+            toastId: 1337,
+          });
+      else toast.success(`You ran out of time!`, {
+        toastId: 1329,
         });
       }
+
+      if(assessment.mode==='Test') router.push('/dashboard/student/assessments');
     } catch (e) {
       toast.error(`Failed to submit, please try later`, {
         toastId: 1338,
@@ -579,6 +593,16 @@ export const getServerSideProps = async ({ req, res, query }) => {
   } = await axios.get(
     `${process.env.HOST_URL}/api/assessments/status/${assessment._id}?userId=${user._id}&assessmentId=${query.id}`
   );
+  
+  if(assessment && assessmentStatus && assessment.mode==='Test' && assessmentStatus.finishedAt){
+    return {
+      redirect: {
+        destination: `/dashboard/${user.category}/assessments`,
+        permanent: false,
+      },
+    };
+  }
+
 
   return {
     props: {
