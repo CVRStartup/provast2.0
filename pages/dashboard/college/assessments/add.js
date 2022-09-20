@@ -498,82 +498,86 @@ const AssessmentAdd = ({ user }) => {
             />
           </div>
         )}
-        <div className="col-span-6 sm:col-span-4 m-3">
-          <label htmlFor="allowedBatches" className="block text-sm font-medium text-gray-700">
-            Allowed Batches
-          </label>
-          <input
-            id="custom-checkbox-batch-all"
-            className="my-1"
-            type="checkbox"
-            value="ALL"
-            onChange={(e) => handleOnAllBatchChange(e)}
-          />
-          <label htmlFor="custom-checkbox-batch-all" className="mx-1">
-            ALL
-          </label>
-          <div className="flex flex-wrap">
-            {batchesEndingYear.map((batch, index) => {
-              return (
-                <div className="w-[25%]" key={index}>
-                  <div className="mr-1">
-                    <input
-                      type="checkbox"
-                      id={`custom-checkbox-${index}`}
-                      name={batch}
-                      value={batch}
-                      checked={checkedState[index]}
-                      className={checkAllBatches ? "cursor-not-allowed" : ""}
-                      disabled={checkAllBatches}
-                      onChange={() => handleOnBatchChange(index)}
-                    />
-                    <label htmlFor={`custom-checkbox-${index}`} className="mx-1 ">
-                      {batch}
-                    </label>
+        {user?.college?.name!=='CORPORATE' && 
+          <div className="col-span-6 sm:col-span-4 m-3">
+            <label htmlFor="allowedBatches" className="block text-sm font-medium text-gray-700">
+              Allowed Batches
+            </label>
+            <input
+              id="custom-checkbox-batch-all"
+              className="my-1"
+              type="checkbox"
+              value="ALL"
+              onChange={(e) => handleOnAllBatchChange(e)}
+            />
+            <label htmlFor="custom-checkbox-batch-all" className="mx-1">
+              ALL
+            </label>
+            <div className="flex flex-wrap">
+              {batchesEndingYear.map((batch, index) => {
+                return (
+                  <div className="w-[25%]" key={index}>
+                    <div className="mr-1">
+                      <input
+                        type="checkbox"
+                        id={`custom-checkbox-${index}`}
+                        name={batch}
+                        value={batch}
+                        checked={checkedState[index]}
+                        className={checkAllBatches ? "cursor-not-allowed" : ""}
+                        disabled={checkAllBatches}
+                        onChange={() => handleOnBatchChange(index)}
+                      />
+                      <label htmlFor={`custom-checkbox-${index}`} className="mx-1 ">
+                        {batch}
+                      </label>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="col-span-6 sm:col-span-4 m-3">
-          <label htmlFor="allowedBranches" className="block text-sm font-medium text-gray-700">
-            Allowed Branches
-          </label>
-          <input
-            id="custom-checkbox-branch-all"
-            className="my-1"
-            type="checkbox"
-            value="ALL"
-            onChange={(e) => handleOnAllBranchChange(e)}
-          />
-          <label htmlFor="custom-checkbox-branch-all" className="mx-1">
-            ALL
-          </label>
-          <div className="flex flex-wrap">
-            {branches.map((branch, index) => {
-              return (
-                <div className="w-[25%]" key={branch}>
-                  <div className="mr-1">
-                    <input
-                      type="checkbox"
-                      id={`custom-checkbox-branch-${index}`}
-                      name={branch}
-                      value={branch}
-                      checked={checkedBranch[index]}
-                      className={checkAllBranches ? "cursor-not-allowed" : ""}
-                      disabled={checkAllBranches}
-                      onChange={() => handleOnBranchChange(index)}
-                    />
-                    <label htmlFor={`custom-checkbox-branch-${index}`} className="mx-1">
-                      {branch}
-                    </label>
+                );
+              })}
+            </div>
+          </div> 
+        }
+        {user?.college?.name!=='CORPORATE' && 
+          <div className="col-span-6 sm:col-span-4 m-3">
+            <label htmlFor="allowedBranches" className="block text-sm font-medium text-gray-700">
+              Allowed Branches
+            </label>
+            <input
+              id="custom-checkbox-branch-all"
+              className="my-1"
+              type="checkbox"
+              value="ALL"
+              onChange={(e) => handleOnAllBranchChange(e)}
+            />
+            <label htmlFor="custom-checkbox-branch-all" className="mx-1">
+              ALL
+            </label>
+            <div className="flex flex-wrap">
+              {branches.map((branch, index) => {
+                return (
+                  <div className="w-[25%]" key={branch}>
+                    <div className="mr-1">
+                      <input
+                        type="checkbox"
+                        id={`custom-checkbox-branch-${index}`}
+                        name={branch}
+                        value={branch}
+                        checked={checkedBranch[index]}
+                        className={checkAllBranches ? "cursor-not-allowed" : ""}
+                        disabled={checkAllBranches}
+                        onChange={() => handleOnBranchChange(index)}
+                      />
+                      <label htmlFor={`custom-checkbox-branch-${index}`} className="mx-1">
+                        {branch}
+                      </label>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+                );
+              })}
+            </div>
+          </div> 
+          }
         <div className="pt-4">
           <DropDown
             title={"Status"}

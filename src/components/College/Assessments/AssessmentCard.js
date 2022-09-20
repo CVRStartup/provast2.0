@@ -1,7 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-export default function AssessmentCard({ assessment }) {
+export default function AssessmentCard({ assessment, user }) {
   const [ID, setID] = useState(0);
   const [statuses, setStatuses] = useState(null);
 
@@ -35,7 +35,6 @@ export default function AssessmentCard({ assessment }) {
     });
     return count;
   };
-  console.log(assessment.mode);
 
   return (
     <div className="m-10 ">
@@ -53,20 +52,22 @@ export default function AssessmentCard({ assessment }) {
           >
             {assessment.mode}
           </div>
-          <div className="mb-2 text-sm text-green-500">
-            <span>Allowed Batches : </span>
-            <p className="flex flex-wrap">
-              {assessment?.allowedBatches?.length > 0 ? (
-                assessment.allowedBatches.map((batch) => (
-                  <p className="mr-1 inline mr-1" key={batch}>
-                    {batch}
-                  </p>
-                ))
-              ) : (
-                <span>All</span>
-              )}
-            </p>{" "}
-          </div>
+          {user?.college.name!=='CORPORATE' &&  
+            <div className="mb-2 text-sm text-green-500">
+              <span>Allowed Batches : </span>
+              <p className="flex flex-wrap">
+                {assessment?.allowedBatches?.length > 0 ? (
+                  assessment.allowedBatches.map((batch) => (
+                    <p className="mr-1 inline mr-1" key={batch}>
+                      {batch}
+                    </p>
+                  ))
+                ) : (
+                  <span>All</span>
+                )}
+              </p>{" "}
+            </div> 
+          }
           <hr />
           {statuses && (
             <div className="mt-2">
