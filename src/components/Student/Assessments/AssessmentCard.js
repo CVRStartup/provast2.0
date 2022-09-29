@@ -40,6 +40,8 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
 
   if(user?.college?.name === 'CORPORATE' ) isDisabled = false;
 
+  if(assessment?.mode==='Test' && status?.finishedAt) isDisabled = true;
+
   useEffect(() => {
     (async () => {
       const {
@@ -167,7 +169,7 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
           )}
           <div>{status.finishedAt && `Time Taken: ${getTimeTaken()}`}</div>
           <div>
-            {status?.finishedAt
+            {status?.finishedAt && assessment?.mode!=='Test'
               ? `Score: ${status.marks.scored}/${status.marks.total}`
               : ""}
           </div>
