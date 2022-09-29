@@ -63,33 +63,33 @@ const Index = ({ id }) => {
             const worksheet = workbook.Sheets[worksheetName];
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
-              const name = x["Full Name"].trim(" ").split(" ");
+              const name = x["Name of Student"].split(" ");
               const studentName = getName(name);
               return {
-                email: x["Email"] ?? null,
+                email: x["Email Id"] ?? null,
                 detailsAvailable: true,
                 academicsAvailable: true,
                 profile: {
                   ...studentName,
-                  gender: "",
+                  gender: x["Gender"] ?? null,
                   verified: false,
                   frozen: false,
                 },
                 approved: true,
                 category: "student",
                 rollNumber: {
-                  value: "",
-                  frozen: false,
-                  verified: false,
-                },
-                phone: {
-                  value: "",
+                  value: x["Roll No"] ?? null,
                   frozen: false,
                   verified: false,
                 },
                 college: {
-                  name: "CORPORATE",
-                  code: "632309fcdc6b131c2932243b",
+                  name: college.collegeName,
+                  code: college._id,
+                },
+                phone: {
+                  value: x["Phone Number"] ?? null,
+                  frozen: false,
+                  verified: false,
                 },
               };
             });
@@ -117,14 +117,11 @@ const Index = ({ id }) => {
       try {
         const salt = crypto.randomBytes(16).toString("hex");
         const hash = crypto.pbkdf2Sync("Provast@123", salt, 1000, 64, "sha512").toString("hex");
-        const {
-          data: { details },
-        } = await axios.post("/api/auth/user/details", {
+        await axios.post("/api/auth/user/details", {
           ...s,
           hash,
           salt,
         });
-        userIds[details.email] = details._id;
         createdCount += 1;
       } catch (e) {
         failedAccounts.push({
@@ -139,7 +136,6 @@ const Index = ({ id }) => {
       toast.error("Account creation failed for " + failedAccounts.length + " Students.");
       console.log(failedAccounts);
     }
-    console.log(userIds);
   };
 
   const handleEducation = (e) => {
@@ -158,55 +154,70 @@ const Index = ({ id }) => {
             const data = XLSX.utils.sheet_to_json(worksheet);
             const res = data.map((x) => {
               return {
-                rollNumber: x["RollNo."] ?? "",
+                rollNumber: x["Roll No"] ?? "",
                 education: [
                   {
-                    institution: "CVR College Of Engineering",
-                    program: "B.Tech",
-                    board: "JNTUH",
-                    branch: x["Branch"] ? rename(x["Branch"]).trim() : "",
+                    institution: college.collegeName,
+                    program: x["Program"] ?? "",
+                    branch: x["Current Course"] ? rename(x["Current Course"]).trim() : "",
                     educationType: "Full Time",
                     score: {
-                      typeOfGrade: "CGPA",
-                      grade: getPercentage(x["B.Tech"]) ?? 0,
-                    },
-                    batch: {
-                      from: 0,
-                      to: 0,
+                      typeOfGrade: "Percentage",
+                      grade: x["Current Course Percentage"] ?? 0,
                     },
                     current: true,
                     verified: false,
                     frozen: false,
                   },
                   {
-                    institution: x["COLLEGE  NAME "],
-                    program: "Class XIIth",
-                    board: "SSC",
+                    institution: x["UG School/College"],
+                    program: x["UG Program"] ?? "",
+                    board: x["UG Board/University"] ?? "",
+                    branch: x["UG Branch/Specialization"]
+                      ? rename(x["UG Branch/Specialization"]).trim()
+                      : "",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "Percentage",
-                      grade: getPercentage(x["INTER %"]) ?? 0,
+                      grade: x["UG percentage"] ?? 0,
                     },
                     batch: {
                       from: 0,
-                      to: x["INTER YEAR OF PASSING "],
+                      to: x["UG End Year"] ?? 0,
                     },
                     current: false,
                     verified: false,
                     frozen: false,
                   },
                   {
-                    institution: x["SCHOOL NAME "],
-                    program: "Class Xth",
-                    board: x["SSC DETAILS"],
+                    institution: x["Class 12 School"],
+                    program: "Class XIIth",
+                    board: x["Class 12 Board"] ?? "",
                     educationType: "Full Time",
                     score: {
                       typeOfGrade: "Percentage",
-                      grade: getPercentage(x["SSC %"]) ?? 0,
+                      grade: x["Class 12 %"] ?? 0,
                     },
                     batch: {
                       from: 0,
-                      to: x["SSC YEAR OF PASSING "],
+                      to: x["12th YOP"] ?? 0,
+                    },
+                    current: false,
+                    verified: false,
+                    frozen: false,
+                  },
+                  {
+                    institution: x["Class 10 School"],
+                    program: "Class Xth",
+                    board: x["Class 10 Board"] ?? "",
+                    educationType: "Full Time",
+                    score: {
+                      typeOfGrade: "Percentage",
+                      grade: x["Class 10 %"] ?? 0,
+                    },
+                    batch: {
+                      from: 0,
+                      to: x["10th YOP"] ?? 0,
                     },
                     current: false,
                     verified: false,
@@ -243,12 +254,12 @@ const Index = ({ id }) => {
         createdCount += 1;
         branch.add(s.education.branch);
       } catch (e) {
-        // if (e.response.data.message !== "Details Already Exists") {
-        failedAccounts.push({
-          account: s,
-          reason: e.response.data.message,
-        });
-        // }
+        if (e.response.data.message !== "Details Already Exists") {
+          failedAccounts.push({
+            account: s,
+            reason: e.response.data.message,
+          });
+        }
       }
     }
     if (total === createdCount) {
@@ -394,19 +405,19 @@ const Index = ({ id }) => {
     }
   };
   return (
-    <div className="pt-[10vh]">
+    <div className='pt-[10vh]'>
       <div>
-        <div className="sm:col-span-3">
-          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+        <div className='sm:col-span-3'>
+          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
             Upload Spreadsheet
           </label>
 
           <input
-            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            label="Choose File"
-            type="file"
-            name="image"
-            id="profileImg"
+            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+            label='Choose File'
+            type='file'
+            name='image'
+            id='profileImg'
             onChange={handleFile}
           />
           {excelFileError &&
@@ -416,18 +427,18 @@ const Index = ({ id }) => {
         </div>
         <button onClick={handleCreate}>Create</button>
       </div>
-      <div className="pt-[10vh]">
-        <div className="sm:col-span-3">
-          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+      <div className='pt-[10vh]'>
+        <div className='sm:col-span-3'>
+          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
             Upload Spreadsheet
           </label>
 
           <input
-            label="Choose File"
-            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            type="file"
-            name="image"
-            id="profileImg"
+            label='Choose File'
+            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+            type='file'
+            name='image'
+            id='profileImg'
             onChange={handleEducation}
           />
           {excelFileError &&
@@ -438,18 +449,18 @@ const Index = ({ id }) => {
         <button onClick={handleEducationCreate}>Create Education</button>
       </div>
 
-      <div className="pt-[10vh]">
-        <div className="sm:col-span-3">
-          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+      <div className='pt-[10vh]'>
+        <div className='sm:col-span-3'>
+          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
             Upload Spreadsheet
           </label>
 
           <input
-            label="Choose File"
-            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            type="file"
-            name="image"
-            id="profileImg"
+            label='Choose File'
+            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+            type='file'
+            name='image'
+            id='profileImg'
             onChange={handlePayment}
           />
           {excelFileError &&
@@ -460,18 +471,18 @@ const Index = ({ id }) => {
         <button onClick={handlePaymentCreate}>Create Payment</button>
       </div>
 
-      <div className="pt-[10vh]">
-        <div className="sm:col-span-3">
-          <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+      <div className='pt-[10vh]'>
+        <div className='sm:col-span-3'>
+          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
             Upload Spreadsheet
           </label>
 
           <input
-            label="Choose File"
-            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            type="file"
-            name="image"
-            id="profileImg"
+            label='Choose File'
+            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
+            type='file'
+            name='image'
+            id='profileImg'
             onChange={handlePlaced}
           />
           {excelFileError &&

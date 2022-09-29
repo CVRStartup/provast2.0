@@ -34,11 +34,6 @@ export const DownloadStudentList = () => {
   ];
 
   useEffect(async () => {
-    if (!user) return;
-    if (studentAssessmentStatuses) {
-      setStatuses(studentAssessmentStatuses);
-      return;
-    }
     let studentStatuses = [];
 
     const {
@@ -74,6 +69,7 @@ export const DownloadStudentList = () => {
           break;
         }
       }
+
       studentStatuses.push({
         name,
         email,
@@ -99,7 +95,7 @@ export const DownloadStudentList = () => {
             )
               return {
                 ...x,
-                status: x.status ? "Finished" : x.status === null ? "Unopened" : "InProgress",
+                status: x.status ? "finished" : x.status === null ? "unopened" : "inProgress",
               };
           })
           .filter((x) => x),
@@ -120,7 +116,7 @@ export const DownloadStudentList = () => {
             )
               return {
                 ...x,
-                status: x.status ? "Finished" : x.status === null ? "Unopened" : "InProgress",
+                status: x.status ? "finished" : x.status === null ? "unopened" : "inProgress",
               };
           })
           .filter((x) => x),
