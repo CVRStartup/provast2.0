@@ -55,14 +55,14 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
   };
 
   return (
-    <div className="w-11/12 mx-auto px-4 my-10 sm:px-6 lg:px-8">
-      <div className="sm:flex justify-between sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="text-3xl font-bold text-gray-900">{heading}</h1>
-          <p className="mt-2 text-sm text-gray-700">{tagline}</p>
+    <div className='w-11/12 mx-auto px-4 my-10 sm:px-6 lg:px-8'>
+      <div className='sm:flex justify-between sm:items-center'>
+        <div className='sm:flex-auto'>
+          <h1 className='text-3xl font-bold text-gray-900'>{heading}</h1>
+          <p className='mt-2 text-sm text-gray-700'>{tagline}</p>
         </div>
         <button
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200"
+          className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200'
           onClick={() => {
             setIsOpen(true);
             setForm("downloadUserList");
@@ -71,77 +71,83 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
           Download Student List
         </button>
       </div>
-      <div className="my-5">
+      <div className='my-5'>
         <div>
           <input
-            type="search"
-            name="search"
-            id="search"
+            type='search'
+            name='search'
+            id='search'
             value={keyword}
             onChange={searchHandler}
-            className="focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md"
-            placeholder="Search"
+            className='focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md'
+            placeholder='Search'
           />
         </div>
       </div>
-      <div className="mt-8 flex flex-col">
-        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
+      <div className='mt-8 flex flex-col'>
+        <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
+          <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
+            <div className='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg'>
+              <table className='min-w-full divide-y divide-gray-300'>
+                <thead className='bg-gray-50'>
                   <tr>
                     <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-md font-semibold text-gray-900 sm:pl-6"
+                      scope='col'
+                      className='py-3.5 pl-4 pr-3 text-left text-md font-semibold text-gray-900 sm:pl-6'
                     >
                       Name
                     </th>
                     <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                      scope='col'
+                      className='px-3 py-3.5 text-left text-md font-semibold text-gray-900'
                     >
                       Roll Number
                     </th>
                     <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                      scope='col'
+                      className='px-3 py-3.5 text-left text-md font-semibold text-gray-900'
                     >
                       Email
                     </th>
                     <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                      scope='col'
+                      className='px-3 py-3.5 text-left text-md font-semibold text-gray-900'
                     >
                       Phone
                     </th>
                     <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                      scope='col'
+                      className='px-3 py-3.5 text-left text-md font-semibold text-gray-900'
                     >
                       Resume
                     </th>
                     <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                      scope='col'
+                      className='px-3 py-3.5 text-left text-md font-semibold text-gray-900'
                     >
                       Status
                     </th>
                     <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                      scope='col'
+                      className='px-3 py-3.5 text-left text-md font-semibold text-gray-900'
                     >
                       Time Stamp
                     </th>
                     <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                      scope='col'
+                      className='px-3 py-3.5 text-left text-md font-semibold text-gray-900'
                     >
                       Applied Roles
                     </th>
+                    <th
+                      scope='col'
+                      className='px-3 py-3.5 text-left text-md font-semibold text-gray-900'
+                    >
+                      Answers
+                    </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white">
+                <tbody className='bg-white'>
                   {searchMode
                     ? filteredStudents?.map((option, optionId) => {
                         if (!option) console.log(option + optionId);
@@ -150,31 +156,31 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             key={option?._id}
                             className={optionId % 2 === 0 ? undefined : "bg-gray-50"}
                           >
-                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+                            <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6'>
                               {option?.name}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.rollnumber}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.email}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.phone}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.resume ? (
                                 <Link
                                   href={`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option.resume}`}
                                 >
-                                  <a className="text-orange-800 underline">{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
+                                  <a className='text-orange-800 underline'>{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
                                 </Link>
                               ) : (
                                 "N/A"
                               )}
                             </td>
 
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.status?.applied === null ? (
                                 <MdPendingActions size={25} color={"#ff9800"} />
                               ) : option?.status?.applied === false ? (
@@ -183,19 +189,26 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                                 <FaCheckCircle size={24} color={"green"} />
                               )}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.status?.updatedAt
                                 ? moment(new Date(option?.status?.updatedAt)).format(
                                     "YYYY-MM-DD HH:mm:ss"
                                   )
                                 : "N/A"}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.status?.roles.map((role, index) => (
                                 <span key={index}>
                                   {role + (index === option?.status?.roles.length - 1 ? "." : ", ")}
                                 </span>
                               ))}
+                            </td>
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+                              {option?.status?.answers?.map((answer, index) => {
+                                return `${answer.answer}${
+                                  index + 1 === option?.status?.answers.length ? "." : ", "
+                                }`;
+                              })}
                             </td>
                           </tr>
                         );
@@ -208,31 +221,31 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             key={option?._id}
                             className={optionId % 2 === 0 ? undefined : "bg-gray-50"}
                           >
-                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+                            <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6'>
                               {option?.name}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.rollnumber}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.email}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.phone}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.resume ? (
                                 <Link
                                   href={`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option.resume}`}
                                 >
-                                  <a className="text-orange-800 underline">{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
+                                  <a className='text-orange-800 underline'>{`${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${option?.resume}`}</a>
                                 </Link>
                               ) : (
                                 "N/A"
                               )}
                             </td>
 
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.status?.applied === null ? (
                                 <MdPendingActions size={25} color={"#ff9800"} />
                               ) : option?.status?.applied === false ? (
@@ -241,19 +254,26 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                                 <FaCheckCircle size={24} color={"green"} />
                               )}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.status?.updatedAt
                                 ? moment(new Date(option?.status?.updatedAt)).format(
                                     "YYYY-MM-DD HH:mm:ss"
                                   )
                                 : "N/A"}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                               {option?.status?.roles.map((role, index) => (
                                 <span key={index}>
                                   {role + (index === option.status.roles.length - 1 ? "" : ", ")}
                                 </span>
                               ))}
+                            </td>
+                            <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+                              {option?.status?.answers?.map((answer, index) => {
+                                return `${answer.answer}${
+                                  index + 1 === option?.status?.answers.length ? "." : ", "
+                                }`;
+                              })}
                             </td>
                           </tr>
                         );
@@ -264,7 +284,7 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className='flex justify-center'>
         <Paginate pageCount={pageCount} handlePageClick={handlePageClick} />
       </div>
     </div>

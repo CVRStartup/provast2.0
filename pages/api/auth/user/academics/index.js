@@ -62,7 +62,7 @@ const searchAcademics = async (req, res) => {
     if (academics) {
       return res.status(200).json({ message: "Academic Details Found", academics });
     } else {
-      return res.status(200).json({ message: "Academic Details Not Found", academics: [] });
+      return res.status(500).json({ message: "Academic Details Not Found", academics: [] });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
