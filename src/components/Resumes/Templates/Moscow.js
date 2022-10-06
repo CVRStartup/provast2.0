@@ -82,10 +82,6 @@ export const Moscow = ({ componentRef }) => {
                   .map((option) => (
                     <div key={option?._id} className='flex flex-col mb-2'>
                       <h1 className='text-[14px] font-semibold'>
-                        {option?.typeOfDegree !== "School / Intermediate" &&
-                        option?.typeOfDegree !== "None"
-                          ? `${option?.typeOfDegree} in`
-                          : ""}{" "}
                         {option?.fieldOfStudy} from {option?.institution}.
                       </h1>
                       <div className='italic text-[13.5px] text-gray-400 font-semibold tracking-widest mb-1'>

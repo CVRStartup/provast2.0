@@ -147,10 +147,6 @@ export const Core = ({ componentRef, filter = null }) => {
                         <div className='text-[15px] font-semibold'>
                           <p className='leading-4'>{option?.institution}</p>
                           <p className='text-[13.5px] text-gray-600'>
-                            {option?.typeOfDegree !== "School / Intermediate" &&
-                            option?.typeOfDegree !== "None"
-                              ? `${option?.typeOfDegree},`
-                              : ""}{" "}
                             {option?.fieldOfStudy} &middot; {option?.gpa}
                           </p>
                         </div>

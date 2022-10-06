@@ -59,10 +59,6 @@ export const Dynamic = ({ componentRef }) => {
                         <div>
                           <div className='flex flex-col justify-between'>
                             <div className='text-[16px] font-semibold'>
-                              {option?.typeOfDegree !== "School / Intermediate" &&
-                              option?.typeOfDegree !== "None"
-                                ? `${option?.typeOfDegree} in`
-                                : ""}{" "}
                               {option?.fieldOfStudy} from {option?.institution}, with {option?.gpa}{" "}
                               CGPA.
                             </div>

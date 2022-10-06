@@ -29,6 +29,8 @@ const updatePassword = async (req, res) => {
     await connectDB();
     const { email, password } = req.query;
 
+    console.log(email);
+
     const salt = crypto.randomBytes(16).toString("hex");
     const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
 
@@ -40,7 +42,6 @@ const updatePassword = async (req, res) => {
       },
       { new: true }
     );
-    console.log(details);
     if (details) {
       return res.status(200).json({ message: "Password Updated", details });
     } else {
