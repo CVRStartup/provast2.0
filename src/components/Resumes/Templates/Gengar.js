@@ -121,10 +121,6 @@ export const Gengar = ({ componentRef }) => {
                               option?.endDate
                             ).getFullYear()}`}</span>
                             <h1 className='text-[14px] font-semibold'>
-                              {option?.typeOfDegree !== "School / Intermediate" &&
-                              option?.typeOfDegree !== "None"
-                                ? `${option?.typeOfDegree} in`
-                                : ""}{" "}
                               {option?.fieldOfStudy} from {option?.institution}.
                             </h1>
                           </div>

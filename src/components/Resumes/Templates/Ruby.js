@@ -46,10 +46,6 @@ export const Ruby = ({ componentRef, filter = null }) => {
                       {option?.institution}
                     </h3>
                     <span className='text-[13px]'>
-                      {option?.typeOfDegree !== "School / Intermediate" &&
-                      option?.typeOfDegree !== "None"
-                        ? `${option?.typeOfDegree} in`
-                        : ""}{" "}
                       {option?.fieldOfStudy}
                       <div>
                         <span className='font-semibold'>GPA : </span>

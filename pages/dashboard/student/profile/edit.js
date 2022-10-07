@@ -109,22 +109,7 @@ const ProfileEdit = ({ userDetails }) => {
         contact,
       }
     );
-    if (
-      password.newPassword &&
-      password.confirmNewPasswod &&
-      password.newPassword === password.confirmNewPasswod
-    ) {
-      const {
-        data: { message: passwordMessage },
-      } = await axios.put(
-        `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/forgotPassword?email=${user?.email}&password=${password.newPassword}`
-      );
-      if (passwordMessage == "Password Updated") {
-        toast.success("Password Updated", { toastId: "Password Updated" });
-      }
-    } else {
-      toast.error("Please check your password");
-    }
+
     if (message == "Details Updated" && personalMessage == "Personal Details Updated") {
       toast.success(message, { toastId: message });
       router.push("/dashboard/student/profile");
@@ -652,7 +637,7 @@ const ProfileEdit = ({ userDetails }) => {
           </div>
         </div>
 
-        <div className='my-10 sm:mt-0 border-b pb-5'>
+        {/* <div className='my-10 sm:mt-0 border-b pb-5'>
           <div className='md:grid md:grid-cols-3 md:gap-6'>
             <div className='md:col-span-1'>
               <div className='px-4 sm:px-0'>
@@ -717,7 +702,7 @@ const ProfileEdit = ({ userDetails }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className='mt-10 sm:mt-0'>
           <div className='md:grid md:grid-cols-3 md:gap-6'>
             <div className='md:col-span-1'>

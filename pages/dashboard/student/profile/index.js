@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { findUser } from "../../../../src/lib/user";
 import { usePersonal } from "../../../../src/hooks/usePersonal";
 import { StudentProfileDetails } from "../../../../src/components/Student/StudentProfileDetails";
 import { StudentAcademicDetails } from "../../../../src/components/Student/StudentAcademicDetails";
+import axios from "axios";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -15,7 +16,42 @@ function classNames(...classes) {
 
 const Profile = ({ userDetails }) => {
   const user = JSON.parse(userDetails);
+  const [contact, setContact] = useState({
+    parents: {
+      father: {
+        name: "",
+        email: "",
+        phone: "",
+        occupation: "",
+      },
+      mother: {
+        name: "",
+        email: "",
+        phone: "",
+        occupation: "",
+      },
+    },
+    address: {
+      city: "",
+      country: "",
+      state: "",
+    },
+    linkedin: "",
+    website: "",
+    verified: false,
+    frozen: false,
+  });
   const { personal, isError, isLoading } = usePersonal(user?._id);
+
+  useEffect(async () => {
+    if (personal) return;
+    const data = await axios.post(
+      `${process.env.NEXT_PUBLIC_HOST_URL}/api/auth/user/personal?userId=${user._id}`,
+      {
+        contact,
+      }
+    );
+  }, []);
 
   const [tabState, setTabState] = useState("Profile");
 
