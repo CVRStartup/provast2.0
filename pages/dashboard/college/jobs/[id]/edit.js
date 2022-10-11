@@ -156,16 +156,18 @@ const JobAdd = ({ job, user }) => {
   }, [selectedDiplomaTypeOfGrade]);
 
   useEffect(() => {
-    if (selectedUndergraduateTypeOfGrade.name === "CGPA") setSelectedUndergraduateGrade(CGPAs[0]);
-    else if (selectedUndergraduateTypeOfGrade.name === "Percentage")
-      setSelectedUndergraduateGrade(Percentages[0]);
+    if (selectedUndergraduateTypeOfGrade.name === 'CGPA')
+      getSelectedGrade(CGPAs, job?.eligibility?.undergraduate?.grade);
+    else if (selectedUndergraduateTypeOfGrade.name === 'Percentage')
+      getSelectedGrade(Percentages, job?.eligibility?.undergraduate?.grade);
     else setSelectedUndergraduateGrade({ id: 11, name: 0 });
   }, [selectedUndergraduateTypeOfGrade]);
 
   useEffect(() => {
-    if (selectedPostgraduateTypeOfGrade.name === "CGPA") setSelectedPostgraduateGrade(CGPAs[0]);
-    else if (selectedPostgraduateTypeOfGrade.name === "Percentage")
-      setSelectedPostgraduateGrade(Percentages[0]);
+    if (selectedPostgraduateTypeOfGrade.name === 'CGPA')
+      getSelectedGrade(CGPAs, job?.eligibility?.postgraduate?.grade);
+    else if (selectedPostgraduateTypeOfGrade.name === 'Percentage')
+      getSelectedGrade(Percentages, job?.eligibility?.postgraduate?.grade);
     else setSelectedPostgraduateGrade({ id: 11, name: 0 });
   }, [selectedPostgraduateTypeOfGrade]);
 
