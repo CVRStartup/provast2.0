@@ -16,13 +16,12 @@ export const DownloadUserList = () => {
   const [userData, setUserData] = useState([]);
   const [job, setJob] = useState(null);
   const router = useRouter();
-  const headers = [
+  const [headers, setHeaders] = useState([
     { label: "Email", key: "email" },
     { label: "Applied Role", key: "roles" },
     { label: "Status", key: "status" },
     { label: "Time Stamp", key: "updatedAt" },
-    { label: "Answers", key: "answers" },
-  ];
+  ]);
 
   const getRoles = (x) => {
     return x?.status?.roles.map(
@@ -31,10 +30,31 @@ export const DownloadUserList = () => {
   };
 
   const getAnswers = (x) => {
-    return x?.status?.answers?.map((answer, index) => {
-      return `${answer.answer}${index + 1 === x?.status?.answers.length ? "." : " "}`;
+    const answers = {};
+    const questions = job.questionnaire;
+    x?.status?.answers?.forEach((x, index) => {
+      answers[questions.filter((y) => y._id === x.questionId)[0].question.questionName.trim(" ")] =
+        x.answer;
+    });
+    return answers;
+  };
+
+  const getLabels = (job) => {
+    const questions = job.questionnaire;
+    console.log(questions);
+    return questions.map((x) => {
+      return {
+        label: x.question.questionName.trim(" "),
+        key: x.question.questionName.trim(" "),
+      };
     });
   };
+
+  useEffect(() => {
+    if (!job) return;
+    setHeaders([...headers, ...getLabels(job)]);
+    console.log([...headers, ...getLabels(job)]);
+  }, [job]);
 
   useEffect(() => {
     (async () => {
@@ -59,7 +79,6 @@ export const DownloadUserList = () => {
             return {
               ...x,
               roles: getRoles(x),
-              answers: getAnswers(x),
               updatedAt: x.status.updatedAt
                 ? moment(new Date(x.status.updatedAt)).format("YYYY-MM-DD HH:mm:ss")
                 : "N/A",
@@ -68,6 +87,7 @@ export const DownloadUserList = () => {
                 : x?.status.applied === null
                 ? "Pending"
                 : "Rejected",
+              ...getAnswers(x),
             };
         })
         .filter((x) => x),
@@ -81,103 +101,103 @@ export const DownloadUserList = () => {
   return (
     <form onSubmit={handleSubmit}>
       {loading && <Loading />}
-      <div className='flex items-center justify-between'>
-        <Dialog.Title as='h3' className='text-2xl font-medium leading-6 text-white'>
+      <div className="flex items-center justify-between">
+        <Dialog.Title as="h3" className="text-2xl font-medium leading-6 text-white">
           Download User List
         </Dialog.Title>
       </div>
-      <div className='mt-5 w-full'>
-        <div className='mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6'>
-          <div className='sm:col-span-6'>
+      <div className="mt-5 w-full">
+        <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div className="sm:col-span-6">
             <label
-              htmlFor='name'
-              className='block uppercase tracking-wider text-[10px] font-medium text-gray-400'
+              htmlFor="name"
+              className="block uppercase tracking-wider text-[10px] font-medium text-gray-400"
             >
               File Name
             </label>
-            <div className='mt-1 flex rounded-md shadow-sm'>
+            <div className="mt-1 flex rounded-md shadow-sm">
               <input
-                type='text'
-                name='name'
-                id='name'
-                placeholder='Ex:- Commonvault Students'
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Ex:- Commonvault Students"
                 required
                 value={fileName}
                 onChange={(e) => setFileName(e.target.value)}
-                className='flex-1 focus:ring-orange-500 focus:border-orange-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300'
+                className="flex-1 focus:ring-orange-500 focus:border-orange-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
               />
             </div>
           </div>
         </div>
-        <fieldset className='space-y-4 mt-4'>
-          <div className='relative flex items-start'>
-            <div className='flex items-center h-5'>
+        <fieldset className="space-y-4 mt-4">
+          <div className="relative flex items-start">
+            <div className="flex items-center h-5">
               <input
-                id='comments'
-                aria-describedby='comments-description'
-                name='comments'
-                type='checkbox'
+                id="comments"
+                aria-describedby="comments-description"
+                name="comments"
+                type="checkbox"
                 onChange={(e) => setApplied(!applied)}
-                className='h-4 w-4 text-orange-600 border-gray-300 rounded'
+                className="h-4 w-4 text-orange-600 border-gray-300 rounded"
               />
             </div>
-            <div className='ml-3 text-sm'>
-              <label htmlFor='comments' className='font-medium text-white'>
+            <div className="ml-3 text-sm">
+              <label htmlFor="comments" className="font-medium text-white">
                 Applied Students
               </label>
             </div>
           </div>
-          <div className='relative flex items-start'>
-            <div className='flex items-center h-5'>
+          <div className="relative flex items-start">
+            <div className="flex items-center h-5">
               <input
-                id='candidates'
-                aria-describedby='candidates-description'
-                name='candidates'
-                type='checkbox'
+                id="candidates"
+                aria-describedby="candidates-description"
+                name="candidates"
+                type="checkbox"
                 onChange={(e) => setRejected(!rejected)}
-                className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300 rounded'
+                className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300 rounded"
               />
             </div>
-            <div className='ml-3 text-sm'>
-              <label htmlFor='candidates' className='font-medium text-white'>
+            <div className="ml-3 text-sm">
+              <label htmlFor="candidates" className="font-medium text-white">
                 Rejected Students
               </label>
             </div>
           </div>
-          <div className='relative flex items-start'>
-            <div className='flex items-center h-5'>
+          <div className="relative flex items-start">
+            <div className="flex items-center h-5">
               <input
-                id='offers'
-                aria-describedby='offers-description'
-                name='offers'
-                type='checkbox'
+                id="offers"
+                aria-describedby="offers-description"
+                name="offers"
+                type="checkbox"
                 onChange={(e) => setNotResponded(!notResponded)}
-                className='focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300 rounded'
+                className="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300 rounded"
               />
             </div>
-            <div className='ml-3 text-sm'>
-              <label htmlFor='offers' className='font-medium text-white'>
+            <div className="ml-3 text-sm">
+              <label htmlFor="offers" className="font-medium text-white">
                 Not Responsed Students
               </label>
             </div>
           </div>
         </fieldset>
       </div>
-      <div className='pt-5'>
-        <div className='flex justify-end'>
+      <div className="pt-5">
+        <div className="flex justify-end">
           <button
-            type='button'
+            type="button"
             onClick={() => {
               setLoading(false);
               closeModal();
             }}
-            className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             Cancel
           </button>
           <button
-            type='submit'
-            className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+            type="submit"
+            className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             <CSVLink headers={headers} data={userData} filename={fileName}>
               Save
