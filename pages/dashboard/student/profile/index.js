@@ -42,7 +42,6 @@ const Profile = ({ userDetails }) => {
     frozen: false,
   });
   const { personal, isError, isLoading } = usePersonal(user?._id);
-
   useEffect(async () => {
     if (personal) return;
     const data = await axios.post(
