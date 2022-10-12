@@ -101,22 +101,22 @@ export const resourceCategories = [
       {
         _id: "1230",
         name: "Capgemini English 1",
-        pdf: "../../../../resources/Capgemini/capg English 1.pdf",
+        pdf: "../../../../resources/Capgemini/Capg English 1.pdf",
       },
       {
         _id: "1231",
         name: "Capgemini English 2",
-        pdf: "../../../../resources/Capgemini/capg English 2.pdf",
+        pdf: "../../../../resources/Capgemini/Capg English 2.pdf",
       },
       {
         _id: "1232",
         name: "Capgemini English 3",
-        pdf: "../../../../resources/Capgemini/capg English 3.pdf",
+        pdf: "../../../../resources/Capgemini/Capg English 3.pdf",
       },
       {
         _id: "1233",
         name: "Capgemini English 4",
-        pdf: "../../../../resources/Capgemini/capg English 4.pdf",
+        pdf: "../../../../resources/Capgemini/Capg English 4.pdf",
       },
       {
         _id: "1234",
