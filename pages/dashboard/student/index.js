@@ -415,7 +415,7 @@ export const getServerSideProps = async ({ req, res }) => {
   } = await axios.get(`${process.env.HOST_URL}/api/payment/${user?._id}`);
 
   if (!payment) {
-    if (user?.college?.name !== "SRM Institute of Science and Technology") {
+    if (user?.college?.name === "SRM Institute of Science and Technology") {
       var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
         user: user?._id,
         amount: 0,
