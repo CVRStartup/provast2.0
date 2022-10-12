@@ -287,17 +287,16 @@ const Index = ({ id }) => {
             const data = XLSX.utils.sheet_to_json(worksheet);
             let res = [];
             data.forEach((x) => {
-              if (x["payment status"] === "captured")
-                res.push({
-                  user: Math.floor(Math.random() * 100000) + "",
-                  amount: 7500,
-                  email: x["college_email"].toString().trim(" "),
-                  address: {
-                    country: "India",
-                    postal: "500074",
-                  },
-                  phone: x["mobile"] + "",
-                });
+              res.push({
+                user: Math.floor(Math.random() * 100000) + "",
+                amount: 7500,
+                email: x["Email Id"].toString().trim(" "),
+                address: {
+                  country: "India",
+                  postal: "500074",
+                },
+                phone: x["Phone Number"] + "",
+              });
             });
             console.log(res);
             setStudents(res);
