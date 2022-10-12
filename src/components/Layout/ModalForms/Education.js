@@ -1,7 +1,7 @@
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import React, { Fragment, useEffect, useState } from "react";
-import { degrees, validate, verifyDates } from "../../../lib/helper";
+import { academicDegrees, validate, verifyDates } from "../../../lib/helper";
 import axios from "axios";
 import { useModelContext } from "../../../context/ModalContext";
 import { useResumeContext } from "../../../context/ResumeContext";
@@ -19,7 +19,7 @@ export const EducationForm = () => {
     from: null,
     to: null,
   });
-  const [selected, setSelected] = useState(degrees[0]);
+  const [selected, setSelected] = useState(academicDegrees[0]);
   const [collegeList, setCollegeList] = useState([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const [dropDownState, setDropDownState] = useState(false);
@@ -114,7 +114,7 @@ export const EducationForm = () => {
                       leaveTo="opacity-0"
                     >
                       <Listbox.Options className="z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                        {degrees.map((option, index) => (
+                        {academicDegrees.map((option, index) => (
                           <Listbox.Option
                             key={index}
                             className={({ active }) =>

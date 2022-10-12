@@ -1,5 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
+import { AiFillStar } from "react-icons/ai";
 import { useModelContext } from "../../../context/ModalContext";
 import { useResumeContext } from "../../../context/ResumeContext";
 import { hobbyoptions, skilloptions } from "../../../lib/helper";
@@ -24,7 +25,6 @@ export const HobbiesForm = () => {
       if (skill.id === id) {
         return {
           ...skill,
-          level: level,
           enabled: enabled,
         };
       } else return skill;
@@ -39,7 +39,6 @@ export const HobbiesForm = () => {
         id: skillOptions.length + 1,
         name: skillName,
         icon: AiFillStar,
-        level: selected.name,
         enabled: true,
       },
     ]);
@@ -56,8 +55,7 @@ export const HobbiesForm = () => {
       });
     } else {
       skillOptions.forEach((skill) => {
-        if (skill.enabled)
-          newstate.push({ name: skill.name, level: skill.level, enabled: skill.enabled });
+        if (skill.enabled) newstate.push({ name: skill.name, enabled: skill.enabled });
       });
     }
     setHobbies([...newstate]);
