@@ -255,7 +255,7 @@ export const AcademicForm = () => {
                 min='2001'
                 max='2100'
                 id='duration'
-                value={academics.batch.from}
+                value={academics?.batch?.from}
                 onChange={(e) =>
                   setAcademics({
                     ...academics,
@@ -275,7 +275,7 @@ export const AcademicForm = () => {
                 max='2100'
                 name='duration'
                 id='duration'
-                value={academics.batch.to}
+                value={academics?.batch?.to}
                 onChange={(e) =>
                   setAcademics({
                     ...academics,
