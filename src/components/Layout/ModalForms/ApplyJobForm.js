@@ -11,7 +11,7 @@ import JobQuestionInput from "../../Student/JobQuestionInput";
 
 export const ApplyJobForm = () => {
   const user = useUser();
-  const { closeModal, modalJob, loading, modalJobQuestionnare, modalJobResume } = useModelContext();
+  const { closeModal, modalJob, modalJobResume, modalQues } = useModelContext();
   const [checkedRoles, setCheckRoles] = useState([]);
   return (
     <form>
@@ -86,7 +86,7 @@ export const ApplyJobForm = () => {
                   user,
                   "Apply",
                   checkedRoles,
-                  modalJobQuestionnare,
+                  modalQues,
                   modalJobResume
                 );
                 await mutate(`/api/jobs/${modalJob._id}`);

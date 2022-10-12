@@ -16,7 +16,7 @@ export const QuestionnareForm = () => {
   const { resumes } = useResumes(user);
   const [resumeDetails, setResumeDetails] = useState([]);
   const [selectedResume, setSelectedResume] = useState(null);
-  const { closeModal, modalJob, setForm, setModalJobQuestionnare, setModalJobResume } =
+  const { closeModal, modalJob, setForm, setModalJobResume, setModalQues } =
     useModelContext();
   const [checkedRoles, setCheckRoles] = useState([]);
   const [checkedOptions, setCheckedOptions] = useState([]);
@@ -71,8 +71,8 @@ export const QuestionnareForm = () => {
       await mutate(`/api/jobs/${modalJob._id}`);
       closeModal();
     } else {
-      setModalJobQuestionnare([...checkedOptions, ...blankInputQuestions]);
       setModalJobResume(selectedResume.id);
+      setModalQues([...checkedOptions, ...blankInputQuestions]);
       setForm("ApplyJobForm");
     }
   };
@@ -95,7 +95,7 @@ export const QuestionnareForm = () => {
                           <div key={newIndex}>
                             <input
                               checked={checkedOptions.some(
-                                (questionObj) => questionObj["answer"] === option
+                                (questionObj) => (questionObj["answer"] === option && questionObj["questionId"]===question._id)
                               )}
                               type='checkbox'
                               name={option}

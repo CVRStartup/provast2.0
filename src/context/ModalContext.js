@@ -15,8 +15,8 @@ export function ModelContextProvider({ children }) {
   const [rightOpen, setRightOpen] = useState(false);
   const [modalJob, setModalJob] = useState(null);
   const [modalJobResume, setModalJobResume] = useState(null);
-  const [modalJobQuestionnnare, setModalJobQuestionnare] = useState([]);
   const [education, setEducation] = useState(null);
+  const [modalQues, setModalQues] = useState(null);
 
   function closeModal() {
     setIsOpen(false);
@@ -47,14 +47,14 @@ export function ModelContextProvider({ children }) {
     setRightOpen,
     modalJob,
     setModalJob,
-    modalJobQuestionnnare,
-    setModalJobQuestionnare,
     setDeleteName,
     deleteName,
     modalJobResume,
     setModalJobResume,
     education,
     setEducation,
+    modalQues,
+    setModalQues
   };
   return <ModelContext.Provider value={state}>{children}</ModelContext.Provider>;
 }
