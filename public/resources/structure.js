@@ -93,81 +93,81 @@ export const resourceCategories = [
       },
     ],
   },
-  {
-    _id: "3456",
-    name: "Capgemini",
-    cover: "/Capgemini.gif",
-    material: [
-      {
-        _id: "1230",
-        name: "Capgemini English 1",
-        pdf: "../../../../resources/Capgemini/Capg English 1.pdf",
-      },
-      {
-        _id: "1231",
-        name: "Capgemini English 2",
-        pdf: "../../../../resources/Capgemini/Capg English 2.pdf",
-      },
-      {
-        _id: "1232",
-        name: "Capgemini English 3",
-        pdf: "../../../../resources/Capgemini/Capg English 3.pdf",
-      },
-      {
-        _id: "1233",
-        name: "Capgemini English 4",
-        pdf: "../../../../resources/Capgemini/Capg English 4.pdf",
-      },
-      {
-        _id: "1234",
-        name: "Capgemini IT Fund 1",
-        pdf: "../../../../resources/Capgemini/Capg IT Fund 1.pdf",
-      },
-      {
-        _id: "1235",
-        name: "Capgemini IT Fund 2",
-        pdf: "../../../../resources/Capgemini/Capg IT Fund 2.pdf",
-      },
-      {
-        _id: "1236",
-        name: "Capgemini IT Fund 3",
-        pdf: "../../../../resources/Capgemini/Capg IT Fund 3.pdf",
-      },
-      {
-        _id: "1237",
-        name: "Capgemini Psuedo 1",
-        pdf: "../../../../resources/Capgemini/Capg pseudo 1.pdf",
-      },
-      {
-        _id: "1238",
-        name: "Capgemini Psuedo 2",
-        pdf: "../../../../resources/Capgemini/Capg pseudo 2.pdf",
-      },
-      {
-        _id: "1239",
-        name: "Capgemini Psuedo 3",
-        pdf: "../../../../resources/Capgemini/Capg pseudo 3.pdf",
-      },
-      {
-        _id: "12310",
-        name: "Capgemini Psuedo 4",
-        pdf: "../../../../resources/Capgemini/Capg pseudo 4.pdf",
-      },
-      {
-        _id: "12311",
-        name: "Capgemini Psuedo 5",
-        pdf: "../../../../resources/Capgemini/Capg pseudo 5.pdf",
-      },
-      {
-        _id: "12312",
-        name: "Capgemini Psuedo 6",
-        pdf: "../../../../resources/Capgemini/Capg pseudo 6.pdf",
-      },
-      {
-        _id: "12313",
-        name: "Capgemini Psuedo 7",
-        pdf: "../../../../resources/Capgemini/Capg pseudo 7.pdf",
-      },
-    ],
-  },
+  // {
+  //   _id: "3456",
+  //   name: "Capgemini",
+  //   cover: "/Capgemini.gif",
+  //   material: [
+  //     {
+  //       _id: "1230",
+  //       name: "Capgemini English 1",
+  //       pdf: "../../../../resources/Capgemini/Capg English 1.pdf",
+  //     },
+  //     {
+  //       _id: "1231",
+  //       name: "Capgemini English 2",
+  //       pdf: "../../../../resources/Capgemini/Capg English 2.pdf",
+  //     },
+  //     {
+  //       _id: "1232",
+  //       name: "Capgemini English 3",
+  //       pdf: "../../../../resources/Capgemini/Capg English 3.pdf",
+  //     },
+  //     {
+  //       _id: "1233",
+  //       name: "Capgemini English 4",
+  //       pdf: "../../../../resources/Capgemini/Capg English 4.pdf",
+  //     },
+  //     {
+  //       _id: "1234",
+  //       name: "Capgemini IT Fund 1",
+  //       pdf: "../../../../resources/Capgemini/Capg IT Fund 1.pdf",
+  //     },
+  //     {
+  //       _id: "1235",
+  //       name: "Capgemini IT Fund 2",
+  //       pdf: "../../../../resources/Capgemini/Capg IT Fund 2.pdf",
+  //     },
+  //     {
+  //       _id: "1236",
+  //       name: "Capgemini IT Fund 3",
+  //       pdf: "../../../../resources/Capgemini/Capg IT Fund 3.pdf",
+  //     },
+  //     {
+  //       _id: "1237",
+  //       name: "Capgemini Psuedo 1",
+  //       pdf: "../../../../resources/Capgemini/Capg pseudo 1.pdf",
+  //     },
+  //     {
+  //       _id: "1238",
+  //       name: "Capgemini Psuedo 2",
+  //       pdf: "../../../../resources/Capgemini/Capg pseudo 2.pdf",
+  //     },
+  //     {
+  //       _id: "1239",
+  //       name: "Capgemini Psuedo 3",
+  //       pdf: "../../../../resources/Capgemini/Capg pseudo 3.pdf",
+  //     },
+  //     {
+  //       _id: "12310",
+  //       name: "Capgemini Psuedo 4",
+  //       pdf: "../../../../resources/Capgemini/Capg pseudo 4.pdf",
+  //     },
+  //     {
+  //       _id: "12311",
+  //       name: "Capgemini Psuedo 5",
+  //       pdf: "../../../../resources/Capgemini/Capg pseudo 5.pdf",
+  //     },
+  //     {
+  //       _id: "12312",
+  //       name: "Capgemini Psuedo 6",
+  //       pdf: "../../../../resources/Capgemini/Capg pseudo 6.pdf",
+  //     },
+  //     {
+  //       _id: "12313",
+  //       name: "Capgemini Psuedo 7",
+  //       pdf: "../../../../resources/Capgemini/Capg pseudo 7.pdf",
+  //     },
+  //   ],
+  // },
 ];
