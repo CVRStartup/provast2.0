@@ -20,10 +20,10 @@ export const Navbar = () => {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",
     },
-    {
-      name: "Assessments",
-      href: "/",
-    },
+    // {
+    //   name: "Assessments",
+    //   href: "/",
+    // },
     {
       name: "Open Jobs",
       href: "/openjobs",
@@ -71,10 +71,10 @@ export const Navbar = () => {
       name: "Resumes",
       href: "/dashboard/student/resumes",
     },
-    // {
-    //   name: "Assessments",
-    //   href: "/dashboard/student/assessments",
-    // },
+    {
+      name: "Assessments",
+      href: "/dashboard/student/assessments",
+    },
     {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",
@@ -100,7 +100,7 @@ export const Navbar = () => {
     },
   ];
 
-  if (session?.college?.name === "CORPORATE") {
+  if (session?.college?.name !== "SRM Institute of Science and Technology") {
     collegeNavigation.push({
       name: "Assessments",
       href: "/dashboard/college/assessments",

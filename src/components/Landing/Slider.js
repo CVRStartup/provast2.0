@@ -69,11 +69,11 @@ export const Slider = () => {
             >
               <div className='text-center grid content-between h-full order-2 md:order-1  md:text-left lg:w-[50%]'>
                 <div className='md:p-5'>
-                  <div className='my-6 flex items-end justify-center font-semibold text-gray-500 w-full md:justify-start md:my-0'>
+                  {/* <div className='my-6 flex items-end justify-center font-semibold text-gray-500 w-full md:justify-start md:my-0'>
                     <span className='text-4xl'>0{id}</span>
                     <span className='mx-1 text-lg'>/</span>
                     <span className='text-xl'>0{sliderData.length}</span>
-                  </div>
+                  </div> */}
 
                   <h1 className='text-2xl font-semibold my-4'>{title}</h1>
 
