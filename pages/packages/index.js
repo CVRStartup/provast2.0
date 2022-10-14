@@ -85,13 +85,13 @@ const Packages = ({ userDetails }) => {
       {/* {loading && <Loading />} */}
       <div className='bg-orange-900'>
         {/* Header section with select menu */}
-        <div className='max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 lg:max-w-7xl'>
+        <div className='max-w-2xl mx-auto py-6 px-4 sm:py-4 sm:px-6 lg:px-4 lg:max-w-7xl'>
           <div className='px-0 sm:px-4 lg:px-0 lg:flex lg:justify-between lg:items-center'>
-            <div className='max-w-xl'>
-              <h2 className='text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl'>
+            <div className='w-full'>
+              <h2 className='text-3xl font-extrabold text-white sm:text-3xl sm:tracking-tight lg:text-4xl'>
                 Pricing Plans
               </h2>
-              <p className='mt-5 text-xl text-orange-300'>
+              <p className='mt-5 text-md text-orange-300'>
                 Start building for free, then add a site plan to go live. Account plans unlock
                 additional features.
               </p>
@@ -101,9 +101,9 @@ const Packages = ({ userDetails }) => {
       </div>
 
       {/* Comparison table */}
-      <div className='max-w-2xl mx-auto bg-white py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8'>
+      <div className='max-w-2xl mx-auto bg-white py-2 sm:py-3 sm:px-6 lg:max-w-7xl lg:px-8'>
         {/* xs to lg */}
-        <div className='space-y-24 lg:hidden'>
+        <div className='space-y-2 lg:hidden'>
           {plans.map((tier, index) => (
             <section key={tier.name}>
               <div className='px-4 mb-8'>
@@ -233,17 +233,17 @@ const Packages = ({ userDetails }) => {
             <tbody className='border-t border-gray-200 divide-y divide-gray-200'>
               <tr>
                 <th
-                  className='py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 text-left'
+                  className='py-2 pl-6 pr-6 align-top text-sm font-medium text-gray-900 text-left'
                   scope='row'
                 >
                   Pricing
                 </th>
                 {plans.map((tier, index) => (
-                  <td key={tier.name} className='h-full py-8 px-6 align-top'>
+                  <td key={tier.name} className='h-full py-2 px-6 align-top'>
                     <div className='h-full flex flex-col justify-between'>
                       <div>
                         <p>
-                          <span className='text-4xl font-extrabold text-gray-900'>
+                          <span className='text-3xl font-extrabold text-gray-900'>
                             ₹
                             {tier.price > withoutGST(payment?.amount, payment?.plan)
                               ? Math.max(
@@ -273,7 +273,7 @@ const Packages = ({ userDetails }) => {
                                 ? "hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500"
                                 : "cursor-not-allowed bg-gray-400"
                               : `hover:to-pink-600 bg-gradient-to-r from-orange-500 to-pink-500`
-                          } cursor-pointer mt-6 block w-full  border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                          } cursor-pointer mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
                         >
                           {payment
                             ? payment.plan === tier.name
@@ -290,25 +290,16 @@ const Packages = ({ userDetails }) => {
               </tr>
               {sections.map((section) => (
                 <Fragment key={section.name}>
-                  <tr>
-                    <th
-                      className='py-3 pl-6 bg-gray-50 text-sm font-medium text-gray-900 text-left'
-                      colSpan={4}
-                      scope='colgroup'
-                    >
-                      {section.name}
-                    </th>
-                  </tr>
                   {section.features.map((feature) => (
                     <tr key={feature.name}>
                       <th
-                        className='py-5 pl-6 pr-6 text-sm font-normal text-gray-500 text-left'
+                        className='py-3 pl-6 pr-6 text-sm font-normal text-gray-500 text-left'
                         scope='row'
                       >
                         {feature.name}
                       </th>
                       {plans.map((tier) => (
-                        <td key={tier.name} className='py-5 px-6'>
+                        <td key={tier.name} className='py-2 px-6'>
                           {typeof feature.plans[tier.name] === "string" ? (
                             <span className='block text-sm text-gray-700'>
                               {feature.plans[tier.name]}
