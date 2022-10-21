@@ -197,8 +197,8 @@ const ResumeIndex = ({ user }) => {
   };
 
   const checkPlan = (template) => {
-    if (!payment) return;
     if (template.category === "simple") return true;
+    if (!payment) return;
     if (payment?.plan === "Basic") return template.category === "creative";
     if (payment?.plan === "Essential") return !(template.category === "company");
     if (payment?.plan === "Premium") return true;
@@ -217,14 +217,14 @@ const ResumeIndex = ({ user }) => {
     <React.Fragment>
       <Head>
         <title>Resume builder</title>
-        <meta name='description' content='Get your resume ready for free.' />
-        <link rel='icon' href='/favicon.ico' />
+        <meta name="description" content="Get your resume ready for free." />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       {loading && <Loading />}
 
       {state == 1 && (
-        <div className='min-h-[70vh] py-4 mt-[10vh]'>
+        <div className="min-h-[70vh] py-4 mt-[10vh]">
           <Heading
             subheading={`Welcome ${user?.profile?.firstName} ${user?.profile?.lastName}!`}
             description={
@@ -244,7 +244,7 @@ const ResumeIndex = ({ user }) => {
                 }`}
               >
                 <div
-                  className='cursor-pointer relative'
+                  className="cursor-pointer relative"
                   onClick={() => {
                     if (!checkResumeCreation(resumes?.count)) {
                       setForm("paymentForm");
@@ -264,13 +264,13 @@ const ResumeIndex = ({ user }) => {
                           : "pointer-events-none bg-gray-200 bg-opacity-30"
                       }`}
                     >
-                      <p className='text-gray-900 title-create'>Create</p>
-                      <div className='button flex justify-center'>
-                        <HiPlus size={50} color='gray' />
+                      <p className="text-gray-900 title-create">Create</p>
+                      <div className="button flex justify-center">
+                        <HiPlus size={50} color="gray" />
                       </div>
                       {!checkResumeCreation(resumes?.count) && (
-                        <div className='absolute z-10 top-3 right-3 flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-40 rounded-full p-1 '>
-                          <VscLock size={19} color='white' />
+                        <div className="absolute z-10 top-3 right-3 flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-40 rounded-full p-1 ">
+                          <VscLock size={19} color="white" />
                         </div>
                       )}
                     </div>
@@ -286,45 +286,45 @@ const ResumeIndex = ({ user }) => {
                         }`}
                       >
                         {resume.public && (
-                          <div className='absolute z-20 -top-7 rounded-t-md right-0 bg-orange-600 px-4 font-semibold text-white'>
+                          <div className="absolute z-20 -top-7 rounded-t-md right-0 bg-orange-600 px-4 font-semibold text-white">
                             Public
                           </div>
                         )}
                         <Image
-                          placeholder='blur'
-                          blurDataURL='https://www.callcentrehelper.com/images/stories/2022/01/hands-holding-cvs.gif'
-                          layout='fill'
-                          objectFit='cover'
+                          placeholder="blur"
+                          blurDataURL="https://www.callcentrehelper.com/images/stories/2022/01/hands-holding-cvs.gif"
+                          layout="fill"
+                          objectFit="cover"
                           className={`box-image ${!resume.public ? "rounded-md" : ""}`}
-                          src='https://www.callcentrehelper.com/images/stories/2022/01/hands-holding-cvs.gif'
-                          alt=''
+                          src="https://www.callcentrehelper.com/images/stories/2022/01/hands-holding-cvs.gif"
+                          alt=""
                         />
-                        <p className='title'>{resume.layout.name}</p>
+                        <p className="title">{resume.layout.name}</p>
                         <div className={`overlay ${!resume.public ? "rounded-md" : ""}`} />
-                        <div className='button flex items-center justify-between px-10'>
+                        <div className="button flex items-center justify-between px-10">
                           <svg
                             onClick={() => {
                               setLoading(true);
                               router.push(`/dashboard/student/resumes/${resume._id}`);
                             }}
-                            stroke='currentColor'
-                            fill='currentColor'
+                            stroke="currentColor"
+                            fill="currentColor"
                             strokeWidth={0}
-                            viewBox='0 0 24 24'
-                            color='#fff'
-                            className='cursor-pointer'
+                            viewBox="0 0 24 24"
+                            color="#fff"
+                            className="cursor-pointer"
                             height={48}
                             width={48}
-                            xmlns='http://www.w3.org/2000/svg'
+                            xmlns="http://www.w3.org/2000/svg"
                             style={{ color: "rgb(255, 255, 255)" }}
                           >
-                            <path d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z' />
+                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
                           </svg>
-                          <div className=''>
-                            <Menu as='div' className='z-40 relative inline-block text-left'>
-                              <div className='flex flex-col items-center'>
-                                <Menu.Button className='text-white group-hover:text-gray-400 h-10 w-6'>
-                                  <div className='flex flex-col items-center'>
+                          <div className="">
+                            <Menu as="div" className="z-40 relative inline-block text-left">
+                              <div className="flex flex-col items-center">
+                                <Menu.Button className="text-white group-hover:text-gray-400 h-10 w-6">
+                                  <div className="flex flex-col items-center">
                                     <FiMoreVertical size={50} />
                                   </div>
                                 </Menu.Button>
@@ -332,15 +332,15 @@ const ResumeIndex = ({ user }) => {
 
                               <Transition
                                 as={Fragment}
-                                enter='transition ease-out duration-100'
-                                enterFrom='transform opacity-0 scale-95'
-                                enterTo='transform opacity-100 scale-100'
-                                leave='transition ease-in duration-75'
-                                leaveFrom='transform opacity-100 scale-100'
-                                leaveTo='transform opacity-0 scale-95'
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
                               >
-                                <Menu.Items className='origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                                  <div className='py-1'>
+                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                  <div className="py-1">
                                     <Menu.Item>
                                       {({ active }) => (
                                         <button
@@ -396,32 +396,32 @@ const ResumeIndex = ({ user }) => {
                 })}
               </div>
               {resumes && resumes.length === 0 && (
-                <div className='pt-5 pb-12 flex flex-col bg-white'>
-                  <main className='flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8'>
+                <div className="pt-5 pb-12 flex flex-col bg-white">
+                  <main className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
                     <div
-                      data-aos='fade-up'
-                      className='relative flex-shrink-0 flex justify-center h-60'
+                      data-aos="fade-up"
+                      className="relative flex-shrink-0 flex justify-center h-60"
                     >
                       <Image
-                        placeholder='blur'
-                        blurDataURL='https://res.cloudinary.com/dj7nomqfd/image/upload/v1654716029/MellowPiercingHammerkop-size_restricted_s88exs.gif'
-                        layout='fill'
-                        objectFit='contain'
-                        src='https://res.cloudinary.com/dj7nomqfd/image/upload/v1654716029/MellowPiercingHammerkop-size_restricted_s88exs.gif'
-                        alt=''
+                        placeholder="blur"
+                        blurDataURL="https://res.cloudinary.com/dj7nomqfd/image/upload/v1654716029/MellowPiercingHammerkop-size_restricted_s88exs.gif"
+                        layout="fill"
+                        objectFit="contain"
+                        src="https://res.cloudinary.com/dj7nomqfd/image/upload/v1654716029/MellowPiercingHammerkop-size_restricted_s88exs.gif"
+                        alt=""
                       />
                     </div>
-                    <div className='py-4'>
-                      <div className='text-center'>
-                        <p className='mt-2 max-w-2xl mx-auto text-lg text-gray-500'>
+                    <div className="py-4">
+                      <div className="text-center">
+                        <p className="mt-2 max-w-2xl mx-auto text-lg text-gray-500">
                           Placements might be intimidating when you have no formal experience on
                           resume in corporate world. To make it formal, Provast is here to help you.
                         </p>
-                        <div className='mt-4'>
+                        <div className="mt-4">
                           <button
-                            type='button'
+                            type="button"
                             onClick={() => setState(2)}
-                            className='inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200'
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200"
                           >
                             Create Resume
                           </button>
@@ -437,18 +437,18 @@ const ResumeIndex = ({ user }) => {
       )}
 
       {state == 2 && (
-        <main className='px-8 relative mt-[10vh]'>
+        <main className="px-8 relative mt-[10vh]">
           <button
             onClick={() => setState(1)}
-            className='absolute w-auto top-3 left-3 hover:text-gray-500'
+            className="absolute w-auto top-3 left-3 hover:text-gray-500"
           >
             <HiOutlineArrowNarrowLeft size={40} />
           </button>
-          <h1 className='text-center pt-10 text-lg tracking-tight font-bold text-gray-900 sm:text-3xl md:text-4xl'>
+          <h1 className="text-center pt-10 text-lg tracking-tight font-bold text-gray-900 sm:text-3xl md:text-4xl">
             {resumes.length === 0 ? (
               <span>
                 Welcome{" "}
-                <span className='text-orange-600'>{`${user?.profile?.firstName} ${user?.profile?.lastName}!`}</span>
+                <span className="text-orange-600">{`${user?.profile?.firstName} ${user?.profile?.lastName}!`}</span>
               </span>
             ) : (
               ""
@@ -471,16 +471,16 @@ const ResumeIndex = ({ user }) => {
             } `}
           />
           {/* Tabs */}
-          <div className='my-10'>
-            <div className='sm:hidden'>
-              <label htmlFor='tabs' className='sr-only'>
+          <div className="my-10">
+            <div className="sm:hidden">
+              <label htmlFor="tabs" className="sr-only">
                 Select a tab
               </label>
               {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
               <select
-                id='tabs'
-                name='tabs'
-                className='block w-full focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md '
+                id="tabs"
+                name="tabs"
+                className="block w-full focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md "
                 value={tabs.find((tab) => tab.current).name}
                 onChange={(e) => setTab(e.target.value)}
               >
@@ -489,9 +489,9 @@ const ResumeIndex = ({ user }) => {
                 ))}
               </select>
             </div>
-            <div className='hidden sm:block'>
-              <div className='border-b border-gray-200'>
-                <nav className='-mb-px flex' aria-label='Tabs'>
+            <div className="hidden sm:block">
+              <div className="border-b border-gray-200">
+                <nav className="-mb-px flex" aria-label="Tabs">
                   {tabs.map((tab) => (
                     <a
                       key={tab.name}
@@ -512,14 +512,14 @@ const ResumeIndex = ({ user }) => {
               </div>
             </div>
           </div>
-          <section className='my-10'>
+          <section className="my-10">
             {tab === "All Templates" && (
               <div
-                data-aos='fade-up'
-                className='grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'
+                data-aos="fade-up"
+                className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
               >
                 {templates.map((template, templateIndex) => (
-                  <div className='relative' key={templateIndex}>
+                  <div className="relative" key={templateIndex}>
                     <div
                       className={`rounded-md bg-gray-100 h-auto p-5 m-5 cursor-pointer ${
                         checkPlan(template) ? "hover:shadow-lg" : "relative"
@@ -536,13 +536,13 @@ const ResumeIndex = ({ user }) => {
                       }}
                     >
                       {!checkPlan(template) && (
-                        <div className='absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 '>
-                          <VscLock size={20} color='white' />
+                        <div className="absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 ">
+                          <VscLock size={20} color="white" />
                         </div>
                       )}
-                      <div className='flex justify-center h-full'>
+                      <div className="flex justify-center h-full">
                         <Image
-                          placeholder='blur'
+                          placeholder="blur"
                           height={"700px"}
                           width={"500px"}
                           blurDataURL={template.image}
@@ -550,11 +550,11 @@ const ResumeIndex = ({ user }) => {
                             checkPlan(template) ? "" : "opacity-60 "
                           } mx-auto object-cover`}
                           src={template.image}
-                          alt=''
+                          alt=""
                         />
                       </div>
                       <div>
-                        <h6 className='text-xl mt-2 font-bold text-gray-400 text-center'>
+                        <h6 className="text-xl mt-2 font-bold text-gray-400 text-center">
                           {template.heading}
                         </h6>
                       </div>
@@ -565,13 +565,13 @@ const ResumeIndex = ({ user }) => {
             )}
             {tab === "Simple" && (
               <div
-                data-aos='fade-up'
-                className='grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'
+                data-aos="fade-up"
+                className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
               >
                 {templates
                   .filter((templates) => templates.category === "simple")
                   .map((template, templateIndex) => (
-                    <div className='relative' key={templateIndex}>
+                    <div className="relative" key={templateIndex}>
                       <div
                         className={`rounded-md bg-gray-100 h-auto p-5 m-5 cursor-pointer ${
                           checkPlan(template) ? "hover:shadow-lg" : "relative"
@@ -588,13 +588,13 @@ const ResumeIndex = ({ user }) => {
                         }}
                       >
                         {!checkPlan(template) && (
-                          <div className='absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 '>
-                            <VscLock size={20} color='white' />
+                          <div className="absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 ">
+                            <VscLock size={20} color="white" />
                           </div>
                         )}
-                        <div className='flex justify-center h-full'>
+                        <div className="flex justify-center h-full">
                           <Image
-                            placeholder='blur'
+                            placeholder="blur"
                             height={"700px"}
                             width={"500px"}
                             blurDataURL={template.image}
@@ -602,11 +602,11 @@ const ResumeIndex = ({ user }) => {
                               checkPlan(template) ? "" : "opacity-60 "
                             } mx-auto object-cover`}
                             src={template.image}
-                            alt=''
+                            alt=""
                           />
                         </div>
                         <div>
-                          <h6 className='text-xl mt-2 font-bold text-gray-400 text-center'>
+                          <h6 className="text-xl mt-2 font-bold text-gray-400 text-center">
                             {template.heading}
                           </h6>
                         </div>
@@ -617,13 +617,13 @@ const ResumeIndex = ({ user }) => {
             )}
             {tab === "Creative" && (
               <div
-                data-aos='fade-up'
-                className='grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'
+                data-aos="fade-up"
+                className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
               >
                 {templates
                   .filter((templates) => templates.category === "creative")
                   .map((template, templateIndex) => (
-                    <div className='relative' key={templateIndex}>
+                    <div className="relative" key={templateIndex}>
                       <div
                         className={`rounded-md bg-gray-100 h-auto p-5 m-5 cursor-pointer ${
                           checkPlan(template) ? "hover:shadow-lg" : "relative"
@@ -640,13 +640,13 @@ const ResumeIndex = ({ user }) => {
                         }}
                       >
                         {!checkPlan(template) && (
-                          <div className='absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 '>
-                            <VscLock size={20} color='white' />
+                          <div className="absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 ">
+                            <VscLock size={20} color="white" />
                           </div>
                         )}
-                        <div className='flex justify-center h-full'>
+                        <div className="flex justify-center h-full">
                           <Image
-                            placeholder='blur'
+                            placeholder="blur"
                             height={"700px"}
                             width={"500px"}
                             blurDataURL={template.image}
@@ -654,11 +654,11 @@ const ResumeIndex = ({ user }) => {
                               checkPlan(template) ? "" : "opacity-60 "
                             } mx-auto object-cover`}
                             src={template.image}
-                            alt=''
+                            alt=""
                           />
                         </div>
                         <div>
-                          <h6 className='text-xl mt-2 font-bold text-gray-400 text-center'>
+                          <h6 className="text-xl mt-2 font-bold text-gray-400 text-center">
                             {template.heading}
                           </h6>
                         </div>
@@ -669,13 +669,13 @@ const ResumeIndex = ({ user }) => {
             )}
             {tab === "Company" && (
               <div
-                data-aos='fade-up'
-                className='grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'
+                data-aos="fade-up"
+                className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
               >
                 {templates
                   .filter((templates) => templates.category === "company")
                   .map((template, templateIndex) => (
-                    <div className='relative' key={templateIndex}>
+                    <div className="relative" key={templateIndex}>
                       <div
                         className={`rounded-md bg-gray-100 h-auto p-5 m-5 cursor-pointer ${
                           checkPlan(template) ? "hover:shadow-lg" : "relative"
@@ -692,13 +692,13 @@ const ResumeIndex = ({ user }) => {
                         }}
                       >
                         {!checkPlan(template) && (
-                          <div className='absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 '>
-                            <VscLock size={20} color='white' />
+                          <div className="absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 ">
+                            <VscLock size={20} color="white" />
                           </div>
                         )}
-                        <div className='flex justify-center h-full'>
+                        <div className="flex justify-center h-full">
                           <Image
-                            placeholder='blur'
+                            placeholder="blur"
                             height={"700px"}
                             width={"500px"}
                             blurDataURL={template.image}
@@ -706,11 +706,11 @@ const ResumeIndex = ({ user }) => {
                               checkPlan(template) ? "" : "opacity-60 "
                             } mx-auto object-cover`}
                             src={template.image}
-                            alt=''
+                            alt=""
                           />
                         </div>
                         <div>
-                          <h6 className='text-xl mt-2 font-bold text-gray-400 text-center'>
+                          <h6 className="text-xl mt-2 font-bold text-gray-400 text-center">
                             {template.heading}
                           </h6>
                         </div>
@@ -721,13 +721,13 @@ const ResumeIndex = ({ user }) => {
             )}
             {tab === "MBA" && (
               <div
-                data-aos='fade-up'
-                className='grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'
+                data-aos="fade-up"
+                className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
               >
                 {templates
                   .filter((templates) => templates.category === "mba")
                   .map((template, templateIndex) => (
-                    <div className='relative' key={templateIndex}>
+                    <div className="relative" key={templateIndex}>
                       <div
                         className={`rounded-md bg-gray-100 h-auto p-5 m-5 cursor-pointer ${
                           checkPlan(template) ? "hover:shadow-lg" : "relative"
@@ -744,13 +744,13 @@ const ResumeIndex = ({ user }) => {
                         }}
                       >
                         {!checkPlan(template) && (
-                          <div className='absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 '>
-                            <VscLock size={20} color='white' />
+                          <div className="absolute z-10 top-[43%] right-[43%] flex items-center justify-center h-10 w-10 bg-gray-900 bg-opacity-70 rounded-full p-1 ">
+                            <VscLock size={20} color="white" />
                           </div>
                         )}
-                        <div className='flex justify-center h-full'>
+                        <div className="flex justify-center h-full">
                           <Image
-                            placeholder='blur'
+                            placeholder="blur"
                             height={"700px"}
                             width={"500px"}
                             blurDataURL={template.image}
@@ -758,11 +758,11 @@ const ResumeIndex = ({ user }) => {
                               checkPlan(template) ? "" : "opacity-60 "
                             } mx-auto object-cover`}
                             src={template.image}
-                            alt=''
+                            alt=""
                           />
                         </div>
                         <div>
-                          <h6 className='text-xl mt-2 font-bold text-gray-400 text-center'>
+                          <h6 className="text-xl mt-2 font-bold text-gray-400 text-center">
                             {template.heading}
                           </h6>
                         </div>
