@@ -319,7 +319,7 @@ export const getServerSideProps = async ({ req, res }) => {
   if (!payment) {
     if (
       user?.college?.name === "SRM Institute of Science and Technology" &&
-      user?.college?.name === "CVR COLLEGE OF ENGINEERING"
+      user?.college?.name === "CVR College Of Engineering"
     ) {
       var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
         user: user?._id,
