@@ -317,10 +317,13 @@ export const getServerSideProps = async ({ req, res }) => {
   } = await axios.get(`${process.env.HOST_URL}/api/payment/${user?._id}`);
 
   if (!payment) {
-    if (user?.college?.name === "SRM Institute of Science and Technology") {
+    if (
+      user?.college?.name === "SRM Institute of Science and Technology" ||
+      user?.college?.name === "CVR College of Engineering"
+    ) {
       var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
         user: user?._id,
-        amount: 0,
+        amount: 305,
         plan: "Premium",
         modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
       });
@@ -328,7 +331,7 @@ export const getServerSideProps = async ({ req, res }) => {
       var { data } = await axios.post(`${process.env.HOST_URL}/api/payment/${user?._id}`, {
         user: user?._id,
         amount: 0,
-        plan: "Premium",
+        plan: "free",
         modules: ["resumes", "assessments", "jobs", "learning", "testpatterns"],
       });
     }
