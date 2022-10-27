@@ -125,7 +125,6 @@ export const AssessmentCard = ({ assessment, studentDetails, rollNumber }) => {
           </span>{" "}
         </div> 
       }
-
       {user?.college?.name!=='CORPORATE' && 
         <div className="mb-2 text-sm text-green-500 ">
           <span>Allowed Branches : </span>
