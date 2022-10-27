@@ -110,7 +110,6 @@ export const Navbar = () => {
       href: "/dashboard/student/assessments",
     });
   }
-
   const [navigation, setNavigation] = useState(landingNavigation);
 
   useEffect(() => {
