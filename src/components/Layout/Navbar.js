@@ -71,10 +71,10 @@ export const Navbar = () => {
       name: "Resumes",
       href: "/dashboard/student/resumes",
     },
-    {
-      name: "Assessments",
-      href: "/dashboard/student/assessments",
-    },
+    // {
+    //   name: "Assessments",
+    //   href: "/dashboard/student/assessments",
+    // },
     {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",
@@ -110,7 +110,6 @@ export const Navbar = () => {
       href: "/dashboard/student/assessments",
     });
   }
-
   const [navigation, setNavigation] = useState(landingNavigation);
 
   useEffect(() => {
