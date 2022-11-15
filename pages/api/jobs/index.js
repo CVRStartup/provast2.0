@@ -59,7 +59,7 @@ const searchJobs = async (req, res) => {
       college: { name: req.query.collegename, code: req.query.collegecode },
     })
       .sort({ updatedAt: -1 })
-      .limit(5);
+      .limit(7);
 
     if (jobs.length > 0) {
       return res.status(200).json({ message: "jobs Found", jobs });
