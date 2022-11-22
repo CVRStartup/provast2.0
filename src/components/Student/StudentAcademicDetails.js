@@ -2,10 +2,13 @@ import React from "react";
 import { useAcademic } from "../../hooks/useCurrentAcademic";
 import { EducationCard } from "./EducationCard";
 import { useModelContext } from "../../context/ModalContext";
+import { useUser } from "../../lib/hooks";
 
 export const StudentAcademicDetails = ({ student }) => {
+  const user = useUser();
   const { setIsOpen, setForm } = useModelContext();
   const { academics } = useAcademic(student?.rollNumber?.value);
+  if (!user) return <div>Loading...</div>;
   return (
     <div className="my-7 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="mb-10">
@@ -15,7 +18,11 @@ export const StudentAcademicDetails = ({ student }) => {
         {academics?.education
           ?.filter((x) => x.current)
           .map((option) => (
-            <EducationCard education={option} rollnumber={student?.rollNumber?.value} />
+            <EducationCard
+              education={option}
+              rollnumber={student?.rollNumber?.value}
+              category={user?.category}
+            />
           ))}
       </div>
       <div>
@@ -40,6 +47,7 @@ export const StudentAcademicDetails = ({ student }) => {
                 key={index}
                 education={option}
                 rollnumber={student?.rollNumber?.value}
+                category={user?.category}
               />
             ))
         ) : (
