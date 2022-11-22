@@ -20,6 +20,7 @@ export const DownloadUserList = () => {
     { label: "Email", key: "email" },
     { label: "Applied Role", key: "roles" },
     { label: "Status", key: "status" },
+    { label: "Resume", key: "resume" },
     { label: "Time Stamp", key: "updatedAt" },
   ]);
 
@@ -33,8 +34,11 @@ export const DownloadUserList = () => {
     const answers = {};
     const questions = job.questionnaire;
     x?.status?.answers?.forEach((x, index) => {
-      answers[questions.filter((y) => y._id === x.questionId)[0].question.questionName.trim(" ")] =
-        x.answer;
+      answers[
+        questions
+          .filter((y) => y._id === x.questionId)[0]
+          .question.questionName.trim(" ")
+      ] = x.answer;
     });
     return answers;
   };
@@ -60,7 +64,9 @@ export const DownloadUserList = () => {
     (async () => {
       const {
         data: { job },
-      } = await axios.get(`${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/${router.query.id}`);
+      } = await axios.get(
+        `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/${router.query.id}`
+      );
       setJob(job);
     })();
   }, []);
@@ -79,8 +85,11 @@ export const DownloadUserList = () => {
             return {
               ...x,
               roles: getRoles(x),
+              resume: `${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${x.resume}`,
               updatedAt: x.status.updatedAt
-                ? moment(new Date(x.status.updatedAt)).format("YYYY-MM-DD HH:mm:ss")
+                ? moment(new Date(x.status.updatedAt)).format(
+                    "YYYY-MM-DD HH:mm:ss"
+                  )
                 : "N/A",
               status: x?.status?.applied
                 ? "Applied"
@@ -102,7 +111,10 @@ export const DownloadUserList = () => {
     <form onSubmit={handleSubmit}>
       {loading && <Loading />}
       <div className="flex items-center justify-between">
-        <Dialog.Title as="h3" className="text-2xl font-medium leading-6 text-white">
+        <Dialog.Title
+          as="h3"
+          className="text-2xl font-medium leading-6 text-white"
+        >
           Download User List
         </Dialog.Title>
       </div>
