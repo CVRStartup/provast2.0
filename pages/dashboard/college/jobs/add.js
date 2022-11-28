@@ -27,6 +27,7 @@ import {
   mtechBranches,
   mbaBranches,
   degreeBranches,
+  jobPostingCampuses,
 } from "../../../../src/lib/helper";
 import { DropDown } from "../../../../src/components/Reusables/Dropdown";
 import { CheckBox } from "../../../../src/components/Reusables/CheckBox";
@@ -51,6 +52,7 @@ const JobAdd = ({ user }) => {
   const [image, setImage] = useState("");
   const [logo, setLogo] = useState("");
   const [jobPostingLocation, setJobPostingLocation] = useState([]);
+  const [jobPostingCampus, setJobPostingCampus] = useState([]);
   const [yearofPassing, setYearofPassing] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [typeOfPost, setTypeOfPost] = useState("Shortlisted Students");
@@ -196,6 +198,7 @@ const JobAdd = ({ user }) => {
       allowPlaced,
       designation,
       jobPostingLocation,
+      jobPostingCampus,
       yearofPassing,
       branchOptions,
       status: selectedStatus.name,
@@ -1022,6 +1025,30 @@ const JobAdd = ({ user }) => {
                   options={generateYearsBetween()}
                   setCheckedOptions={setYearofPassing}
                   checkedOptions={yearofPassing}
+                />
+              </div>
+              <div className="sm:col-span-6 rounded border">
+              <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
+                  <p>{"Allowed Campuses"}</p>
+                  <div className="ml-3 flex items-center font-normal">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none"
+                      checked={jobPostingCampus.length === jobPostingCampuses.length}
+                      onChange={() => {
+                        if (jobPostingCampus.length === jobPostingCampuses.length)
+                          setJobPostingCampus([]);
+                        else setJobPostingCampus([...jobPostingCampuses.map((x) => x.name)]);
+                      }}
+                    />
+                    <label>All Campuses</label>
+                  </div>
+                </h4>
+                <CheckBox
+                 title={"Campus Allowed"}
+                 options={jobPostingCampuses}
+                 setCheckedOptions={setJobPostingCampus}
+                 checkedOptions={jobPostingCampus}
                 />
               </div>
               <div className="sm:col-span-6 rounded border">

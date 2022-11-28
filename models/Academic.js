@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const academicSchema = new mongoose.Schema(
   {
     user: { type: String },
-    rollNumber: { type: String },
+    rollNumber: { type: String, unique: true },
     education: [
       {
         institution: String,

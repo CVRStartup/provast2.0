@@ -20,11 +20,11 @@ const userSchema = new mongoose.Schema(
         type: String,
         trim: true,
       },
-      lastName: {
+      middleName: {
         type: String,
         trim: true,
       },
-      middleName: {
+      lastName: {
         type: String,
         trim: true,
       },
@@ -88,6 +88,15 @@ const userSchema = new mongoose.Schema(
       },
       code: {
         type: String,
+      },
+      campus: {
+        type: String
+      },
+      program: {
+        type: String,
+      },
+      specialisation: {
+        type: String
       },
       passphrase: {
         type: String,

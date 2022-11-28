@@ -14,6 +14,7 @@ import { useSingleAcademic } from "../../../hooks/useSingleAcademic";
 
 export const JobHero = ({ job }) => {
   const user = useUser();
+  console.log(user)
   const { setIsOpen, setForm, setModalJob, loading, setLoading, setDeleteName } = useModelContext();
   const { oldAcademic } = useSingleAcademic("null", user?.rollNumber?.value);
   const [showOptions, setShowOptions] = useState(-1);
@@ -57,8 +58,7 @@ export const JobHero = ({ job }) => {
             compare("Class Xth", job.eligibility.tenth.grade) &&
             compare("Class XIIth", job.eligibility.inter.grade) &&
             compare("UG", job.eligibility.undergraduate.grade) &&
-            compare("MBA", job.eligibility.postgraduate.grade);
-          console.log(compare("MBA", job.eligibility.postgraduate.grade));
+            compare("MBA", job.eligibility.postgraduate.grade) && job?.jobPostingCampus?.includes(user.college.campus) && job?.jobPostingCampus?.includes(user.college.campus) && job?.branchOptions?.includes(user.college.specialisation)
           setShowOptions(eligible ? 0 : -1);
         } else setShowOptions(0);
       }
