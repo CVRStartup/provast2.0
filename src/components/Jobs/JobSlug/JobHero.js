@@ -58,7 +58,7 @@ export const JobHero = ({ job }) => {
             compare("Class Xth", job.eligibility.tenth.grade) &&
             compare("Class XIIth", job.eligibility.inter.grade) &&
             compare("UG", job.eligibility.undergraduate.grade) &&
-            compare("MBA", job.eligibility.postgraduate.grade) && job?.jobPostingCampus?.includes(user.college.campus) && job?.jobPostingCampus?.includes(user.college.campus) && job?.branchOptions?.includes(user.college.specialisation)
+            compare("MBA", job.eligibility.postgraduate.grade) && job?.jobPostingCampus?.includes(user.college.campus) && job?.branchOptions?.includes(user.college.specialisation)
           setShowOptions(eligible ? 0 : -1);
         } else setShowOptions(0);
       }
