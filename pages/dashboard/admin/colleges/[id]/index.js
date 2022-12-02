@@ -88,7 +88,7 @@ const Index = ({ id }) => {
                 },
                 college: {
                   name: college.collegeName,
-                  campus: getCampus(x["College"].split("-")[1].trim()),
+                  campus: getCampus(x["College"].split(" - ")[1].trim()),
                   program: x["Program"],
                   specialisation: x["Specialisation"],
                   code: college._id,
@@ -300,11 +300,11 @@ const Index = ({ id }) => {
             data.forEach((x) => {
               res.push({
                 user: Math.floor(Math.random() * 100000) + "",
-                amount: 7500,
-                email: x["Email Id"].toString().trim(" "),
+                amount: x["total payment amount"] !== 'On Campus Paid' ? Number(x["total payment amount"]) : 7500,
+                email: x["Email Id"].toString().trim().toLowerCase(),
                 address: {
                   country: "India",
-                  postal: "500074",
+                  postal: "500035",
                 },
                 phone: x["Phone Number"] + "",
               });

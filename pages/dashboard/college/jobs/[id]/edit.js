@@ -18,7 +18,6 @@ import {
   typeOfGrade,
   Percentages,
   CGPAs,
-  typeOfPlacedStatus,
   typeOfJobProgram,
   mtechBranches,
   degreeBranches,
@@ -35,8 +34,6 @@ import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
 import { Round } from "../../../../../src/components/Jobs/Round";
 import { Question } from "../../../../../src/components/Jobs/Question";
-import moment from "moment-timezone";
-import { toDate } from "date-fns";
 
 const getSelected = (options, value) => {
   if (!value) return options[0];
@@ -305,7 +302,7 @@ const JobAdd = ({ job, user }) => {
 
     if (message == "Job Updated") {
       toast.success(message, { toastId: message });
-      router.push("/dashboard/college/jobs");
+      router.push(`/dashboard/college/jobs/${job._id}`);
     } else {
       toast.error(message, { toastId: message });
     }
@@ -1457,7 +1454,7 @@ const JobAdd = ({ job, user }) => {
           </div>
 
           <div className="flex justify-end">
-            <Link href={`/dashboard/college/jobs`}>
+            <Link href={`/dashboard/college/jobs/${job._id}`}>
               <button
                 type="button"
                 className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
