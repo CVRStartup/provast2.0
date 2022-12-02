@@ -69,8 +69,6 @@ export const JobHero = ({ job }) => {
           setShowOptions(res.status?.applied ? 1 : 2);
       } else setShowOptions(-1);
     }
-
-    console.log(showOptions);
   }, [job, user, oldAcademic]);
 
   const getDesignations = (designations) => {
