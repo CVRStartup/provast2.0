@@ -48,6 +48,10 @@ const Index = ({ id }) => {
     return percentage;
   };
 
+  const getCampus = (campus) => {
+    return campus.split(" Campus")[0]
+  }
+
   const handleFile = (e) => {
     if (!college) return;
     let selectedFile = e.target.files[0];
@@ -66,7 +70,7 @@ const Index = ({ id }) => {
               const name = x["Name of Student"].split(" ");
               const studentName = getName(name);
               return {
-                email: x["Email Id"] ?? null,
+                email: x["Email Id"].toLowerCase() ?? null,
                 detailsAvailable: true,
                 academicsAvailable: true,
                 profile: {
@@ -78,12 +82,15 @@ const Index = ({ id }) => {
                 approved: true,
                 category: "student",
                 rollNumber: {
-                  value: x["Roll No"] ?? null,
+                  value: x["Roll No"].toUpperCase() ?? null,
                   frozen: false,
                   verified: false,
                 },
                 college: {
                   name: college.collegeName,
+                  campus: getCampus(x["College"].split(" - ")[1].trim()),
+                  program: x["Program"],
+                  specialisation: x["Specialisation"],
                   code: college._id,
                 },
                 phone: {
@@ -158,12 +165,16 @@ const Index = ({ id }) => {
                 education: [
                   {
                     institution: college.collegeName,
-                    program: x["Program"] ?? "",
-                    branch: x["Current Course"] ? rename(x["Current Course"]).trim() : "",
+                    program: x["Program"].toUpperCase().trim() ?? "",
+                    branch: x["Specialisation"] ?? "",
                     educationType: "Full Time",
                     score: {
-                      typeOfGrade: "Percentage",
-                      grade: x["Current Course Percentage"] ?? 0,
+                      typeOfGrade: "CGPA",
+                      grade: x["Current course CGPA"] ?? 0,
+                    },
+                    batch: {
+                      from: 2020,
+                      to: 2023,
                     },
                     current: true,
                     verified: false,
@@ -182,8 +193,8 @@ const Index = ({ id }) => {
                       grade: x["UG percentage"] ?? 0,
                     },
                     batch: {
-                      from: 0,
-                      to: x["UG End Year"] ?? 0,
+                      from: 2018,
+                      to: 2020,
                     },
                     current: false,
                     verified: false,
@@ -200,7 +211,7 @@ const Index = ({ id }) => {
                     },
                     batch: {
                       from: 0,
-                      to: x["12th YOP"] ?? 0,
+                      to: 2016,
                     },
                     current: false,
                     verified: false,
@@ -217,7 +228,7 @@ const Index = ({ id }) => {
                     },
                     batch: {
                       from: 0,
-                      to: x["10th YOP"] ?? 0,
+                      to: 2014,
                     },
                     current: false,
                     verified: false,
@@ -289,11 +300,11 @@ const Index = ({ id }) => {
             data.forEach((x) => {
               res.push({
                 user: Math.floor(Math.random() * 100000) + "",
-                amount: 7500,
-                email: x["Email Id"].toString().trim(" "),
+                amount: x["total payment amount"] !== 'On Campus Paid' ? Number(x["total payment amount"]) : 7500,
+                email: x["Email Id"].toString().trim().toLowerCase(),
                 address: {
                   country: "India",
-                  postal: "500074",
+                  postal: "500035",
                 },
                 phone: x["Phone Number"] + "",
               });

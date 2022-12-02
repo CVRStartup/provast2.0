@@ -43,6 +43,11 @@ const JobSchema = mongoose.Schema(
         type: String,
       },
     ],
+    jobPostingCampus: [
+      {
+        type: String,
+      },
+    ],
     yearofPassing: [
       {
         type: String,

@@ -11,20 +11,10 @@ import { JobCard } from "../../../src/components/Jobs/JobCard";
 import { JobChart } from "../../../src/components/Jobs/JobChart";
 import { useResumes } from "../../../src/hooks/useResumes";
 import axios from "axios";
-import Link from "next/link";
-import { useCrt } from "../../../src/hooks/useCrt";
 import { useNotices } from "../../../src/hooks/useNotices";
 import { useSingleAcademic } from "../../../src/hooks/useSingleAcademic";
 
-const notEligibleStudents = [];
-
 const resources = [
-  // {
-  //   heading: "IBM Preplacement",
-  //   image:
-  //     "https://webimages.mongodb.com/_com_assets/cms/ibmlogo-s4il2j9lwy.png?auto=format%2Ccompress&ch=DPR",
-  //   href: "https://app.altrulabs.com/play/video/zBLZwmFRppKJ/IT8tks3RrgVs",
-  // },
   {
     heading: "Epam Resouces for 2023",
     image:
@@ -43,13 +33,12 @@ const resources = [
   },
 ];
 
-const StudentIndex = ({ userDetails }) => {
+const StudentIndex = ({ userDetails, crtPayment, college }) => {
   const user = JSON.parse(userDetails);
   const { jobs, isLoading } = useJobs(user);
   const { oldAcademic } = useSingleAcademic(undefined, user?.rollNumber?.value);
   const [isEligibleToPay, setIsEligibleToPay] = useState(false);
   const { notices } = useNotices(user);
-  const { crtPayment } = useCrt(user?.email);
   const [filteredJobs, setFilteredJobs] = useState(null);
   const [counts, setCounts] = useState([]);
   const { resumes } = useResumes(user);
@@ -71,23 +60,6 @@ const StudentIndex = ({ userDetails }) => {
     })();
   }, [jobs, resumes]);
 
-  const form = useRef(null);
-
-  useEffect(() => {
-    if (!form.current) return;
-
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/payment-button.js";
-    script.setAttribute("data-payment_button_id", "pl_KAYn8wG1FPR3WX");
-    script.async = true;
-
-    form?.current?.appendChild(script);
-
-    return () => {
-      form?.current?.removeChild(script);
-    };
-  }, [form.current]);
-
   useEffect(() => {
     if (!oldAcademic || !oldAcademic.score) return;
     if (oldAcademic.score.grade <= 10) {
@@ -97,8 +69,6 @@ const StudentIndex = ({ userDetails }) => {
     } else {
       setIsEligibleToPay(false);
     }
-    if (notEligibleStudents.filter((x) => x === user.rollNumber.value).length > 0)
-      setIsEligibleToPay(false);
   }, [oldAcademic]);
 
   useEffect(() => {
@@ -140,8 +110,7 @@ const StudentIndex = ({ userDetails }) => {
             <div className='min-w-0'>
               <div className='lg:min-w-0'>
                 <div className='h-full px-1'>
-                  {user?.college?.name === "SRM Institute of Science and Technology" &&
-                  !crtPayment ? (
+                  {college === "SRM Institute of Science and Technology" && crtPayment === 'payment not found' ? (
                     <div className='flex justify-center'>
                       <div className='w-full p-4 bg-white text-center rounded'>
                         <h1 className='font-semibold'>Jobs</h1>
@@ -172,11 +141,9 @@ const StudentIndex = ({ userDetails }) => {
                           placements can enroll.
                           <br />
                           <br />
-                          Enrollment Fee : Rs.7500/-{" "}
+                          Enrollment Fee : Rs.7500/-
                           {isEligibleToPay && (
-                            <section id='home'>
-                              <form ref={form}></form>
-                            </section>
+                            <b className='block'>Please Contact your institution to pay.</b>
                           )}
                           <br />
                           <br />
@@ -337,9 +304,13 @@ export const getServerSideProps = async ({ req, res }) => {
     }
   }
 
+  const {data: crt} = await axios.get(`${process.env.HOST_URL}/api/payment/crt?id=${user?.email}`)
+
   return {
     props: {
       userDetails: JSON.stringify(user),
+      college: user.college.name,
+      crtPayment: crt.message
     },
   };
 };

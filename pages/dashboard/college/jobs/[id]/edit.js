@@ -18,11 +18,11 @@ import {
   typeOfGrade,
   Percentages,
   CGPAs,
-  typeOfPlacedStatus,
   typeOfJobProgram,
   mtechBranches,
   degreeBranches,
   mbaBranches,
+  jobPostingCampuses,
 } from "../../../../../src/lib/helper";
 
 import Link from "next/link";
@@ -34,8 +34,6 @@ import { getLoginSession } from "../../../../../src/lib/auth";
 import { findUser } from "../../../../../src/lib/user";
 import { Round } from "../../../../../src/components/Jobs/Round";
 import { Question } from "../../../../../src/components/Jobs/Question";
-import moment from "moment-timezone";
-import { toDate } from "date-fns";
 
 const getSelected = (options, value) => {
   if (!value) return options[0];
@@ -68,6 +66,7 @@ const JobAdd = ({ job, user }) => {
   const [image, setImage] = useState(job?.image);
   const [logo, setLogo] = useState(job?.logo);
   const [jobPostingLocation, setJobPostingLocation] = useState(job?.jobPostingLocation);
+  const [jobPostingCampus, setJobPostingCampus] = useState(job?.jobPostingCampus);
   const [yearofPassing, setYearofPassing] = useState(job?.yearofPassing);
   const [branchOptions, setBranchOptions] = useState(job?.branchOptions);
   const [typeOfPost, setTypeOfPost] = useState(job?.typeOfPost);
@@ -280,6 +279,7 @@ const JobAdd = ({ job, user }) => {
       allowPlaced,
       designation,
       jobPostingLocation,
+      jobPostingCampus,
       yearofPassing,
       branchOptions,
       status: selectedStatus.name,
@@ -302,7 +302,7 @@ const JobAdd = ({ job, user }) => {
 
     if (message == "Job Updated") {
       toast.success(message, { toastId: message });
-      router.push("/dashboard/college/jobs");
+      router.push(`/dashboard/college/jobs/${job._id}`);
     } else {
       toast.error(message, { toastId: message });
     }
@@ -1066,6 +1066,30 @@ const JobAdd = ({ job, user }) => {
                 />
               </div>
               <div className="sm:col-span-6 rounded border">
+              <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
+                  <p>{"Allowed Campuses"}</p>
+                  <div className="ml-3 flex items-center font-normal">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 mr-1 text-orange-600 border-gray-300 rounded outline-none"
+                      checked={jobPostingCampus.length === jobPostingCampuses.length}
+                      onChange={() => {
+                        if (jobPostingCampus.length === jobPostingCampuses.length)
+                          setJobPostingCampus([]);
+                        else setJobPostingCampus([...jobPostingCampuses.map((x) => x.name)]);
+                      }}
+                    />
+                    <label>All Campuses</label>
+                  </div>
+                </h4>
+                <CheckBox
+                 title={"Campus Allowed"}
+                 options={jobPostingCampuses}
+                 setCheckedOptions={setJobPostingCampus}
+                 checkedOptions={jobPostingCampus}
+                />
+              </div>
+              <div className="sm:col-span-6 rounded border">
                 <h4 className="font-semibold text-sm bg-gray-100 px-2 py-3 flex">
                   <p>{"Eligible Branches"}</p>
                   <div className="ml-3 flex items-center font-normal">
@@ -1430,7 +1454,7 @@ const JobAdd = ({ job, user }) => {
           </div>
 
           <div className="flex justify-end">
-            <Link href={`/dashboard/college/jobs`}>
+            <Link href={`/dashboard/college/jobs/${job._id}`}>
               <button
                 type="button"
                 className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"

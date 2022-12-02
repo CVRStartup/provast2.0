@@ -57,8 +57,8 @@ export const JobHero = ({ job }) => {
             compare("Class Xth", job.eligibility.tenth.grade) &&
             compare("Class XIIth", job.eligibility.inter.grade) &&
             compare("UG", job.eligibility.undergraduate.grade) &&
-            compare("MBA", job.eligibility.postgraduate.grade);
-          console.log(compare("MBA", job.eligibility.postgraduate.grade));
+            compare("MBA", job.eligibility.postgraduate.grade) &&
+            job?.jobPostingCampus?.includes(user.college.campus) && job?.branchOptions?.includes(user.college.specialisation)
           setShowOptions(eligible ? 0 : -1);
         } else setShowOptions(0);
       }
@@ -211,7 +211,7 @@ export const JobHero = ({ job }) => {
           showOptions != -1 &&
           new Date(Date.now()) < new Date(job?.to?.substring(0, 16)) && (
             <div className='mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3'>
-              <div className='flex flex-col'>
+              <div className='flex flex-col md:flex-row'>
                 {showOptions != 1 && (
                   <button
                     onClick={async () => {
@@ -229,7 +229,7 @@ export const JobHero = ({ job }) => {
                 {showOptions != 2 && (
                   <button
                     onClick={() => handleJobResponse(job, user, "Not Interested", [], [], null)}
-                    className={` inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700`}
+                    className={`md:ml-2 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700`}
                   >
                     Not Interested
                   </button>
