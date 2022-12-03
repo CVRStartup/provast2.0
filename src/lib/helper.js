@@ -338,7 +338,6 @@ export const genders = [
   { name: "Female", code: "Female" },
   { name: "Other", code: "Other" },
 ];
-
 export const btechBranches = [
   { name: "Aeronautical Engineering", code: "AE" },
   { name: "Agriculture Engineering", code: "AgriE" },
@@ -1476,11 +1475,11 @@ export const jobPostingLocationOptions = [
 ];
 
 export const jobPostingCampuses = [
-  {id: 1, name: "Kattankulathur"},
-  {id: 2, name: "Ramapuram"},
-  {id: 3, name: "Modi Nagar"},
-  {id: 4, name: "Vadapalani"}
-]
+  { id: 1, name: "Kattankulathur" },
+  { id: 2, name: "Ramapuram" },
+  { id: 3, name: "Modi Nagar" },
+  { id: 4, name: "Vadapalani" },
+];
 
 export const typeOfGrade = [
   { id: 1, name: "Not Applicable" },
