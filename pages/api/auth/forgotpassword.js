@@ -87,7 +87,7 @@ const getUserDetails = async (req, res) => {
       });
 
       let hashedOTP = hashPwd(generatedOTP);
-
+      console.log(generatedOTP)
       const otp = new OTP({ email, otp: hashedOTP });
       await otp.save();
 

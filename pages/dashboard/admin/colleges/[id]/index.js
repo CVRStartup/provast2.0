@@ -70,7 +70,7 @@ const Index = ({ id }) => {
               const name = x["Name of Student"].split(" ");
               const studentName = getName(name);
               return {
-                email: x["Email Id"].toLowerCase() ?? null,
+                email: x["Email Id"].toLowerCase().trim() ?? null,
                 detailsAvailable: true,
                 academicsAvailable: true,
                 profile: {
