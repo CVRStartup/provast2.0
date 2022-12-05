@@ -360,7 +360,6 @@ export const btechBranches = [
   { name: "Information Technology", code: "IT" },
   { name: "Instrumentation and Control", code: "IC" },
 ];
-
 export const mbaBranches = [
   { name: "Artificial intelligence - Data Science" },
   { name: "Banking - Finance" },
