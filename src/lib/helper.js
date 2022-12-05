@@ -389,7 +389,7 @@ export const mbaBranches = [
   { name: "Marketing - Human Resources" },
   { name: "Marketing - Operations" },
   { name: "Marketing - Strategy" },
-  { name: "Operation  - Buisness Analytics" },
+  { name: "Operation - Business Analytics" },
   { name: "Operations - Finance" },
   { name: "Operations - Human resource" },
   { name: "Operations - Marketing" },

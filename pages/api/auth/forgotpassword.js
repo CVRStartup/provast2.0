@@ -88,8 +88,6 @@ const getUserDetails = async (req, res) => {
 
       let hashedOTP = hashPwd(generatedOTP);
 
-      console.log(generatedOTP)
-
       const otp = new OTP({ email, otp: hashedOTP });
       await otp.save();
 
@@ -108,33 +106,33 @@ const getUserDetails = async (req, res) => {
 
       var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
 
-      // sendSmtpEmail = {
-      //   to: [
-      //     {
-      //       email: email,
-      //       name: `User`,
-      //     },
-      //   ],
-      //   templateId: 1,
-      //   params: {
-      //     name: `User`,
-      //     otp: generatedOTP,
-      //   },
-      //   headers: {
-      //     "X-Mailin-custom": "custom_header_1:custom_value_1|custom_header_2:custom_value_2",
-      //     contentType: "application/json",
-      //     accept: "application/json",
-      //   },
-      // };
+      sendSmtpEmail = {
+        to: [
+          {
+            email: email,
+            name: `User`,
+          },
+        ],
+        templateId: 1,
+        params: {
+          name: `User`,
+          otp: generatedOTP,
+        },
+        headers: {
+          "X-Mailin-custom": "custom_header_1:custom_value_1|custom_header_2:custom_value_2",
+          contentType: "application/json",
+          accept: "application/json",
+        },
+      };
 
-      // apiInstance.sendTransacEmail(sendSmtpEmail).then(
-      //   function (data) {
-      //     console.log("API called successfully. Returned data: " + data);
-      //   },
-      //   function (error) {
-      //     console.error(error);
-      //   }
-      // );
+      apiInstance.sendTransacEmail(sendSmtpEmail).then(
+        function (data) {
+          console.log("API called successfully. Returned data: " + data);
+        },
+        function (error) {
+          console.error(error);
+        }
+      );
 
       return res.status(200).json({ message: "OTP has sent to your email" });
     } else {

@@ -53,7 +53,6 @@ export const JobHero = ({ job }) => {
         setShowOptions(res.status?.applied ? 1 : 2);
       } else {
         if (job.typeOfPost === "Criteria") {
-          console.log(user.college.specialisation)
           const eligible = compare("Class Xth", job.eligibility.tenth.grade) &&
             compare("Class XIIth", job.eligibility.inter.grade) &&
             compare("UG", job.eligibility.undergraduate.grade) &&
