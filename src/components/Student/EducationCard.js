@@ -11,7 +11,7 @@ export const EducationCard = ({ education, rollnumber, category }) => {
         <div>
           <div className="flex">
             <h3 className="text-2xl text-gray-500 font-semibold">{education?.program}</h3>
-            {category !== "college" && (
+            {category === "college" && (
               <button
                 className="ml-2 text-orange-500 hover:text-orange-600"
                 onClick={() => {

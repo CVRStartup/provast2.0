@@ -145,11 +145,13 @@ const CollegeJobSlug = ({ id }) => {
             />
           </div>
         )}
+
         {tab === "Questionnaire" && (
           <div data-aos="fade-up">
             <Questionnaire job={job} />
           </div>
         )}
+
         {tab === "Rounds" && (
           <div data-aos="fade-up">
             <RoundInfo job={job} />
