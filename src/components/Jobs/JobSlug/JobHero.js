@@ -38,11 +38,11 @@ export const JobHero = ({ job }) => {
   };
 
   useEffect(() => {
-    if (!job || !oldAcademic) return;
+    if (!job) return;
     const res = job?.eligible?.filter((x) => {
       return x?.email === user?.email;
     })[0];
-
+    console.log(123, res)
     if (
       !user ||
       job.typeOfPost === "Off-Campus" ||
