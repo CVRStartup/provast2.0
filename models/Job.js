@@ -127,6 +127,22 @@ const JobSchema = mongoose.Schema(
         email: String,
         phone: String,
         resume: String,
+        personal: {
+          DOB: String,
+          Gender: String,
+          Contact: Number,
+        },
+        education: {
+          XthMarks: Number,
+          XIIthMarks: Number,
+          DiplomaMarks: Number,
+          UGMarks: Number,
+          UGProgram: String,
+          UGSpecialization: String,
+          PGMarks: Number,
+          PGProgram: String,
+          PGSpecialization: String,
+        },
         status: {
           applied: {
             type: Boolean,

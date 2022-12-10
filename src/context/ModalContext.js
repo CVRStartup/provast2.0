@@ -16,6 +16,7 @@ export function ModelContextProvider({ children }) {
   const [modalJob, setModalJob] = useState(null);
   const [modalJobResume, setModalJobResume] = useState(null);
   const [education, setEducation] = useState(null);
+  const [personal, setPersonal] = useState(null);
   const [modalQues, setModalQues] = useState(null);
 
   function closeModal() {
@@ -53,8 +54,10 @@ export function ModelContextProvider({ children }) {
     setModalJobResume,
     education,
     setEducation,
+    personal,
+    setPersonal,
     modalQues,
-    setModalQues
+    setModalQues,
   };
   return <ModelContext.Provider value={state}>{children}</ModelContext.Provider>;
 }

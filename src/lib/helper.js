@@ -15,7 +15,16 @@ import moment from "moment";
 import jwt from "jsonwebtoken";
 import * as XLSX from "xlsx";
 
-export const handleJobResponse = async (job, user, op, roles, questionnaire, resume) => {
+export const handleJobResponse = async (
+  job,
+  user,
+  op,
+  roles,
+  questionnaire,
+  resume,
+  personal,
+  education
+) => {
   if (!user) return;
   let data = null;
   if (job.typeOfPost === "Shortlisted Students") {
@@ -28,6 +37,8 @@ export const handleJobResponse = async (job, user, op, roles, questionnaire, res
         newstatus: {
           ...newstatus,
           resume,
+          personal,
+          education,
           status: {
             applied: op === "Apply",
             roles: roles,
@@ -44,6 +55,8 @@ export const handleJobResponse = async (job, user, op, roles, questionnaire, res
         newstatus: {
           email: user?.email,
           resume,
+          personal,
+          education,
           status: {
             applied: op === "Apply",
             roles: roles,
