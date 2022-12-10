@@ -345,7 +345,6 @@ export const reloadSession = () => {
 export const getEighteenPercent = (price) => {
   return ((price / 100) * 18).toFixed(2);
 };
-
 export const genders = [
   { name: "Male", code: "Male" },
   { name: "Female", code: "Female" },
