@@ -59,6 +59,8 @@ const CollegeJobSlug = ({ id }) => {
               rollnumber: studentDetail.rollNumber?.value,
               status: student.status,
               resume: student.resume,
+              personal: student.personal,
+              education: student.education
             };
             return true;
           }

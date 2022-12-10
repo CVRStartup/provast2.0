@@ -2,20 +2,19 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import moment from "moment";
 import Link from "next/link";
-import { dateInPast, handleJobResponse } from "../../../lib/helper";
-import { useRouter } from "next/router";
+import { handleJobResponse } from "../../../lib/helper";
 import { useModelContext } from "../../../context/ModalContext";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { useUser } from "../../../lib/hooks";
 import { Loading } from "../../Reusables/Loading";
-import { mutate } from "swr";
 import { useSingleAcademic } from "../../../hooks/useSingleAcademic";
 
 export const JobHero = ({ job }) => {
   const user = useUser();
-  const { setIsOpen, setForm, setModalJob, loading, setLoading, setDeleteName } = useModelContext();
+  const { setIsOpen, setForm, setModalJob, loading, setLoading, setDeleteName, setPersonal, setEducation } = useModelContext();
   const { oldAcademic } = useSingleAcademic("null", user?.rollNumber?.value);
+  console.log(oldAcademic)
   const [showOptions, setShowOptions] = useState(-1);
   // -1 -> not eligible
   // 0  -> not yet applied
@@ -38,11 +37,10 @@ export const JobHero = ({ job }) => {
   };
 
   useEffect(() => {
-    if (!job) return;
+    if (!job || !oldAcademic) return;
     const res = job?.eligible?.filter((x) => {
       return x?.email === user?.email;
     })[0];
-    console.log(123, res)
     if (
       !user ||
       job.typeOfPost === "Off-Campus" ||
@@ -216,24 +214,24 @@ export const JobHero = ({ job }) => {
                     onClick={async () => {
                       setLoading(true);
                       setIsOpen(true);
+                      setForm("questionnareForm");
+                      setModalJob(job);
                       setPersonal({
                         DOB: user.profile.dob,
-                        Gender: user.profile.dob,
-                        Contact: user.phone,
+                        Gender: user.profile.gender,
+                        Contact: user.phone.value,
                       });
                       if (oldAcademic?.education)
                         setEducation({
-                          XthMarks: oldAcademic.education[0]?.score?.grade,
-                          XIIthOrDiplomaMarks: oldAcademic.education[1]?.score?.grade,
-                          UGMarks: oldAcademic.education[2]?.score?.grade,
-                          UGProgram: oldAcademic.education[2].program,
-                          UGSpecialization: oldAcademic.education[2].branch,
-                          PGMarks: oldAcademic.education[3]?.score?.grade,
-                          PGProgram: oldAcademic.education[3].program,
-                          PGSpecialization: oldAcademic.education[3].branch,
+                          XthMarks: oldAcademic.education[3]?.score?.grade,
+                          XIIthMarks: oldAcademic.education[2]?.score?.grade,
+                          UGMarks: oldAcademic.education[1]?.score?.grade,
+                          UGProgram: oldAcademic.education[1].program,
+                          UGSpecialization: oldAcademic.education[1].branch,
+                          PGMarks: oldAcademic.education[0]?.score?.grade,
+                          PGProgram: oldAcademic.education[0].program,
+                          PGSpecialization: oldAcademic.education[0].branch,
                         });
-                      setForm("questionnareForm");
-                      setModalJob(job);
                       setLoading(false);
                     }}
                     className={`inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700`}

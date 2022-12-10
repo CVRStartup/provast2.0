@@ -10,7 +10,8 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
   const { setIsOpen, setForm } = useModelContext();
   const [keyword, setKeyword] = useState("");
   const [filteredStudents, setFilteredStudents] = useState(eligible);
-  const [currentFilteredStudents, setCurrentFilteredStudents] = useState(eligible);
+  const [currentFilteredStudents, setCurrentFilteredStudents] =
+    useState(eligible);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [searchMode, setSearchMode] = useState(false);
@@ -26,7 +27,9 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % filteredStudents.length;
-    console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
     setItemOffset(newOffset);
   };
 
@@ -141,6 +144,72 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
                     >
+                      Phone
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      Gender
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      DOB
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      Xth Marks
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      XIIth Marks
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      UG Marks
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      UG Program
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      UG Specialisation
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      PG Marks
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      PG Program
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
+                      PG Specialisation
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                    >
                       Answers
                     </th>
                   </tr>
@@ -152,7 +221,9 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                         return (
                           <tr
                             key={option?._id}
-                            className={optionId % 2 === 0 ? undefined : "bg-gray-50"}
+                            className={
+                              optionId % 2 === 0 ? undefined : "bg-gray-50"
+                            }
                           >
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                               {option?.name}
@@ -177,7 +248,6 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                                 "N/A"
                               )}
                             </td>
-
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.applied === null ? (
                                 <MdPendingActions size={25} color={"#ff9800"} />
@@ -189,22 +259,115 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.updatedAt
-                                ? moment(new Date(option?.status?.updatedAt)).format(
-                                    "YYYY-MM-DD HH:mm:ss"
-                                  )
+                                ? moment(
+                                    new Date(option?.status?.updatedAt)
+                                  ).format("YYYY-MM-DD HH:mm:ss")
                                 : "N/A"}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.roles.map((role, index) => (
                                 <span key={index}>
-                                  {role + (index === option?.status?.roles.length - 1 ? "." : ", ")}
+                                  {role +
+                                    (index === option?.status?.roles.length - 1
+                                      ? "."
+                                      : ", ")}
                                 </span>
                               ))}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.personal.Contact
+                                ? option.personal.Contact
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.personal.Gender
+                                ? option.personal.Gender
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.personal.DOB
+                                ? option.personal.DOB
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.XthMarks
+                                ? `${option.education.XthMarks}%`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.XIIthMarks
+                                ? `${option.education.XIIthMarks}%`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.UGMarks
+                                ? `${option.education.UGMarks}%`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.UGProgram
+                                ? `${option.education.UGProgram}`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.UGSpecialization
+                                ? `${option.education.UGSpecialization}`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.PGMarks
+                                ? `${option.education.PGMarks}CGPA`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.PGProgram
+                                ? `${option.education.PGProgram}`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.PGSpecialization
+                                ? `${option.education.PGSpecialization}`
+                                : "-"}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.answers?.map((answer, index) => {
                                 return `${answer.answer}${
-                                  index + 1 === option?.status?.answers.length ? "." : ", "
+                                  index + 1 === option?.status?.answers.length
+                                    ? "."
+                                    : ", "
                                 }`;
                               })}
                             </td>
@@ -213,11 +376,14 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                       })
                     : currentFilteredStudents?.map((option, optionId) => {
                         if (!option) console.log(optionId);
-                        if (option && option?.rollnumber === "19B81A05D2") console.log(optionId);
+                        if (option && option?.rollnumber === "19B81A05D2")
+                          console.log(optionId);
                         return (
                           <tr
                             key={option?._id}
-                            className={optionId % 2 === 0 ? undefined : "bg-gray-50"}
+                            className={
+                              optionId % 2 === 0 ? undefined : "bg-gray-50"
+                            }
                           >
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                               {option?.name}
@@ -254,22 +420,115 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.updatedAt
-                                ? moment(new Date(option?.status?.updatedAt)).format(
-                                    "YYYY-MM-DD HH:mm:ss"
-                                  )
+                                ? moment(
+                                    new Date(option?.status?.updatedAt)
+                                  ).format("YYYY-MM-DD HH:mm:ss")
                                 : "N/A"}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.roles.map((role, index) => (
                                 <span key={index}>
-                                  {role + (index === option.status.roles.length - 1 ? "" : ", ")}
+                                  {role +
+                                    (index === option.status.roles.length - 1
+                                      ? ""
+                                      : ", ")}
                                 </span>
                               ))}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.personal.Contact
+                                ? option.personal.Contact
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.personal.Gender
+                                ? option.personal.Gender
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.personal.DOB
+                                ? option.personal.DOB
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.XthMarks
+                                ? `${option.education.XthMarks}%`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.XIIthMarks
+                                ? `${option.education.XIIthMarks}%`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.UGMarks
+                                ? `${option.education.UGMarks}%`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.UGProgram
+                                ? `${option.education.UGProgram}`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.UGSpecialization
+                                ? `${option.education.UGSpecialization}`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.PGMarks
+                                ? `${option.education.PGMarks}CGPA`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.PGProgram
+                                ? `${option.education.PGProgram}`
+                                : "-"}
+                            </td>
+                            <td
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-900"
+                            >
+                              {option.education.PGSpecialization
+                                ? `${option.education.PGSpecialization}`
+                                : "-"}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.answers?.map((answer, index) => {
                                 return `${answer.answer}${
-                                  index + 1 === option?.status?.answers.length ? "." : ", "
+                                  index + 1 === option?.status?.answers.length
+                                    ? "."
+                                    : ", "
                                 }`;
                               })}
                             </td>
