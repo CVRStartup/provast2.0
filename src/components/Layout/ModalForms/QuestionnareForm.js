@@ -16,7 +16,7 @@ export const QuestionnareForm = () => {
   const { resumes } = useResumes(user);
   const [resumeDetails, setResumeDetails] = useState([]);
   const [selectedResume, setSelectedResume] = useState(null);
-  const { closeModal, modalJob, setForm, setModalJobResume, setModalQues } =
+  const { closeModal, modalJob, setForm, setModalJobResume, setModalQues, education, personal } =
     useModelContext();
   const [checkedRoles, setCheckRoles] = useState([]);
   const [checkedOptions, setCheckedOptions] = useState([]);
@@ -66,7 +66,9 @@ export const QuestionnareForm = () => {
         "Apply",
         modalJob.designation.roles,
         [...checkedOptions, ...blankInputQuestions],
-        selectedResume.id
+        selectedResume.id,
+        personal,
+        education
       );
       await mutate(`/api/jobs/${modalJob._id}`);
       closeModal();
@@ -78,16 +80,16 @@ export const QuestionnareForm = () => {
   };
   return (
     <form onSubmit={handleQuestionnareSubmit}>
-      <div className='mt-5 w-full text-white'>
-        <fieldset className='space-y-5'>
-          <div className='relative'>
+      <div className="mt-5 w-full text-white">
+        <fieldset className="space-y-5">
+          <div className="relative">
             {modalJob?.questionnaire?.map((question, index) => {
               return (
                 <div key={index}>
                   <div>
                     <span>
                       Question: {question.question.questionName}
-                      {question.question.required ? <span className='text-red-100'>*</span> : ""}
+                      {question.question.required ? <span className="text-red-100">*</span> : ""}
                     </span>
                     <span>
                       {question?.question?.options?.length > 0 ? (
@@ -95,16 +97,18 @@ export const QuestionnareForm = () => {
                           <div key={newIndex}>
                             <input
                               checked={checkedOptions.some(
-                                (questionObj) => (questionObj["answer"] === option && questionObj["questionId"]===question._id)
+                                (questionObj) =>
+                                  questionObj["answer"] === option &&
+                                  questionObj["questionId"] === question._id
                               )}
-                              type='checkbox'
+                              type="checkbox"
                               name={option}
                               id={option}
                               onChange={(e) => checkOptionHandler(e, question._id)}
                               value={option}
                               required={question?.question?.required}
                             />
-                            <label htmlFor={option} className='font-medium text-white'>
+                            <label htmlFor={option} className="font-medium text-white">
                               {option}
                             </label>
                           </div>
@@ -136,25 +140,25 @@ export const QuestionnareForm = () => {
         </fieldset>
       </div>
       <div>
-        <div className='flex justify-end'>
+        <div className="flex justify-end">
           <button
-            type='button'
+            type="button"
             onClick={() => {
               closeModal();
             }}
-            className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             Cancel
           </button>
           <button
-            type='submit'
-            className='ml-3  inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+            type="submit"
+            className="ml-3  inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
             Apply
           </button>
         </div>
       </div>
-      <p className='text-red text-sm'>{errorMsg}</p>
+      <p className="text-red text-sm">{errorMsg}</p>
     </form>
   );
 };

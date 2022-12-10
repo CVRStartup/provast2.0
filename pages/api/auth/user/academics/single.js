@@ -27,7 +27,7 @@ const getUserSingleAcademic = async (req, res) => {
     } else {
       oldAcademic = academics.education.filter((academic) => academic._id === id);
     }
-    if (oldAcademic.length > 0) {
+    if (oldAcademic?.length > 0) {
       return res
         .status(200)
         .json({ message: "Academic Details Found", oldAcademic: oldAcademic[0] });

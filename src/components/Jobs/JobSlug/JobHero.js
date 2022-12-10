@@ -216,6 +216,22 @@ export const JobHero = ({ job }) => {
                     onClick={async () => {
                       setLoading(true);
                       setIsOpen(true);
+                      setPersonal({
+                        DOB: user.profile.dob,
+                        Gender: user.profile.dob,
+                        Contact: user.phone,
+                      });
+                      if (oldAcademic?.education)
+                        setEducation({
+                          XthMarks: oldAcademic.education[0]?.score?.grade,
+                          XIIthOrDiplomaMarks: oldAcademic.education[1]?.score?.grade,
+                          UGMarks: oldAcademic.education[2]?.score?.grade,
+                          UGProgram: oldAcademic.education[2].program,
+                          UGSpecialization: oldAcademic.education[2].branch,
+                          PGMarks: oldAcademic.education[3]?.score?.grade,
+                          PGProgram: oldAcademic.education[3].program,
+                          PGSpecialization: oldAcademic.education[3].branch,
+                        });
                       setForm("questionnareForm");
                       setModalJob(job);
                       setLoading(false);
