@@ -1490,6 +1490,7 @@ export const jobPostingCampuses = [
   { id: 2, name: "Ramapuram" },
   { id: 3, name: "Modi Nagar" },
   { id: 4, name: "Vadapalani" },
+  { id: 5, name: "NCR" },
 ];
 
 export const typeOfGrade = [
