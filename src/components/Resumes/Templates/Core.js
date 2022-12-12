@@ -46,9 +46,14 @@ export const Core = ({ componentRef, filter = null }) => {
         <div className='p-7'>
           <div className='flex justify-between items-center '>
             <div className='flex items-center'>
-              <div className='relative w-36 h-36 rounded-md object-fit mr-4'>
-                {profile && <img src={profile?.image} />}
-              </div>
+              {profile && (
+                <div className="w-36 h-36 rounded-md overflow-hidden mr-4">
+                  <img
+                    src={profile?.image}
+                    className="rounded-full object-cover"
+                  />
+                </div>
+              )}
               <div className='flex flex-col'>
                 <h2
                   style={{ color: `rgba(${r}, ${g}, ${b}, ${a})` }}

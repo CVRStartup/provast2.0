@@ -98,16 +98,38 @@ export const DownloadUserList = () => {
               roles: getRoles(x),
               resume: `${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${x.resume}`,
               gender: x?.personal?.Gender ? x?.personal?.Gender : "-",
-              dob: x?.personal?.DOB ? x?.personal?.DOB : "-",
+              dob: x?.personal?.DOB
+                ? `${new Date(x?.personal?.DOB)?.getDate()}-${new Date(
+                    x?.personal?.DOB
+                  )?.getMonth()}-${new Date(
+                    x?.personal?.DOB
+                  )?.getFullYear()}`
+                : "-",
               phone: x?.personal?.Contact ? x?.personal?.Contact : "-",
-              XthMarks: x?.education?.XthMarks ? `${x?.education?.XthMarks}%` : "-",
-              XIIthMarks: x?.education?.XIIthMarks ? `${x?.education?.XIIthMarks}%` : "-",
-              UGMarks: x?.education?.UGMarks ? `${x?.education?.UGMarks}%` : "-",
-              UGProgram: x?.education?.UGProgram ? `${x?.education?.UGProgram}` : "-",
-              UGSpecialization: x?.education?.UGSpecialization ? `${x?.education?.UGSpecialization}` : "-",
-              PGMarks: x?.education?.PGMarks ? `${x?.education?.PGMarks}CGPA` : "-",
-              PGProgram: x?.education?.PGProgram ? `${x?.education?.PGProgram}` : "-",
-              PGSpecialization: x?.education?.PGSpecialization ? `${x?.education?.PGSpecialization}` : "-",
+              XthMarks: x?.education?.XthMarks
+                ? `${x?.education?.XthMarks}%`
+                : "-",
+              XIIthMarks: x?.education?.XIIthMarks
+                ? `${x?.education?.XIIthMarks}%`
+                : "-",
+              UGMarks: x?.education?.UGMarks
+                ? `${x?.education?.UGMarks}%`
+                : "-",
+              UGProgram: x?.education?.UGProgram
+                ? `${x?.education?.UGProgram}`
+                : "-",
+              UGSpecialization: x?.education?.UGSpecialization
+                ? `${x?.education?.UGSpecialization}`
+                : "-",
+              PGMarks: x?.education?.PGMarks
+                ? `${x?.education?.PGMarks}CGPA`
+                : "-",
+              PGProgram: x?.education?.PGProgram
+                ? `${x?.education?.PGProgram}`
+                : "-",
+              PGSpecialization: x?.education?.PGSpecialization
+                ? `${x?.education?.PGSpecialization}`
+                : "-",
               updatedAt: x.status.updatedAt
                 ? moment(new Date(x.status.updatedAt)).format(
                     "YYYY-MM-DD HH:mm:ss"

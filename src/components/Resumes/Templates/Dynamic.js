@@ -17,9 +17,14 @@ export const Dynamic = ({ componentRef }) => {
         <div className='p-7'>
           <div className='flex items-center justify-between'>
             <div className='w-[20%]'>
-              <div className='relative w-36 h-36 rounded-md object-fit mr-4'>
-                {profile && <img src={profile?.image} className='' />}
-              </div>
+              {profile && (
+                <div className="w-36 h-36 rounded-md overflow-hidden mr-4">
+                  <img
+                    src={profile?.image}
+                    className="rounded-full object-cover"
+                  />
+                </div>
+              )}
             </div>
             <div
               className='h-36 flex flex-col justify-center px-4 w-[80%] border'
