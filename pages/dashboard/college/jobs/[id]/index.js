@@ -21,7 +21,7 @@ function classNames(...classes) {
 
 const CollegeJobSlug = ({ id }) => {
   const { job, isLoading } = useJob(id);
-  const { setJobEligibleStudents } = useModelContext();
+  const { setJobEligibleStudents, jobEligibleStudents } = useModelContext();
   const [tab, setTab] = useState("Job Information");
   const user = useUser();
   const students = useStudents(user);
@@ -45,6 +45,8 @@ const CollegeJobSlug = ({ id }) => {
     setEligibleStudents(getFileterdEligible(job?.eligible));
     setJobEligibleStudents(getFileterdEligible(job?.eligible));
   }, [job, students.isLoading]);
+
+  console.log(jobEligibleStudents);
 
   if (isLoading) return <div>Loading</div>;
 
