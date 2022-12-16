@@ -8,7 +8,7 @@ import { useModelContext } from "../../../context/ModalContext";
 import { Loading } from "../../Reusables/Loading";
 
 export const DownloadUserList = () => {
-  const { closeModal, setLoading, loading } = useModelContext();
+  const { closeModal, setLoading, loading, jobEligibleStudents } = useModelContext();
   const [fileName, setFileName] = useState("StudentList");
   const [applied, setApplied] = useState(false);
   const [rejected, setRejected] = useState(false);
@@ -17,6 +17,8 @@ export const DownloadUserList = () => {
   const [job, setJob] = useState(null);
   const router = useRouter();
   const [headers, setHeaders] = useState([
+    { label: "Full Name", key: "name" },
+    { label: "Roll Number", key: "rollnumber" },
     { label: "Email", key: "email" },
     { label: "Applied Role", key: "roles" },
     { label: "Status", key: "status" },
@@ -45,11 +47,8 @@ export const DownloadUserList = () => {
     const answers = {};
     const questions = job.questionnaire;
     x?.status?.answers?.forEach((x, index) => {
-      answers[
-        questions
-          .filter((y) => y._id === x.questionId)[0]
-          .question.questionName.trim(" ")
-      ] = x.answer;
+      answers[questions.filter((y) => y._id === x.questionId)[0].question.questionName.trim(" ")] =
+        x.answer;
     });
     return answers;
   };
@@ -75,17 +74,19 @@ export const DownloadUserList = () => {
     (async () => {
       const {
         data: { job },
-      } = await axios.get(
-        `${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/${router.query.id}`
-      );
+      } = await axios.get(`${process.env.NEXT_PUBLIC_HOST_URL}/api/jobs/${router.query.id}`);
       setJob(job);
     })();
   }, []);
 
+  const format = (x) => {
+    return Math.round((x + Number.EPSILON) * 100) / 100;
+  };
+
   useEffect(() => {
     if (!job) return;
     setUserData([
-      ...job.eligible
+      ...jobEligibleStudents
         .map((x) => {
           if (
             (!applied && !rejected && !notResponded) ||
@@ -101,39 +102,22 @@ export const DownloadUserList = () => {
               dob: x?.personal?.DOB
                 ? `${new Date(x?.personal?.DOB)?.getDate()}-${new Date(
                     x?.personal?.DOB
-                  )?.getMonth()}-${new Date(
-                    x?.personal?.DOB
-                  )?.getFullYear()}`
+                  )?.getMonth()}-${new Date(x?.personal?.DOB)?.getFullYear()}`
                 : "-",
-              phone: x?.personal?.Contact ? x?.personal?.Contact : "-",
-              XthMarks: x?.education?.XthMarks
-                ? `${x?.education?.XthMarks}%`
-                : "-",
-              XIIthMarks: x?.education?.XIIthMarks
-                ? `${x?.education?.XIIthMarks}%`
-                : "-",
-              UGMarks: x?.education?.UGMarks
-                ? `${x?.education?.UGMarks}%`
-                : "-",
-              UGProgram: x?.education?.UGProgram
-                ? `${x?.education?.UGProgram}`
-                : "-",
+              XthMarks: x?.education?.XthMarks ? `${format(x?.education?.XthMarks)}` : "-",
+              XIIthMarks: x?.education?.XIIthMarks ? `${format(x?.education?.XIIthMarks)}` : "-",
+              UGMarks: x?.education?.UGMarks ? `${format(x?.education?.UGMarks)}` : "-",
+              UGProgram: x?.education?.UGProgram ? `${x?.education?.UGProgram}` : "-",
               UGSpecialization: x?.education?.UGSpecialization
                 ? `${x?.education?.UGSpecialization}`
                 : "-",
-              PGMarks: x?.education?.PGMarks
-                ? `${x?.education?.PGMarks}CGPA`
-                : "-",
-              PGProgram: x?.education?.PGProgram
-                ? `${x?.education?.PGProgram}`
-                : "-",
+              PGMarks: x?.education?.PGMarks ? `${format(x?.education?.PGMarks)}` : "-",
+              PGProgram: x?.education?.PGProgram ? `${x?.education?.PGProgram}` : "-",
               PGSpecialization: x?.education?.PGSpecialization
                 ? `${x?.education?.PGSpecialization}`
                 : "-",
               updatedAt: x.status.updatedAt
-                ? moment(new Date(x.status.updatedAt)).format(
-                    "YYYY-MM-DD HH:mm:ss"
-                  )
+                ? moment(new Date(x.status.updatedAt)).format("YYYY-MM-DD HH:mm:ss")
                 : "N/A",
               status: x?.status?.applied
                 ? "Applied"
@@ -155,10 +139,7 @@ export const DownloadUserList = () => {
     <form onSubmit={handleSubmit}>
       {loading && <Loading />}
       <div className="flex items-center justify-between">
-        <Dialog.Title
-          as="h3"
-          className="text-2xl font-medium leading-6 text-white"
-        >
+        <Dialog.Title as="h3" className="text-2xl font-medium leading-6 text-white">
           Download User List
         </Dialog.Title>
       </div>
