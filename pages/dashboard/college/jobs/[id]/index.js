@@ -13,6 +13,7 @@ import { Questionnaire } from "../../../../../src/components/Jobs/Questionnaire"
 import { RoundInfo } from "../../../../../src/components/Jobs/RoundInfo";
 import { useUser } from "../../../../../src/lib/hooks";
 import { useStudents } from "../../../../../src/hooks/useStudents";
+import { useModelContext } from "../../../../../src/context/ModalContext";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -20,6 +21,7 @@ function classNames(...classes) {
 
 const CollegeJobSlug = ({ id }) => {
   const { job, isLoading } = useJob(id);
+  const { setJobEligibleStudents, jobEligibleStudents } = useModelContext();
   const [tab, setTab] = useState("Job Information");
   const user = useUser();
   const students = useStudents(user);
@@ -41,8 +43,10 @@ const CollegeJobSlug = ({ id }) => {
   useEffect(() => {
     if (!job || students.isLoading) return;
     setEligibleStudents(getFileterdEligible(job?.eligible));
-    console.log("hi");
+    setJobEligibleStudents(getFileterdEligible(job?.eligible));
   }, [job, students.isLoading]);
+
+  console.log(jobEligibleStudents);
 
   if (isLoading) return <div>Loading</div>;
 
@@ -60,7 +64,7 @@ const CollegeJobSlug = ({ id }) => {
               status: student.status,
               resume: student.resume,
               personal: student.personal,
-              education: student.education
+              education: student.education,
             };
             return true;
           }
