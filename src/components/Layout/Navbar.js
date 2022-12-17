@@ -79,10 +79,10 @@ export const Navbar = () => {
       name: "Test Patterns",
       href: "/dashboard/student/testpatterns",
     },
-    {
-      name: "Learn",
-      href: "/dashboard/student/learn",
-    },
+    // {
+    //   name: "Learn",
+    //   href: "/dashboard/student/learn",
+    // },
   ];
 
   const individualNavigation = [
