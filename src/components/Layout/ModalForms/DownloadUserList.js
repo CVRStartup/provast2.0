@@ -79,8 +79,20 @@ export const DownloadUserList = () => {
     })();
   }, []);
 
-  const format = (x) => {
-    return Math.round((x + Number.EPSILON) * 100) / 100;
+  const format = (xx) => {
+    console.log(xx);
+    var s = xx.split("-"),
+      res = "";
+    console.log(s);
+    s.forEach((x, id) => {
+      if (parseInt(x) < 10) res = res + "0" + x;
+      else res = res + x;
+
+      if (id != 2) res = res + "-";
+
+      console.log(res);
+    });
+    return res;
   };
 
   useEffect(() => {
@@ -100,18 +112,22 @@ export const DownloadUserList = () => {
               resume: `${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${x.resume}`,
               gender: x?.personal?.Gender ? x?.personal?.Gender : "-",
               dob: x?.personal?.DOB
-                ? `${new Date(x?.personal?.DOB)?.getDate()}-${new Date(
-                    x?.personal?.DOB
-                  )?.getMonth()}-${new Date(x?.personal?.DOB)?.getFullYear()}`
+                ? format(
+                    `${new Date(x?.personal?.DOB)?.getDate()}-${
+                      new Date(x?.personal?.DOB)?.getMonth() + 1
+                    }-${new Date(x?.personal?.DOB)?.getFullYear()}`
+                  )
                 : "-",
-              XthMarks: x?.education?.XthMarks ? `${format(x?.education?.XthMarks)}` : "-",
-              XIIthMarks: x?.education?.XIIthMarks ? `${format(x?.education?.XIIthMarks)}` : "-",
-              UGMarks: x?.education?.UGMarks ? `${format(x?.education?.UGMarks)}` : "-",
+              XthMarks: x?.education?.XthMarks ? `${x?.education?.XthMarks?.toFixed(2)}` : "-",
+              XIIthMarks: x?.education?.XIIthMarks
+                ? `${x?.education?.XIIthMarks?.toFixed(2)}`
+                : "-",
+              UGMarks: x?.education?.UGMarks ? `${x?.education?.UGMarks?.toFixed(2)}` : "-",
               UGProgram: x?.education?.UGProgram ? `${x?.education?.UGProgram}` : "-",
               UGSpecialization: x?.education?.UGSpecialization
                 ? `${x?.education?.UGSpecialization}`
                 : "-",
-              PGMarks: x?.education?.PGMarks ? `${format(x?.education?.PGMarks)}` : "-",
+              PGMarks: x?.education?.PGMarks ? `${x?.education?.PGMarks?.toFixed(2)}` : "-",
               PGProgram: x?.education?.PGProgram ? `${x?.education?.PGProgram}` : "-",
               PGSpecialization: x?.education?.PGSpecialization
                 ? `${x?.education?.PGSpecialization}`
