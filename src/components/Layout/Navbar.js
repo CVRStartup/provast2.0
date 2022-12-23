@@ -34,6 +34,10 @@ export const Navbar = () => {
       name: "Dashboard",
       href: "/dashboard/admin",
     },
+    {
+      name: "Open Jobs",
+      href: "/dashboard/admin/openjobs",
+    },
   ];
   const collegeNavigation = [
     {
