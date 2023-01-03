@@ -19,33 +19,48 @@ export const JobInfo = ({ job }) => {
         <section aria-labelledby="applicant-information-title">
           <div className="bg-white shadow sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
-              <h2 className="text-lg leading-6 font-medium text-gray-900">Job Information</h2>
+              <h2 className="text-lg leading-6 font-medium text-gray-900">
+                Job Information
+              </h2>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                Details posted by <span className="font-semibold">{job?.college?.name}</span>.
+                Details posted by{" "}
+                <span className="font-semibold">{job?.college?.name}</span>.
               </p>
             </div>
             <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl className="grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
                 <div className="sm:col-span-1">
-                  <dt className="text-[20px] font-bold text-gray-900">Designation</dt>
+                  <dt className="text-[20px] font-bold text-gray-900">
+                    Designation
+                  </dt>
                   <dd className="mt-1   text-[15px] font-semibold text-gray-700">
                     {getDesignations(job?.designation)}
                   </dd>
                 </div>
                 <div className="sm:col-span-1">
                   <dt className="text-[20px] font-bold text-gray-900">Role</dt>
-                  <dd className="mt-1   text-[15px] font-semibold text-gray-700">{job?.role}</dd>
+                  <dd className="mt-1   text-[15px] font-semibold text-gray-700">
+                    {job?.role}
+                  </dd>
                 </div>
                 <div className="sm:col-span-1">
-                  <dt className="text-[20px] font-bold text-gray-900">Start Date</dt>
+                  <dt className="text-[20px] font-bold text-gray-900">
+                    Start Date
+                  </dt>
                   <dd className="mt-1   text-[15px] font-semibold text-gray-700">
                     {new Date(job.from).getDate()}{" "}
-                    {months[new Date(job.from?.substring(0, 10)).getMonth() + 1]}{" "}
+                    {
+                      months[
+                        new Date(job.from?.substring(0, 10)).getMonth() + 1
+                      ]
+                    }{" "}
                     {new Date(job.from?.substring(0, 10)).getFullYear()}
                   </dd>
                 </div>
                 <div className="sm:col-span-1">
-                  <dt className="text-[20px] font-bold text-gray-900">End Date</dt>
+                  <dt className="text-[20px] font-bold text-gray-900">
+                    End Date
+                  </dt>
                   <dd className="mt-1   text-[15px] font-semibold text-gray-700">
                     {new Date(job.to?.substring(0, 10)).getDate()}{" "}
                     {months[new Date(job.to?.substring(0, 10)).getMonth() + 1]}{" "}
@@ -54,7 +69,9 @@ export const JobInfo = ({ job }) => {
                 </div>
                 {job?.stipend && job?.stipend !== 0 ? (
                   <div className="sm:col-span-1">
-                    <dt className="text-[20px] font-bold text-gray-900">Stipend</dt>
+                    <dt className="text-[20px] font-bold text-gray-900">
+                      Stipend
+                    </dt>
                     <dd className="mt-1   text-[15px] font-semibold text-gray-700">
                       {formatCurrency(job?.stipend)}
                     </dd>
@@ -62,7 +79,9 @@ export const JobInfo = ({ job }) => {
                 ) : (
                   job?.stipendRange && (
                     <div className="sm:col-span-1">
-                      <dt className="text-[20px] font-bold text-gray-900">Stipend Range</dt>
+                      <dt className="text-[20px] font-bold text-gray-900">
+                        Stipend Range
+                      </dt>
                       <dd className="mt-1   text-[15px] font-semibold text-gray-700">
                         {job?.stipendRange}
                       </dd>
@@ -79,7 +98,9 @@ export const JobInfo = ({ job }) => {
                 ) : (
                   job?.ctcRange && (
                     <div className="sm:col-span-1">
-                      <dt className="text-[20px] font-bold text-gray-900">CTC Range</dt>
+                      <dt className="text-[20px] font-bold text-gray-900">
+                        CTC Range
+                      </dt>
                       <dd className="mt-1   text-[15px] font-semibold text-gray-700">
                         {job?.ctcRange}
                       </dd>
@@ -88,7 +109,9 @@ export const JobInfo = ({ job }) => {
                 )}
                 {job?.academics && (
                   <div className="sm:col-span-1">
-                    <dt className="text-[20px] font-bold text-gray-900">Academics</dt>
+                    <dt className="text-[20px] font-bold text-gray-900">
+                      Academics
+                    </dt>
                     <dd className="mt-1   text-[15px] font-semibold text-gray-700">
                       {job?.academics} Percentage
                     </dd>
@@ -97,20 +120,32 @@ export const JobInfo = ({ job }) => {
 
                 {job?.jobPostingLocation?.length > 0 && (
                   <div className="sm:col-span-1">
-                    <dt className="text-[20px] font-bold text-gray-900">Job Posting Location</dt>
+                    <dt className="text-[20px] font-bold text-gray-900">
+                      Job Posting Location
+                    </dt>
                     {job?.jobPostingLocation?.map((location, index) => (
-                      <span key={index} className="mt-1 text-[15px] font-semibold text-gray-700">
+                      <span
+                        key={index}
+                        className="mt-1 text-[15px] font-semibold text-gray-700"
+                      >
                         {location}
-                        {job?.jobPostingLocation?.length === index + 1 ? "" : ", "}
+                        {job?.jobPostingLocation?.length === index + 1
+                          ? ""
+                          : ", "}
                       </span>
                     ))}
                   </div>
                 )}
                 {job?.yearofPassing?.length > 0 && (
                   <div className="sm:col-span-1">
-                    <dt className="text-[20px] font-bold text-gray-900">Year Of Passing</dt>
+                    <dt className="text-[20px] font-bold text-gray-900">
+                      Year Of Passing
+                    </dt>
                     {job?.yearofPassing?.map((year, index) => (
-                      <span key={index} className="mt-1 text-[15px] font-semibold text-gray-700">
+                      <span
+                        key={index}
+                        className="mt-1 text-[15px] font-semibold text-gray-700"
+                      >
                         {year}
                         {job?.yearofPassing?.length === index + 1 ? "" : ", "}
                       </span>
@@ -120,35 +155,64 @@ export const JobInfo = ({ job }) => {
                 {job?.eligibility?.tenth &&
                   (job?.eligibility?.tenth?.typeOfGrade !== "Not Applicable" ||
                     job?.eligibility?.inter?.typeOfGrade !== "Not Applicable" ||
-                    job?.eligibility?.undergraduate?.typeOfGrade !== "Not Applicable" ||
-                    job?.eligibility?.postgraduate?.typeOfGrade !== "Not Applicable") && (
+                    job?.eligibility?.undergraduate?.typeOfGrade !==
+                      "Not Applicable" ||
+                    job?.eligibility?.postgraduate?.typeOfGrade !==
+                      "Not Applicable") && (
                     <div className="sm:col-span-2">
-                      <dt className="text-[20px] font-bold text-gray-900">Eligibility</dt>
+                      <dt className="text-[20px] font-bold text-gray-900">
+                        Eligibility
+                      </dt>
                       <dd className="mt-1   text-[15px] font-semibold text-gray-700">
-                        {job?.eligibility?.tenth?.typeOfGrade === "Not Applicable"
+                        {job?.eligibility?.tenth?.typeOfGrade ===
+                        "Not Applicable"
                           ? ""
                           : `Xth ${job?.eligibility?.tenth?.typeOfGrade} - ${job?.eligibility?.tenth?.grade}, `}
-                        {job?.eligibility?.inter?.typeOfGrade === "Not Applicable"
+                        {job?.eligibility?.inter?.typeOfGrade ===
+                        "Not Applicable"
                           ? ""
                           : `XIIth ${job?.eligibility?.inter?.typeOfGrade} - ${job?.eligibility?.inter?.grade}, `}
-                        {job?.eligibility?.diploma?.typeOfGrade === "Not Applicable"
+                        {job?.eligibility?.diploma?.typeOfGrade ===
+                        "Not Applicable"
                           ? ""
                           : `Diploma ${job?.eligibility?.diploma?.typeOfGrade} - ${job?.eligibility?.diploma?.grade}, `}
-                        {job?.eligibility?.undergraduate?.typeOfGrade === "Not Applicable"
+                        {job?.eligibility?.undergraduate?.typeOfGrade ===
+                        "Not Applicable"
                           ? ""
                           : `Undergraduate ${job?.eligibility?.undergraduate?.typeOfGrade} - ${job?.eligibility?.undergraduate?.grade}.`}
-                        {job?.eligibility?.postgraduate?.typeOfGrade === "Not Applicable"
+                        {job?.eligibility?.postgraduate?.typeOfGrade ===
+                        "Not Applicable"
                           ? ""
                           : `Postgraduate ${job?.eligibility?.postgraduate?.typeOfGrade} - ${job?.eligibility?.postgraduate?.grade}.`}
                       </dd>
                     </div>
                   )}
 
+                {job?.jobPostingCampus?.length > 0 && (
+                  <div className="sm:col-span-2">
+                    <ul className="text-[20px] font-bold text-gray-900">
+                      Eligible Campuses
+                    </ul>
+                    {job?.jobPostingCampus?.map((branch, index) => (
+                      <li
+                        key={index}
+                        className="mt-1 text-[15px] font-semibold text-gray-700"
+                      >
+                        {branch}
+                      </li>
+                    ))}
+                  </div>
+                )}
                 {job?.branchOptions?.length > 0 && (
                   <div className="sm:col-span-2">
-                    <ul className="text-[20px] font-bold text-gray-900">Eligible Branches</ul>
+                    <ul className="text-[20px] font-bold text-gray-900">
+                      Eligible Branches
+                    </ul>
                     {job?.branchOptions?.map((branch, index) => (
-                      <li key={index} className="mt-1 text-[15px] font-semibold text-gray-700">
+                      <li
+                        key={index}
+                        className="mt-1 text-[15px] font-semibold text-gray-700"
+                      >
                         {branch}
                       </li>
                     ))}
@@ -163,7 +227,10 @@ export const JobInfo = ({ job }) => {
           <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
             <div className="divide-y divide-gray-200">
               <div className="px-4 py-5 sm:px-6">
-                <h2 id="notes-title" className="text-lg font-medium text-gray-900">
+                <h2
+                  id="notes-title"
+                  className="text-lg font-medium text-gray-900"
+                >
                   Banner
                 </h2>
               </div>
@@ -183,13 +250,17 @@ export const JobInfo = ({ job }) => {
         </section>
       </div>
 
-      <section aria-labelledby="timeline-title" className="lg:col-start-3 lg:col-span-1">
+      <section
+        aria-labelledby="timeline-title"
+        className="lg:col-start-3 lg:col-span-1"
+      >
         {job.typeOfPost === "Shortlisted Students" && (
           <div className="mb-5 rounded-lg shadow bg-white py-2 pt-4">
             <div className="max-h-[305px] w-[305px] mx-auto">
               <JobChart
                 counts={[
-                  job.eligible.filter((x) => x?.status?.applied === null).length,
+                  job.eligible.filter((x) => x?.status?.applied === null)
+                    .length,
                   job.eligible.filter((x) => x?.status?.applied).length,
                 ]}
                 labels={["Pending Students", "Applied Students"]}
@@ -198,13 +269,19 @@ export const JobInfo = ({ job }) => {
           </div>
         )}
         <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-          <h2 id="timeline-title" className="text-[20px] font-bold text-gray-900">
+          <h2
+            id="timeline-title"
+            className="text-[20px] font-bold text-gray-900"
+          >
             About
           </h2>
 
           {/* Activity Feed */}
           <div className="mt-2">
-            <p className="text-sm" dangerouslySetInnerHTML={{ __html: job.description }} />
+            <p
+              className="text-sm"
+              dangerouslySetInnerHTML={{ __html: job.description }}
+            />
           </div>
           <div className="mt-6 flex flex-col justify-stretch">
             <Link href={job?.website}>

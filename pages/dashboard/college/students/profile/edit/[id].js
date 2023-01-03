@@ -140,11 +140,11 @@ const ProfileEdit = ({ id }) => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "uploads");
+    formData.append("upload_preset", "neujqnla");
     try {
       setLoading(true);
       const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dj7nomqfd/image/upload",
+        "https://api.cloudinary.com/v1_1/dzn2bzqmt/image/upload",
         formData
       );
       setLoading(false);
