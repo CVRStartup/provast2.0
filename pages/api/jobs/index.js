@@ -57,7 +57,7 @@ const searchJobs = async (req, res) => {
     await connectDB();
     const jobs = await Jobs.find({
       college: { name: req.query.collegename, code: req.query.collegecode },
-    }).sort({ updatedAt: -1 }).limit(7)
+    }).sort({ updatedAt: -1 }).limit(12)
 
     if (jobs.length > 0) {
       return res.status(200).json({ message: "jobs Found", jobs });
