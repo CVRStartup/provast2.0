@@ -10,7 +10,8 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
   const { setIsOpen, setForm } = useModelContext();
   const [keyword, setKeyword] = useState("");
   const [filteredStudents, setFilteredStudents] = useState(eligible);
-  const [currentFilteredStudents, setCurrentFilteredStudents] = useState(eligible);
+  const [currentFilteredStudents, setCurrentFilteredStudents] =
+    useState(eligible);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [searchMode, setSearchMode] = useState(false);
@@ -26,7 +27,9 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % filteredStudents.length;
-    console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
     setItemOffset(newOffset);
   };
 
@@ -218,10 +221,12 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                         return (
                           <tr
                             key={option?._id}
-                            className={optionId % 2 === 0 ? undefined : "bg-gray-50"}
+                            className={
+                              optionId % 2 === 0 ? undefined : "bg-gray-50"
+                            }
                           >
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
-                              {option?.name}
+                            {option?.name?.replace("undefined", "")}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.rollnumber}
@@ -254,15 +259,18 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.updatedAt
-                                ? moment(new Date(option?.status?.updatedAt)).format(
-                                    "YYYY-MM-DD HH:mm:ss"
-                                  )
+                                ? moment(
+                                    new Date(option?.status?.updatedAt)
+                                  ).format("YYYY-MM-DD HH:mm:ss")
                                 : "N/A"}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.roles.map((role, index) => (
                                 <span key={index}>
-                                  {role + (index === option?.status?.roles.length - 1 ? "." : ", ")}
+                                  {role +
+                                    (index === option?.status?.roles.length - 1
+                                      ? "."
+                                      : ", ")}
                                 </span>
                               ))}
                             </td>
@@ -362,14 +370,17 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                       })
                     : currentFilteredStudents?.map((option, optionId) => {
                         if (!option) console.log(optionId);
-                        if (option && option?.rollnumber === "19B81A05D2") console.log(optionId);
+                        if (option && option?.rollnumber === "19B81A05D2")
+                          console.log(optionId);
                         return (
                           <tr
                             key={option?._id}
-                            className={optionId % 2 === 0 ? undefined : "bg-gray-50"}
+                            className={
+                              optionId % 2 === 0 ? undefined : "bg-gray-50"
+                            }
                           >
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
-                              {option?.name}
+                              {option?.name?.replace("undefined", "")}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.rollnumber}
@@ -403,15 +414,18 @@ export const EligibleTable = ({ eligible, heading, tagline }) => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.updatedAt
-                                ? moment(new Date(option?.status?.updatedAt)).format(
-                                    "YYYY-MM-DD HH:mm:ss"
-                                  )
+                                ? moment(
+                                    new Date(option?.status?.updatedAt)
+                                  ).format("YYYY-MM-DD HH:mm:ss")
                                 : "N/A"}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {option?.status?.roles.map((role, index) => (
                                 <span key={index}>
-                                  {role + (index === option.status.roles.length - 1 ? "" : ", ")}
+                                  {role +
+                                    (index === option.status.roles.length - 1
+                                      ? ""
+                                      : ", ")}
                                 </span>
                               ))}
                             </td>

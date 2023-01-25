@@ -55,7 +55,6 @@ export const DownloadUserList = () => {
 
   const getLabels = (job) => {
     const questions = job.questionnaire;
-    console.log(questions);
     return questions.map((x) => {
       return {
         label: x.question.questionName.trim(" "),
@@ -108,6 +107,7 @@ export const DownloadUserList = () => {
           )
             return {
               ...x,
+              name: x?.name?.replace("undefined", ""),
               roles: getRoles(x),
               resume: `${process.env.NEXT_PUBLIC_HOST_URL}/viewresume/${x.resume}`,
               gender: x?.personal?.Gender ? x?.personal?.Gender : "-",
