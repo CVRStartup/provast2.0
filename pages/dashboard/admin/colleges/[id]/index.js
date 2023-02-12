@@ -5,6 +5,7 @@ import { useCollege } from "../../../../../src/hooks/useCollege";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { rename } from "../../../../../src/lib/helper";
+import moment from "moment";
 
 const Index = ({ id }) => {
   const { college, isError, isLoading } = useCollege(id);
@@ -49,8 +50,8 @@ const Index = ({ id }) => {
   };
 
   const getCampus = (campus) => {
-    return campus.split(" Campus")[0]
-  }
+    return campus.split(" Campus")[0];
+  };
 
   const handleFile = (e) => {
     if (!college) return;
@@ -69,6 +70,13 @@ const Index = ({ id }) => {
             const res = data.map((x) => {
               const name = x["Name of Student"].split(" ");
               const studentName = getName(name);
+              // new Date(
+              //   Date.UTC(
+              //     x["Date of Birth"].split("-")[0],
+              //     x["Date of Birth"].split("-")[1],
+              //     x["Date of Birth"].split("-")[2]
+              //   )
+              // )
               return {
                 email: x["Email Id"].toLowerCase().trim() ?? null,
                 detailsAvailable: true,
@@ -76,6 +84,7 @@ const Index = ({ id }) => {
                 profile: {
                   ...studentName,
                   gender: x["Gender"] ?? null,
+                  dob: x["Date of Birth"] ?? null,
                   verified: false,
                   frozen: false,
                 },
@@ -123,7 +132,9 @@ const Index = ({ id }) => {
       const s = students[i];
       try {
         const salt = crypto.randomBytes(16).toString("hex");
-        const hash = crypto.pbkdf2Sync("Provast@123", salt, 1000, 64, "sha512").toString("hex");
+        const hash = crypto
+          .pbkdf2Sync("Provast@123", salt, 1000, 64, "sha512")
+          .toString("hex");
         await axios.post("/api/auth/user/details", {
           ...s,
           hash,
@@ -140,7 +151,9 @@ const Index = ({ id }) => {
     if (total === createdCount) {
       toast.success("All Users Are Successfully Created!");
     } else {
-      toast.error("Account creation failed for " + failedAccounts.length + " Students.");
+      toast.error(
+        "Account creation failed for " + failedAccounts.length + " Students."
+      );
       console.log(failedAccounts);
     }
   };
@@ -276,7 +289,9 @@ const Index = ({ id }) => {
     if (total === createdCount) {
       toast.success("All Users Are Successfully Created!");
     } else {
-      toast.error("Account creation failed for " + failedAccounts.length + " Students.");
+      toast.error(
+        "Account creation failed for " + failedAccounts.length + " Students."
+      );
       console.log(failedAccounts);
     }
     console.log(branch);
@@ -300,7 +315,10 @@ const Index = ({ id }) => {
             data.forEach((x) => {
               res.push({
                 user: Math.floor(Math.random() * 100000) + "",
-                amount: x["total payment amount"] !== 'On Campus Paid' ? Number(x["total payment amount"]) : 7500,
+                amount:
+                  x["total payment amount"] !== "On Campus Paid"
+                    ? Number(x["total payment amount"])
+                    : 7500,
                 email: x["Email Id"].toString().trim().toLowerCase(),
                 address: {
                   country: "India",
@@ -346,7 +364,9 @@ const Index = ({ id }) => {
     if (total === createdCount) {
       toast.success("All Payments Are Successfully Created!");
     } else {
-      toast.error("Payment creation failed for " + failedAccounts.length + " Students.");
+      toast.error(
+        "Payment creation failed for " + failedAccounts.length + " Students."
+      );
       console.log(failedAccounts);
     }
   };
@@ -410,24 +430,29 @@ const Index = ({ id }) => {
     if (total === createdCount) {
       toast.success("Placed status have been updated for all!");
     } else {
-      toast.error("Payment creation failed for " + failedAccounts.length + " Students.");
+      toast.error(
+        "Payment creation failed for " + failedAccounts.length + " Students."
+      );
       console.log(failedAccounts);
     }
   };
   return (
-    <div className='pt-[10vh]'>
+    <div className="pt-[10vh]">
       <div>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+        <div className="sm:col-span-3">
+          <label
+            htmlFor="photo"
+            className="block text-sm font-medium text-gray-700"
+          >
             Upload Spreadsheet
           </label>
 
           <input
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            label='Choose File'
-            type='file'
-            name='image'
-            id='profileImg'
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            label="Choose File"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handleFile}
           />
           {excelFileError &&
@@ -437,18 +462,21 @@ const Index = ({ id }) => {
         </div>
         <button onClick={handleCreate}>Create</button>
       </div>
-      <div className='pt-[10vh]'>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+      <div className="pt-[10vh]">
+        <div className="sm:col-span-3">
+          <label
+            htmlFor="photo"
+            className="block text-sm font-medium text-gray-700"
+          >
             Upload Spreadsheet
           </label>
 
           <input
-            label='Choose File'
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            type='file'
-            name='image'
-            id='profileImg'
+            label="Choose File"
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handleEducation}
           />
           {excelFileError &&
@@ -459,18 +487,21 @@ const Index = ({ id }) => {
         <button onClick={handleEducationCreate}>Create Education</button>
       </div>
 
-      <div className='pt-[10vh]'>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+      <div className="pt-[10vh]">
+        <div className="sm:col-span-3">
+          <label
+            htmlFor="photo"
+            className="block text-sm font-medium text-gray-700"
+          >
             Upload Spreadsheet
           </label>
 
           <input
-            label='Choose File'
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            type='file'
-            name='image'
-            id='profileImg'
+            label="Choose File"
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handlePayment}
           />
           {excelFileError &&
@@ -481,18 +512,21 @@ const Index = ({ id }) => {
         <button onClick={handlePaymentCreate}>Create Payment</button>
       </div>
 
-      <div className='pt-[10vh]'>
-        <div className='sm:col-span-3'>
-          <label htmlFor='photo' className='block text-sm font-medium text-gray-700'>
+      <div className="pt-[10vh]">
+        <div className="sm:col-span-3">
+          <label
+            htmlFor="photo"
+            className="block text-sm font-medium text-gray-700"
+          >
             Upload Spreadsheet
           </label>
 
           <input
-            label='Choose File'
-            className='mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm'
-            type='file'
-            name='image'
-            id='profileImg'
+            label="Choose File"
+            className="mt-2 appearance-none block w-full p-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            type="file"
+            name="image"
+            id="profileImg"
             onChange={handlePlaced}
           />
           {excelFileError &&

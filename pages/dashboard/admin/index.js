@@ -105,7 +105,7 @@ const AdminIndex = () => {
                         {college.college.code}
                       </td>
                       <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-                        {college.college.placement.phone}
+                        {college.college.placement?.phone}
                       </td>
                       <td className='whitespace-nowrap px-3 py-4'>
                         <Switch
