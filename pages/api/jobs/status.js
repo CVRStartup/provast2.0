@@ -25,7 +25,7 @@ const updateJob = async (req, res) => {
         }
       });
     } else {
-      neweligible = job?.eligible;
+      neweligible = job?.eligible ?? [];
       let index = -1;
       neweligible?.some((x, idx) => {
         if (x.email === req.query.email) {
